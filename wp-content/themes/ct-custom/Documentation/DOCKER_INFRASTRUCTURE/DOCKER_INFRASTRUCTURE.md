@@ -171,11 +171,11 @@ Port 443 server:
 | `MYSQL_PASSWORD` | `wordpress` | mysql, wordpress |
 | `MYSQL_ROOT_PASSWORD` | `rootpassword` | mysql, phpmyadmin |
 | `WORDPRESS_DB_HOST` | `mysql:3306` | wordpress |
-| `LOCALE_URL` | `https://coalitiontest.local/` | wordpress |
-| `WP_TITLE` | `Coalition Test` | wordpress |
+| `LOCALE_URL` | `https://blazingsun.local/` | wordpress |
+| `WP_TITLE` | `Blazing Sun` | wordpress |
 | `WP_ADMIN_USER` | `admin` | wordpress |
 | `WP_ADMIN_PASSWORD` | `admin` | wordpress |
-| `WP_ADMIN_EMAIL` | `admin@coalitiontest.local` | wordpress |
+| `WP_ADMIN_EMAIL` | `admin@blazingsun.local` | wordpress |
 | `NGINX_PORT` | `80` | nginx |
 | `NGINX_SSL_PORT` | `443` | nginx |
 
@@ -225,8 +225,8 @@ All services are on the default Docker Compose network. Internal communication:
 | phpmyadmin | mysql | MySQL | 3306 |
 
 External access (host):
-- `http://coalitiontest.local:80` -> 301 -> `https://coalitiontest.local:443`
-- `https://coalitiontest.local/phpmyadmin/` -> phpMyAdmin UI
+- `http://blazingsun.local:80` -> 301 -> `https://blazingsun.local:443`
+- `https://blazingsun.local/phpmyadmin/` -> phpMyAdmin UI
 
 ---
 

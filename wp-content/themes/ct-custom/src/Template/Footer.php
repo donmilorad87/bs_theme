@@ -68,7 +68,7 @@ class Footer {
 
 		$copyright_raw = get_theme_mod(
 			'ct_footer_copyright',
-			'© {year} Coalition Test — Theme by Blazing Sun'
+			'© {year} Blazing Sun'
 		);
 		$footer_copyright = str_replace( '{year}', date_i18n( 'Y' ), $copyright_raw );
 

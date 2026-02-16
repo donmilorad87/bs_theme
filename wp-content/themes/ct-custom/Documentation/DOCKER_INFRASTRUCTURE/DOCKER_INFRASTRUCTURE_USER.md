@@ -9,7 +9,7 @@ Practical guide for running, configuring, and troubleshooting the ct-custom Word
 ### Prerequisites
 
 - Docker and Docker Compose installed
-- `/etc/hosts` entry: `127.0.0.1 coalitiontest.local`
+- `/etc/hosts` entry: `127.0.0.1 blazingsun.local`
 
 ### Start the Environment
 
@@ -24,9 +24,9 @@ First run takes 2-3 minutes (MySQL init, WordPress install, Nginx module compila
 
 | URL | Service |
 |-----|---------|
-| `https://coalitiontest.local/` | WordPress site |
-| `https://coalitiontest.local/wp-admin/` | WordPress admin |
-| `https://coalitiontest.local/phpmyadmin/` | phpMyAdmin |
+| `https://blazingsun.local/` | WordPress site |
+| `https://blazingsun.local/wp-admin/` | WordPress admin |
+| `https://blazingsun.local/phpmyadmin/` | phpMyAdmin |
 
 **Default admin credentials**: `admin` / `admin` (configurable in `.env`).
 
@@ -88,11 +88,11 @@ MYSQL_ROOT_PASSWORD=rootpassword
 WORDPRESS_DB_HOST=mysql:3306
 
 # WordPress
-LOCALE_URL=https://coalitiontest.local/
-WP_TITLE=Coalition Test
+LOCALE_URL=https://blazingsun.local/
+WP_TITLE=Blazing Sun
 WP_ADMIN_USER=admin
 WP_ADMIN_PASSWORD=admin
-WP_ADMIN_EMAIL=admin@coalitiontest.local
+WP_ADMIN_EMAIL=admin@blazingsun.local
 
 # Nginx ports
 NGINX_PORT=80
@@ -193,7 +193,7 @@ docker compose exec wordpress cat /var/www/html/wp-content/debug.log
 docker compose exec mysql mysql -u wordpress -pwordpress wordpress
 
 # Via phpMyAdmin
-# Open https://coalitiontest.local/phpmyadmin/
+# Open https://blazingsun.local/phpmyadmin/
 ```
 
 ---
@@ -235,7 +235,7 @@ openssl req -x509 -nodes -days 3650 \
   -newkey rsa:2048 \
   -keyout selfsigned.key \
   -out selfsigned.crt \
-  -subj "/CN=coalitiontest.local"
+  -subj "/CN=blazingsun.local"
 ```
 
 Rebuild Nginx after replacing certificates:
@@ -250,7 +250,7 @@ To avoid browser warnings:
 
 **Linux (Chrome/Chromium)**:
 ```bash
-sudo cp docker/nginx/certs/selfsigned.crt /usr/local/share/ca-certificates/coalitiontest.crt
+sudo cp docker/nginx/certs/selfsigned.crt /usr/local/share/ca-certificates/blazingsun.crt
 sudo update-ca-certificates
 ```
 
@@ -313,7 +313,7 @@ Common causes:
 
 1. Check containers are running: `docker compose ps`
 2. Check ports aren't in use: `sudo lsof -i :80 -i :443`
-3. Check `/etc/hosts` has `127.0.0.1 coalitiontest.local`
+3. Check `/etc/hosts` has `127.0.0.1 blazingsun.local`
 
 ### phpMyAdmin Shows Blank Page
 

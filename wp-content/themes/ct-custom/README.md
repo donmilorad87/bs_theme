@@ -19,7 +19,7 @@ WordPress theme by Blazing Sun, built on the Underscores (`_s`) starter theme.
 
 ```bash
 # Add to /etc/hosts
-127.0.0.1 coalitiontest.local
+127.0.0.1 blazingsun.local
 
 # Start all services
 docker compose up --build -d
@@ -36,9 +36,9 @@ docker compose logs -f wordpress | grep '\[entrypoint\]'
 
 | URL | Purpose |
 |-----|---------|
-| `https://coalitiontest.local/` | WordPress site |
-| `https://coalitiontest.local/wp-admin/` | Admin panel (`admin`/`admin`) |
-| `https://coalitiontest.local/phpmyadmin/` | Database management |
+| `https://blazingsun.local/` | WordPress site |
+| `https://blazingsun.local/wp-admin/` | Admin panel (`admin`/`admin`) |
+| `https://blazingsun.local/phpmyadmin/` | Database management |
 
 ### 3. Frontend Build
 

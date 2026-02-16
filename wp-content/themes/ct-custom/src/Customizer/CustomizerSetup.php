@@ -133,7 +133,7 @@ class CustomizerSetup {
 
         /* Footer Copyright - added to Site Identity (title_tagline) section */
         $wp_customize->add_setting( 'ct_footer_copyright', array(
-            'default'           => '© {year} Coalition Test — Theme by Blazing Sun',
+            'default'           => '© {year} Blazing Sun',
             'sanitize_callback' => 'wp_kses_post',
             'transport'         => 'postMessage',
         ) );

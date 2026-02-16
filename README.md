@@ -9,7 +9,7 @@ Dockerized WordPress development environment for the **BS Custom** theme by Blaz
 ### Prerequisites
 
 - Docker & Docker Compose
-- Add to `/etc/hosts`: `127.0.0.1 coalitiontest.local`
+- Add to `/etc/hosts`: `127.0.0.1 blazingsun.local`
 
 ### Start
 
@@ -28,9 +28,9 @@ docker compose logs -f wordpress | grep '\[entrypoint\]'
 
 | URL | Purpose |
 |-----|---------|
-| `https://coalitiontest.local/` | WordPress site |
-| `https://coalitiontest.local/wp-admin/` | Admin panel (`admin` / `admin`) |
-| `https://coalitiontest.local/phpmyadmin/` | Database management |
+| `https://blazingsun.local/` | WordPress site |
+| `https://blazingsun.local/wp-admin/` | Admin panel (`admin` / `admin`) |
+| `https://blazingsun.local/phpmyadmin/` | Database management |
 
 Your browser will warn about the self-signed SSL certificate — accept the exception to continue.
 
@@ -62,7 +62,7 @@ All environment variables are in `.env` at the project root:
 MYSQL_DATABASE=wordpress
 MYSQL_USER=wordpress
 MYSQL_PASSWORD=wordpress
-LOCALE_URL=https://coalitiontest.local/
+LOCALE_URL=https://blazingsun.local/
 WP_ADMIN_USER=admin
 WP_ADMIN_PASSWORD=admin
 NGINX_PORT=80

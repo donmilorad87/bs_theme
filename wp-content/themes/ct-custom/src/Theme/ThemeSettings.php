@@ -1571,7 +1571,7 @@ class ThemeSettings {
     private function get_site_identity_defaults() {
         return array(
             'ct_site_description'  => '',
-            'ct_footer_copyright'  => '© {year} Coalition Test — Theme by Blazing Sun',
+            'ct_footer_copyright'  => '© {year} Blazing Sun',
         );
     }
 
