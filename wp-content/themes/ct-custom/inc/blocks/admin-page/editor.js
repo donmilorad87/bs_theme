@@ -4,7 +4,7 @@
  * Placeholder-only block. When present on a page, non-admin users
  * are redirected away on the frontend.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
 	'use strict';

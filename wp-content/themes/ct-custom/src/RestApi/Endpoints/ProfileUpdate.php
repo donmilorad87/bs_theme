@@ -5,12 +5,12 @@
  * Updates user first_name and last_name via JWT-authenticated request.
  * POST /wp-json/ct-auth/v1/profile/update
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
+use BSCustom\RestApi\RestLogger;
 
 class ProfileUpdate {
 

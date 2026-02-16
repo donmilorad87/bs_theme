@@ -5,12 +5,12 @@
  * Verifies input validation, rate limiting, account creation,
  * activation code generation, and response structure via Register::handle().
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\Register;
+use BSCustom\RestApi\Endpoints\Register;
 
 class RegisterEndpointTest extends AuthTestCase {
 

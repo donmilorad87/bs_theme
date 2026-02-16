@@ -1,6 +1,6 @@
 <?php
 /**
- * CT Font Manager
+ * BS Font Manager
  *
  * Handles Google Font downloading, file management,
  * @font-face CSS generation, and cleanup.
@@ -11,10 +11,10 @@
  * Migrated from inc/customizer/class-ct-font-manager.php.
  * Old class: CT_Font_Manager -> New: FontManager
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer;
+namespace BSCustom\Customizer;
 
 class FontManager {
 

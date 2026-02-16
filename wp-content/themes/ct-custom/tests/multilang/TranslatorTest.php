@@ -5,13 +5,13 @@
  * Runs without WordPress via vendor/autoload.php.
  * Uses real translations/en.json and translations/sr.json files.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Tests\Multilang;
+namespace BSCustom\Tests\Multilang;
 
 use PHPUnit\Framework\TestCase;
-use CTCustom\Multilang\Translator;
+use BSCustom\Multilang\Translator;
 
 class TranslatorTest extends TestCase {
 
@@ -59,7 +59,7 @@ class TranslatorTest extends TestCase {
 
         $result = $t->translate( 'SITE_NAME' );
 
-        $this->assertSame( 'CT Custom', $result );
+        $this->assertSame( 'BS Custom', $result );
     }
 
     public function test_translate_html_escaping(): void {
@@ -116,7 +116,7 @@ class TranslatorTest extends TestCase {
 
         $result = $t->parse_ct_translate_patterns( "Hello ct_translate('SITE_NAME') world" );
 
-        $this->assertSame( 'Hello CT Custom world', $result );
+        $this->assertSame( 'Hello BS Custom world', $result );
     }
 
     public function test_parse_multiple_patterns(): void {
@@ -124,7 +124,7 @@ class TranslatorTest extends TestCase {
 
         $result = $t->parse_ct_translate_patterns( "ct_translate('SITE_NAME') - ct_translate('LOGIN')" );
 
-        $this->assertSame( 'CT Custom - Login', $result );
+        $this->assertSame( 'BS Custom - Login', $result );
     }
 
     public function test_parse_no_patterns_passthrough(): void {
@@ -424,7 +424,7 @@ class TranslatorTest extends TestCase {
 
         $this->assertIsArray( $all );
         $this->assertArrayHasKey( 'SITE_NAME', $all );
-        $this->assertSame( 'CT Custom', $all['SITE_NAME'] );
+        $this->assertSame( 'BS Custom', $all['SITE_NAME'] );
     }
 
     /* ── Serbian language (east_slavic CLDR) ──────────────────────────── */

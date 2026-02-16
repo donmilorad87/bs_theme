@@ -5,7 +5,7 @@
  * Syncs data to a hidden textarea bound to the Customizer setting
  * so "Publish" persists changes via the standard Customizer flow.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { assert, escapeHtml } from './utils.js';
@@ -21,7 +21,7 @@ function CustomizerSocialNetworks(settingId) {
 
     this.settingId = settingId;
     this.container = null;
-    this.textarea  = null;
+    this.textarea = null;
     this.editIndex = -1;
 }
 
@@ -29,7 +29,7 @@ CustomizerSocialNetworks.prototype.init = function (container) {
     assert(container instanceof HTMLElement, 'container must be an HTMLElement');
 
     this.container = container;
-    this.textarea  = container.parentElement.querySelector('.ct-social-networks-textarea');
+    this.textarea = container.parentElement.querySelector('.ct-social-networks-textarea');
 
     assert(this.textarea instanceof HTMLTextAreaElement, 'textarea must exist');
 
@@ -73,7 +73,7 @@ CustomizerSocialNetworks.prototype._setNetworks = function (networks) {
 
 CustomizerSocialNetworks.prototype._renderList = function () {
     var networks = this._getNetworks();
-    var listEl   = this.container.querySelector('.ct-sn-list');
+    var listEl = this.container.querySelector('.ct-sn-list');
 
     if (!listEl) {
         listEl = document.createElement('div');
@@ -106,17 +106,17 @@ CustomizerSocialNetworks.prototype._renderList = function () {
         }
 
         html += '<div class="ct-sn-item" data-index="' + i + '">'
-              + '<span class="ct-sn-item-icon">' + iconHtml + '</span>'
-              + '<span class="ct-sn-item-name">' + escapeHtml(n.name || '') + '</span>'
-              + '<span class="ct-sn-item-actions">'
-              + '<button type="button" class="button ct-sn-edit" data-index="' + i + '" title="Edit">'
-              + '<span class="dashicons dashicons-edit"></span>'
-              + '</button>'
-              + '<button type="button" class="button ct-sn-remove" data-index="' + i + '" title="Remove">'
-              + '<span class="dashicons dashicons-trash"></span>'
-              + '</button>'
-              + '</span>'
-              + '</div>';
+            + '<span class="ct-sn-item-icon">' + iconHtml + '</span>'
+            + '<span class="ct-sn-item-name">' + escapeHtml(n.name || '') + '</span>'
+            + '<span class="ct-sn-item-actions">'
+            + '<button type="button" class="button ct-sn-edit" data-index="' + i + '" title="Edit">'
+            + '<span class="dashicons dashicons-edit"></span>'
+            + '</button>'
+            + '<button type="button" class="button ct-sn-remove" data-index="' + i + '" title="Remove">'
+            + '<span class="dashicons dashicons-trash"></span>'
+            + '</button>'
+            + '</span>'
+            + '</div>';
     }
 
     listEl.innerHTML = html;
@@ -163,8 +163,8 @@ CustomizerSocialNetworks.prototype._renderForm = function () {
 /* --- List event delegation --- */
 
 CustomizerSocialNetworks.prototype._bindListButtons = function () {
-    var self    = this;
-    var listEl  = this.container.querySelector('.ct-sn-list');
+    var self = this;
+    var listEl = this.container.querySelector('.ct-sn-list');
 
     if (!listEl) {
         return;
@@ -200,7 +200,7 @@ CustomizerSocialNetworks.prototype._bindFormButtons = function (form) {
     form.querySelector('.ct-sn-select-icon').addEventListener('click', function (e) {
         e.preventDefault();
         self._openMediaLibrary(function (id, url) {
-            form.querySelector('.ct-sn-input-icon-id').value  = id;
+            form.querySelector('.ct-sn-input-icon-id').value = id;
             form.querySelector('.ct-sn-input-icon-url').value = url;
 
             var thumb = form.querySelector('.ct-sn-icon-thumb');
@@ -212,9 +212,9 @@ CustomizerSocialNetworks.prototype._bindFormButtons = function (form) {
 
     form.querySelector('.ct-sn-remove-icon').addEventListener('click', function (e) {
         e.preventDefault();
-        form.querySelector('.ct-sn-input-icon-id').value  = '0';
+        form.querySelector('.ct-sn-input-icon-id').value = '0';
         form.querySelector('.ct-sn-input-icon-url').value = '';
-        form.querySelector('.ct-sn-icon-thumb').innerHTML  = '';
+        form.querySelector('.ct-sn-icon-thumb').innerHTML = '';
         this.style.display = 'none';
     });
 
@@ -253,9 +253,9 @@ CustomizerSocialNetworks.prototype._addNetwork = function () {
     }
 
     networks.push({
-        name:     data.name,
-        url:      data.url,
-        icon_id:  data.iconId,
+        name: data.name,
+        url: data.url,
+        icon_id: data.iconId,
         icon_url: data.iconUrl
     });
 
@@ -274,12 +274,12 @@ CustomizerSocialNetworks.prototype._startEdit = function (index) {
     }
 
     this.editIndex = index;
-    var n    = networks[index];
+    var n = networks[index];
     var form = this.container.querySelector('.ct-sn-form');
 
-    form.querySelector('.ct-sn-input-name').value     = n.name || '';
-    form.querySelector('.ct-sn-input-url').value      = n.url || '';
-    form.querySelector('.ct-sn-input-icon-id').value  = n.icon_id || 0;
+    form.querySelector('.ct-sn-input-name').value = n.name || '';
+    form.querySelector('.ct-sn-input-url').value = n.url || '';
+    form.querySelector('.ct-sn-input-icon-id').value = n.icon_id || 0;
     form.querySelector('.ct-sn-input-icon-url').value = n.icon_url || '';
 
     var thumb = form.querySelector('.ct-sn-icon-thumb');
@@ -315,9 +315,9 @@ CustomizerSocialNetworks.prototype._saveEdit = function () {
     }
 
     networks[this.editIndex] = {
-        name:     data.name,
-        url:      data.url,
-        icon_id:  data.iconId,
+        name: data.name,
+        url: data.url,
+        icon_id: data.iconId,
         icon_url: data.iconUrl
     };
 
@@ -364,8 +364,8 @@ CustomizerSocialNetworks.prototype._openMediaLibrary = function (callback) {
     assert(typeof callback === 'function', 'callback must be a function');
 
     var frame = wp.media({
-        title:    'Select Social Icon',
-        button:   { text: 'Use This Icon' },
+        title: 'Select Social Icon',
+        button: { text: 'Use This Icon' },
         multiple: false
     });
 
@@ -405,19 +405,19 @@ CustomizerSocialNetworks.prototype._validateForm = function (name, url, iconId) 
 
 CustomizerSocialNetworks.prototype._readFormData = function (form) {
     return {
-        name:    form.querySelector('.ct-sn-input-name').value,
-        url:     form.querySelector('.ct-sn-input-url').value,
-        iconId:  parseInt(form.querySelector('.ct-sn-input-icon-id').value, 10) || 0,
+        name: form.querySelector('.ct-sn-input-name').value,
+        url: form.querySelector('.ct-sn-input-url').value,
+        iconId: parseInt(form.querySelector('.ct-sn-input-icon-id').value, 10) || 0,
         iconUrl: form.querySelector('.ct-sn-input-icon-url').value
     };
 };
 
 CustomizerSocialNetworks.prototype._clearForm = function (form) {
-    form.querySelector('.ct-sn-input-name').value     = '';
-    form.querySelector('.ct-sn-input-url').value      = '';
-    form.querySelector('.ct-sn-input-icon-id').value  = '0';
+    form.querySelector('.ct-sn-input-name').value = '';
+    form.querySelector('.ct-sn-input-url').value = '';
+    form.querySelector('.ct-sn-input-icon-id').value = '0';
     form.querySelector('.ct-sn-input-icon-url').value = '';
-    form.querySelector('.ct-sn-icon-thumb').innerHTML  = '';
+    form.querySelector('.ct-sn-icon-thumb').innerHTML = '';
     form.querySelector('.ct-sn-remove-icon').style.display = 'none';
 
     this._clearErrors(form);
@@ -426,7 +426,7 @@ CustomizerSocialNetworks.prototype._clearForm = function (form) {
 CustomizerSocialNetworks.prototype._showErrors = function (form, errors) {
     assert(Array.isArray(errors), 'errors must be an array');
 
-    var el  = form.querySelector('.ct-sn-form-errors');
+    var el = form.querySelector('.ct-sn-form-errors');
     var html = '';
     var count = 0;
 
@@ -451,12 +451,12 @@ CustomizerSocialNetworks.prototype._clearErrors = function (form) {
 /* --- Bootstrap --- */
 
 export function init() {
-    wp.customize.control('ct_custom_social_networks', function (control) {
+    wp.customize.control('bs_custom_social_networks', function (control) {
         control.deferred.embedded.done(function () {
             var container = control.container.find('.ct-social-networks-control')[0];
 
             if (container) {
-                var instance = new CustomizerSocialNetworks('ct_custom_social_networks');
+                var instance = new CustomizerSocialNetworks('bs_custom_social_networks');
                 instance.init(container);
             }
         });

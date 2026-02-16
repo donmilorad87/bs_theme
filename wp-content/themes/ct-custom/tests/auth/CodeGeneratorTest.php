@@ -2,10 +2,10 @@
 /**
  * Tests for CodeGenerator trait.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
 class CodeGeneratorTest extends AuthTestCase {
 
@@ -16,7 +16,7 @@ class CodeGeneratorTest extends AuthTestCase {
         parent::setUp();
 
         $this->generator = new class {
-            use \CTCustom\RestApi\CodeGenerator;
+            use \BSCustom\RestApi\CodeGenerator;
 
             public function callGenerate(): string {
                 return $this->generate_code();

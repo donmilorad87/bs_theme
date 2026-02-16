@@ -5,15 +5,15 @@
  * Thin backward-compatible wrappers that delegate to CT_Template_Hooks.
  * All hook registrations have moved to CT_Template_Hooks::register_hooks().
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Template\TemplateHooks;
+use BSCustom\Template\TemplateHooks;
 
 /**
  * Output breadcrumbs navigation HTML.
  */
-function ct_custom_breadcrumbs() {
+function bs_custom_breadcrumbs() {
 	TemplateHooks::instance()->breadcrumbs();
 }
 
@@ -25,6 +25,6 @@ function ct_custom_breadcrumbs() {
  * @param array  $attr          Extra attributes.
  * @return string HTML markup.
  */
-function ct_custom_get_attachment_image( $attachment_id, $size = 'thumbnail', $attr = array() ) {
+function bs_custom_get_attachment_image( $attachment_id, $size = 'thumbnail', $attr = array() ) {
 	return TemplateHooks::instance()->get_attachment_image( $attachment_id, $size, $attr );
 }

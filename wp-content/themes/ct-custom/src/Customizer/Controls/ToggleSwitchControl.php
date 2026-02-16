@@ -5,10 +5,10 @@
  * Renders a styled on/off toggle switch instead of a plain checkbox.
  * Stores value as boolean (1 or empty).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
 class ToggleSwitchControl extends \WP_Customize_Control {
 

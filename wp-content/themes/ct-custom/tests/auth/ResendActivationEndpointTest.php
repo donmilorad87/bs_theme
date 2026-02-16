@@ -6,12 +6,12 @@
  * that active users and unknown emails are handled without enumeration leaks,
  * and that rate limiting works via ResendActivation::handle().
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\ResendActivation;
+use BSCustom\RestApi\Endpoints\ResendActivation;
 
 class ResendActivationEndpointTest extends AuthTestCase {
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace CTCustom\Widgets;
+namespace BSCustom\Widgets;
 
 use WP_Widget;
-use CTCustom\Multilang\TranslationService;
+use BSCustom\Multilang\TranslationService;
 
 class ContactPointWidget extends WP_Widget {
 
@@ -12,7 +12,7 @@ class ContactPointWidget extends WP_Widget {
     public function __construct() {
         parent::__construct(
             'ct_contact_point',
-            __( 'CT Custom: Contact Point', 'ct-custom' ),
+            __( 'BS Custom: Contact Point', 'ct-custom' ),
             array(
                 'description' => __( 'Displays contact point data from admin settings.', 'ct-custom' ),
             )
@@ -23,7 +23,7 @@ class ContactPointWidget extends WP_Widget {
         assert( is_array( $args ), 'Widget args must be an array' );
         assert( is_array( $instance ), 'Widget instance must be an array' );
 
-        $raw     = get_option( 'ct_custom_contact_point', '' );
+        $raw     = get_option( 'bs_custom_contact_point', '' );
         $contact = ! empty( $raw ) ? json_decode( $raw, true ) : array();
 
         if ( ! is_array( $contact ) ) {
@@ -119,7 +119,7 @@ class ContactPointWidget extends WP_Widget {
             </div>
         </div>
         <p class="description">
-            <?php esc_html_e( 'Contact data is read from CT Custom Theme > Contact Point settings.', 'ct-custom' ); ?>
+            <?php esc_html_e( 'Contact data is read from BS Custom Theme > Contact Point settings.', 'ct-custom' ); ?>
         </p>
         <?php
     }

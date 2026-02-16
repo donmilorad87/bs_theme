@@ -5,7 +5,7 @@
  * Returns empty string. Content is extracted separately
  * by ct_sidebar_extract_content() in the template layer.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 assert( isset( $attributes ), 'Block attributes must be set' );

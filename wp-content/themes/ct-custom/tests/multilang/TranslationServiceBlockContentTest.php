@@ -5,14 +5,14 @@
  * Runs without WordPress via vendor/autoload.php.
  * Uses Translator('en') with the en.json translations file directly.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Tests\Multilang;
+namespace BSCustom\Tests\Multilang;
 
 use PHPUnit\Framework\TestCase;
-use CTCustom\Multilang\TranslationService;
-use CTCustom\Multilang\Translator;
+use BSCustom\Multilang\TranslationService;
+use BSCustom\Multilang\Translator;
 
 class TranslationServiceBlockContentTest extends TestCase {
 
@@ -43,7 +43,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( 'CT Custom', $result );
+        $this->assertSame( 'BS Custom', $result );
     }
 
     /* ── Args with PHP arrow syntax ──────────────────────────────────── */
@@ -121,7 +121,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( '<h1>CT Custom</h1><p>Contact Us</p>', $result );
+        $this->assertSame( '<h1>BS Custom</h1><p>Contact Us</p>', $result );
     }
 
     /* ── Unknown key returns key name ────────────────────────────────── */
@@ -141,7 +141,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( '<div class="hero"><h1>CT Custom</h1><span>&amp; more</span></div>', $result );
+        $this->assertSame( '<div class="hero"><h1>BS Custom</h1><span>&amp; more</span></div>', $result );
     }
 
     /* ── Duplicate patterns resolved once, replaced everywhere ───────── */
@@ -151,7 +151,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( 'CT Custom - CT Custom', $result );
+        $this->assertSame( 'BS Custom - BS Custom', $result );
     }
 
     /* ── Singular form on plural key via named form ──────────────────── */

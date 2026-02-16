@@ -7,7 +7,7 @@
  *
  * Depends on wp.customize and jQuery (provided by WordPress).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 (function () {
@@ -46,42 +46,42 @@
         assert(typeof this._api === 'function', 'API required');
 
         return {
-            '--ct-topbar-bg-color':            ['ct_topbar_bg_color', 'ct_topbar_bg_color_dark'],
-            '--ct-topbar-text1-color':         ['ct_topbar_text1_color', 'ct_topbar_text1_color_dark'],
-            '--ct-topbar-text2-color':         ['ct_topbar_text2_color', 'ct_topbar_text2_color_dark'],
-            '--ct-topbar-links-color':         ['ct_topbar_links_color', 'ct_topbar_links_color_dark'],
-            '--ct-topbar-links-hover-color':   ['ct_topbar_links_hover_color', 'ct_topbar_links_hover_color_dark'],
-            '--ct-header-bg-color':            ['ct_header_bg_color', 'ct_header_bg_color_dark'],
-            '--ct-header-border-color':        ['ct_header_border_color', 'ct_header_border_color_dark'],
-            '--ct-site-title-color':           ['ct_site_title_color', 'ct_site_title_color_dark'],
-            '--ct-menu-top-color':             ['ct_menu_top_color', 'ct_menu_top_color_dark'],
+            '--ct-topbar-bg-color': ['ct_topbar_bg_color', 'ct_topbar_bg_color_dark'],
+            '--ct-topbar-text1-color': ['ct_topbar_text1_color', 'ct_topbar_text1_color_dark'],
+            '--ct-topbar-text2-color': ['ct_topbar_text2_color', 'ct_topbar_text2_color_dark'],
+            '--ct-topbar-links-color': ['ct_topbar_links_color', 'ct_topbar_links_color_dark'],
+            '--ct-topbar-links-hover-color': ['ct_topbar_links_hover_color', 'ct_topbar_links_hover_color_dark'],
+            '--ct-header-bg-color': ['ct_header_bg_color', 'ct_header_bg_color_dark'],
+            '--ct-header-border-color': ['ct_header_border_color', 'ct_header_border_color_dark'],
+            '--ct-site-title-color': ['ct_site_title_color', 'ct_site_title_color_dark'],
+            '--ct-menu-top-color': ['ct_menu_top_color', 'ct_menu_top_color_dark'],
             '--ct-menu-active-underline-color': ['ct_menu_active_underline_color', 'ct_menu_active_underline_color_dark'],
-            '--ct-menu-sub-color':             ['ct_menu_sub_color', 'ct_menu_sub_color_dark'],
-            '--ct-menu-sub-border-color':      ['ct_menu_sub_border_color', 'ct_menu_sub_border_color_dark'],
-            '--ct-menu-sub-bg-color':          ['ct_menu_sub_bg_color', 'ct_menu_sub_bg_color_dark'],
-            '--ct-menu-sub-hover-bg-color':    ['ct_menu_sub_hover_bg_color', 'ct_menu_sub_hover_bg_color_dark'],
-            '--ct-mobile-menu-bg-color':       ['ct_mobile_menu_bg_color', 'ct_mobile_menu_bg_color_dark'],
-            '--ct-mobile-menu-border-color':   ['ct_mobile_menu_border_color', 'ct_mobile_menu_border_color_dark'],
-            '--ct-breadcrumb-color':           ['ct_breadcrumb_color', 'ct_breadcrumb_color_dark'],
-            '--ct-breadcrumb-active-color':    ['ct_breadcrumb_active_color', 'ct_breadcrumb_active_color_dark'],
-            '--ct-body-bg-color':              ['ct_body_bg_color', 'ct_body_bg_color_dark'],
-            '--ct-h1-color':                   ['ct_h1_color', 'ct_h1_color_dark'],
-            '--ct-h2-color':                   ['ct_h2_color', 'ct_h2_color_dark'],
-            '--ct-h3-color':                   ['ct_h3_color', 'ct_h3_color_dark'],
-            '--ct-h4-color':                   ['ct_h4_color', 'ct_h4_color_dark'],
-            '--ct-h5-color':                   ['ct_h5_color', 'ct_h5_color_dark'],
-            '--ct-paragraph-color':            ['ct_paragraph_color', 'ct_paragraph_color_dark'],
-            '--ct-special-color':              ['ct_special_color', 'ct_special_color_dark'],
-            '--ct-form-input-bg-color':        ['ct_form_input_bg_color', 'ct_form_input_bg_color_dark'],
-            '--ct-form-input-border-color':    ['ct_form_input_border_color', 'ct_form_input_border_color_dark'],
-            '--ct-form-submit-hover-color':    ['ct_form_submit_hover_color', 'ct_form_submit_hover_color_dark'],
-            '--ct-footer-bg-color':            ['ct_footer_bg_color', 'ct_footer_bg_color_dark'],
-            '--ct-footer-text-color':          ['ct_footer_text_color', 'ct_footer_text_color_dark'],
-            '--ct-footer-link-color':          ['ct_footer_link_color', 'ct_footer_link_color_dark'],
-            '--ct-footer-link-hover-color':    ['ct_footer_link_hover_color', 'ct_footer_link_hover_color_dark'],
-            '--ct-social-bg-color':            ['ct_social_bg_color', 'ct_social_bg_color_dark'],
-            '--ct-back-to-top-bg':             ['ct_back_to_top_bg_color', 'ct_back_to_top_bg_color_dark'],
-            '--ct-back-to-top-border-color':   ['ct_back_to_top_border_color', 'ct_back_to_top_border_color_dark'],
+            '--ct-menu-sub-color': ['ct_menu_sub_color', 'ct_menu_sub_color_dark'],
+            '--ct-menu-sub-border-color': ['ct_menu_sub_border_color', 'ct_menu_sub_border_color_dark'],
+            '--ct-menu-sub-bg-color': ['ct_menu_sub_bg_color', 'ct_menu_sub_bg_color_dark'],
+            '--ct-menu-sub-hover-bg-color': ['ct_menu_sub_hover_bg_color', 'ct_menu_sub_hover_bg_color_dark'],
+            '--ct-mobile-menu-bg-color': ['ct_mobile_menu_bg_color', 'ct_mobile_menu_bg_color_dark'],
+            '--ct-mobile-menu-border-color': ['ct_mobile_menu_border_color', 'ct_mobile_menu_border_color_dark'],
+            '--ct-breadcrumb-color': ['ct_breadcrumb_color', 'ct_breadcrumb_color_dark'],
+            '--ct-breadcrumb-active-color': ['ct_breadcrumb_active_color', 'ct_breadcrumb_active_color_dark'],
+            '--ct-body-bg-color': ['ct_body_bg_color', 'ct_body_bg_color_dark'],
+            '--ct-h1-color': ['ct_h1_color', 'ct_h1_color_dark'],
+            '--ct-h2-color': ['ct_h2_color', 'ct_h2_color_dark'],
+            '--ct-h3-color': ['ct_h3_color', 'ct_h3_color_dark'],
+            '--ct-h4-color': ['ct_h4_color', 'ct_h4_color_dark'],
+            '--ct-h5-color': ['ct_h5_color', 'ct_h5_color_dark'],
+            '--ct-paragraph-color': ['ct_paragraph_color', 'ct_paragraph_color_dark'],
+            '--ct-special-color': ['ct_special_color', 'ct_special_color_dark'],
+            '--ct-form-input-bg-color': ['ct_form_input_bg_color', 'ct_form_input_bg_color_dark'],
+            '--ct-form-input-border-color': ['ct_form_input_border_color', 'ct_form_input_border_color_dark'],
+            '--ct-form-submit-hover-color': ['ct_form_submit_hover_color', 'ct_form_submit_hover_color_dark'],
+            '--ct-footer-bg-color': ['ct_footer_bg_color', 'ct_footer_bg_color_dark'],
+            '--ct-footer-text-color': ['ct_footer_text_color', 'ct_footer_text_color_dark'],
+            '--ct-footer-link-color': ['ct_footer_link_color', 'ct_footer_link_color_dark'],
+            '--ct-footer-link-hover-color': ['ct_footer_link_hover_color', 'ct_footer_link_hover_color_dark'],
+            '--ct-social-bg-color': ['ct_social_bg_color', 'ct_social_bg_color_dark'],
+            '--ct-back-to-top-bg': ['ct_back_to_top_bg_color', 'ct_back_to_top_bg_color_dark'],
+            '--ct-back-to-top-border-color': ['ct_back_to_top_border_color', 'ct_back_to_top_border_color_dark'],
         };
     };
 
@@ -612,7 +612,7 @@
         var api = this._api;
         var MAX_BLOCKS = 10;
 
-        api('ct_custom_contact_point', function (value) {
+        api('bs_custom_contact_point', function (value) {
             value.bind(function (raw) {
                 var cp = {};
                 if (raw && typeof raw === 'string') {
@@ -709,13 +709,13 @@
         jQuery(function ($) {
             try {
                 new CustomizerPreview(wp.customize, $);
-                console.log('[CT Preview] CustomizerPreview initialized OK');
+                console.log('[BS Preview] CustomizerPreview initialized OK');
             } catch (err) {
-                console.error('[CT Preview] CustomizerPreview FAILED:', err.message, err.stack);
+                console.error('[BS Preview] CustomizerPreview FAILED:', err.message, err.stack);
             }
         });
     } else {
-        console.warn('[CT Preview] Bootstrap skipped — wp:', typeof wp, 'wp.customize:', typeof (typeof wp !== 'undefined' ? wp.customize : undefined), 'jQuery:', typeof jQuery);
+        console.warn('[BS Preview] Bootstrap skipped — wp:', typeof wp, 'wp.customize:', typeof (typeof wp !== 'undefined' ? wp.customize : undefined), 'jQuery:', typeof jQuery);
     }
 
 })();

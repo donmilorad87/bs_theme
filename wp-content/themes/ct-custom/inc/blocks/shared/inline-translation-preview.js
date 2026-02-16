@@ -10,7 +10,7 @@
  *
  * Depends on window.ctEditorTranslator (editor-translator.js).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
 	'use strict';

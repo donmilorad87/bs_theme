@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 ?>
@@ -14,7 +14,7 @@
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 	</header><!-- .entry-header -->
 
-	<?php ct_custom_post_thumbnail(); ?>
+	<?php bs_custom_post_thumbnail(); ?>
 
 	<div class="entry-content">
 		<?php

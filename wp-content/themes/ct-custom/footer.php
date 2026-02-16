@@ -2,10 +2,10 @@
 /**
  * The template for displaying the footer
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-extract( ct_custom_get_footer_data() );
+extract( bs_custom_get_footer_data() );
 ?>
 
             </div><!-- .ct-layout__content -->

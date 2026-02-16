@@ -4,7 +4,7 @@
  *
  * Expects $ct_switcher_data to be set before inclusion.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 if ( ! isset( $ct_switcher_data ) || empty( $ct_switcher_data['is_multilingual'] ) ) {

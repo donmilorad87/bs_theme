@@ -1,7 +1,7 @@
 /**
  * ProfilePage - Handles the dedicated profile page (profile.php template).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import AuthStore from './auth/auth-store.js';

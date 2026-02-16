@@ -4,7 +4,7 @@
  * Supports multiple forms on the same page. Each form uses its own
  * data-pointer attribute but submits to the same REST endpoint.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

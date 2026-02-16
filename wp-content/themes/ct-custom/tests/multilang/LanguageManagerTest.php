@@ -5,13 +5,13 @@
  * Runs without WordPress via vendor/autoload.php.
  * Uses temp directory for isolated file operations.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Tests\Multilang;
+namespace BSCustom\Tests\Multilang;
 
 use PHPUnit\Framework\TestCase;
-use CTCustom\Multilang\LanguageManager;
+use BSCustom\Multilang\LanguageManager;
 
 class LanguageManagerTest extends TestCase {
 

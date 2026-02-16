@@ -1,7 +1,7 @@
 /**
  * Auth Config - Constants and configuration.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 export const STORAGE_TOKEN_KEY = 'ct_auth_token';

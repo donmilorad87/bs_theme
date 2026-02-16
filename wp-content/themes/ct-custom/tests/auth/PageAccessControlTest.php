@@ -5,12 +5,12 @@
  * Covers: unprotected pages (guests vs logged-in), protected pages,
  * admin pages (guests, non-admins, admins), and non-singular bypass.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\Blocks\PageAccessControl;
+use BSCustom\Blocks\PageAccessControl;
 
 class PageAccessControlTest extends AuthTestCase {
 

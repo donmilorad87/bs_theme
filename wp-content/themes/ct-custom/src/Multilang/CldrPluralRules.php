@@ -6,10 +6,10 @@
  * and an integer count to one of the CLDR plural categories:
  * zero, one, two, few, many, other.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class CldrPluralRules {
 

@@ -5,10 +5,10 @@
  * Adds a language select box and Filter button to the Pages
  * list table so editors can filter by the ct_language post-meta.
  *
- * @package CTCustom\Admin
+ * @package BSCustom\Admin
  */
 
-namespace CTCustom\Admin;
+namespace BSCustom\Admin;
 
 class PageLanguageFilter {
 

@@ -1,7 +1,7 @@
 /**
  * AuthFormBinder - Binds validation + submit events after HTML injection.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import AuthValidator from './auth-validator.js';

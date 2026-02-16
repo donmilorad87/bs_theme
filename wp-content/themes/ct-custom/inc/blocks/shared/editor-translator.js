@@ -9,7 +9,7 @@
  *   - resolve(text)       — replaces all ct_translate() patterns in a string
  *   - findPatterns(text)  — returns array of {match, key, resolved} objects
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function () {
 	'use strict';

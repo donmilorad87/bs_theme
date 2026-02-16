@@ -4,7 +4,7 @@
  * Handles toggle, outside-click close, keyboard navigation
  * (Enter/Space open, Escape close, Arrow keys navigate).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 export default class LanguageSwitcher {
 

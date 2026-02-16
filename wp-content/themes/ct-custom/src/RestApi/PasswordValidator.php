@@ -5,10 +5,10 @@
  * Provides shared password strength validation for REST API endpoints.
  * Enforces: min 8 chars, lowercase, uppercase, digit, special character.
  *
- * @package CTCustom\RestApi
+ * @package BSCustom\RestApi
  */
 
-namespace CTCustom\RestApi;
+namespace BSCustom\RestApi;
 
 trait PasswordValidator {
 

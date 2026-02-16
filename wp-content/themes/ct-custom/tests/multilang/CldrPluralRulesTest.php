@@ -5,13 +5,13 @@
  * Runs without WordPress via vendor/autoload.php.
  * Tests all CLDR plural rule families and custom rule registration.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Tests\Multilang;
+namespace BSCustom\Tests\Multilang;
 
 use PHPUnit\Framework\TestCase;
-use CTCustom\Multilang\CldrPluralRules;
+use BSCustom\Multilang\CldrPluralRules;
 
 class CldrPluralRulesTest extends TestCase {
 

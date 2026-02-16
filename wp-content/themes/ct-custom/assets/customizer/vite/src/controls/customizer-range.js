@@ -6,7 +6,7 @@
  * Uses event delegation on the panel container so it works with
  * deferred/lazy-loaded Customizer controls.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { assert } from './utils.js';

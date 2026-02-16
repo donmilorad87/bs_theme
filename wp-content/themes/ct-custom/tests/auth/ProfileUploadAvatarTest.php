@@ -5,12 +5,12 @@
  * Covers: successful upload, no file, file too large, invalid MIME,
  * rate limiting, user meta storage, and upload error code.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\ProfileUploadAvatar;
+use BSCustom\RestApi\Endpoints\ProfileUploadAvatar;
 
 class ProfileUploadAvatarTest extends AuthTestCase {
 

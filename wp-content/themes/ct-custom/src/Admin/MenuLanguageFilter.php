@@ -16,10 +16,10 @@
  * include all location assignments (display:none doesn't prevent
  * form submission).
  *
- * @package CTCustom\Admin
+ * @package BSCustom\Admin
  */
 
-namespace CTCustom\Admin;
+namespace BSCustom\Admin;
 
 class MenuLanguageFilter {
 

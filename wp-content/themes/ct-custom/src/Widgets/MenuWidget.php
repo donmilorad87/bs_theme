@@ -1,9 +1,9 @@
 <?php
 
-namespace CTCustom\Widgets;
+namespace BSCustom\Widgets;
 
 use WP_Widget;
-use CTCustom\Multilang\TranslationService;
+use BSCustom\Multilang\TranslationService;
 
 class MenuWidget extends WP_Widget {
 
@@ -14,7 +14,7 @@ class MenuWidget extends WP_Widget {
     public function __construct() {
         parent::__construct(
             'ct_menu',
-            __( 'CT Custom: Menu', 'ct-custom' ),
+            __( 'BS Custom: Menu', 'ct-custom' ),
             array(
                 'description' => __( 'Displays a selected navigation menu.', 'ct-custom' ),
             )

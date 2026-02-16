@@ -5,15 +5,15 @@
  * Verifies a 6-digit reset code and returns a short-lived JWT reset token.
  * POST /wp-json/ct-auth/v1/verify-reset-code
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\CodeGenerator;
-use CTCustom\Services\JwtService;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\CodeGenerator;
+use BSCustom\Services\JwtService;
 
 class VerifyResetCode {
 

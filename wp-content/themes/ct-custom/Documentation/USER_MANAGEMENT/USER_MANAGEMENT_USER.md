@@ -1,6 +1,6 @@
-# CT Custom — User Management System (Developer Guide)
+# BS Custom — User Management System (Developer Guide)
 
-> How the authentication, registration, password reset, and profile system works in the CT Custom theme.
+> How the authentication, registration, password reset, and profile system works in the BS Custom theme.
 
 ---
 
@@ -58,7 +58,7 @@
 
 ### JWT Settings
 
-JWT configuration is stored in the WordPress option `ct_custom_jwt_auth` as a JSON string.
+JWT configuration is stored in the WordPress option `bs_custom_jwt_auth` as a JSON string.
 
 | Setting | Key | Default | Description |
 |---------|-----|---------|-------------|
@@ -82,7 +82,7 @@ Reset tokens use a separate payload with `email` and `purpose: "password_reset"`
 **Max token length**: 4096 characters
 **Library**: `firebase/php-jwt`
 
-To configure the JWT secret, set the `ct_custom_jwt_auth` option in the database:
+To configure the JWT secret, set the `bs_custom_jwt_auth` option in the database:
 
 ```json
 {
@@ -93,7 +93,7 @@ To configure the JWT secret, set the `ct_custom_jwt_auth` option in the database
 
 ### Email / SMTP Settings
 
-Email configuration is stored in the WordPress option `ct_custom_email_config` as a JSON string. The system uses PHPMailer with direct SMTP transport.
+Email configuration is stored in the WordPress option `bs_custom_email_config` as a JSON string. The system uses PHPMailer with direct SMTP transport.
 
 | Setting | Key | Default | Description |
 |---------|-----|---------|-------------|
@@ -130,9 +130,9 @@ The system provides three Gutenberg blocks for controlling page access. When pla
 
 ### Redirect Destinations
 
-- **Unprotected page** (logged-in user visits): Redirects to `ct_custom_get_profile_page_url()`
-- **Protected page** (guest visits): Redirects to `ct_custom_get_auth_page_url()`
-- **Admin page** (guest visits): Redirects to `ct_custom_get_auth_page_url()`
+- **Unprotected page** (logged-in user visits): Redirects to `bs_custom_get_profile_page_url()`
+- **Protected page** (guest visits): Redirects to `bs_custom_get_auth_page_url()`
+- **Admin page** (guest visits): Redirects to `bs_custom_get_auth_page_url()`
 - **Admin page** (non-admin logged-in user visits): Redirects to `ct_get_language_home_url()`
 
 ### Page Templates
@@ -361,14 +361,14 @@ All endpoints accept `Content-Type: application/json` (except avatar upload whic
 
 **Symptom**: Login succeeds but no token is returned (empty string). Protected endpoints fail with 401.
 
-**Cause**: The `ct_custom_jwt_auth` option is missing or the `secret` value is empty or shorter than 16 characters.
+**Cause**: The `bs_custom_jwt_auth` option is missing or the `secret` value is empty or shorter than 16 characters.
 
 **Fix**: Set the option in the database with a strong secret key:
 
 ```sql
 UPDATE wp_options
 SET option_value = '{"secret":"your-secret-key-minimum-16-chars","expiration_hours":24}'
-WHERE option_name = 'ct_custom_jwt_auth';
+WHERE option_name = 'bs_custom_jwt_auth';
 ```
 
 When `WP_DEBUG` is enabled, the error `[CT_JWT_Service] JWT secret is not configured or too short.` will appear in the PHP error log.
@@ -379,7 +379,7 @@ When `WP_DEBUG` is enabled, the error `[CT_JWT_Service] JWT secret is not config
 
 **Possible causes and fixes**:
 
-1. **SMTP not configured**: Check that the `ct_custom_email_config` option has valid `host`, `username`, and `password` values
+1. **SMTP not configured**: Check that the `bs_custom_email_config` option has valid `host`, `username`, and `password` values
 2. **Wrong port or encryption**: Common configs: port `587` with `tls`, or port `465` with `ssl`
 3. **Firewall blocking outbound SMTP**: Ensure the server allows outbound connections on the SMTP port
 4. **PHPMailer errors**: Enable `WP_DEBUG` and check for `[CT_Mail_Service] PHPMailer error:` messages in the error log

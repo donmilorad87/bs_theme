@@ -5,10 +5,10 @@
  * Loads translation JSON files and resolves keys to translated strings
  * with placeholder replacement, CLDR plural support, and escaping.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class Translator {
 

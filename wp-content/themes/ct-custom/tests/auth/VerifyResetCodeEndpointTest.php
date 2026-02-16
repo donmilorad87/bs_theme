@@ -5,12 +5,12 @@
  * Covers: valid code, invalid code, expired code, rate limiting,
  * and code deletion after success.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\VerifyResetCode;
+use BSCustom\RestApi\Endpoints\VerifyResetCode;
 
 class VerifyResetCodeEndpointTest extends AuthTestCase {
 

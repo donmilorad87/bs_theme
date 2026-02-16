@@ -5,12 +5,12 @@
  * Covers: successful change, wrong current password, same password,
  * weak password, mismatch, user not found, and actual update.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\ProfileChangePassword;
+use BSCustom\RestApi\Endpoints\ProfileChangePassword;
 
 class ProfileChangePasswordTest extends AuthTestCase {
 

@@ -5,10 +5,10 @@
  * Registers ct_sidebar_left and ct_sidebar_right post meta
  * for per-page sidebar configuration.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Sidebar;
+namespace BSCustom\Sidebar;
 
 /**
  * Handles sidebar post-meta registration and sanitization.

@@ -4,10 +4,10 @@
  *
  * Provides data-preparation for the header template.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 class Header {
 

@@ -1,14 +1,14 @@
 <?php
 /**
- * CT Team Members — Dynamic block render.
+ * BS Team Members — Dynamic block render.
  *
  * Receives $attributes, $content, $block from WordPress.
- * Matches Coalition Technologies who-we-are design pattern.
+ * Matches Blazing Sun who-we-are design pattern.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Multilang\TranslationService;
+use BSCustom\Multilang\TranslationService;
 
 /**
  * Convert hex color + opacity to rgba() string.

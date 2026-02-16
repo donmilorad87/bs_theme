@@ -5,12 +5,12 @@
  * Provides data-preparation for the language switcher component,
  * page translation lookups, and menu location resolution.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
-use CTCustom\Multilang\LanguagePageManager;
+use BSCustom\Multilang\LanguagePageManager;
 
 class Language {
 

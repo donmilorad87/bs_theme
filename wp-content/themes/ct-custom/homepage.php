@@ -2,10 +2,10 @@
 /**
  * Template Name: Homepage
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-extract( ct_custom_get_homepage_hero_data() );
+extract( bs_custom_get_homepage_hero_data() );
 
 get_header();
 ?>
@@ -32,7 +32,7 @@ get_header();
                 <section class="image-grid">
                     <div class="ct-container">
                         <div class="image-grid__columns df fww" id="ct-homepage-image-grid">
-                            <?php ct_custom_render_image_grid_items(); ?>
+                            <?php bs_custom_render_image_grid_items(); ?>
                         </div>
                     </div>
                 </section>

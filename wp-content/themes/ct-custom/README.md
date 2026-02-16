@@ -1,6 +1,6 @@
-# CT Custom
+# BS Custom
 
-WordPress theme by Coalition Technologies, built on the Underscores (`_s`) starter theme.
+WordPress theme by Blazing Sun, built on the Underscores (`_s`) starter theme.
 
 ---
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace CTCustom\Services;
+namespace BSCustom\Services;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
@@ -14,7 +14,7 @@ class MailService {
     private $config_cache = null;
 
     /**
-     * Load and cache email config from the ct_custom_email_config option.
+     * Load and cache email config from the bs_custom_email_config option.
      *
      * @return array Config array with defaults applied.
      */
@@ -23,7 +23,7 @@ class MailService {
             return $this->config_cache;
         }
 
-        $raw    = get_option( 'ct_custom_email_config', '{}' );
+        $raw    = get_option( 'bs_custom_email_config', '{}' );
         $config = json_decode( $raw, true );
 
         if ( ! is_array( $config ) ) {

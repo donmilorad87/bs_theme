@@ -1,6 +1,6 @@
 <?php
 /**
- * CT Theme Customizer - Settings Registration
+ * BS Theme Customizer - Settings Registration
  *
  * All color settings are registered as light/dark pairs.
  * Non-color values (sizes, margins, font-weight, font-style,
@@ -9,18 +9,18 @@
  * Migrated from inc/customizer/customizer_theme.php.
  * Old class: CT_Theme_Customizer -> New: ThemeCustomizer
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer;
+namespace BSCustom\Customizer;
 
-use CTCustom\Customizer\Controls\FontFamilyControl;
-use CTCustom\Customizer\Controls\FontWeightsControl;
-use CTCustom\Customizer\Controls\ToggleSwitchControl;
-use CTCustom\Customizer\Controls\TranslationControl;
-use CTCustom\Customizer\Controls\SocialNetworksControl;
-use CTCustom\Customizer\Controls\ContactPointControl;
-use CTCustom\Customizer\Controls\RangeControl;
+use BSCustom\Customizer\Controls\FontFamilyControl;
+use BSCustom\Customizer\Controls\FontWeightsControl;
+use BSCustom\Customizer\Controls\ToggleSwitchControl;
+use BSCustom\Customizer\Controls\TranslationControl;
+use BSCustom\Customizer\Controls\SocialNetworksControl;
+use BSCustom\Customizer\Controls\ContactPointControl;
+use BSCustom\Customizer\Controls\RangeControl;
 
 class ThemeCustomizer {
 
@@ -49,7 +49,7 @@ class ThemeCustomizer {
         $wp_customize->remove_section( 'static_front_page' );
 
         $wp_customize->add_panel( 'ct_theme_panel', array(
-            'title'    => __( 'CT Theme Settings', 'ct-custom' ),
+            'title'    => __( 'BS Theme Settings', 'ct-custom' ),
             'priority' => 1,
         ) );
 
@@ -393,14 +393,14 @@ class ThemeCustomizer {
         ) ) );
 
         /* Social Networks repeater (stored as option, not theme_mod) */
-        $wp_customize->add_setting( 'ct_custom_social_networks', array(
+        $wp_customize->add_setting( 'bs_custom_social_networks', array(
             'type'              => 'option',
             'default'           => '[]',
             'sanitize_callback' => array( $this, 'sanitize_social_networks' ),
             'transport'         => 'postMessage',
         ) );
 
-        $wp_customize->add_control( new SocialNetworksControl( $wp_customize, 'ct_custom_social_networks', array(
+        $wp_customize->add_control( new SocialNetworksControl( $wp_customize, 'bs_custom_social_networks', array(
             'label'       => __( 'Social Networks', 'ct-custom' ),
             'description' => __( 'Add, edit, or remove social network icons.', 'ct-custom' ),
             'section'     => 'ct_social_section',
@@ -415,14 +415,14 @@ class ThemeCustomizer {
             'priority' => 71,
         ) );
 
-        $wp_customize->add_setting( 'ct_custom_contact_point', array(
+        $wp_customize->add_setting( 'bs_custom_contact_point', array(
             'type'              => 'option',
             'default'           => '{}',
             'sanitize_callback' => array( $this, 'sanitize_contact_point' ),
             'transport'         => 'postMessage',
         ) );
 
-        $wp_customize->add_control( new ContactPointControl( $wp_customize, 'ct_custom_contact_point', array(
+        $wp_customize->add_control( new ContactPointControl( $wp_customize, 'bs_custom_contact_point', array(
             'label'       => __( 'Contact Point', 'ct-custom' ),
             'description' => __( 'Manage contact details: phone, fax, email, address.', 'ct-custom' ),
             'section'     => 'ct_contact_point_section',

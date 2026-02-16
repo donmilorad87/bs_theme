@@ -2,10 +2,10 @@
 /**
  * Template Name: Contact
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-extract( ct_custom_get_contact_template_data() );
+extract( bs_custom_get_contact_template_data() );
 
 get_header();
 ?>
@@ -28,7 +28,7 @@ get_header();
                     <time class="dt-updated updated" datetime="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>" hidden><?php echo esc_html( get_the_modified_date() ); ?></time>
                 </div>
 
-                <?php ct_custom_render_contact_section(); ?>
+                <?php bs_custom_render_contact_section(); ?>
             </article>
 
     </main>

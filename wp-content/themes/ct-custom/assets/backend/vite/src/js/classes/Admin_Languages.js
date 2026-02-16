@@ -4,7 +4,7 @@
  * Handles language CRUD, translation editor, and page translation
  * within the admin Languages accordion tab.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 export default class Admin_Languages {
 

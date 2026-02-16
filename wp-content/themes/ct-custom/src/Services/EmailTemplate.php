@@ -1,6 +1,6 @@
 <?php
 
-namespace CTCustom\Services;
+namespace BSCustom\Services;
 
 class EmailTemplate {
 
@@ -303,7 +303,7 @@ class EmailTemplate {
         $parts = array();
 
         /* Contact point */
-        $contact_json = get_option( 'ct_custom_contact_point', '' );
+        $contact_json = get_option( 'bs_custom_contact_point', '' );
         if ( ! empty( $contact_json ) ) {
             $contact = json_decode( $contact_json, true );
             if ( is_array( $contact ) ) {
@@ -321,7 +321,7 @@ class EmailTemplate {
         }
 
         /* Social links */
-        $social_json = get_option( 'ct_custom_social_networks', '[]' );
+        $social_json = get_option( 'bs_custom_social_networks', '[]' );
         $socials     = json_decode( $social_json, true );
         if ( is_array( $socials ) && ! empty( $socials ) ) {
             $links     = array();

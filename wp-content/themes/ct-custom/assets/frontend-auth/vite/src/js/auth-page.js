@@ -6,7 +6,7 @@
  *
  * Duplicated from frontend/vite/src/js/auth-page.js for standalone auth bundle.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { MAX_FIELDS, AUTH_FORMS, TAB_FORMS, FLOW_FORMS } from './auth/auth-config.js';

@@ -1,4 +1,4 @@
-# CT Custom — Multilanguage Translation System (Technical Reference)
+# BS Custom — Multilanguage Translation System (Technical Reference)
 
 > Internal reference for Claude Code and developers maintaining the translation system.
 
@@ -6,7 +6,7 @@
 
 ## System Overview
 
-The CT Custom theme includes a custom-built multilanguage system that supports:
+The BS Custom theme includes a custom-built multilanguage system that supports:
 
 - **String translations** via JSON files with CLDR plural rules
 - **Page duplication** per language with parent-child hierarchy preservation
@@ -140,7 +140,7 @@ Keys must match: `[A-Z][A-Z0-9_]*` (uppercase, starts with letter, underscores a
 Simple string:
 ```json
 {
-    "SITE_NAME": "CT Custom",
+    "SITE_NAME": "BS Custom",
     "LOGIN": "Login"
 }
 ```
@@ -277,7 +277,7 @@ Maximum 50 custom rules. `reset_custom_rules()` clears them.
     "success": true,
     "data": {
         "iso2": "en",
-        "translations": { "SITE_NAME": "CT Custom", ... }
+        "translations": { "SITE_NAME": "BS Custom", ... }
     }
 }
 ```
@@ -291,7 +291,7 @@ Maximum 50 custom rules. `reset_custom_rules()` clears them.
 {
     "success": true,
     "data": {
-        "resolved": "CT Custom"
+        "resolved": "BS Custom"
     }
 }
 ```

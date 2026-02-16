@@ -1,10 +1,10 @@
 <?php
 
-namespace CTCustom\Theme;
+namespace BSCustom\Theme;
 
-use CTCustom\Cpt\ContactMessageCpt;
-use CTCustom\Multilang\LanguagePageManager;
-use CTCustom\Multilang\Translator;
+use BSCustom\Cpt\ContactMessageCpt;
+use BSCustom\Multilang\LanguagePageManager;
+use BSCustom\Multilang\Translator;
 
 class ThemeSettings {
 
@@ -62,7 +62,7 @@ class ThemeSettings {
             $count++;
         }
 
-        update_option( 'ct_custom_contact_pointers', wp_json_encode( $sanitized ) );
+        update_option( 'bs_custom_contact_pointers', wp_json_encode( $sanitized ) );
 
         wp_send_json_success( array( 'message' => __( 'Contact pointers saved.', 'ct-custom' ) ) );
     }
@@ -131,7 +131,7 @@ class ThemeSettings {
         }
 
         if ( ! isset( $data['theme'] ) || 'ct-custom' !== $data['theme'] ) {
-            wp_send_json_error( array( 'message' => __( 'This export file is not from the CT Custom theme.', 'ct-custom' ) ) );
+            wp_send_json_error( array( 'message' => __( 'This export file is not from the BS Custom theme.', 'ct-custom' ) ) );
         }
 
         $this->import_theme_mods( $data );
@@ -173,11 +173,11 @@ class ThemeSettings {
 
     private function collect_export_options() {
         $option_keys = array(
-            'ct_custom_contact_point',
-            'ct_custom_social_networks',
-            'ct_custom_contact_pointers',
-            'ct_custom_email_config',
-            'ct_custom_jwt_auth',
+            'bs_custom_contact_point',
+            'bs_custom_social_networks',
+            'bs_custom_contact_pointers',
+            'bs_custom_email_config',
+            'bs_custom_jwt_auth',
             'blogname',
             'blogdescription',
             'site_icon',
@@ -525,7 +525,7 @@ class ThemeSettings {
 
         assert( is_array( $data['theme_mods'] ), 'Theme mods data must be an array' );
 
-        $allowed_prefixes = array( 'ct_', 'custom_logo', 'nav_menu_locations' );
+        $allowed_prefixes = array( 'BS_', 'custom_logo', 'nav_menu_locations' );
         $max_mods = 300;
         $count    = 0;
 
@@ -572,11 +572,11 @@ class ThemeSettings {
         assert( is_array( $data['options'] ), 'Options data must be an array' );
 
         $allowed_options = array(
-            'ct_custom_contact_point',
-            'ct_custom_social_networks',
-            'ct_custom_contact_pointers',
-            'ct_custom_email_config',
-            'ct_custom_jwt_auth',
+            'bs_custom_contact_point',
+            'bs_custom_social_networks',
+            'bs_custom_contact_pointers',
+            'bs_custom_email_config',
+            'bs_custom_jwt_auth',
             'blogname',
             'blogdescription',
             'site_icon',
@@ -1104,7 +1104,7 @@ class ThemeSettings {
             $port = 587;
         }
 
-        $existing = json_decode( get_option( 'ct_custom_email_config', '{}' ), true );
+        $existing = json_decode( get_option( 'bs_custom_email_config', '{}' ), true );
         $new_pass = isset( $decoded['password'] ) ? sanitize_text_field( $decoded['password'] ) : '';
         $password = ( '' !== $new_pass )
             ? $new_pass
@@ -1123,7 +1123,7 @@ class ThemeSettings {
         assert( is_array( $sanitized ), 'Sanitized email config must be an array' );
         assert( count( $sanitized ) === 7, 'Email config must have 7 fields' );
 
-        update_option( 'ct_custom_email_config', wp_json_encode( $sanitized ) );
+        update_option( 'bs_custom_email_config', wp_json_encode( $sanitized ) );
 
         wp_send_json_success( array( 'message' => __( 'Email configuration saved.', 'ct-custom' ) ) );
     }
@@ -1155,7 +1155,7 @@ class ThemeSettings {
         assert( is_array( $sanitized ), 'Sanitized JWT auth must be an array' );
         assert( count( $sanitized ) === 2, 'JWT auth must have 2 fields' );
 
-        update_option( 'ct_custom_jwt_auth', wp_json_encode( $sanitized ) );
+        update_option( 'bs_custom_jwt_auth', wp_json_encode( $sanitized ) );
 
         wp_send_json_success( array( 'message' => __( 'JWT auth settings saved.', 'ct-custom' ) ) );
     }
@@ -1208,9 +1208,9 @@ class ThemeSettings {
             'expiration_hours' => (int) get_theme_mod( 'ct_jwt_expiration_hours', $jwt_auth_defaults['ct_jwt_expiration_hours'] ),
         );
 
-        update_option( 'ct_custom_email_config', wp_json_encode( $email_config ) );
-        update_option( 'ct_custom_email_template', wp_json_encode( $email_template ) );
-        update_option( 'ct_custom_jwt_auth', wp_json_encode( $jwt_auth ) );
+        update_option( 'bs_custom_email_config', wp_json_encode( $email_config ) );
+        update_option( 'bs_custom_email_template', wp_json_encode( $email_template ) );
+        update_option( 'bs_custom_jwt_auth', wp_json_encode( $jwt_auth ) );
         update_option( 'ct_email_jwt_migrated', '1' );
     }
 
@@ -1222,7 +1222,7 @@ class ThemeSettings {
             return;
         }
 
-        $raw    = get_option( 'ct_custom_email_template', '{}' );
+        $raw    = get_option( 'bs_custom_email_template', '{}' );
         $config = json_decode( $raw, true );
 
         if ( is_array( $config ) ) {
@@ -1571,7 +1571,7 @@ class ThemeSettings {
     private function get_site_identity_defaults() {
         return array(
             'ct_site_description'  => '',
-            'ct_footer_copyright'  => '© {year} Coalition Test — Theme by Coalition Technologies',
+            'ct_footer_copyright'  => '© {year} Coalition Test — Theme by Blazing Sun',
         );
     }
 
@@ -1664,7 +1664,7 @@ class ThemeSettings {
 
         /* Clone widget instances to new language sidebars */
         $widget_count = $page_mgr->duplicate_widget_areas_for_language( $lang_data['iso2'] );
-        update_option( 'ct_custom_widgets_cloned_' . $lang_data['iso2'], true );
+        update_option( 'bs_custom_widgets_cloned_' . $lang_data['iso2'], true );
 
         $new_lang = $mgr->get_by_iso2( $lang_data['iso2'] );
 
@@ -1753,7 +1753,7 @@ class ThemeSettings {
         if ( $remove_widgets ) {
             $page_mgr->remove_language_widget_instances( $iso2 );
             $widgets_cleared = $page_mgr->remove_language_widget_areas( $iso2 );
-            delete_option( 'ct_custom_widgets_cloned_' . $iso2 );
+            delete_option( 'bs_custom_widgets_cloned_' . $iso2 );
         }
 
         /* Step 5: Delete the translation JSON file */

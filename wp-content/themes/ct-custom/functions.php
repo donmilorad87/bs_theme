@@ -1,8 +1,8 @@
 <?php
 /**
- * CT Custom Theme - Functions and Definitions
+ * BS Custom Theme - Functions and Definitions
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 /* ── 1. Composer Autoloader (PSR-4 namespaces + PHPMailer, Firebase JWT) ─ */
@@ -11,26 +11,26 @@ if ( is_readable( $ct_autoloader ) ) {
     require_once $ct_autoloader;
 }
 
-use CTCustom\Theme\ThemeSettings;
-use CTCustom\Cpt\ContactMessageCpt;
-use CTCustom\Template\TemplateHooks;
-use CTCustom\Customizer\ThemeCustomizer;
-use CTCustom\Customizer\FontManager;
-use CTCustom\Multilang\TranslationService;
-use CTCustom\Multilang\LanguagePageManager;
-use CTCustom\Multilang\HreflangService;
-use CTCustom\Widgets\CompanyInfoWidget;
-use CTCustom\Widgets\ContactPointWidget;
-use CTCustom\Widgets\SocialIconsWidget;
-use CTCustom\Widgets\MenuWidget;
-use CTCustom\Widgets\WidgetLanguageFilter;
-use CTCustom\Admin\PageLanguageFilter;
-use CTCustom\Admin\MenuLanguageFilter;
-use CTCustom\RestApi\AuthRestController;
-use CTCustom\RestApi\Endpoints\ResolveTranslation;
-use CTCustom\RestApi\Endpoints\GetTranslations;
-use CTCustom\RestApi\Endpoints\FontDownload;
-use CTCustom\Blocks\PageAccessControl;
+use BSCustom\Theme\ThemeSettings;
+use BSCustom\Cpt\ContactMessageCpt;
+use BSCustom\Template\TemplateHooks;
+use BSCustom\Customizer\ThemeCustomizer;
+use BSCustom\Customizer\FontManager;
+use BSCustom\Multilang\TranslationService;
+use BSCustom\Multilang\LanguagePageManager;
+use BSCustom\Multilang\HreflangService;
+use BSCustom\Widgets\CompanyInfoWidget;
+use BSCustom\Widgets\ContactPointWidget;
+use BSCustom\Widgets\SocialIconsWidget;
+use BSCustom\Widgets\MenuWidget;
+use BSCustom\Widgets\WidgetLanguageFilter;
+use BSCustom\Admin\PageLanguageFilter;
+use BSCustom\Admin\MenuLanguageFilter;
+use BSCustom\RestApi\AuthRestController;
+use BSCustom\RestApi\Endpoints\ResolveTranslation;
+use BSCustom\RestApi\Endpoints\GetTranslations;
+use BSCustom\RestApi\Endpoints\FontDownload;
+use BSCustom\Blocks\PageAccessControl;
 
 /* ── 2. Asset Version Helper ────────────────────────────────────────── */
 
@@ -58,14 +58,14 @@ function ct_get_asset_version( $path ) {
 }
 
 /* ── 3. Boot Converted Procedural Classes ───────────────────────────── */
-CTCustom\Customizer\CustomizerSetup::boot();
-CTCustom\Customizer\DynamicCss::boot();
-CTCustom\Sidebar\SidebarMeta::boot();
+BSCustom\Customizer\CustomizerSetup::boot();
+BSCustom\Customizer\DynamicCss::boot();
+BSCustom\Sidebar\SidebarMeta::boot();
 PageAccessControl::boot();
 
 /* ── 4. Theme Bootstrap Class ───────────────────────────────────────── */
 
-class CT_Custom_Theme {
+class BS_Custom_Theme {
 
     private $admin_page_hook = '';
 
@@ -168,7 +168,7 @@ class CT_Custom_Theme {
     }
 
     public function content_width() {
-        $GLOBALS['content_width'] = apply_filters( 'ct_custom_content_width', 1200 );
+        $GLOBALS['content_width'] = apply_filters( 'bs_custom_content_width', 1200 );
     }
 
     public function enqueue_frontend_scripts() {
@@ -317,8 +317,8 @@ class CT_Custom_Theme {
 
     public function register_admin_menu() {
         $this->admin_page_hook = add_menu_page(
-            __( 'CT Custom Theme', 'ct-custom' ),
-            __( 'CT Custom Theme', 'ct-custom' ),
+            __( 'BS Custom Theme', 'ct-custom' ),
+            __( 'BS Custom Theme', 'ct-custom' ),
             'manage_options',
             'ct-custom-settings',
             array( $this, 'render_admin_page' ),
@@ -845,7 +845,7 @@ class CT_Custom_Theme {
 
         array_unshift( $categories, array(
             'slug'  => 'ct-custom',
-            'title' => __( 'CT Custom', 'ct-custom' ),
+            'title' => __( 'BS Custom', 'ct-custom' ),
         ) );
 
         return $categories;
@@ -855,7 +855,7 @@ class CT_Custom_Theme {
         assert( function_exists( 'register_block_pattern_category' ), 'register_block_pattern_category must exist' );
 
         register_block_pattern_category( 'ct-custom', array(
-            'label' => __( 'CT Custom', 'ct-custom' ),
+            'label' => __( 'BS Custom', 'ct-custom' ),
         ) );
     }
 
@@ -1088,7 +1088,7 @@ class CT_Custom_Theme {
 }
 
 /* ── 5. Instantiate Theme + Singleton Components ────────────────────── */
-new CT_Custom_Theme();
+new BS_Custom_Theme();
 
 /* Template hooks singleton */
 TemplateHooks::instance();
@@ -1145,12 +1145,12 @@ add_action( 'admin_init', function () {
     }
 
     /* Step 1: Assign default language to pages that have no ct_language meta */
-    if ( ! get_option( 'ct_custom_language_migration_done' ) ) {
-        CTCustom\Multilang\LanguagePageManager::migrate_existing_pages( $default['iso2'] );
+    if ( ! get_option( 'bs_custom_language_migration_done' ) ) {
+        BSCustom\Multilang\LanguagePageManager::migrate_existing_pages( $default['iso2'] );
     }
 
     /* Step 1b: Rename homepage slugs to iso2 codes (e.g. "homepage" → "en") */
-    if ( ! get_option( 'ct_custom_homepage_slug_migration_done' ) ) {
+    if ( ! get_option( 'bs_custom_homepage_slug_migration_done' ) ) {
         LanguagePageManager::migrate_homepage_slugs();
     }
 
@@ -1170,7 +1170,7 @@ add_action( 'admin_init', function () {
             continue;
         }
 
-        $option_key = 'ct_custom_pages_duplicated_' . $lang['iso2'];
+        $option_key = 'bs_custom_pages_duplicated_' . $lang['iso2'];
 
         if ( get_option( $option_key ) ) {
             continue;
@@ -1206,7 +1206,7 @@ add_action( 'admin_init', function () {
             continue;
         }
 
-        if ( get_option( 'ct_custom_widgets_cloned_' . $lang['iso2'] ) ) {
+        if ( get_option( 'bs_custom_widgets_cloned_' . $lang['iso2'] ) ) {
             continue;
         }
 

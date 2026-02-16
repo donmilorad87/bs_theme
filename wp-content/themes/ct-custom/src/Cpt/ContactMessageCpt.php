@@ -1,6 +1,6 @@
 <?php
 
-namespace CTCustom\Cpt;
+namespace BSCustom\Cpt;
 
 class ContactMessageCpt {
 
@@ -37,7 +37,7 @@ class ContactMessageCpt {
 	 * Seed a default contact_us pointer if the option does not exist yet.
 	 */
 	private function maybe_seed_default_pointers() {
-		$existing = get_option( 'ct_custom_contact_pointers' );
+		$existing = get_option( 'bs_custom_contact_pointers' );
 
 		if ( false !== $existing ) {
 			return;
@@ -55,7 +55,7 @@ class ContactMessageCpt {
 			),
 		);
 
-		update_option( 'ct_custom_contact_pointers', wp_json_encode( $default ) );
+		update_option( 'bs_custom_contact_pointers', wp_json_encode( $default ) );
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ContactMessageCpt {
 	 * @return array List of pointer arrays with slug, label, emails keys.
 	 */
 	public static function get_pointers() {
-		$raw = get_option( 'ct_custom_contact_pointers', '[]' );
+		$raw = get_option( 'bs_custom_contact_pointers', '[]' );
 
 		assert( is_string( $raw ), 'Pointers raw must be a string' );
 

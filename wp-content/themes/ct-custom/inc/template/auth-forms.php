@@ -5,17 +5,17 @@
  * Thin backward-compatible wrappers that delegate to CT_Auth_Forms.
  * All hook registrations have moved to CT_Template_Hooks::register_hooks().
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Template\AuthForms;
+use BSCustom\Template\AuthForms;
 
 /**
  * Get the current authentication state data.
  *
  * @return array{is_logged_in: bool, display_name: string}
  */
-function ct_custom_get_auth_data() {
+function bs_custom_get_auth_data() {
 	return AuthForms::instance()->get_auth_data();
 }
 
@@ -26,7 +26,7 @@ function ct_custom_get_auth_data() {
  * @return bool|WP_Error
  */
 function ct_jwt_or_cookie_permission_check( WP_REST_Request $request ) {
-	return \CTCustom\Services\JwtAuth::jwt_or_cookie_permission_check( $request );
+	return \BSCustom\Services\JwtAuth::jwt_or_cookie_permission_check( $request );
 }
 
 /**
@@ -36,7 +36,7 @@ function ct_jwt_or_cookie_permission_check( WP_REST_Request $request ) {
  * @return bool|WP_Error
  */
 function ct_jwt_permission_check( WP_REST_Request $request ) {
-	return \CTCustom\Services\JwtAuth::jwt_permission_check( $request );
+	return \BSCustom\Services\JwtAuth::jwt_permission_check( $request );
 }
 
 /**
@@ -48,7 +48,7 @@ function ct_jwt_permission_check( WP_REST_Request $request ) {
  * @param string $template Template filename (e.g. 'login-register.php').
  * @return string Page permalink or empty string if not found.
  */
-function ct_custom_get_page_url_by_template( string $template ): string {
+function bs_custom_get_page_url_by_template( string $template ): string {
 	assert( ! empty( $template ), 'template must not be empty' );
 	assert( function_exists( 'get_posts' ), 'get_posts must exist' );
 
@@ -112,8 +112,8 @@ function ct_custom_get_page_url_by_template( string $template ): string {
  *
  * @return string Page permalink or empty string if not found.
  */
-function ct_custom_get_auth_page_url() {
-	return ct_custom_get_page_url_by_template( 'login-register.php' );
+function bs_custom_get_auth_page_url() {
+	return bs_custom_get_page_url_by_template( 'login-register.php' );
 }
 
 /**
@@ -121,6 +121,6 @@ function ct_custom_get_auth_page_url() {
  *
  * @return string Page permalink or empty string if not found.
  */
-function ct_custom_get_profile_page_url() {
-	return ct_custom_get_page_url_by_template( 'profile.php' );
+function bs_custom_get_profile_page_url() {
+	return bs_custom_get_page_url_by_template( 'profile.php' );
 }

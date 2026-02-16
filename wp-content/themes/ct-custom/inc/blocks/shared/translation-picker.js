@@ -13,7 +13,7 @@
  *       onChange: function (val) { props.setAttributes({ buttonText: val }); }
  *   });
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
     'use strict';

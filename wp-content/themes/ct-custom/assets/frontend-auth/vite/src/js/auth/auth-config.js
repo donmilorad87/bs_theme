@@ -3,7 +3,7 @@
  *
  * Duplicated from frontend/vite/src/js/auth/auth-config.js for standalone auth bundle.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 export const STORAGE_TOKEN_KEY = 'ct_auth_token';

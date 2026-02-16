@@ -2,12 +2,12 @@
 /**
  * Tests for JwtService.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\Services\JwtService;
+use BSCustom\Services\JwtService;
 
 class JwtServiceTest extends AuthTestCase {
 

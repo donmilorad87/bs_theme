@@ -4,7 +4,7 @@
  * Adds a "Sidebar Configuration" panel to the Document sidebar
  * with On/Off toggles and auto-detected override status.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
 	'use strict';

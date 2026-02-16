@@ -5,10 +5,10 @@
  * Provides methods to generate, store, verify, and delete
  * 6-digit numeric verification codes via WordPress transients.
  *
- * @package CTCustom\RestApi
+ * @package BSCustom\RestApi
  */
 
-namespace CTCustom\RestApi;
+namespace BSCustom\RestApi;
 
 trait CodeGenerator {
 

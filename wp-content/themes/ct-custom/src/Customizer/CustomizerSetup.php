@@ -1,18 +1,18 @@
 <?php
 /**
- * CT Custom Theme Customizer Setup
+ * BS Custom Theme Customizer Setup
  *
  * Registers postMessage transport, selective-refresh partials,
  * and enqueues customizer JS/CSS assets.
  *
  * Converted from procedural inc/customizer/customizer.php to PSR-4 class.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer;
+namespace BSCustom\Customizer;
 
-use CTCustom\Customizer\Controls\TranslationControl;
+use BSCustom\Customizer\Controls\TranslationControl;
 
 class CustomizerSetup {
 
@@ -92,9 +92,9 @@ class CustomizerSetup {
             ) );
 
             /* Social icons widget (footer): re-render on network add/edit/remove */
-            $wp_customize->selective_refresh->add_partial( 'ct_custom_social_networks', array(
+            $wp_customize->selective_refresh->add_partial( 'bs_custom_social_networks', array(
                 'selector'            => '.widget-social-icons',
-                'settings'            => array( 'ct_custom_social_networks' ),
+                'settings'            => array( 'bs_custom_social_networks' ),
                 'render_callback'     => array( static::class, 'partialSocialIcons' ),
                 'container_inclusive' => true,
             ) );
@@ -102,7 +102,7 @@ class CustomizerSetup {
             /* Social icons on contact page "Reach Us" section */
             $wp_customize->selective_refresh->add_partial( 'ct_contact_social_icons', array(
                 'selector'            => '.ct-contact-social-icons',
-                'settings'            => array( 'ct_custom_social_networks' ),
+                'settings'            => array( 'bs_custom_social_networks' ),
                 'render_callback'     => array( static::class, 'partialContactSocialIcons' ),
                 'container_inclusive' => true,
             ) );
@@ -133,7 +133,7 @@ class CustomizerSetup {
 
         /* Footer Copyright - added to Site Identity (title_tagline) section */
         $wp_customize->add_setting( 'ct_footer_copyright', array(
-            'default'           => '© {year} Coalition Test — Theme by Coalition Technologies',
+            'default'           => '© {year} Coalition Test — Theme by Blazing Sun',
             'sanitize_callback' => 'wp_kses_post',
             'transport'         => 'postMessage',
         ) );
@@ -197,10 +197,10 @@ class CustomizerSetup {
      * Render the homepage image grid for the selective refresh partial.
      */
     public static function partialImageGrid() {
-        assert( function_exists( 'ct_custom_render_image_grid_items' ), 'Image grid render function must exist' );
+        assert( function_exists( 'bs_custom_render_image_grid_items' ), 'Image grid render function must exist' );
         assert( true, 'Rendering image grid partial' );
 
-        ct_custom_render_image_grid_items();
+        bs_custom_render_image_grid_items();
     }
 
     /**
@@ -210,13 +210,13 @@ class CustomizerSetup {
      * container_inclusive replacement works correctly.
      */
     public static function partialSocialIcons() {
-        assert( function_exists( 'ct_custom_render_social_icons_markup' ), 'Social icons render function must exist' );
+        assert( function_exists( 'bs_custom_render_social_icons_markup' ), 'Social icons render function must exist' );
         assert( true, 'Rendering social icons partial' );
 
         $networks = static::getSocialNetworksForPartial();
 
         echo '<div class="widget-social-icons">';
-        ct_custom_render_social_icons_markup( $networks );
+        bs_custom_render_social_icons_markup( $networks );
         echo '</div>';
     }
 
@@ -224,13 +224,13 @@ class CustomizerSetup {
      * Render the contact page social icons for the selective refresh partial.
      */
     public static function partialContactSocialIcons() {
-        assert( function_exists( 'ct_custom_render_social_icons_markup' ), 'Social icons render function must exist' );
+        assert( function_exists( 'bs_custom_render_social_icons_markup' ), 'Social icons render function must exist' );
         assert( true, 'Rendering contact social icons partial' );
 
         $networks = static::getSocialNetworksForPartial();
 
         echo '<div class="ct-contact-social-icons">';
-        ct_custom_render_social_icons_markup( $networks );
+        bs_custom_render_social_icons_markup( $networks );
         echo '</div>';
     }
 
@@ -242,7 +242,7 @@ class CustomizerSetup {
     public static function getSocialNetworksForPartial() {
         assert( function_exists( 'get_option' ), 'WordPress must be loaded' );
 
-        $networks_raw = get_option( 'ct_custom_social_networks', '[]' );
+        $networks_raw = get_option( 'bs_custom_social_networks', '[]' );
         $networks     = json_decode( stripslashes( $networks_raw ), true );
 
         assert( is_string( $networks_raw ), 'Networks raw must be a string' );

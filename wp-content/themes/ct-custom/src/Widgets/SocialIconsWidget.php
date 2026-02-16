@@ -1,9 +1,9 @@
 <?php
 
-namespace CTCustom\Widgets;
+namespace BSCustom\Widgets;
 
 use WP_Widget;
-use CTCustom\Multilang\TranslationService;
+use BSCustom\Multilang\TranslationService;
 
 class SocialIconsWidget extends WP_Widget {
 
@@ -12,9 +12,9 @@ class SocialIconsWidget extends WP_Widget {
     public function __construct() {
         parent::__construct(
             'ct_social_icons',
-            __( 'CT Custom: Social Icons', 'ct-custom' ),
+            __( 'BS Custom: Social Icons', 'ct-custom' ),
             array(
-                'description' => __( 'Displays social network icons from CT Custom Theme Settings.', 'ct-custom' ),
+                'description' => __( 'Displays social network icons from BS Custom Theme Settings.', 'ct-custom' ),
             )
         );
     }
@@ -23,7 +23,7 @@ class SocialIconsWidget extends WP_Widget {
         assert( is_array( $args ), 'Widget args must be an array' );
         assert( is_array( $instance ), 'Widget instance must be an array' );
 
-        $networks_raw = get_option( 'ct_custom_social_networks', '[]' );
+        $networks_raw = get_option( 'bs_custom_social_networks', '[]' );
         $networks     = json_decode( stripslashes( $networks_raw ), true );
 
         if ( ! is_array( $networks ) || empty( $networks ) ) {
@@ -62,8 +62,8 @@ class SocialIconsWidget extends WP_Widget {
                 . ' title="' . esc_attr( $name ) . '"'
                 . ' role="listitem">';
 
-            if ( $icon_id && function_exists( 'ct_custom_get_attachment_image' ) ) {
-                echo ct_custom_get_attachment_image( $icon_id, 'thumbnail', array(
+            if ( $icon_id && function_exists( 'bs_custom_get_attachment_image' ) ) {
+                echo bs_custom_get_attachment_image( $icon_id, 'thumbnail', array(
                     'alt'     => esc_attr( $name ),
                     'loading' => 'lazy',
                 ) );
@@ -122,7 +122,7 @@ class SocialIconsWidget extends WP_Widget {
             </div>
         </div>
         <p class="description">
-            <?php esc_html_e( 'Icons are managed in CT Custom Theme > Social Networks settings.', 'ct-custom' ); ?>
+            <?php esc_html_e( 'Icons are managed in BS Custom Theme > Social Networks settings.', 'ct-custom' ); ?>
         </p>
         <?php
     }

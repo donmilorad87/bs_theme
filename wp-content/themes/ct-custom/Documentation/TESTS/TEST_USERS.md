@@ -47,7 +47,7 @@ Create `tests/auth/MyNewEndpointTest.php`:
 
 ```php
 <?php
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
 class MyNewEndpointTest extends AuthTestCase {
 
@@ -68,7 +68,7 @@ class MyNewEndpointTest extends AuthTestCase {
         $this->loginAsUser($user->ID);
 
         // 4. Create and call the endpoint handler
-        $endpoint = new \CTCustom\Auth\Endpoints\MyEndpoint();
+        $endpoint = new \BSCustom\Auth\Endpoints\MyEndpoint();
         $response = $endpoint->handle($request);
 
         // 5. Assert the response
@@ -99,7 +99,7 @@ public function test_rate_limited_returns_429(): void {
     set_transient($key, 5, 900); // 5 attempts
 
     $request = $this->makeRequest(['param1' => 'value1']);
-    $endpoint = new \CTCustom\Auth\Endpoints\MyEndpoint();
+    $endpoint = new \BSCustom\Auth\Endpoints\MyEndpoint();
     $response = $endpoint->handle($request);
 
     $this->assertSame(429, $response->get_status());
@@ -118,7 +118,7 @@ public function test_requires_auth(): void {
 
     $this->loginAsUser($user->ID);
 
-    $endpoint = new \CTCustom\Auth\Endpoints\MyEndpoint();
+    $endpoint = new \BSCustom\Auth\Endpoints\MyEndpoint();
     $response = $endpoint->handle($request);
 
     $this->assertTrue($response->get_data()['success']);
@@ -345,7 +345,7 @@ btn.click();
 
 ### PHP: Autoloading issues
 
-Ensure `composer dump-autoload` has been run. The `composer.json` PSR-4 autoload maps `CTCustom\\` to `inc/`.
+Ensure `composer dump-autoload` has been run. The `composer.json` PSR-4 autoload maps `BSCustom\\` to `inc/`.
 
 ### PHP: Test isolation failures
 

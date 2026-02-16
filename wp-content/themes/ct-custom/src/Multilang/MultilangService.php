@@ -5,10 +5,10 @@
  * Singleton service class that consumes the CT_Multilang_Helpers trait,
  * providing a single entry point for all multilanguage operations.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class MultilangService {
 

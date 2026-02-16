@@ -4,7 +4,7 @@
  * Handles toggle button clicks, cookie persistence,
  * aria-checked state sync, and system preference detection.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const COOKIE_NAME = 'ct_theme';

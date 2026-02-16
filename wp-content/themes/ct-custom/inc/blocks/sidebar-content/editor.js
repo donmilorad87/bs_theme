@@ -5,7 +5,7 @@
  * Position attribute (left/right) is controlled via InspectorControls.
  * Warns if duplicate blocks share the same position.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
 	'use strict';

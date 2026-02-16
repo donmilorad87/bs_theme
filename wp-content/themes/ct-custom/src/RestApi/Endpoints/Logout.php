@@ -5,12 +5,12 @@
  * Handles user logout via POST /wp-json/ct-auth/v1/logout.
  * Requires the user to be logged in.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
+use BSCustom\RestApi\RestLogger;
 
 class Logout {
 

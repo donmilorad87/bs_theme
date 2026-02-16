@@ -6,12 +6,12 @@
  * that invalid/expired codes return 400, and that rate limiting is enforced
  * via VerifyActivation::handle().
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\VerifyActivation;
+use BSCustom\RestApi\Endpoints\VerifyActivation;
 
 class VerifyActivationEndpointTest extends AuthTestCase {
 

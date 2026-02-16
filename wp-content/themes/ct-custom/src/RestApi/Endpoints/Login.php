@@ -7,17 +7,17 @@
  * Checks ct_account_active meta; returns 403 if inactive.
  * Issues a JWT token on success.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\CodeGenerator;
-use CTCustom\Services\JwtService;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\CodeGenerator;
+use BSCustom\Services\JwtService;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class Login {
 

@@ -3,21 +3,21 @@
  * Multilanguage helper trait for sidebar components.
  *
  * OOP wrapper around CT_Multilang_Service singleton methods.
- * Replaces direct calls to the procedural ct_* functions
+ * Replaces direct calls to the procedural BS_* functions
  * (ct_get_current_language, ct_translate, etc.) with trait
  * methods that can be consumed by any class in the Sidebar namespace.
  *
  * Each method delegates to CT_Multilang_Service::instance() and
  * contains at least two assertions per NASA "Power of 10" rule 5.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Sidebar;
+namespace BSCustom\Sidebar;
 
-use CTCustom\Multilang\MultilangService;
-use CTCustom\Multilang\Translator;
-use CTCustom\Multilang\LanguageManager;
+use BSCustom\Multilang\MultilangService;
+use BSCustom\Multilang\Translator;
+use BSCustom\Multilang\LanguageManager;
 
 trait MultilangHelpers {
 

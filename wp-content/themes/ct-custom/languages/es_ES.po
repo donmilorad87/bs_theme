@@ -1,14 +1,14 @@
-# Spanish (Spain) translation for CT Custom theme.
-# Copyright (C) 2026 Coalition Technologies
-# This file is distributed under the same license as the CT Custom package.
+# Spanish (Spain) translation for BS Custom theme.
+# Copyright (C) 2026 Blazing Sun
+# This file is distributed under the same license as the BS Custom package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: CT Custom 1.0.0\n"
+"Project-Id-Version: BS Custom 1.0.0\n"
 "Report-Msgid-Bugs-To: support@coalitiontechnologies.com\n"
 "POT-Creation-Date: 2026-02-08 02:12+0100\n"
 "PO-Revision-Date: 2026-02-08 12:00+0100\n"
-"Last-Translator: Coalition Technologies <support@coalitiontechnologies.com>\n"
+"Last-Translator: Blazing Sun <support@coalitiontechnologies.com>\n"
 "Language-Team: Spanish (Spain) <es@li.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
@@ -83,8 +83,8 @@ msgid "Invalid JSON format."
 msgstr "Formato JSON no v&aacute;lido."
 
 #: core/admin_ajax_trait.php:119
-msgid "This export file is not from the CT Custom theme."
-msgstr "Este archivo de exportaci&oacute;n no es del tema CT Custom."
+msgid "This export file is not from the BS Custom theme."
+msgstr "Este archivo de exportaci&oacute;n no es del tema BS Custom."
 
 #: core/admin_ajax_trait.php:125
 msgid "Settings imported successfully."
@@ -120,8 +120,8 @@ msgid "Footer Menu"
 msgstr "Men&uacute; del pie de p&aacute;gina"
 
 #: functions.php:103 functions.php:104
-msgid "CT Custom Theme"
-msgstr "Tema CT Custom"
+msgid "BS Custom Theme"
+msgstr "Tema BS Custom"
 
 #: functions.php:197
 #, php-format
@@ -129,8 +129,8 @@ msgid "Footer Column %d"
 msgstr "Columna del pie de p&aacute;gina %d"
 
 #: functions.php:229
-msgid "CT Custom"
-msgstr "CT Custom"
+msgid "BS Custom"
+msgstr "BS Custom"
 
 #: header.php:33
 msgid "Skip to content"
@@ -157,7 +157,7 @@ msgid "A longer description of your site, used in schema.org structured data."
 msgstr "Una descripci&oacute;n m&aacute;s extensa de tu sitio, utilizada en los datos estructurados de schema.org."
 
 #: inc/customizer_theme.php:26
-msgid "CT Theme Settings"
+msgid "BS Theme Settings"
 msgstr "Ajustes del tema CT"
 
 #: inc/customizer_theme.php:60
@@ -426,8 +426,8 @@ msgstr "Etiquetado %1$s"
 
 #: inc/template-tags.php:82
 #, php-format
-msgid "Leave a Comment<span class=\"screen-reader-text\"> on %s</span>"
-msgstr "Deja un comentario<span class=\"screen-reader-text\"> en %s</span>"
+msgid "Leave a Comment<span class=\"screen-reader-text\"> on n
+msgstr "Deja un comentario<span class=\"screen-reader-text\"> en n
 
 #: inc/template-tags.php:99 template-parts/content-page.php:37
 #, php-format
@@ -435,8 +435,8 @@ msgid "Edit <span class=\"screen-reader-text\">%s</span>"
 msgstr "Editar <span class=\"screen-reader-text\">%s</span>"
 
 #: inc/widgets/class-ct-company-info-widget.php:19
-msgid "CT Custom: Company Info"
-msgstr "CT Custom: Informaci&oacute;n de la empresa"
+msgid "BS Custom: Company Info"
+msgstr "BS Custom: Informaci&oacute;n de la empresa"
 
 #: inc/widgets/class-ct-company-info-widget.php:21
 msgid "Displays company logo, PIB, MB, and description."
@@ -481,8 +481,8 @@ msgid "Description:"
 msgstr "Descripci&oacute;n:"
 
 #: inc/widgets/class-ct-contact-point-widget.php:18
-msgid "CT Custom: Contact Point"
-msgstr "CT Custom: Punto de contacto"
+msgid "BS Custom: Contact Point"
+msgstr "BS Custom: Punto de contacto"
 
 #: inc/widgets/class-ct-contact-point-widget.php:20
 msgid "Displays contact point data from admin settings."
@@ -504,16 +504,16 @@ msgid "Email:"
 msgstr "Correo electr&oacute;nico:"
 
 #: inc/widgets/class-ct-contact-point-widget.php:135
-msgid "Contact data is read from CT Custom Theme > Contact Point settings."
-msgstr "Los datos de contacto se leen desde Tema CT Custom > Ajustes de punto de contacto."
+msgid "Contact data is read from BS Custom Theme > Contact Point settings."
+msgstr "Los datos de contacto se leen desde Tema BS Custom > Ajustes de punto de contacto."
 
 #: inc/widgets/class-ct-social-icons-widget.php:18
-msgid "CT Custom: Social Icons"
-msgstr "CT Custom: Iconos sociales"
+msgid "BS Custom: Social Icons"
+msgstr "BS Custom: Iconos sociales"
 
 #: inc/widgets/class-ct-social-icons-widget.php:20
-msgid "Displays social network icons from CT Custom Theme Settings."
-msgstr "Muestra los iconos de redes sociales desde los ajustes del tema CT Custom."
+msgid "Displays social network icons from BS Custom Theme Settings."
+msgstr "Muestra los iconos de redes sociales desde los ajustes del tema BS Custom."
 
 #: inc/widgets/class-ct-social-icons-widget.php:43
 #: template-admin/partials/add-social-networks.php:14
@@ -528,8 +528,8 @@ msgid "Share with a friend"
 msgstr "Compartir con un amigo"
 
 #: inc/widgets/class-ct-social-icons-widget.php:118
-msgid "Icons are managed in CT Custom Theme > Social Networks settings."
-msgstr "Los iconos se gestionan en Tema CT Custom > Ajustes de redes sociales."
+msgid "Icons are managed in BS Custom Theme > Social Networks settings."
+msgstr "Los iconos se gestionan en Tema BS Custom > Ajustes de redes sociales."
 
 #: inc/woocommerce.php:227
 msgid "View your shopping cart"
@@ -689,8 +689,8 @@ msgstr ""
 "sobrescribir&aacute; los valores actuales."
 
 #: template-admin/template-admin-main.php:9
-msgid "CT Custom Theme Settings"
-msgstr "Ajustes del tema CT Custom"
+msgid "BS Custom Theme Settings"
+msgstr "Ajustes del tema BS Custom"
 
 #: template-admin/template-admin-main.php:32
 msgid "Export / Import"
@@ -715,7 +715,7 @@ msgstr "No se encontr&oacute; nada"
 #: template-parts/content-none.php:24
 #, php-format
 msgid ""
-"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+"Ready to publish your first post? <a href=\"%1$s\">Get started tarted
 msgstr ""
 "&iquest;Listo para publicar tu primera entrada? <a href=\"%1$s\">Comienza aqu&iacute;</a>."
 

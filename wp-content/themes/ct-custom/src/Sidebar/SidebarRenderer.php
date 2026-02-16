@@ -6,10 +6,10 @@
  * on the frontend. Supports global widget areas and custom
  * content extracted from ct-custom/sidebar-content blocks.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Sidebar;
+namespace BSCustom\Sidebar;
 
 /**
  * Singleton renderer for sidebar output.

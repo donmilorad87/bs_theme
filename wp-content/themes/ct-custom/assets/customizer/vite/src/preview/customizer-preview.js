@@ -7,7 +7,7 @@
  *
  * Depends on wp.customize and jQuery (provided by WordPress).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 var MAX_COLOR_VARS = 50;
@@ -45,42 +45,42 @@ CustomizerPreview.prototype._buildColorVariableMap = function () {
     assert(typeof this._api === 'function', 'API required');
 
     return {
-        '--ct-topbar-bg-color':            ['ct_topbar_bg_color', 'ct_topbar_bg_color_dark'],
-        '--ct-topbar-text1-color':         ['ct_topbar_text1_color', 'ct_topbar_text1_color_dark'],
-        '--ct-topbar-text2-color':         ['ct_topbar_text2_color', 'ct_topbar_text2_color_dark'],
-        '--ct-topbar-links-color':         ['ct_topbar_links_color', 'ct_topbar_links_color_dark'],
-        '--ct-topbar-links-hover-color':   ['ct_topbar_links_hover_color', 'ct_topbar_links_hover_color_dark'],
-        '--ct-header-bg-color':            ['ct_header_bg_color', 'ct_header_bg_color_dark'],
-        '--ct-header-border-color':        ['ct_header_border_color', 'ct_header_border_color_dark'],
-        '--ct-site-title-color':           ['ct_site_title_color', 'ct_site_title_color_dark'],
-        '--ct-menu-top-color':             ['ct_menu_top_color', 'ct_menu_top_color_dark'],
+        '--ct-topbar-bg-color': ['ct_topbar_bg_color', 'ct_topbar_bg_color_dark'],
+        '--ct-topbar-text1-color': ['ct_topbar_text1_color', 'ct_topbar_text1_color_dark'],
+        '--ct-topbar-text2-color': ['ct_topbar_text2_color', 'ct_topbar_text2_color_dark'],
+        '--ct-topbar-links-color': ['ct_topbar_links_color', 'ct_topbar_links_color_dark'],
+        '--ct-topbar-links-hover-color': ['ct_topbar_links_hover_color', 'ct_topbar_links_hover_color_dark'],
+        '--ct-header-bg-color': ['ct_header_bg_color', 'ct_header_bg_color_dark'],
+        '--ct-header-border-color': ['ct_header_border_color', 'ct_header_border_color_dark'],
+        '--ct-site-title-color': ['ct_site_title_color', 'ct_site_title_color_dark'],
+        '--ct-menu-top-color': ['ct_menu_top_color', 'ct_menu_top_color_dark'],
         '--ct-menu-active-underline-color': ['ct_menu_active_underline_color', 'ct_menu_active_underline_color_dark'],
-        '--ct-menu-sub-color':             ['ct_menu_sub_color', 'ct_menu_sub_color_dark'],
-        '--ct-menu-sub-border-color':      ['ct_menu_sub_border_color', 'ct_menu_sub_border_color_dark'],
-        '--ct-menu-sub-bg-color':          ['ct_menu_sub_bg_color', 'ct_menu_sub_bg_color_dark'],
-        '--ct-menu-sub-hover-bg-color':    ['ct_menu_sub_hover_bg_color', 'ct_menu_sub_hover_bg_color_dark'],
-        '--ct-mobile-menu-bg-color':       ['ct_mobile_menu_bg_color', 'ct_mobile_menu_bg_color_dark'],
-        '--ct-mobile-menu-border-color':   ['ct_mobile_menu_border_color', 'ct_mobile_menu_border_color_dark'],
-        '--ct-breadcrumb-color':           ['ct_breadcrumb_color', 'ct_breadcrumb_color_dark'],
-        '--ct-breadcrumb-active-color':    ['ct_breadcrumb_active_color', 'ct_breadcrumb_active_color_dark'],
-        '--ct-body-bg-color':              ['ct_body_bg_color', 'ct_body_bg_color_dark'],
-        '--ct-h1-color':                   ['ct_h1_color', 'ct_h1_color_dark'],
-        '--ct-h2-color':                   ['ct_h2_color', 'ct_h2_color_dark'],
-        '--ct-h3-color':                   ['ct_h3_color', 'ct_h3_color_dark'],
-        '--ct-h4-color':                   ['ct_h4_color', 'ct_h4_color_dark'],
-        '--ct-h5-color':                   ['ct_h5_color', 'ct_h5_color_dark'],
-        '--ct-paragraph-color':            ['ct_paragraph_color', 'ct_paragraph_color_dark'],
-        '--ct-special-color':              ['ct_special_color', 'ct_special_color_dark'],
-        '--ct-form-input-bg-color':        ['ct_form_input_bg_color', 'ct_form_input_bg_color_dark'],
-        '--ct-form-input-border-color':    ['ct_form_input_border_color', 'ct_form_input_border_color_dark'],
-        '--ct-form-submit-hover-color':    ['ct_form_submit_hover_color', 'ct_form_submit_hover_color_dark'],
-        '--ct-footer-bg-color':            ['ct_footer_bg_color', 'ct_footer_bg_color_dark'],
-        '--ct-footer-text-color':          ['ct_footer_text_color', 'ct_footer_text_color_dark'],
-        '--ct-footer-link-color':          ['ct_footer_link_color', 'ct_footer_link_color_dark'],
-        '--ct-footer-link-hover-color':    ['ct_footer_link_hover_color', 'ct_footer_link_hover_color_dark'],
-        '--ct-social-bg-color':            ['ct_social_bg_color', 'ct_social_bg_color_dark'],
-        '--ct-back-to-top-bg':             ['ct_back_to_top_bg_color', 'ct_back_to_top_bg_color_dark'],
-        '--ct-back-to-top-border-color':   ['ct_back_to_top_border_color', 'ct_back_to_top_border_color_dark'],
+        '--ct-menu-sub-color': ['ct_menu_sub_color', 'ct_menu_sub_color_dark'],
+        '--ct-menu-sub-border-color': ['ct_menu_sub_border_color', 'ct_menu_sub_border_color_dark'],
+        '--ct-menu-sub-bg-color': ['ct_menu_sub_bg_color', 'ct_menu_sub_bg_color_dark'],
+        '--ct-menu-sub-hover-bg-color': ['ct_menu_sub_hover_bg_color', 'ct_menu_sub_hover_bg_color_dark'],
+        '--ct-mobile-menu-bg-color': ['ct_mobile_menu_bg_color', 'ct_mobile_menu_bg_color_dark'],
+        '--ct-mobile-menu-border-color': ['ct_mobile_menu_border_color', 'ct_mobile_menu_border_color_dark'],
+        '--ct-breadcrumb-color': ['ct_breadcrumb_color', 'ct_breadcrumb_color_dark'],
+        '--ct-breadcrumb-active-color': ['ct_breadcrumb_active_color', 'ct_breadcrumb_active_color_dark'],
+        '--ct-body-bg-color': ['ct_body_bg_color', 'ct_body_bg_color_dark'],
+        '--ct-h1-color': ['ct_h1_color', 'ct_h1_color_dark'],
+        '--ct-h2-color': ['ct_h2_color', 'ct_h2_color_dark'],
+        '--ct-h3-color': ['ct_h3_color', 'ct_h3_color_dark'],
+        '--ct-h4-color': ['ct_h4_color', 'ct_h4_color_dark'],
+        '--ct-h5-color': ['ct_h5_color', 'ct_h5_color_dark'],
+        '--ct-paragraph-color': ['ct_paragraph_color', 'ct_paragraph_color_dark'],
+        '--ct-special-color': ['ct_special_color', 'ct_special_color_dark'],
+        '--ct-form-input-bg-color': ['ct_form_input_bg_color', 'ct_form_input_bg_color_dark'],
+        '--ct-form-input-border-color': ['ct_form_input_border_color', 'ct_form_input_border_color_dark'],
+        '--ct-form-submit-hover-color': ['ct_form_submit_hover_color', 'ct_form_submit_hover_color_dark'],
+        '--ct-footer-bg-color': ['ct_footer_bg_color', 'ct_footer_bg_color_dark'],
+        '--ct-footer-text-color': ['ct_footer_text_color', 'ct_footer_text_color_dark'],
+        '--ct-footer-link-color': ['ct_footer_link_color', 'ct_footer_link_color_dark'],
+        '--ct-footer-link-hover-color': ['ct_footer_link_hover_color', 'ct_footer_link_hover_color_dark'],
+        '--ct-social-bg-color': ['ct_social_bg_color', 'ct_social_bg_color_dark'],
+        '--ct-back-to-top-bg': ['ct_back_to_top_bg_color', 'ct_back_to_top_bg_color_dark'],
+        '--ct-back-to-top-border-color': ['ct_back_to_top_border_color', 'ct_back_to_top_border_color_dark'],
     };
 };
 
@@ -150,7 +150,7 @@ CustomizerPreview.prototype._resolvePluralCategory = function (iso2, count) {
     assert(typeof count === 'number', 'count must be a number');
 
     var n = Math.abs(count);
-    var mod10  = n % 10;
+    var mod10 = n % 10;
     var mod100 = n % 100;
 
     var noPluralLangs = ['ja', 'zh', 'ko', 'tr', 'vi', 'th', 'id', 'ms'];
@@ -347,27 +347,27 @@ CustomizerPreview.prototype._resolveCtTranslateAsync = function (value, selector
             },
             body: JSON.stringify({ text: value, iso2: iso2 }),
         })
-        .then(function (res) {
-            if (!res.ok) {
-                throw new Error('HTTP ' + res.status);
-            }
-            return res.json();
-        })
-        .then(function (response) {
-            if (response && response.success && response.data && response.data.resolved) {
-                $(selector).text(response.data.resolved);
-            } else {
-                console.warn('[ct-preview] ct_translate API returned unexpected response:', response);
-            }
-        })
-        .catch(function (err) {
-            console.error('[ct-preview] ct_translate fetch failed (attempt ' + (attempt + 1) + '):', err.message, 'URL:', url);
-            if (attempt < MAX_RETRIES) {
-                setTimeout(function () { doRequest(attempt + 1); }, RETRY_DELAY_MS);
-            } else {
-                console.error('[ct-preview] ct_translate resolution failed after ' + (MAX_RETRIES + 1) + ' attempts for:', value);
-            }
-        });
+            .then(function (res) {
+                if (!res.ok) {
+                    throw new Error('HTTP ' + res.status);
+                }
+                return res.json();
+            })
+            .then(function (response) {
+                if (response && response.success && response.data && response.data.resolved) {
+                    $(selector).text(response.data.resolved);
+                } else {
+                    console.warn('[ct-preview] ct_translate API returned unexpected response:', response);
+                }
+            })
+            .catch(function (err) {
+                console.error('[ct-preview] ct_translate fetch failed (attempt ' + (attempt + 1) + '):', err.message, 'URL:', url);
+                if (attempt < MAX_RETRIES) {
+                    setTimeout(function () { doRequest(attempt + 1); }, RETRY_DELAY_MS);
+                } else {
+                    console.error('[ct-preview] ct_translate resolution failed after ' + (MAX_RETRIES + 1) + ' attempts for:', value);
+                }
+            });
     }
 
     this._translateTimers[selector] = setTimeout(function () {
@@ -455,18 +455,18 @@ CustomizerPreview.prototype._scanPageTranslations = function () {
                 },
                 body: JSON.stringify({ text: text, iso2: iso2 }),
             })
-            .then(function (res) {
-                if (!res.ok) { throw new Error('HTTP ' + res.status); }
-                return res.json();
-            })
-            .then(function (response) {
-                if (response && response.success && response.data && response.data.resolved) {
-                    textNode.textContent = response.data.resolved;
-                }
-            })
-            .catch(function (err) {
-                console.warn('[ct-preview] scan: async resolve failed:', err.message);
-            });
+                .then(function (res) {
+                    if (!res.ok) { throw new Error('HTTP ' + res.status); }
+                    return res.json();
+                })
+                .then(function (response) {
+                    if (response && response.success && response.data && response.data.resolved) {
+                        textNode.textContent = response.data.resolved;
+                    }
+                })
+                .catch(function (err) {
+                    console.warn('[ct-preview] scan: async resolve failed:', err.message);
+                });
         })(unresolvedNodes[j]);
     }
 };
@@ -961,7 +961,7 @@ CustomizerPreview.prototype._bindContactPoint = function () {
     var api = this._api;
     var MAX_BLOCKS = 10;
 
-    api('ct_custom_contact_point', function (value) {
+    api('bs_custom_contact_point', function (value) {
         value.bind(function (raw) {
             var cp = {};
             if (raw && typeof raw === 'string') {
@@ -1056,7 +1056,7 @@ CustomizerPreview.prototype._bindFontPreview = function () {
     function updateFontStyle() {
         var enabled = api('ct_font_enabled') ? api('ct_font_enabled').get() : false;
         var faceCss = api('ct_font_face_css') ? api('ct_font_face_css').get() : '';
-        var family  = api('ct_font_family') ? api('ct_font_family').get() : '';
+        var family = api('ct_font_family') ? api('ct_font_family').get() : '';
 
         var styleEl = ensureStyleEl();
 

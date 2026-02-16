@@ -1,6 +1,6 @@
 {
     "name": "ct-custom/theme",
-    "description": "CT Custom WordPress theme dependencies",
+    "description": "BS Custom WordPress theme dependencies",
     "type": "project",
     "require": {
         "php": ">=8.1",
@@ -12,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "CTCustom\\": "src/"
+            "BSCustom\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "CTCustom\\Tests\\Multilang\\": "tests/multilang/",
-            "CTCustom\\Tests\\Auth\\": "tests/auth/"
+            "BSCustom\\Tests\\Multilang\\": "tests/multilang/",
+            "BSCustom\\Tests\\Auth\\": "tests/auth/"
         }
     },
     "config": {

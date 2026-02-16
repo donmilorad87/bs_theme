@@ -5,7 +5,7 @@
  * fires a ct-font-family-changed custom event so the font-weights
  * module can update its available variant checkboxes.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { assert } from './utils.js';

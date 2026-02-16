@@ -3,7 +3,7 @@
  *
  * Duplicated from frontend/vite/src/js/profile-page.js for standalone profile bundle.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import AuthStore from './auth/auth-store.js';

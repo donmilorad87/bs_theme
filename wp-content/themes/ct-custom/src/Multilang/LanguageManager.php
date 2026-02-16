@@ -5,10 +5,10 @@
  * Manages the languages.json registry file with file-locking
  * for concurrent write safety.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class LanguageManager {
 

@@ -7,17 +7,17 @@
  * generates a 6-digit activation code, and sends it via email.
  * Rate limited: 3 registrations per IP per hour.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\CodeGenerator;
-use CTCustom\RestApi\PasswordValidator;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\CodeGenerator;
+use BSCustom\RestApi\PasswordValidator;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class Register {
 

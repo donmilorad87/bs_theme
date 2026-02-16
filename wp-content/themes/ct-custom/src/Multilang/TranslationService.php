@@ -5,10 +5,10 @@
  * Static utility class that resolves `ct_translate()` patterns
  * in customizer and block editor values.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class TranslationService {
 

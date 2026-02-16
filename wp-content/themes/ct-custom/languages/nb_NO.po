@@ -1,14 +1,14 @@
-# Norwegian Bokmal translation for CT Custom theme.
-# Copyright (C) 2026 Coalition Technologies
-# This file is distributed under the same license as the CT Custom package.
+# Norwegian Bokmal translation for BS Custom theme.
+# Copyright (C) 2026 Blazing Sun
+# This file is distributed under the same license as the BS Custom package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: CT Custom 1.0.0\n"
+"Project-Id-Version: BS Custom 1.0.0\n"
 "Report-Msgid-Bugs-To: support@coalitiontechnologies.com\n"
 "POT-Creation-Date: 2026-02-08 02:12+0100\n"
 "PO-Revision-Date: 2026-02-08 12:00+0100\n"
-"Last-Translator: CT Custom Team <support@coalitiontechnologies.com>\n"
+"Last-Translator: BS Custom Team <support@coalitiontechnologies.com>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
@@ -83,8 +83,8 @@ msgid "Invalid JSON format."
 msgstr "Ugyldig JSON-format."
 
 #: core/admin_ajax_trait.php:119
-msgid "This export file is not from the CT Custom theme."
-msgstr "Denne eksportfilen er ikke fra CT Custom-temaet."
+msgid "This export file is not from the BS Custom theme."
+msgstr "Denne eksportfilen er ikke fra BS Custom-temaet."
 
 #: core/admin_ajax_trait.php:125
 msgid "Settings imported successfully."
@@ -120,8 +120,8 @@ msgid "Footer Menu"
 msgstr "Bunntekstmeny"
 
 #: functions.php:103 functions.php:104
-msgid "CT Custom Theme"
-msgstr "CT Custom-tema"
+msgid "BS Custom Theme"
+msgstr "BS Custom-tema"
 
 #: functions.php:197
 #, php-format
@@ -129,8 +129,8 @@ msgid "Footer Column %d"
 msgstr "Bunntekstkolonne %d"
 
 #: functions.php:229
-msgid "CT Custom"
-msgstr "CT Custom"
+msgid "BS Custom"
+msgstr "BS Custom"
 
 #: header.php:33
 msgid "Skip to content"
@@ -157,7 +157,7 @@ msgid "A longer description of your site, used in schema.org structured data."
 msgstr "En lengre beskrivelse av nettstedet ditt, brukt i schema.org-strukturerte data."
 
 #: inc/customizer_theme.php:26
-msgid "CT Theme Settings"
+msgid "BS Theme Settings"
 msgstr "CT-temainnstillinger"
 
 #: inc/customizer_theme.php:60
@@ -435,8 +435,8 @@ msgid "Edit <span class=\"screen-reader-text\">%s</span>"
 msgstr "Rediger <span class=\"screen-reader-text\">%s</span>"
 
 #: inc/widgets/class-ct-company-info-widget.php:19
-msgid "CT Custom: Company Info"
-msgstr "CT Custom: Firmainformasjon"
+msgid "BS Custom: Company Info"
+msgstr "BS Custom: Firmainformasjon"
 
 #: inc/widgets/class-ct-company-info-widget.php:21
 msgid "Displays company logo, PIB, MB, and description."
@@ -481,8 +481,8 @@ msgid "Description:"
 msgstr "Beskrivelse:"
 
 #: inc/widgets/class-ct-contact-point-widget.php:18
-msgid "CT Custom: Contact Point"
-msgstr "CT Custom: Kontaktpunkt"
+msgid "BS Custom: Contact Point"
+msgstr "BS Custom: Kontaktpunkt"
 
 #: inc/widgets/class-ct-contact-point-widget.php:20
 msgid "Displays contact point data from admin settings."
@@ -504,16 +504,16 @@ msgid "Email:"
 msgstr "E-post:"
 
 #: inc/widgets/class-ct-contact-point-widget.php:135
-msgid "Contact data is read from CT Custom Theme > Contact Point settings."
-msgstr "Kontaktdata leses fra CT Custom-tema > Kontaktpunkt-innstillinger."
+msgid "Contact data is read from BS Custom Theme > Contact Point settings."
+msgstr "Kontaktdata leses fra BS Custom-tema > Kontaktpunkt-innstillinger."
 
 #: inc/widgets/class-ct-social-icons-widget.php:18
-msgid "CT Custom: Social Icons"
-msgstr "CT Custom: Sosiale ikoner"
+msgid "BS Custom: Social Icons"
+msgstr "BS Custom: Sosiale ikoner"
 
 #: inc/widgets/class-ct-social-icons-widget.php:20
-msgid "Displays social network icons from CT Custom Theme Settings."
-msgstr "Viser ikoner for sosiale nettverk fra CT Custom-temainnstillinger."
+msgid "Displays social network icons from BS Custom Theme Settings."
+msgstr "Viser ikoner for sosiale nettverk fra BS Custom-temainnstillinger."
 
 #: inc/widgets/class-ct-social-icons-widget.php:43
 #: template-admin/partials/add-social-networks.php:14
@@ -528,8 +528,8 @@ msgid "Share with a friend"
 msgstr "Del med en venn"
 
 #: inc/widgets/class-ct-social-icons-widget.php:118
-msgid "Icons are managed in CT Custom Theme > Social Networks settings."
-msgstr "Ikoner administreres i CT Custom-tema > Sosiale nettverk-innstillinger."
+msgid "Icons are managed in BS Custom Theme > Social Networks settings."
+msgstr "Ikoner administreres i BS Custom-tema > Sosiale nettverk-innstillinger."
 
 #: inc/woocommerce.php:227
 msgid "View your shopping cart"
@@ -689,8 +689,8 @@ msgstr ""
 "overskrive gjeldende verdier."
 
 #: template-admin/template-admin-main.php:9
-msgid "CT Custom Theme Settings"
-msgstr "CT Custom-temainnstillinger"
+msgid "BS Custom Theme Settings"
+msgstr "BS Custom-temainnstillinger"
 
 #: template-admin/template-admin-main.php:32
 msgid "Export / Import"

@@ -5,10 +5,10 @@
  * Requires WP stubs, resets global state between tests,
  * and provides helpers for creating mock requests and test users.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
 use PHPUnit\Framework\TestCase;
 
@@ -110,7 +110,7 @@ abstract class AuthTestCase extends TestCase {
      * @param int    $expiration_hours Token lifetime in hours.
      */
     protected function setJwtConfig( string $secret, int $expiration_hours = 24 ): void {
-        $GLOBALS['ct_test_options']['ct_custom_jwt_auth'] = json_encode( array(
+        $GLOBALS['ct_test_options']['bs_custom_jwt_auth'] = json_encode( array(
             'secret'           => $secret,
             'expiration_hours' => $expiration_hours,
         ) );
@@ -152,7 +152,7 @@ abstract class AuthTestCase extends TestCase {
      * @return string JWT token.
      */
     protected function issueToken( int $user_id ): string {
-        $service = new \CTCustom\Services\JwtService();
+        $service = new \BSCustom\Services\JwtService();
         $token   = $service->issue( $user_id );
         assert( is_string( $token ), 'Token must be a string' );
         return $token;

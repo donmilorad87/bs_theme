@@ -4,7 +4,7 @@
  *
  * Auth page with Sign In / Register tabs and password reset flows.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 assert( function_exists( 'is_user_logged_in' ), 'is_user_logged_in must exist' );
@@ -12,7 +12,7 @@ assert( function_exists( 'wp_safe_redirect' ), 'wp_safe_redirect must exist' );
 
 /* Redirect logged-in users to profile page */
 if ( is_user_logged_in() ) {
-	$ct_profile_url = ct_custom_get_profile_page_url();
+	$ct_profile_url = bs_custom_get_profile_page_url();
 	if ( $ct_profile_url ) {
 		wp_safe_redirect( $ct_profile_url );
 		exit;

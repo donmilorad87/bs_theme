@@ -5,29 +5,29 @@
  * Registers all authentication REST API routes on rest_api_init.
  * Instantiates each endpoint class and calls its register() method.
  *
- * @package CTCustom\RestApi
+ * @package BSCustom\RestApi
  */
 
-namespace CTCustom\RestApi;
+namespace BSCustom\RestApi;
 
-use CTCustom\RestApi\Endpoints\Login;
-use CTCustom\RestApi\Endpoints\Register;
-use CTCustom\RestApi\Endpoints\Logout;
-use CTCustom\RestApi\Endpoints\ForgotPassword;
-use CTCustom\RestApi\Endpoints\VerifyActivation;
-use CTCustom\RestApi\Endpoints\ResendActivation;
-use CTCustom\RestApi\Endpoints\VerifyResetCode;
-use CTCustom\RestApi\Endpoints\ResetPassword;
-use CTCustom\RestApi\Endpoints\FormTemplate;
-use CTCustom\RestApi\Endpoints\ProfileUpdate;
-use CTCustom\RestApi\Endpoints\ProfileChangePassword;
-use CTCustom\RestApi\Endpoints\ProfileUploadAvatar;
-use CTCustom\RestApi\Endpoints\ContactSubmit;
-use CTCustom\RestApi\Endpoints\ContactMessages;
-use CTCustom\RestApi\Endpoints\ContactMarkRead;
-use CTCustom\RestApi\Endpoints\ContactDelete;
-use CTCustom\RestApi\Endpoints\ContactReply;
-use CTCustom\RestApi\Endpoints\ContactUserMessages;
+use BSCustom\RestApi\Endpoints\Login;
+use BSCustom\RestApi\Endpoints\Register;
+use BSCustom\RestApi\Endpoints\Logout;
+use BSCustom\RestApi\Endpoints\ForgotPassword;
+use BSCustom\RestApi\Endpoints\VerifyActivation;
+use BSCustom\RestApi\Endpoints\ResendActivation;
+use BSCustom\RestApi\Endpoints\VerifyResetCode;
+use BSCustom\RestApi\Endpoints\ResetPassword;
+use BSCustom\RestApi\Endpoints\FormTemplate;
+use BSCustom\RestApi\Endpoints\ProfileUpdate;
+use BSCustom\RestApi\Endpoints\ProfileChangePassword;
+use BSCustom\RestApi\Endpoints\ProfileUploadAvatar;
+use BSCustom\RestApi\Endpoints\ContactSubmit;
+use BSCustom\RestApi\Endpoints\ContactMessages;
+use BSCustom\RestApi\Endpoints\ContactMarkRead;
+use BSCustom\RestApi\Endpoints\ContactDelete;
+use BSCustom\RestApi\Endpoints\ContactReply;
+use BSCustom\RestApi\Endpoints\ContactUserMessages;
 
 class AuthRestController {
 

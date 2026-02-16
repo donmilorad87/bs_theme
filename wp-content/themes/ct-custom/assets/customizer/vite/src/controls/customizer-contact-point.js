@@ -6,7 +6,7 @@
  * Syncs data to a hidden textarea bound to the Customizer setting
  * so "Publish" persists changes via the standard Customizer flow.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { assert, escapeHtml } from './utils.js';
@@ -21,9 +21,9 @@ function CustomizerContactPoint(settingId) {
     assert(typeof settingId === 'string', 'settingId must be a string');
     assert(settingId.length > 0, 'settingId must not be empty');
 
-    this.settingId    = settingId;
-    this.container    = null;
-    this.textarea     = null;
+    this.settingId = settingId;
+    this.container = null;
+    this.textarea = null;
     this._debounceTimer = null;
 }
 
@@ -31,7 +31,7 @@ CustomizerContactPoint.prototype.init = function (container) {
     assert(container instanceof HTMLElement, 'container must be an HTMLElement');
 
     this.container = container;
-    this.textarea  = container.parentElement.querySelector('.ct-contact-point-textarea');
+    this.textarea = container.parentElement.querySelector('.ct-contact-point-textarea');
 
     assert(this.textarea instanceof HTMLTextAreaElement, 'textarea must exist');
 
@@ -41,7 +41,7 @@ CustomizerContactPoint.prototype.init = function (container) {
 /* --- Data access --- */
 
 CustomizerContactPoint.prototype._getData = function () {
-    var raw    = this.textarea.value;
+    var raw = this.textarea.value;
     var parsed = {};
 
     try {
@@ -55,17 +55,17 @@ CustomizerContactPoint.prototype._getData = function () {
     }
 
     return {
-        telephone:    parsed.telephone    || '',
-        fax_number:   parsed.fax_number   || '',
-        email:        parsed.email        || '',
+        telephone: parsed.telephone || '',
+        fax_number: parsed.fax_number || '',
+        email: parsed.email || '',
         contact_type: parsed.contact_type || 'customer service',
         address: {
-            street_number:  (parsed.address && parsed.address.street_number)  || '',
+            street_number: (parsed.address && parsed.address.street_number) || '',
             street_address: (parsed.address && parsed.address.street_address) || '',
-            city:           (parsed.address && parsed.address.city)           || '',
-            state:          (parsed.address && parsed.address.state)          || '',
-            postal_code:    (parsed.address && parsed.address.postal_code)    || '',
-            country:        (parsed.address && parsed.address.country)        || ''
+            city: (parsed.address && parsed.address.city) || '',
+            state: (parsed.address && parsed.address.state) || '',
+            postal_code: (parsed.address && parsed.address.postal_code) || '',
+            country: (parsed.address && parsed.address.country) || ''
         }
     };
 };
@@ -85,16 +85,16 @@ CustomizerContactPoint.prototype._setData = function (data) {
 /* --- Rendering --- */
 
 CustomizerContactPoint.prototype._renderForm = function () {
-    var data    = this._getData();
-    var self    = this;
+    var data = this._getData();
+    var self = this;
     var control = wp.customize.control(this.settingId);
     var choices = (control && control.params && control.params.contact_type_choices)
         ? control.params.contact_type_choices
         : { 'customer service': 'Customer Service' };
 
     var optionsHtml = '';
-    var choiceKeys  = Object.keys(choices);
-    var maxChoices  = 20;
+    var choiceKeys = Object.keys(choices);
+    var maxChoices = 20;
     var choiceCount = 0;
 
     for (var i = 0; i < choiceKeys.length; i++) {
@@ -103,11 +103,11 @@ CustomizerContactPoint.prototype._renderForm = function () {
         }
         choiceCount++;
 
-        var key   = choiceKeys[i];
+        var key = choiceKeys[i];
         var label = choices[key];
-        var sel   = (data.contact_type === key) ? ' selected' : '';
+        var sel = (data.contact_type === key) ? ' selected' : '';
         optionsHtml += '<option value="' + escapeHtml(key) + '"' + sel + '>'
-                     + escapeHtml(label) + '</option>';
+            + escapeHtml(label) + '</option>';
     }
 
     this.container.innerHTML =
@@ -179,11 +179,11 @@ CustomizerContactPoint.prototype._renderForm = function () {
         + '</div>';
 
     /* Bind change events */
-    var form    = this.container.querySelector('.ct-cp-form');
-    var inputs  = form.querySelectorAll('input, select');
+    var form = this.container.querySelector('.ct-cp-form');
+    var inputs = form.querySelectorAll('input, select');
     var handler = function () { self._onFieldChange(); };
-    var max     = 20;
-    var count   = 0;
+    var max = 20;
+    var count = 0;
 
     for (var j = 0; j < inputs.length; j++) {
         if (count >= max) {
@@ -203,17 +203,17 @@ CustomizerContactPoint.prototype._readForm = function () {
     assert(form instanceof HTMLElement, 'form must exist');
 
     return {
-        telephone:    form.querySelector('.ct-cp-telephone').value,
-        fax_number:   form.querySelector('.ct-cp-fax').value,
-        email:        form.querySelector('.ct-cp-email').value,
+        telephone: form.querySelector('.ct-cp-telephone').value,
+        fax_number: form.querySelector('.ct-cp-fax').value,
+        email: form.querySelector('.ct-cp-email').value,
         contact_type: form.querySelector('.ct-cp-contact-type').value,
         address: {
-            street_number:  form.querySelector('.ct-cp-street-number').value,
+            street_number: form.querySelector('.ct-cp-street-number').value,
             street_address: form.querySelector('.ct-cp-street-address').value,
-            city:           form.querySelector('.ct-cp-city').value,
-            state:          form.querySelector('.ct-cp-state').value,
-            postal_code:    form.querySelector('.ct-cp-postal-code').value,
-            country:        form.querySelector('.ct-cp-country').value
+            city: form.querySelector('.ct-cp-city').value,
+            state: form.querySelector('.ct-cp-state').value,
+            postal_code: form.querySelector('.ct-cp-postal-code').value,
+            country: form.querySelector('.ct-cp-country').value
         }
     };
 };
@@ -236,12 +236,12 @@ CustomizerContactPoint.prototype._onFieldChange = function () {
 /* --- Bootstrap --- */
 
 export function init() {
-    wp.customize.control('ct_custom_contact_point', function (control) {
+    wp.customize.control('bs_custom_contact_point', function (control) {
         control.deferred.embedded.done(function () {
             var container = control.container.find('.ct-contact-point-control')[0];
 
             if (container) {
-                var instance = new CustomizerContactPoint('ct_custom_contact_point');
+                var instance = new CustomizerContactPoint('bs_custom_contact_point');
                 instance.init(container);
             }
         });

@@ -5,7 +5,7 @@
  * navigator.share(), this class removes the buttons from the DOM.
  * If supported, attaches click handlers to all .share-with-friend elements.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const MAX_BUTTONS = 20;

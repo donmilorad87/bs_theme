@@ -2,10 +2,10 @@
 /**
  * Tests for RestLogger trait.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
 class RestLoggerTest extends AuthTestCase {
 
@@ -16,7 +16,7 @@ class RestLoggerTest extends AuthTestCase {
         parent::setUp();
 
         $this->logger = new class {
-            use \CTCustom\RestApi\RestLogger;
+            use \BSCustom\RestApi\RestLogger;
 
             public function callLog( string $message ): void {
                 $this->log( $message );

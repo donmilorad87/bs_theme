@@ -5,16 +5,16 @@
  * Verifies a 6-digit activation code and activates the user account.
  * POST /wp-json/ct-auth/v1/verify-activation
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\CodeGenerator;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\CodeGenerator;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class VerifyActivation {
 

@@ -1,5 +1,5 @@
 /**
- * CT Team Members — Frontend handler.
+ * BS Team Members — Frontend handler.
  *
  * - "Meet Our Team" button reveals hidden members; toggles to "Hide".
  * - "Hide" button collapses back to initial state.
@@ -9,7 +9,7 @@
 (function () {
     'use strict';
 
-    var MAX_BLOCKS  = 20;
+    var MAX_BLOCKS = 20;
     var MAX_MEMBERS = 200;
 
     var blocks = document.querySelectorAll('.wp-block-ct-custom-team-members');
@@ -100,14 +100,14 @@
             members[i].classList.remove('team-member--last-of-row');
 
             var rect = members[i].getBoundingClientRect();
-            var top  = Math.round(rect.top);
+            var top = Math.round(rect.top);
 
             /* If this tile is on a new row, mark the previous tile as last-of-row */
             if (prevTop !== -1 && top !== prevTop && prevMember) {
                 prevMember.classList.add('team-member--last-of-row');
             }
 
-            prevTop    = top;
+            prevTop = top;
             prevMember = members[i];
         }
 

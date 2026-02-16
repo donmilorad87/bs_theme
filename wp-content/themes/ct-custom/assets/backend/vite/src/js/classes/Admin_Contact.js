@@ -4,7 +4,7 @@
  * Handles messages list, mark read, delete, reply,
  * pointer CRUD, and badge count.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const MAX_MESSAGES = 100;
@@ -15,7 +15,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default class Admin_Contact {
 
     /**
-     * @param {Admin_CT_Custom} parent Parent admin class.
+     * @param {Admin_BS_Custom} parent Parent admin class.
      */
     constructor(parent) {
         this._parent = parent;

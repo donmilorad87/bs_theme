@@ -5,10 +5,10 @@
  * Delegates every call to the namespaced singleton so that
  * existing theme templates continue to work without changes.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Sidebar\SidebarRenderer;
+use BSCustom\Sidebar\SidebarRenderer;
 
 /**
  * Check whether a ct-custom/sidebar-content block exists for the given position.

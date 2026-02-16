@@ -5,7 +5,7 @@
  * then smooth-scrolls to the top on click. Scroll events are
  * throttled with requestAnimationFrame (~60 fps).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const SCROLL_THRESHOLD = 300;

@@ -1,7 +1,7 @@
 /**
  * AuthProfile - Avatar upload, profile save, password change, user messages.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const MAX_MESSAGES = 100;

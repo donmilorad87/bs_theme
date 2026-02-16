@@ -4,7 +4,7 @@
  * Placeholder-only block. When present on a page, guests
  * are redirected to the login page on the frontend.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
 	'use strict';

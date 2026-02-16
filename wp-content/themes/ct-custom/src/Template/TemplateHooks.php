@@ -5,10 +5,10 @@
  * Consumes both TemplateTags and TemplateFunctions traits,
  * and registers all WordPress hooks from the template layer.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 class TemplateHooks {
 
@@ -58,8 +58,8 @@ class TemplateHooks {
 		add_action( 'wp_head', array( $this, 'contact_point_schema' ), 5 );
 
 		/* Invalidate Organization schema cache when relevant options change */
-		add_action( 'update_option_ct_custom_contact_point', array( $this, 'invalidate_schema_cache' ) );
-		add_action( 'update_option_ct_custom_social_networks', array( $this, 'invalidate_schema_cache' ) );
+		add_action( 'update_option_bs_custom_contact_point', array( $this, 'invalidate_schema_cache' ) );
+		add_action( 'update_option_bs_custom_social_networks', array( $this, 'invalidate_schema_cache' ) );
 		add_action( 'customize_save_after', array( $this, 'invalidate_schema_cache' ) );
 
 		/* Auth form shortcodes */

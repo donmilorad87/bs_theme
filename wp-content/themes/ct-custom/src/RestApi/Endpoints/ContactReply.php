@@ -5,15 +5,15 @@
  * Sends a reply to a contact message from an authenticated user.
  * POST /wp-json/ct-auth/v1/contact/reply
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
-use CTCustom\Cpt\ContactMessageCpt;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\Cpt\ContactMessageCpt;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class ContactReply {
 

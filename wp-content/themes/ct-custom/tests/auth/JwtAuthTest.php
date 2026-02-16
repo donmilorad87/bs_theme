@@ -2,12 +2,12 @@
 /**
  * Tests for JwtAuth permission callbacks.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\Services\JwtAuth;
+use BSCustom\Services\JwtAuth;
 
 class JwtAuthTest extends AuthTestCase {
 
@@ -60,7 +60,7 @@ class JwtAuthTest extends AuthTestCase {
 
     public function test_token_without_user_id_returns_error(): void {
         /* Issue a reset token (no user_id claim) */
-        $service = new \CTCustom\Services\JwtService();
+        $service = new \BSCustom\Services\JwtService();
         $token   = $service->issue_reset_token( 'test@test.com', 10 );
 
         $request = $this->makeRequest( array(), 'POST', array(

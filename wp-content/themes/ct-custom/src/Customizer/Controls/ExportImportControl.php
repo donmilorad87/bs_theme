@@ -8,17 +8,17 @@
  * Migrated from inc/customizer/customizer_controls.php.
  * Old class: CT_Export_Import_Control -> New: ExportImportControl
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
 class ExportImportControl extends \WP_Customize_Control {
 
     public $type = 'ct_export_import';
 
     public function enqueue() {
-        /* Handled by centralized ct_custom_customize_controls_js() */
+        /* Handled by centralized bs_custom_customize_controls_js() */
     }
 
     public function render_content() {

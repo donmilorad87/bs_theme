@@ -4,7 +4,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#search-result
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 get_header();

@@ -7,13 +7,13 @@
  *
  * Public endpoint — translations are public strings.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
-use CTCustom\Multilang\Translator;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\Multilang\Translator;
 
 class GetTranslations {
 

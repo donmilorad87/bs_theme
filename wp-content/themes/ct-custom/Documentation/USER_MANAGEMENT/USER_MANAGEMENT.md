@@ -1,4 +1,4 @@
-# CT Custom — User Management & Authentication System (Technical Reference)
+# BS Custom — User Management & Authentication System (Technical Reference)
 
 > Internal reference for Claude Code and developers maintaining the auth system.
 
@@ -6,7 +6,7 @@
 
 ## System Overview
 
-The CT Custom theme includes a custom-built user authentication system that provides:
+The BS Custom theme includes a custom-built user authentication system that provides:
 
 - **JWT-based authentication** with `firebase/php-jwt` (HS256 algorithm)
 - **6-digit verification codes** stored in WordPress transients for account activation and password reset
@@ -48,9 +48,9 @@ The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then 
 
 | File | Class | Purpose |
 |------|-------|---------|
-| `JwtService.php` | `JwtService` | Issues and verifies JWTs using `firebase/php-jwt`. Config loaded from `ct_custom_jwt_auth` option. Issues session tokens (`user_id` claim) and short-lived reset tokens (`email` + `purpose` claims). |
+| `JwtService.php` | `JwtService` | Issues and verifies JWTs using `firebase/php-jwt`. Config loaded from `bs_custom_jwt_auth` option. Issues session tokens (`user_id` claim) and short-lived reset tokens (`email` + `purpose` claims). |
 | `JwtAuth.php` | `JwtAuth` | Static permission callbacks for REST endpoints. `jwt_permission_check()` validates Bearer token and sets current user via `wp_set_current_user()`. `jwt_or_cookie_permission_check()` tries JWT then falls back to `is_user_logged_in()`. |
-| `MailService.php` | `MailService` | SMTP email sender via PHPMailer. Config from `ct_custom_email_config` option. Supports TLS/SSL/none encryption. Sends HTML emails with plain-text AltBody. |
+| `MailService.php` | `MailService` | SMTP email sender via PHPMailer. Config from `bs_custom_email_config` option. Supports TLS/SSL/none encryption. Sends HTML emails with plain-text AltBody. |
 | `EmailTemplate.php` | `EmailTemplate` | Generates styled HTML email content. Base template with accent bar, logo, title, content, and footer. Customizer-driven styling (colors, fonts, transforms). Methods for each email type: activation code, activation success, forgot password code, password reset success, password changed from profile. |
 
 ### PHP — Auth Endpoints (`src/RestApi/Endpoints/`)
@@ -105,12 +105,12 @@ The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then 
 
 | Function | Purpose |
 |----------|---------|
-| `ct_custom_get_auth_data()` | Returns `{is_logged_in, display_name}` array. |
+| `bs_custom_get_auth_data()` | Returns `{is_logged_in, display_name}` array. |
 | `ct_jwt_or_cookie_permission_check()` | REST permission callback: JWT or cookie auth. Delegates to `JwtAuth::jwt_or_cookie_permission_check()`. |
 | `ct_jwt_permission_check()` | REST permission callback: JWT only. Delegates to `JwtAuth::jwt_permission_check()`. |
-| `ct_custom_get_page_url_by_template()` | Finds a published page by template filename, filtered by current language via `ct_language` meta. Falls back to any matching page. |
-| `ct_custom_get_auth_page_url()` | Returns permalink for `login-register.php` template page. |
-| `ct_custom_get_profile_page_url()` | Returns permalink for `profile.php` template page. |
+| `bs_custom_get_page_url_by_template()` | Finds a published page by template filename, filtered by current language via `ct_language` meta. Falls back to any matching page. |
+| `bs_custom_get_auth_page_url()` | Returns permalink for `login-register.php` template page. |
+| `bs_custom_get_profile_page_url()` | Returns permalink for `profile.php` template page. |
 
 ### JavaScript — Auth Page (`assets/frontend/vite/src/js/`)
 
@@ -325,7 +325,7 @@ Exception: `ForgotPassword` and `ResendActivation` return HTTP 200 even when rat
 
 ### Storage
 
-JWT configuration is stored in the WordPress option `ct_custom_jwt_auth` as a JSON string:
+JWT configuration is stored in the WordPress option `bs_custom_jwt_auth` as a JSON string:
 
 ```json
 {
@@ -369,7 +369,7 @@ JWT configuration is stored in the WordPress option `ct_custom_jwt_auth` as a JS
 
 1. Extract `Bearer <token>` from `Authorization` header
 2. Check token length <= 4096
-3. Load secret from `ct_custom_jwt_auth` option
+3. Load secret from `bs_custom_jwt_auth` option
 4. Decode using `Firebase\JWT\JWT::decode()` with `Key(secret, 'HS256')`
 5. On `ExpiredException` or any `Exception`, return `false`
 6. For session tokens: extract `user_id`, look up user, call `wp_set_current_user()`
@@ -443,7 +443,7 @@ Login failures return a generic "Invalid credentials." message regardless of whe
 1. `PageAccessControl::boot()` registers a `template_redirect` hook.
 2. On each singular page request, `handle_redirect()` checks if the page content contains any of the three access-control blocks using `has_block()`.
 3. If the visitor does not meet the requirement, they are redirected using `wp_safe_redirect()` followed by `exit`.
-4. The redirect targets are resolved via `ct_custom_get_profile_page_url()`, `ct_custom_get_auth_page_url()`, and `ct_get_language_home_url()`.
+4. The redirect targets are resolved via `bs_custom_get_profile_page_url()`, `bs_custom_get_auth_page_url()`, and `ct_get_language_home_url()`.
 
 ### Usage
 
@@ -494,7 +494,7 @@ Template colors and typography are loaded from `get_theme_mod()` with these keys
 
 ### SMTP Configuration
 
-SMTP settings are stored in the WordPress option `ct_custom_email_config` as a JSON string:
+SMTP settings are stored in the WordPress option `bs_custom_email_config` as a JSON string:
 
 ```json
 {
@@ -646,8 +646,8 @@ All three use `emptyOutDir: false` to avoid clearing sibling output files.
 
 | Option Key | Format | Purpose |
 |------------|--------|---------|
-| `ct_custom_jwt_auth` | JSON string | JWT configuration: `secret`, `expiration_hours` |
-| `ct_custom_email_config` | JSON string | SMTP configuration: `host`, `port`, `username`, `password`, `encryption`, `from_email`, `from_name` |
+| `bs_custom_jwt_auth` | JSON string | JWT configuration: `secret`, `expiration_hours` |
+| `bs_custom_email_config` | JSON string | SMTP configuration: `host`, `port`, `username`, `password`, `encryption`, `from_email`, `from_name` |
 
 ---
 

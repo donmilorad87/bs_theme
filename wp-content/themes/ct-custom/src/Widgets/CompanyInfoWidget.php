@@ -1,9 +1,9 @@
 <?php
 
-namespace CTCustom\Widgets;
+namespace BSCustom\Widgets;
 
 use WP_Widget;
-use CTCustom\Multilang\TranslationService;
+use BSCustom\Multilang\TranslationService;
 
 class CompanyInfoWidget extends WP_Widget {
 
@@ -12,7 +12,7 @@ class CompanyInfoWidget extends WP_Widget {
     public function __construct() {
         parent::__construct(
             'ct_company_info',
-            __( 'CT Custom: Company Info', 'ct-custom' ),
+            __( 'BS Custom: Company Info', 'ct-custom' ),
             array(
                 'description' => __( 'Displays company logo, PIB, MB, and description.', 'ct-custom' ),
             )

@@ -10,7 +10,7 @@
  * Triggers a debounced REST API call to download font files when
  * weights change or a new font family is selected.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { assert } from './utils.js';

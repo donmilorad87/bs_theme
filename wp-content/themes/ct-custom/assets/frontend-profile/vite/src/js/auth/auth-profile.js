@@ -3,7 +3,7 @@
  *
  * Duplicated from frontend/vite/src/js/auth/auth-profile.js for standalone profile bundle.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const MAX_MESSAGES = 100;

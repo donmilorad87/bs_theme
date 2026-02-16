@@ -5,10 +5,10 @@
  * Provides shared rate-limiting methods for REST API endpoints.
  * Uses WordPress transients for storage.
  *
- * @package CTCustom\RestApi
+ * @package BSCustom\RestApi
  */
 
-namespace CTCustom\RestApi;
+namespace BSCustom\RestApi;
 
 trait RateLimiter {
 

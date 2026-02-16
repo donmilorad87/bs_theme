@@ -8,17 +8,17 @@
  * Migrated from inc/customizer/customizer_controls.php.
  * Old class: CT_Social_Networks_Control -> New: SocialNetworksControl
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
 class SocialNetworksControl extends \WP_Customize_Control {
 
     public $type = 'ct_social_networks';
 
     public function enqueue() {
-        /* Handled by centralized ct_custom_customize_controls_js() */
+        /* Handled by centralized bs_custom_customize_controls_js() */
     }
 
     public function to_json() {

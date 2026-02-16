@@ -5,10 +5,10 @@
  * Handles page duplication for new languages, translation group linking,
  * and language-to-page mapping.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class LanguagePageManager {
 
@@ -358,7 +358,7 @@ class LanguagePageManager {
     public static function migrate_existing_pages( string $default_iso2 ): int {
         assert( ! empty( $default_iso2 ), 'default_iso2 must not be empty' );
 
-        if ( get_option( 'ct_custom_language_migration_done' ) ) {
+        if ( get_option( 'bs_custom_language_migration_done' ) ) {
             return 0;
         }
 
@@ -377,7 +377,7 @@ class LanguagePageManager {
         ) );
 
         if ( ! is_array( $pages ) ) {
-            update_option( 'ct_custom_language_migration_done', true );
+            update_option( 'bs_custom_language_migration_done', true );
             return 0;
         }
 
@@ -395,7 +395,7 @@ class LanguagePageManager {
             $migrated++;
         }
 
-        update_option( 'ct_custom_language_migration_done', true );
+        update_option( 'bs_custom_language_migration_done', true );
 
         return $migrated;
     }
@@ -411,14 +411,14 @@ class LanguagePageManager {
      * @return int Number of pages renamed.
      */
     public static function migrate_homepage_slugs(): int {
-        if ( get_option( 'ct_custom_homepage_slug_migration_done' ) ) {
+        if ( get_option( 'bs_custom_homepage_slug_migration_done' ) ) {
             return 0;
         }
 
         $front_page_id = (int) get_option( 'page_on_front' );
 
         if ( $front_page_id <= 0 ) {
-            update_option( 'ct_custom_homepage_slug_migration_done', true );
+            update_option( 'bs_custom_homepage_slug_migration_done', true );
             return 0;
         }
 
@@ -427,7 +427,7 @@ class LanguagePageManager {
         $renamed  = 0;
 
         if ( '' === $group ) {
-            update_option( 'ct_custom_homepage_slug_migration_done', true );
+            update_option( 'bs_custom_homepage_slug_migration_done', true );
             return 0;
         }
 
@@ -443,7 +443,7 @@ class LanguagePageManager {
         ) );
 
         if ( ! is_array( $posts ) ) {
-            update_option( 'ct_custom_homepage_slug_migration_done', true );
+            update_option( 'bs_custom_homepage_slug_migration_done', true );
             return 0;
         }
 
@@ -473,7 +473,7 @@ class LanguagePageManager {
             $renamed++;
         }
 
-        update_option( 'ct_custom_homepage_slug_migration_done', true );
+        update_option( 'bs_custom_homepage_slug_migration_done', true );
 
         return $renamed;
     }
@@ -1054,7 +1054,7 @@ class LanguagePageManager {
         }
 
         /* Set migration flag */
-        update_option( 'ct_custom_widgets_cloned_' . $target_iso2, true );
+        update_option( 'bs_custom_widgets_cloned_' . $target_iso2, true );
 
         return $cloned;
     }

@@ -12,19 +12,19 @@
  * Migrated from inc/customizer/customizer_controls.php.
  * Old class: CT_Font_Weights_Control -> New: FontWeightsControl
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
-use CTCustom\Customizer\FontManager;
+use BSCustom\Customizer\FontManager;
 
 class FontWeightsControl extends \WP_Customize_Control {
 
     public $type = 'ct_font_weights';
 
     public function enqueue() {
-        /* Handled by centralized ct_custom_customize_controls_js() */
+        /* Handled by centralized bs_custom_customize_controls_js() */
     }
 
     public function render_content() {

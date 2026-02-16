@@ -6,13 +6,13 @@
  * missing email claim, password validation, mismatch, user not found,
  * same password reuse, and actual password change.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\ResetPassword;
-use CTCustom\Services\JwtService;
+use BSCustom\RestApi\Endpoints\ResetPassword;
+use BSCustom\Services\JwtService;
 
 class ResetPasswordEndpointTest extends AuthTestCase {
 
@@ -47,7 +47,7 @@ class ResetPasswordEndpointTest extends AuthTestCase {
      */
     private function buildCustomToken( array $payload ): string {
         $config = json_decode(
-            \get_option( 'ct_custom_jwt_auth', '{}' ),
+            \get_option( 'bs_custom_jwt_auth', '{}' ),
             true
         );
         $secret = $config['secret'];

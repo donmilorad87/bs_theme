@@ -9,7 +9,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 get_header();

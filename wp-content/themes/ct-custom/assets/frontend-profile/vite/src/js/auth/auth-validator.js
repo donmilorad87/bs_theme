@@ -3,7 +3,7 @@
  *
  * Duplicated from frontend/vite/src/js/auth/auth-validator.js for standalone auth bundle.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { VALIDATION } from './auth-config.js';

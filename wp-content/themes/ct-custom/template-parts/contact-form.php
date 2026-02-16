@@ -5,7 +5,7 @@
  * Custom contact form that submits to the REST API.
  * Replaces the Contact Form 7 dependency.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 assert( function_exists( 'esc_html__' ), 'esc_html__ must exist' );

@@ -4,7 +4,7 @@
  * Reads from ctTranslationData.translations injected via wp_localize_script.
  * Provides window.ct_translate(key, args, count) for frontend JS usage.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const MAX_ARGS = 50;

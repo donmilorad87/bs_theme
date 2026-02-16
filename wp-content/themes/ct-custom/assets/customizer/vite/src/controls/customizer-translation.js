@@ -4,7 +4,7 @@
  * Handles the "Pick Key" button, searchable dropdown, and value setting
  * for CT_Translation_Control in the Customizer panel.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 export function init() {

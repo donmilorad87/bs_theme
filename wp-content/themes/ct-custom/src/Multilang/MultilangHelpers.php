@@ -5,13 +5,13 @@
  * Contains the core logic for language detection, translation,
  * and language manager access. Consumed by MultilangService.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
-use CTCustom\Multilang\Translator;
-use CTCustom\Multilang\LanguageManager;
+use BSCustom\Multilang\Translator;
+use BSCustom\Multilang\LanguageManager;
 
 trait MultilangHelpers {
 

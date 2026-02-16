@@ -8,14 +8,14 @@
  * Admin-only endpoint. Triggered when a font is selected
  * in the Customizer, not on save.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\Customizer\FontManager;
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
+use BSCustom\Customizer\FontManager;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
 
 class FontDownload {
 

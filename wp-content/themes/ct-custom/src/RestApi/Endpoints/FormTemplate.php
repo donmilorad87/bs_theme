@@ -8,12 +8,12 @@
  * Public forms: login, register, forgot-password, activation-code, reset-code, reset-password
  * JWT-protected: profile
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
+use BSCustom\RestApi\RestLogger;
 
 class FormTemplate {
 

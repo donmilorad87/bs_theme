@@ -1,7 +1,7 @@
 /**
  * AuthApi - REST client with nonce-auth (public) and JWT-auth (protected).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 export default class AuthApi {

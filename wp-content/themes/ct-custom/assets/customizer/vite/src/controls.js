@@ -5,7 +5,7 @@
  * Loaded in the controls frame (admin sidebar) via
  * customize_controls_enqueue_scripts.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { init as initRange } from './controls/customizer-range.js';

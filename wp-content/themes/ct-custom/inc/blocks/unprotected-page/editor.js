@@ -4,7 +4,7 @@
  * Placeholder-only block. When present on a page, logged-in users
  * are redirected to the profile page on the frontend.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 (function (wp) {
 	'use strict';

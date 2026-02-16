@@ -7,17 +7,17 @@
  * Migrated from inc/customizer/customizer_controls.php.
  * Old class: CT_Range_Control -> New: RangeControl
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
 class RangeControl extends \WP_Customize_Control {
 
     public $type = 'ct_range';
 
     public function enqueue() {
-        /* Handled by centralized ct_custom_customize_controls_js() */
+        /* Handled by centralized bs_custom_customize_controls_js() */
     }
 
     public function render_content() {

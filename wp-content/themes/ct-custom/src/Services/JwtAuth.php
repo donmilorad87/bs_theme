@@ -1,6 +1,6 @@
 <?php
 
-namespace CTCustom\Services;
+namespace BSCustom\Services;
 
 /**
  * JWT Authentication Helpers

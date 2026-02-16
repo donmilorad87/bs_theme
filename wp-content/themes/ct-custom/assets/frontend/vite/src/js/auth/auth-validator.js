@@ -1,7 +1,7 @@
 /**
  * AuthValidator - Rule-based real-time validation engine.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { VALIDATION } from './auth-config.js';

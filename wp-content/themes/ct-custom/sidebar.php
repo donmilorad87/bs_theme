@@ -5,7 +5,7 @@
  * This file is kept for backward compatibility but sidebars
  * are now rendered via ct_sidebar_render() in templates.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 if ( function_exists( 'ct_sidebar_render' ) ) {

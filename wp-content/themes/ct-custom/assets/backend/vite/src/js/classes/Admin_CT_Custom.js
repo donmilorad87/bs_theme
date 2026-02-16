@@ -1,6 +1,6 @@
 import Admin_Contact from './Admin_Contact.js';
 
-export default class Admin_CT_Custom {
+export default class Admin_BS_Custom {
 
     constructor() {
         this.btnResetTimers = new WeakMap();
@@ -425,7 +425,7 @@ export default class Admin_CT_Custom {
             }
 
             if (!parsed.theme || parsed.theme !== 'ct-custom') {
-                this.showNotice('This file is not a valid CT Custom theme export.', 'error');
+                this.showNotice('This file is not a valid BS Custom theme export.', 'error');
                 return;
             }
 

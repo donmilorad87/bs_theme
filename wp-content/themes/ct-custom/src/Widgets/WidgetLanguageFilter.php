@@ -1,6 +1,6 @@
 <?php
 
-namespace CTCustom\Widgets;
+namespace BSCustom\Widgets;
 
 class WidgetLanguageFilter {
 

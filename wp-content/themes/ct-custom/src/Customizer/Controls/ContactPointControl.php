@@ -8,10 +8,10 @@
  * Migrated from inc/customizer/customizer_controls.php.
  * Old class: CT_Contact_Point_Control -> New: ContactPointControl
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
 class ContactPointControl extends \WP_Customize_Control {
 
@@ -36,7 +36,7 @@ class ContactPointControl extends \WP_Customize_Control {
     );
 
     public function enqueue() {
-        /* Handled by centralized ct_custom_customize_controls_js() */
+        /* Handled by centralized bs_custom_customize_controls_js() */
     }
 
     public function to_json() {

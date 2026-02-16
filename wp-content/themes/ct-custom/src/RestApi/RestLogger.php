@@ -5,10 +5,10 @@
  * Provides a shared log() method for REST API endpoints.
  * Outputs to PHP error_log (stderr -> docker logs) when WP_DEBUG is ON.
  *
- * @package CTCustom\RestApi
+ * @package BSCustom\RestApi
  */
 
-namespace CTCustom\RestApi;
+namespace BSCustom\RestApi;
 
 trait RestLogger {
 

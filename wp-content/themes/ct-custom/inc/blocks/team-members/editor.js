@@ -1,5 +1,5 @@
 /**
- * CT Team Members — Gutenberg Editor (vanilla JS, no JSX).
+ * BS Team Members — Gutenberg Editor (vanilla JS, no JSX).
  *
  * Uses wp.element.createElement exclusively.
  * Dynamic block: save() returns null, PHP handles frontend.
@@ -7,37 +7,37 @@
 (function (wp) {
     'use strict';
 
-    var el                = wp.element.createElement;
-    var Fragment          = wp.element.Fragment;
+    var el = wp.element.createElement;
+    var Fragment = wp.element.Fragment;
     var registerBlockType = wp.blocks.registerBlockType;
-    var useBlockProps     = wp.blockEditor.useBlockProps;
+    var useBlockProps = wp.blockEditor.useBlockProps;
     var InspectorControls = wp.blockEditor.InspectorControls;
-    var MediaUpload       = wp.blockEditor.MediaUpload;
-    var MediaUploadCheck  = wp.blockEditor.MediaUploadCheck;
-    var PanelBody         = wp.components.PanelBody;
-    var TextControl       = wp.components.TextControl;
-    var RangeControl      = wp.components.RangeControl;
-    var Button            = wp.components.Button;
-    var ColorPalette      = wp.components.ColorPalette;
-    var ToggleControl     = wp.components.ToggleControl;
-    var SelectControl     = wp.components.SelectControl;
-    var __                = wp.i18n.__;
+    var MediaUpload = wp.blockEditor.MediaUpload;
+    var MediaUploadCheck = wp.blockEditor.MediaUploadCheck;
+    var PanelBody = wp.components.PanelBody;
+    var TextControl = wp.components.TextControl;
+    var RangeControl = wp.components.RangeControl;
+    var Button = wp.components.Button;
+    var ColorPalette = wp.components.ColorPalette;
+    var ToggleControl = wp.components.ToggleControl;
+    var SelectControl = wp.components.SelectControl;
+    var __ = wp.i18n.__;
 
     var MAX_MEMBERS = 100;
 
     var EMPTY_MEMBER = {
-        imageId:   0,
-        imageUrl:  '',
+        imageId: 0,
+        imageUrl: '',
         firstName: '',
-        lastName:  '',
-        position:  ''
+        lastName: '',
+        position: ''
     };
 
     var TRANSFORM_OPTIONS = [
-        { label: __('None', 'ct-custom'),       value: 'none' },
-        { label: __('Uppercase', 'ct-custom'),   value: 'uppercase' },
-        { label: __('Lowercase', 'ct-custom'),   value: 'lowercase' },
-        { label: __('Capitalize', 'ct-custom'),  value: 'capitalize' }
+        { label: __('None', 'ct-custom'), value: 'none' },
+        { label: __('Uppercase', 'ct-custom'), value: 'uppercase' },
+        { label: __('Lowercase', 'ct-custom'), value: 'lowercase' },
+        { label: __('Capitalize', 'ct-custom'), value: 'capitalize' }
     ];
 
     /* ── Helper: build a single member card ── */
@@ -151,15 +151,15 @@
             }),
             window.ctTranslationPicker
                 ? window.ctTranslationPicker.createControl({
-                      label:    __('Position', 'ct-custom'),
-                      value:    member.position || '',
-                      onChange: function (val) { updateMember(index, { position: val }); }
-                  })
+                    label: __('Position', 'ct-custom'),
+                    value: member.position || '',
+                    onChange: function (val) { updateMember(index, { position: val }); }
+                })
                 : el(TextControl, {
-                      label: __('Position', 'ct-custom'),
-                      value: member.position || '',
-                      onChange: function (val) { updateMember(index, { position: val }); }
-                  })
+                    label: __('Position', 'ct-custom'),
+                    value: member.position || '',
+                    onChange: function (val) { updateMember(index, { position: val }); }
+                })
         );
     }
 
@@ -168,11 +168,11 @@
     registerBlockType('ct-custom/team-members', {
 
         edit: function (props) {
-            var attrs        = props.attributes;
-            var members      = attrs.members || [];
+            var attrs = props.attributes;
+            var members = attrs.members || [];
             var visibleCount = attrs.visibleCount || 8;
-            var buttonText   = attrs.buttonText || __('Meet Our Team', 'ct-custom');
-            var blockProps   = useBlockProps({ className: 'ct-team-members-editor' });
+            var buttonText = attrs.buttonText || __('Meet Our Team', 'ct-custom');
+            var blockProps = useBlockProps({ className: 'ct-team-members-editor' });
 
             /* ── Mutators ── */
 
@@ -198,7 +198,7 @@
 
             function moveMember(from, to) {
                 if (to < 0 || to >= members.length) { return; }
-                var arr  = members.slice();
+                var arr = members.slice();
                 var item = arr.splice(from, 1)[0];
                 arr.splice(to, 0, item);
                 setMembers(arr);
@@ -232,28 +232,28 @@
                     }),
                     window.ctTranslationPicker
                         ? window.ctTranslationPicker.createControl({
-                              label:    __('Show More Button Text', 'ct-custom'),
-                              value:    buttonText,
-                              onChange: function (val) { props.setAttributes({ buttonText: val }); }
-                          })
+                            label: __('Show More Button Text', 'ct-custom'),
+                            value: buttonText,
+                            onChange: function (val) { props.setAttributes({ buttonText: val }); }
+                        })
                         : el(TextControl, {
-                              label: __('Show More Button Text', 'ct-custom'),
-                              value: buttonText,
-                              onChange: function (val) { props.setAttributes({ buttonText: val }); }
-                          }),
+                            label: __('Show More Button Text', 'ct-custom'),
+                            value: buttonText,
+                            onChange: function (val) { props.setAttributes({ buttonText: val }); }
+                        }),
                     window.ctTranslationPicker
                         ? window.ctTranslationPicker.createControl({
-                              label:    __('Hide Button Text', 'ct-custom'),
-                              help:     __('Text shown on the button when the grid is expanded.', 'ct-custom'),
-                              value:    attrs.hideText !== undefined ? attrs.hideText : 'Hide',
-                              onChange: function (val) { props.setAttributes({ hideText: val }); }
-                          })
+                            label: __('Hide Button Text', 'ct-custom'),
+                            help: __('Text shown on the button when the grid is expanded.', 'ct-custom'),
+                            value: attrs.hideText !== undefined ? attrs.hideText : 'Hide',
+                            onChange: function (val) { props.setAttributes({ hideText: val }); }
+                        })
                         : el(TextControl, {
-                              label: __('Hide Button Text', 'ct-custom'),
-                              help: __('Text shown on the button when the grid is expanded.', 'ct-custom'),
-                              value: attrs.hideText !== undefined ? attrs.hideText : 'Hide',
-                              onChange: function (val) { props.setAttributes({ hideText: val }); }
-                          })
+                            label: __('Hide Button Text', 'ct-custom'),
+                            help: __('Text shown on the button when the grid is expanded.', 'ct-custom'),
+                            value: attrs.hideText !== undefined ? attrs.hideText : 'Hide',
+                            onChange: function (val) { props.setAttributes({ hideText: val }); }
+                        })
                 ),
 
                 /* Panel 2: Colors — Light Theme */

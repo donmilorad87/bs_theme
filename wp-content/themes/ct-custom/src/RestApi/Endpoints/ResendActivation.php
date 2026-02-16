@@ -7,16 +7,16 @@
  * Always returns success to prevent email enumeration.
  * Rate limited: 3 attempts per email per hour.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\CodeGenerator;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\CodeGenerator;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class ResendActivation {
 

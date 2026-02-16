@@ -5,10 +5,10 @@
  * Outputs <link rel="alternate" hreflang="xx" href="..."> tags
  * in <head> for pages that belong to a translation group.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Multilang;
+namespace BSCustom\Multilang;
 
 class HreflangService {
 

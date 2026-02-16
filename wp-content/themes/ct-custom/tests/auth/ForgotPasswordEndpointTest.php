@@ -6,12 +6,12 @@
  * email enumeration), that codes are stored for valid users, and that
  * rate limiting works correctly via ForgotPassword::handle().
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\ForgotPassword;
+use BSCustom\RestApi\Endpoints\ForgotPassword;
 
 class ForgotPasswordEndpointTest extends AuthTestCase {
 

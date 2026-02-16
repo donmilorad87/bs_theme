@@ -5,13 +5,13 @@
  * Returns paginated contact messages for admin.
  * GET /wp-json/ct-auth/v1/contact/messages
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
-use CTCustom\Cpt\ContactMessageCpt;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\Cpt\ContactMessageCpt;
 
 class ContactMessages {
 

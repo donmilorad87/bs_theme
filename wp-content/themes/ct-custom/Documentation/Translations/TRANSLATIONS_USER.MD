@@ -1,6 +1,6 @@
-# CT Custom — Translation System (Developer Guide)
+# BS Custom — Translation System (Developer Guide)
 
-> How to use the multilanguage system in the CT Custom theme.
+> How to use the multilanguage system in the BS Custom theme.
 
 ---
 
@@ -110,7 +110,7 @@ Result: `Items`
 echo ct_translate('SITE_NAME');
 
 // Via the MultilangService singleton
-$service = CTCustom\Multilang\MultilangService::instance();
+$service = BSCustom\Multilang\MultilangService::instance();
 echo $service->translate('SITE_NAME');
 
 // With echo shorthand
@@ -365,7 +365,7 @@ Resolves `ct_translate()` patterns in the text. The `iso2` parameter is optional
 Register a custom plural rule for a language not in the built-in family map:
 
 ```php
-use CTCustom\Multilang\CldrPluralRules;
+use BSCustom\Multilang\CldrPluralRules;
 
 CldrPluralRules::register_rule('my_lang', function(int $count): string {
     if ($count === 0) return 'zero';

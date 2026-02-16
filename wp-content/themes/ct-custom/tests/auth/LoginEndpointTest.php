@@ -5,12 +5,12 @@
  * Verifies authentication logic, rate limiting, inactive account handling,
  * and JWT token issuance via the Login::handle() method.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\Login;
+use BSCustom\RestApi\Endpoints\Login;
 
 class LoginEndpointTest extends AuthTestCase {
 

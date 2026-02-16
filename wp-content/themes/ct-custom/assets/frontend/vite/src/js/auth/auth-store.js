@@ -1,7 +1,7 @@
 /**
  * AuthStore - localStorage manager for JWT token.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { STORAGE_TOKEN_KEY } from './auth-config.js';

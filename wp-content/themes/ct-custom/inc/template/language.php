@@ -6,17 +6,17 @@
  * and CT_Template_Hooks. All hook registrations have moved to
  * CT_Template_Hooks::register_hooks().
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Template\Language;
+use BSCustom\Template\Language;
 
 /**
  * Build the language switcher data array.
  *
  * @return array{items: array, current_iso2: string, is_multilingual: bool}
  */
-function ct_custom_get_language_switcher_data(): array {
+function bs_custom_get_language_switcher_data(): array {
 	return Language::instance()->get_language_switcher_data();
 }
 

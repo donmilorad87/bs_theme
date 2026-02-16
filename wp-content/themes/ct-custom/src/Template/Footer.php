@@ -4,10 +4,10 @@
  *
  * Provides data-preparation for the footer template.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 class Footer {
 
@@ -68,7 +68,7 @@ class Footer {
 
 		$copyright_raw = get_theme_mod(
 			'ct_footer_copyright',
-			'© {year} Coalition Test — Theme by Coalition Technologies'
+			'© {year} Coalition Test — Theme by Blazing Sun'
 		);
 		$footer_copyright = str_replace( '{year}', date_i18n( 'Y' ), $copyright_raw );
 

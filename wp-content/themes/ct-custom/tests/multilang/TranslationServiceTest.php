@@ -5,14 +5,14 @@
  * Runs without WordPress via vendor/autoload.php.
  * Tests resolve(), resolve_raw(), resolve_block_content(), and get_all_keys().
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Tests\Multilang;
+namespace BSCustom\Tests\Multilang;
 
 use PHPUnit\Framework\TestCase;
-use CTCustom\Multilang\TranslationService;
-use CTCustom\Multilang\Translator;
+use BSCustom\Multilang\TranslationService;
+use BSCustom\Multilang\Translator;
 
 class TranslationServiceTest extends TestCase {
 
@@ -53,7 +53,7 @@ class TranslationServiceTest extends TestCase {
     public function test_resolve_with_pattern(): void {
         $result = TranslationService::resolve( "ct_translate('SITE_NAME')", 'en' );
 
-        $this->assertSame( 'CT Custom', $result );
+        $this->assertSame( 'BS Custom', $result );
     }
 
     public function test_resolve_without_pattern_passthrough(): void {
@@ -91,7 +91,7 @@ class TranslationServiceTest extends TestCase {
     public function test_resolve_raw_no_escaping(): void {
         $result = TranslationService::resolve_raw( "ct_translate('SITE_NAME')", 'en' );
 
-        $this->assertSame( 'CT Custom', $result );
+        $this->assertSame( 'BS Custom', $result );
     }
 
     public function test_resolve_raw_passthrough(): void {
@@ -117,7 +117,7 @@ class TranslationServiceTest extends TestCase {
     public function test_block_content_simple_key(): void {
         $result = TranslationService::resolve_block_content( "ct_translate('SITE_NAME')", 'en' );
 
-        $this->assertSame( 'CT Custom', $result );
+        $this->assertSame( 'BS Custom', $result );
     }
 
     public function test_block_content_multiple_patterns(): void {
@@ -125,7 +125,7 @@ class TranslationServiceTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( '<h1>CT Custom</h1><p>Login</p>', $result );
+        $this->assertSame( '<h1>BS Custom</h1><p>Login</p>', $result );
     }
 
     public function test_block_content_deduplication(): void {
@@ -133,7 +133,7 @@ class TranslationServiceTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( 'CT Custom - CT Custom - CT Custom', $result );
+        $this->assertSame( 'BS Custom - BS Custom - BS Custom', $result );
     }
 
     public function test_block_content_unknown_key(): void {
@@ -171,7 +171,7 @@ class TranslationServiceTest extends TestCase {
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
-        $this->assertSame( '<div class="hero"><h1>CT Custom</h1></div>', $result );
+        $this->assertSame( '<div class="hero"><h1>BS Custom</h1></div>', $result );
     }
 
     public function test_block_content_singular_fallback(): void {
@@ -192,14 +192,14 @@ class TranslationServiceTest extends TestCase {
 
     public function test_block_content_respects_max_matches(): void {
         /* Build content with more than MAX_PATTERN_MATCHES unique patterns.
-         * Since only SITE_NAME exists, each returns "CT Custom" or key name.
+         * Since only SITE_NAME exists, each returns "BS Custom" or key name.
          * We just verify it doesn't hang or crash. */
         $content = str_repeat( "ct_translate('SITE_NAME') ", 250 );
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
         /* Should still resolve (they're all the same pattern, deduplicated) */
-        $this->assertStringContainsString( 'CT Custom', $result );
+        $this->assertStringContainsString( 'BS Custom', $result );
     }
 
     /* ── Null-like content ───────────────────────────────────────────── */

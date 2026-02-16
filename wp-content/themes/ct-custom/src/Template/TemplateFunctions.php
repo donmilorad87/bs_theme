@@ -6,10 +6,10 @@
  * (body classes, pingback, breadcrumbs, schemas, attachment images).
  * Consumed by CT_Template_Hooks.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 trait TemplateFunctions {
 
@@ -331,7 +331,7 @@ trait TemplateFunctions {
 			$schema['sameAs'] = $same_as;
 		}
 
-		$cp_raw = get_option( 'ct_custom_contact_point', '' );
+		$cp_raw = get_option( 'bs_custom_contact_point', '' );
 		$cp     = json_decode( stripslashes( $cp_raw ) );
 
 		if ( $cp ) {
@@ -373,7 +373,7 @@ trait TemplateFunctions {
 	public function build_same_as() {
 		assert( function_exists( 'get_option' ), 'get_option must exist' );
 
-		$networks_raw = get_option( 'ct_custom_social_networks', '[]' );
+		$networks_raw = get_option( 'bs_custom_social_networks', '[]' );
 		$networks     = json_decode( stripslashes( $networks_raw ), true );
 
 		assert( is_array( $networks ) || ! is_array( $networks ), 'Networks decoded' );

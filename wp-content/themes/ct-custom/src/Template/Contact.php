@@ -4,10 +4,10 @@
  *
  * Provides data-preparation and rendering for the contact page.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 class Contact {
 
@@ -45,7 +45,7 @@ class Contact {
 	 * @return array{address: object|null, phone: string, fax: string, email: string}
 	 */
 	public function get_contact_point_data() {
-		$cp_raw  = get_option( 'ct_custom_contact_point', '' );
+		$cp_raw  = get_option( 'bs_custom_contact_point', '' );
 		$cp      = json_decode( stripslashes( $cp_raw ) );
 		$address = ( isset( $cp->address ) && is_object( $cp->address ) ) ? $cp->address : null;
 		$phone   = isset( $cp->telephone ) ? $cp->telephone : '';
@@ -69,7 +69,7 @@ class Contact {
 	 * @return array List of social network arrays.
 	 */
 	public function get_social_networks() {
-		$networks_raw = get_option( 'ct_custom_social_networks', '[]' );
+		$networks_raw = get_option( 'bs_custom_social_networks', '[]' );
 		$networks     = json_decode( stripslashes( $networks_raw ), true );
 
 		if ( ! is_array( $networks ) ) {
@@ -291,8 +291,8 @@ class Contact {
 				. ' title="' . esc_attr( $name ) . '"'
 				. ' role="listitem">';
 
-			if ( $icon_id && function_exists( 'ct_custom_get_attachment_image' ) ) {
-				echo ct_custom_get_attachment_image( $icon_id, 'thumbnail', array(
+			if ( $icon_id && function_exists( 'bs_custom_get_attachment_image' ) ) {
+				echo bs_custom_get_attachment_image( $icon_id, 'thumbnail', array(
 					'alt'     => esc_attr( $name ),
 					'loading' => 'lazy',
 				) );

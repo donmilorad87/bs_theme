@@ -6,16 +6,16 @@
  * Rate-limited to 5 per IP per hour. Creates a ct_contact_message CPT post,
  * sends notification emails to pointer-linked addresses.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\Cpt\ContactMessageCpt;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\Cpt\ContactMessageCpt;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class ContactSubmit {
 

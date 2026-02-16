@@ -12,10 +12,10 @@
  *
  * Converted from procedural inc/customizer/customizer_css_output.php to PSR-4 class.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer;
+namespace BSCustom\Customizer;
 
 class DynamicCss {
 

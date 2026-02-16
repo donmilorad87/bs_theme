@@ -5,16 +5,16 @@
  * Resets a user's password using a reset JWT token.
  * POST /wp-json/ct-auth/v1/reset-password
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\PasswordValidator;
-use CTCustom\Services\JwtService;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\PasswordValidator;
+use BSCustom\Services\JwtService;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class ResetPassword {
 

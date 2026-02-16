@@ -4,7 +4,7 @@
  * State machine with explicit states: LOGIN, REGISTER, FORGOT,
  * ACTIVATION_CODE, RESET_CODE, RESET_PASSWORD.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { MAX_FIELDS, AUTH_FORMS, TAB_FORMS, FLOW_FORMS } from './auth/auth-config.js';

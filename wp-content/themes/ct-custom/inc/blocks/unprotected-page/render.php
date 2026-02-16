@@ -5,7 +5,7 @@
  * Returns empty string. Access control is handled by
  * PageAccessControl on the template_redirect hook.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 assert( isset( $attributes ), 'Block attributes must be set' );

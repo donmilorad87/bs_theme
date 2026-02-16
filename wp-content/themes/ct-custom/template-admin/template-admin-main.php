@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wrap ct-admin-page">
 
     <div class="ct-admin-header">
-        <h1><?php esc_html_e( 'CT Custom Theme Settings', 'ct-custom' ); ?></h1>
+        <h1><?php esc_html_e( 'BS Custom Theme Settings', 'ct-custom' ); ?></h1>
     </div>
 
     <input type="radio" name="ct_admin_nav" id="rd_export_import" checked class="ct-admin-nav__radio">

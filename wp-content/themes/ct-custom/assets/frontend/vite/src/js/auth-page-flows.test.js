@@ -4,7 +4,7 @@
  * Simulates complete user interaction sequences on the auth page:
  * fill inputs, trigger validation, submit forms, verify redirects/messages.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';

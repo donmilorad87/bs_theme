@@ -2,11 +2,11 @@
 /**
  * The header for our theme
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-extract( ct_custom_get_header_data() );
-extract( ct_custom_get_auth_data() );
+extract( bs_custom_get_header_data() );
+extract( bs_custom_get_auth_data() );
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -80,19 +80,19 @@ extract( ct_custom_get_auth_data() );
                      data-cache-version="<?php echo esc_attr( wp_get_theme()->get( 'Version' ) ); ?>">
                     <?php if ( $is_logged_in ) : ?>
                         <span class="ct-auth-links__greeting"><?php echo esc_html( $display_name ); ?></span>
-                        <a href="<?php echo esc_url( ct_custom_get_profile_page_url() ); ?>" class="ct-auth-links__link ct-auth-links__link--profile"><?php esc_html_e( 'Profile', 'ct-custom' ); ?></a>
+                        <a href="<?php echo esc_url( bs_custom_get_profile_page_url() ); ?>" class="ct-auth-links__link ct-auth-links__link--profile"><?php esc_html_e( 'Profile', 'ct-custom' ); ?></a>
                         <span class="ct-auth-links__separator">/</span>
                         <a href="#" class="ct-auth-links__link ct-auth-links__link--logout"
                            data-ct-auth-action="logout"><?php esc_html_e( 'Log Out', 'ct-custom' ); ?></a>
                     <?php else : ?>
-                        <a href="<?php echo esc_url( ct_custom_get_auth_page_url() ); ?>" class="ct-auth-links__link ct-auth-links__link--login"><?php esc_html_e( 'Login', 'ct-custom' ); ?></a>
+                        <a href="<?php echo esc_url( bs_custom_get_auth_page_url() ); ?>" class="ct-auth-links__link ct-auth-links__link--login"><?php esc_html_e( 'Login', 'ct-custom' ); ?></a>
                         <span class="ct-auth-links__separator">/</span>
-                        <a href="<?php echo esc_url( ct_custom_get_auth_page_url() . '#register' ); ?>" class="ct-auth-links__link ct-auth-links__link--register"><?php esc_html_e( 'Sign Up', 'ct-custom' ); ?></a>
+                        <a href="<?php echo esc_url( bs_custom_get_auth_page_url() . '#register' ); ?>" class="ct-auth-links__link ct-auth-links__link--register"><?php esc_html_e( 'Sign Up', 'ct-custom' ); ?></a>
                     <?php endif; ?>
                 </div>
                 <?php
                 if ( function_exists( 'ct_is_multilingual' ) && ct_is_multilingual() ) {
-                    $ct_switcher_data = ct_custom_get_language_switcher_data();
+                    $ct_switcher_data = bs_custom_get_language_switcher_data();
                     include get_template_directory() . '/template-parts/language-switcher.php';
                 }
                 ?>
@@ -113,7 +113,7 @@ extract( ct_custom_get_auth_data() );
             <div class="site-header__logo">
                 <a href="<?php echo esc_url( ct_get_language_home_url() ); ?>" rel="home" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
                     <?php if ( $logo_id ) : ?>
-                        <?php echo ct_custom_get_attachment_image( $logo_id, 'full', array(
+                        <?php echo bs_custom_get_attachment_image( $logo_id, 'full', array(
                             'alt'     => esc_attr( get_bloginfo( 'name' ) ),
                             'loading' => 'lazy',
                         ) ); ?>
@@ -146,7 +146,7 @@ extract( ct_custom_get_auth_data() );
     <!-- Breadcrumbs (hidden on front page) -->
     <?php if ( ! is_front_page() ) : ?>
         <div class="breadcrumbs" role="navigation" aria-label="<?php esc_attr_e( 'Breadcrumbs', 'ct-custom' ); ?>">
-            <?php ct_custom_breadcrumbs(); ?>
+            <?php bs_custom_breadcrumbs(); ?>
         </div>
     <?php endif; ?>
 

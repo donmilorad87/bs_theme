@@ -6,10 +6,10 @@
  * class intercepts the frontend request on template_redirect and
  * sends the visitor to the appropriate destination.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Blocks;
+namespace BSCustom\Blocks;
 
 class PageAccessControl {
 
@@ -55,7 +55,7 @@ class PageAccessControl {
 		/* Unprotected page — guests only, logged-in users go to profile */
 		if ( has_block( self::BLOCK_UNPROTECTED, $post ) ) {
 			if ( is_user_logged_in() ) {
-				wp_safe_redirect( ct_custom_get_profile_page_url() );
+				wp_safe_redirect( bs_custom_get_profile_page_url() );
 				exit;
 			}
 		}
@@ -63,7 +63,7 @@ class PageAccessControl {
 		/* Protected page — logged-in only, guests go to login */
 		if ( has_block( self::BLOCK_PROTECTED, $post ) ) {
 			if ( ! is_user_logged_in() ) {
-				wp_safe_redirect( ct_custom_get_auth_page_url() );
+				wp_safe_redirect( bs_custom_get_auth_page_url() );
 				exit;
 			}
 		}
@@ -71,7 +71,7 @@ class PageAccessControl {
 		/* Admin page — admins only */
 		if ( has_block( self::BLOCK_ADMIN, $post ) ) {
 			if ( ! is_user_logged_in() ) {
-				wp_safe_redirect( ct_custom_get_auth_page_url() );
+				wp_safe_redirect( bs_custom_get_auth_page_url() );
 				exit;
 			}
 

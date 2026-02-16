@@ -6,7 +6,7 @@
  * used by the auth system. State is stored in $GLOBALS arrays and
  * reset between tests via AuthTestCase::setUp().
  *
- * @package CTCustom\Tests
+ * @package BSCustom\Tests
  */
 
 if ( defined( 'CT_WP_STUBS_LOADED' ) ) {
@@ -625,20 +625,20 @@ if ( ! function_exists( 'media_handle_sideload' ) ) {
 
 if ( ! function_exists( 'ct_jwt_or_cookie_permission_check' ) ) {
     function ct_jwt_or_cookie_permission_check( $request ) {
-        return \CTCustom\Services\JwtAuth::jwt_or_cookie_permission_check( $request );
+        return \BSCustom\Services\JwtAuth::jwt_or_cookie_permission_check( $request );
     }
 }
 
 /* ── URL helpers used by PageAccessControl ──────────────────────── */
 
-if ( ! function_exists( 'ct_custom_get_auth_page_url' ) ) {
-    function ct_custom_get_auth_page_url() {
+if ( ! function_exists( 'bs_custom_get_auth_page_url' ) ) {
+    function bs_custom_get_auth_page_url() {
         return 'https://example.com/login-register/';
     }
 }
 
-if ( ! function_exists( 'ct_custom_get_profile_page_url' ) ) {
-    function ct_custom_get_profile_page_url() {
+if ( ! function_exists( 'bs_custom_get_profile_page_url' ) ) {
+    function bs_custom_get_profile_page_url() {
         return 'https://example.com/profile/';
     }
 }

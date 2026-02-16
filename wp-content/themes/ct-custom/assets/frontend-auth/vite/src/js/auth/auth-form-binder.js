@@ -3,7 +3,7 @@
  *
  * Duplicated from frontend/vite/src/js/auth/auth-form-binder.js for standalone auth bundle.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import AuthValidator from './auth-validator.js';

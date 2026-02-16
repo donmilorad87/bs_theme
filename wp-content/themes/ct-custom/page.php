@@ -2,7 +2,7 @@
 /**
  * The template for displaying all pages
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 get_header();

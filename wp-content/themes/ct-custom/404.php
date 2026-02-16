@@ -4,7 +4,7 @@
  *
  * @link https://codex.wordpress.org/Creating_an_Error_404_Page
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 get_header();
@@ -44,8 +44,8 @@ get_header();
 
 					<?php
 					/* translators: %1$s: smiley */
-					$ct_custom_archive_content = '<p class="ct-p">' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'ct-custom' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$ct_custom_archive_content" );
+					$bs_custom_archive_content = '<p class="ct-p">' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'ct-custom' ), convert_smilies( ':)' ) ) . '</p>';
+					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$bs_custom_archive_content" );
 
 					the_widget( 'WP_Widget_Tag_Cloud' );
 					?>

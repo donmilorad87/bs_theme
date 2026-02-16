@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$email_config_raw = get_option( 'ct_custom_email_config', '{}' );
+$email_config_raw = get_option( 'bs_custom_email_config', '{}' );
 $email_config     = json_decode( $email_config_raw, true );
 
 if ( ! is_array( $email_config ) ) {

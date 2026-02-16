@@ -5,12 +5,12 @@
  * Covers: successful update, empty first/last name validation,
  * and display_name composition.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\ProfileUpdate;
+use BSCustom\RestApi\Endpoints\ProfileUpdate;
 
 class ProfileUpdateEndpointTest extends AuthTestCase {
 

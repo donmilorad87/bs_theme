@@ -2,7 +2,7 @@
 /**
  * Template Part: Activation Code Form
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 assert( function_exists( 'esc_html__' ), 'esc_html__ must exist' );

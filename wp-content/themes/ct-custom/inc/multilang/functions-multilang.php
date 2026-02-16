@@ -6,12 +6,12 @@
  * Keeps backward compatibility for the 23+ call sites across
  * the codebase that use these functions directly.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Multilang\MultilangService;
-use CTCustom\Multilang\Translator;
-use CTCustom\Multilang\LanguageManager;
+use BSCustom\Multilang\MultilangService;
+use BSCustom\Multilang\Translator;
+use BSCustom\Multilang\LanguageManager;
 
 /**
  * Get the current language iso2 code for the current page/post.

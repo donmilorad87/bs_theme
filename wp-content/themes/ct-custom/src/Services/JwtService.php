@@ -1,6 +1,6 @@
 <?php
 
-namespace CTCustom\Services;
+namespace BSCustom\Services;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -16,7 +16,7 @@ class JwtService {
     private $config_cache = null;
 
     /**
-     * Load and cache JWT config from the ct_custom_jwt_auth option.
+     * Load and cache JWT config from the bs_custom_jwt_auth option.
      *
      * @return array Config array with defaults applied.
      */
@@ -25,7 +25,7 @@ class JwtService {
             return $this->config_cache;
         }
 
-        $raw    = get_option( 'ct_custom_jwt_auth', '{}' );
+        $raw    = get_option( 'bs_custom_jwt_auth', '{}' );
         $config = json_decode( $raw, true );
 
         if ( ! is_array( $config ) ) {

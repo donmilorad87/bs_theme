@@ -4,7 +4,7 @@
  * Displays stacking toast messages (success, warning, error) with
  * auto-dismiss, progress bar, and manual close.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 export default class Toast {
 

@@ -4,7 +4,7 @@
  *
  * Updates the numeric label next to each range input as the user drags.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 (function () {

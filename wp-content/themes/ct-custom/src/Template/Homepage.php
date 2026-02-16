@@ -4,10 +4,10 @@
  *
  * Provides data-preparation and rendering for the homepage template.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 class Homepage {
 
@@ -115,7 +115,7 @@ class Homepage {
 			<figure class="image-grid__item m0" data-image-index="<?php echo (int) $item['index']; ?>"<?php if ( ! $item['image_id'] ) : ?> style="display:none;"<?php endif; ?>>
 				<<?php echo $tag; ?> class="image-grid__card"<?php if ( ! empty( $item['image_url'] ) ) : ?> href="<?php echo esc_url( $item['image_url'] ); ?>" target="_blank" rel="noopener noreferrer"<?php endif; ?>>
 					<?php if ( $item['image_id'] ) : ?>
-						<?php echo ct_custom_get_attachment_image( $item['image_id'], 'large', $img_attr ); ?>
+						<?php echo bs_custom_get_attachment_image( $item['image_id'], 'large', $img_attr ); ?>
 					<?php endif; ?>
 					<figcaption class="image-grid__caption tac"><?php echo esc_html( $item['image_title'] ); ?></figcaption>
 				</<?php echo $tag; ?>>

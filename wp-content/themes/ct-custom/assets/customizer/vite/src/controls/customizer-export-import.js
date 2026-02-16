@@ -7,7 +7,7 @@
  *
  * Depends on wp.customize, jQuery, and ctExportImportData (localized).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { assert } from './utils.js';
@@ -197,7 +197,7 @@ CustomizerExportImport.prototype._importSettings = function () {
         }
 
         if (!parsed.theme || parsed.theme !== 'ct-custom') {
-            self._showStatus(statusEl, 'Not a valid CT Custom export file.', 'error');
+            self._showStatus(statusEl, 'Not a valid BS Custom export file.', 'error');
             return;
         }
 

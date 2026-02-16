@@ -7,7 +7,7 @@
  * B) Translation Editor
  * C) Page Translations
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

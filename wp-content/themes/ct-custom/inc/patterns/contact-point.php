@@ -8,7 +8,7 @@
  * Viewport Width: 600
  */
 
-$ct_contact   = \CTCustom\Template\Contact::instance();
+$ct_contact   = \BSCustom\Template\Contact::instance();
 $ct_cp_data   = $ct_contact->get_contact_point_data();
 $ct_addr      = $ct_contact->build_address_lines( $ct_cp_data['address'] );
 $ct_title     = esc_html( get_theme_mod( 'ct_reach_us_title', 'REACH US' ) );

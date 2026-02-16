@@ -9,19 +9,19 @@
  * Each <option> carries data-variants so the font-weights module
  * can show/hide checkboxes when the family changes.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
-use CTCustom\Customizer\FontManager;
+use BSCustom\Customizer\FontManager;
 
 class FontFamilyControl extends \WP_Customize_Control {
 
     public $type = 'ct_font_family';
 
     public function enqueue() {
-        /* Handled by centralized ct_custom_customize_controls_js() */
+        /* Handled by centralized bs_custom_customize_controls_js() */
     }
 
     public function render_content() {

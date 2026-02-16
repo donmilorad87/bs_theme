@@ -2,10 +2,10 @@
 /**
  * Tests for RateLimiter trait.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
 class RateLimiterTest extends AuthTestCase {
 
@@ -16,7 +16,7 @@ class RateLimiterTest extends AuthTestCase {
         parent::setUp();
 
         $this->limiter = new class {
-            use \CTCustom\RestApi\RateLimiter;
+            use \BSCustom\RestApi\RateLimiter;
 
             public function callIsRateLimitedByIp( string $prefix, string $ip, int $max ): bool {
                 return $this->is_rate_limited_by_ip( $prefix, $ip, $max );

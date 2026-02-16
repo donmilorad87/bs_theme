@@ -9,13 +9,13 @@
  * Rate limited: 5 uploads per user per minute.
  * Max file size: 5MB, images only.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
 
 class ProfileUploadAvatar {
 

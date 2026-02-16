@@ -5,13 +5,13 @@
  * Returns the authenticated user's contact messages with replies.
  * GET /wp-json/ct-auth/v1/contact/user-messages
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
-use CTCustom\Cpt\ContactMessageCpt;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\Cpt\ContactMessageCpt;
 
 class ContactUserMessages {
 

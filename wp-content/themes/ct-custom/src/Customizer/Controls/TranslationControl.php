@@ -9,12 +9,12 @@
  * Migrated from inc/customizer/customizer_controls.php.
  * Old class: CT_Translation_Control -> New: TranslationControl
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Customizer\Controls;
+namespace BSCustom\Customizer\Controls;
 
-use CTCustom\Multilang\TranslationService;
+use BSCustom\Multilang\TranslationService;
 
 class TranslationControl extends \WP_Customize_Control {
 

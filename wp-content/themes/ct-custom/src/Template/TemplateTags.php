@@ -5,10 +5,10 @@
  * Contains reusable template tag methods for post meta output.
  * Consumed by CT_Template_Hooks.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 trait TemplateTags {
 

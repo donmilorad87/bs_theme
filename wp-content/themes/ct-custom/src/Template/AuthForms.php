@@ -5,10 +5,10 @@
  * Provides helper methods for authentication state and
  * rendering auth form template parts.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-namespace CTCustom\Template;
+namespace BSCustom\Template;
 
 class AuthForms {
 

@@ -5,12 +5,12 @@
  * Verifies that authenticated users can log out and that the session
  * is properly cleared via Logout::handle().
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
-use CTCustom\RestApi\Endpoints\Logout;
+use BSCustom\RestApi\Endpoints\Logout;
 
 class LogoutEndpointTest extends AuthTestCase {
 

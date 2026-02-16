@@ -1,7 +1,7 @@
 /**
  * Shared utilities for Customizer control modules.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 /**

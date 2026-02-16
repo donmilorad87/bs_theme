@@ -2,7 +2,7 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
     "name": "ct-custom/team-members",
-    "title": "CT Team Members",
+    "title": "BS Team Members",
     "category": "ct-custom",
     "icon": "groups",
     "description": "Team members grid with blue tint photos and hover reveal.",

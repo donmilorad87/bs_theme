@@ -3,20 +3,20 @@
  * REST Forgot Password Endpoint
  *
  * Handles password reset requests via POST /wp-json/ct-auth/v1/forgot-password.
- * Generates a 6-digit code and sends it via the CT Mail Service.
+ * Generates a 6-digit code and sends it via the BS Mail Service.
  * Always returns success to prevent email enumeration.
  * Rate limited: 3 attempts per email per hour.
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RateLimiter;
-use CTCustom\RestApi\RestLogger;
-use CTCustom\RestApi\CodeGenerator;
-use CTCustom\Services\MailService;
-use CTCustom\Services\EmailTemplate;
+use BSCustom\RestApi\RateLimiter;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\RestApi\CodeGenerator;
+use BSCustom\Services\MailService;
+use BSCustom\Services\EmailTemplate;
 
 class ForgotPassword {
 

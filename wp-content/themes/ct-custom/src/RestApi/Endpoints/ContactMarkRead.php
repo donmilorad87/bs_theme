@@ -5,13 +5,13 @@
  * Toggles read/unread status on a contact message.
  * POST /wp-json/ct-auth/v1/contact/mark-read
  *
- * @package CTCustom\RestApi\Endpoints
+ * @package BSCustom\RestApi\Endpoints
  */
 
-namespace CTCustom\RestApi\Endpoints;
+namespace BSCustom\RestApi\Endpoints;
 
-use CTCustom\RestApi\RestLogger;
-use CTCustom\Cpt\ContactMessageCpt;
+use BSCustom\RestApi\RestLogger;
+use BSCustom\Cpt\ContactMessageCpt;
 
 class ContactMarkRead {
 

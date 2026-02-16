@@ -4,14 +4,14 @@
  *
  * Sub-tabs for Messages and Configuration (pointers).
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$pointers_raw = get_option( 'ct_custom_contact_pointers', '[]' );
+$pointers_raw = get_option( 'bs_custom_contact_pointers', '[]' );
 $pointers     = json_decode( $pointers_raw, true );
 
 if ( ! is_array( $pointers ) ) {

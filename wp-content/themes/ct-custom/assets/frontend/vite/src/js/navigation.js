@@ -5,7 +5,7 @@
  * navigation support for dropdown menus, and flips nested sub-menus that
  * would overflow the viewport.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 const MAX_MENU_ITEMS = 100;

@@ -4,7 +4,7 @@
  * Simulates complete user interaction sequences on the profile page:
  * tab switching, save profile, change password, logout, and messages loading.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';

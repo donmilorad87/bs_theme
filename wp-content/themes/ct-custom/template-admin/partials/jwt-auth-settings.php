@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$jwt_raw = get_option( 'ct_custom_jwt_auth', '{}' );
+$jwt_raw = get_option( 'bs_custom_jwt_auth', '{}' );
 $jwt     = json_decode( $jwt_raw, true );
 
 if ( ! is_array( $jwt ) ) {

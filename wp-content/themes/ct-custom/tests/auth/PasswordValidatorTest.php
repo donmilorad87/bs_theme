@@ -2,10 +2,10 @@
 /**
  * Tests for PasswordValidator trait.
  *
- * @package CTCustom\Tests\Auth
+ * @package BSCustom\Tests\Auth
  */
 
-namespace CTCustom\Tests\Auth;
+namespace BSCustom\Tests\Auth;
 
 class PasswordValidatorTest extends AuthTestCase {
 
@@ -17,7 +17,7 @@ class PasswordValidatorTest extends AuthTestCase {
 
         /* Anonymous class to expose the private trait method for testing */
         $this->validator = new class {
-            use \CTCustom\RestApi\PasswordValidator;
+            use \BSCustom\RestApi\PasswordValidator;
 
             public function validate( string $password ) {
                 return $this->validate_password_strength( $password );

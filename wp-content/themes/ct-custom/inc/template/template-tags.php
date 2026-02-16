@@ -4,43 +4,43 @@
  *
  * Thin backward-compatible wrappers that delegate to CT_Template_Hooks.
  *
- * @package CT_Custom
+ * @package BS_Custom
  */
 
-use CTCustom\Template\TemplateHooks;
+use BSCustom\Template\TemplateHooks;
 
-if ( ! function_exists( 'ct_custom_posted_on' ) ) :
+if ( ! function_exists( 'bs_custom_posted_on' ) ) :
 	/**
 	 * Prints HTML with meta information for the current post-date/time.
 	 */
-	function ct_custom_posted_on() {
+	function bs_custom_posted_on() {
 		TemplateHooks::instance()->posted_on();
 	}
 endif;
 
-if ( ! function_exists( 'ct_custom_posted_by' ) ) :
+if ( ! function_exists( 'bs_custom_posted_by' ) ) :
 	/**
 	 * Prints HTML with meta information for the current author.
 	 */
-	function ct_custom_posted_by() {
+	function bs_custom_posted_by() {
 		TemplateHooks::instance()->posted_by();
 	}
 endif;
 
-if ( ! function_exists( 'ct_custom_entry_footer' ) ) :
+if ( ! function_exists( 'bs_custom_entry_footer' ) ) :
 	/**
 	 * Prints HTML with meta information for the categories, tags and comments.
 	 */
-	function ct_custom_entry_footer() {
+	function bs_custom_entry_footer() {
 		TemplateHooks::instance()->entry_footer();
 	}
 endif;
 
-if ( ! function_exists( 'ct_custom_post_thumbnail' ) ) :
+if ( ! function_exists( 'bs_custom_post_thumbnail' ) ) :
 	/**
 	 * Displays an optional post thumbnail.
 	 */
-	function ct_custom_post_thumbnail() {
+	function bs_custom_post_thumbnail() {
 		TemplateHooks::instance()->post_thumbnail();
 	}
 endif;
