@@ -1,0 +1,77 @@
+/**
+ * Menu Language Filter — Tab bar styling
+ *
+ * Applied on wp-admin/nav-menus.php for both:
+ * - Manage Locations tab (above the locations table)
+ * - Edit Menus tab (inside Menu Settings > Display location)
+ */
+
+.ct-menu-lang-filter-bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	margin: 10px 0 16px;
+	padding: 0;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+.ct-menu-lang-tab {
+	padding: 8px 16px;
+	margin: 0 0 -1px;
+	border: 1px solid transparent;
+	border-bottom: none;
+	border-radius: 3px 3px 0 0;
+	background: none;
+	color: #2271b1;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.4;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ct-menu-lang-tab:hover {
+	background-color: #f0f0f1;
+	color: #135e96;
+	text-decoration: none;
+}
+
+.ct-menu-lang-tab:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: -2px;
+}
+
+.ct-menu-lang-tab--active,
+.ct-menu-lang-tab--active:hover,
+.ct-menu-lang-tab--active:focus {
+	background: #fff;
+	border-color: #c3c4c7;
+	color: #1d2327;
+	font-weight: 600;
+	cursor: default;
+	text-decoration: none;
+}
+
+/* Inside Menu Settings fieldset: tighter margins */
+.menu-theme-locations .ct-menu-lang-filter-bar {
+	margin: 8px 0 12px;
+}
+
+.menu-theme-locations .ct-menu-lang-tab {
+	padding: 6px 12px;
+	font-size: 12px;
+}
+
+/* Hide filtered-out location rows and checkboxes */
+.ct-menu-lang-filter-hidden {
+	display: none !important;
+}
+
+/* Responsive: wrap tabs on narrow viewports */
+@media screen and (max-width: 782px) {
+	.ct-menu-lang-tab {
+		padding: 6px 12px;
+		font-size: 12px;
+	}
+}

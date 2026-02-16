@@ -1,0 +1,13 @@
+/**
+ * Customizer Controls - Aggregated styles
+ *
+ * Imports all control-specific SCSS partials.
+ *
+ * @package CT_Custom
+ */
+
+@use 'social-networks';
+@use 'contact-point';
+@use 'export-import';
+@use 'translation';
+@use 'font-controls';

@@ -1,0 +1,5 @@
+# Node modules (all)
+node_modules/
+
+# Composer
+vendor/

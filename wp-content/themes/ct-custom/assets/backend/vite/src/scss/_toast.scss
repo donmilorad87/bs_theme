@@ -1,0 +1,125 @@
+@use 'variables' as *;
+
+/* ═══ Toast Container ═══ */
+
+.ct-toast-container {
+    position: fixed;
+    top: 32px;  /* below WP admin bar */
+    right: 20px;
+    z-index: 100001;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* ═══ Individual Toast ═══ */
+
+.ct-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    background: $ct-white;
+    border-radius: $ct-admin-radius;
+    box-shadow: $ct-shadow-lg;
+    border-left: 4px solid $ct-gray;
+    pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &--visible {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    &--exiting {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    /* Type variants */
+    &--success {
+        border-left-color: $ct-success;
+
+        .ct-toast__icon { color: $ct-success; }
+        .ct-toast__progress-bar { background: $ct-success; }
+    }
+
+    &--warning {
+        border-left-color: $ct-warning;
+
+        .ct-toast__icon { color: $ct-warning; }
+        .ct-toast__progress-bar { background: $ct-warning; }
+    }
+
+    &--error {
+        border-left-color: $ct-error;
+
+        .ct-toast__icon { color: $ct-error; }
+        .ct-toast__progress-bar { background: $ct-error; }
+    }
+}
+
+/* ═══ Toast Parts ═══ */
+
+.ct-toast__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    margin-top: 1px;
+}
+
+.ct-toast__message {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: $ct-dark;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.ct-toast__close {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: $ct-gray-light;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0;
+    transition: color $ct-admin-transition, background $ct-admin-transition;
+
+    &:hover {
+        color: $ct-dark;
+        background: $ct-light-gray;
+    }
+}
+
+/* ═══ Progress Bar ═══ */
+
+.ct-toast__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: $ct-border-light;
+}
+
+.ct-toast__progress-bar {
+    height: 100%;
+    width: 100%;
+    background: $ct-gray;
+    border-radius: 0 0 0 $ct-admin-radius;
+}

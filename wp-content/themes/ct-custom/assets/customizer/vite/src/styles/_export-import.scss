@@ -1,0 +1,120 @@
+/**
+ * Customizer Export / Import Control
+ *
+ * Styles for the export/import UI inside the Customizer panel.
+ *
+ * @package CT_Custom
+ */
+
+/* --- Wrapper --- */
+
+.ct-ei-control {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+/* --- Section blocks --- */
+
+.ct-ei-section {
+    margin-bottom: 14px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    > h4 {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #555;
+        margin: 0 0 4px;
+    }
+
+    > p {
+        font-size: 11px;
+        color: #777;
+        margin: 0 0 8px;
+        line-height: 1.4;
+    }
+}
+
+/* --- Divider --- */
+
+.ct-ei-divider {
+    height: 1px;
+    background: #ccc;
+    margin: 12px 0;
+}
+
+/* --- Buttons --- */
+
+.ct-ei-btn {
+    display: inline-block;
+    padding: 5px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #0071a1;
+    border-radius: 3px;
+    background: #0071a1;
+    color: #fff;
+    line-height: 1.4;
+    text-align: center;
+    min-width: 100px;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: #005d8c;
+        border-color: #005d8c;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+/* --- File input --- */
+
+.ct-ei-file-input {
+    display: block;
+    width: 100%;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.ct-ei-file-info {
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+/* --- Status message --- */
+
+.ct-ei-status {
+    font-size: 11px;
+    margin-top: 6px;
+    padding: 4px 8px;
+    border-radius: 2px;
+    line-height: 1.4;
+
+    &--success {
+        background: #ecf7ed;
+        color: #1e7e34;
+        border: 1px solid #c3e6cb;
+    }
+
+    &--error {
+        background: #fdf0f0;
+        color: #b02a37;
+        border: 1px solid #f5c2c7;
+    }
+
+    &--loading {
+        background: #e8f4fd;
+        color: #084298;
+        border: 1px solid #b6d4fe;
+    }
+}

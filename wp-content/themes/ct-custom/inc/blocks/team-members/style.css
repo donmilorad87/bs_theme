@@ -1,0 +1,357 @@
+/* ── CT Team Members — Frontend Styles ── */
+/* Matches Coalition Technologies who-we-are design */
+
+/* Force full viewport width regardless of parent container */
+.wp-block-ct-custom-team-members {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    position: relative;
+
+    /* Theme color resolution — light (default) */
+    --ct-grid-bg: var(--ct-grid-bg-light);
+    --ct-overlay-bg: var(--ct-overlay-bg-light);
+    --ct-showmore-bg: var(--ct-showmore-bg-light);
+    --ct-btn-bg: var(--ct-btn-bg-light);
+    --ct-btn-hover: var(--ct-btn-hover-light);
+    --ct-name-color: var(--ct-name-color-light);
+    --ct-pos-color: var(--ct-pos-color-light);
+}
+
+/* Theme color resolution — dark */
+body[data-theme="dark"] .wp-block-ct-custom-team-members {
+    --ct-grid-bg: var(--ct-grid-bg-dark);
+    --ct-overlay-bg: var(--ct-overlay-bg-dark);
+    --ct-showmore-bg: var(--ct-showmore-bg-dark);
+    --ct-btn-bg: var(--ct-btn-bg-dark);
+    --ct-btn-hover: var(--ct-btn-hover-dark);
+    --ct-name-color: var(--ct-name-color-dark);
+    --ct-pos-color: var(--ct-pos-color-dark);
+}
+
+/* ── Grid container — full-width background, flex-wrapped tiles ── */
+.team-members__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: var(--ct-grid-bg);
+    width: 100%;
+    font-size: 0;
+    line-height: 0;
+}
+
+/* ── Single member tile — 145×145, tightly packed ── */
+.team-member {
+    display: inline-block;
+    width: 145px;
+    height: 145px;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Base image — grayscale */
+.team-member > .team-member__image {
+    width: 145px;
+    height: 145px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1);
+}
+
+/* Blue tint overlay */
+.team-member::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--ct-overlay-bg);
+    opacity: 0.85;
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* ── Hover info container (2-tile popup) ── */
+.team-member__popup {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 290px;
+    height: 145px;
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.team-member__popup-photo {
+    width: 145px;
+    height: 145px;
+    flex-shrink: 0;
+}
+
+.team-member__popup-photo img {
+    width: 145px;
+    height: 145px;
+    object-fit: cover;
+    display: block;
+}
+
+.team-member__popup-info {
+    width: 145px;
+    height: 145px;
+    background-color: #fff;
+    text-align: left;
+    padding: 20px 10px;
+    font-size: 14px;
+    color: var(--ct-name-color);
+    line-height: normal;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.team-member__popup-info p {
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+}
+
+.team-member__name {
+    font-weight: var(--ct-name-weight, 700);
+    color: var(--ct-name-color);
+    font-size: clamp(8px, 1.2vw, var(--ct-name-size, 14px));
+    font-style: var(--ct-name-style, normal);
+    text-transform: var(--ct-name-transform, none);
+    margin: 0;
+    padding: 0;
+    line-height: 1.3;
+}
+
+.team-member__position {
+    font-size: clamp(6px, 1vw, var(--ct-pos-size, 11px));
+    color: var(--ct-pos-color);
+    font-weight: var(--ct-pos-weight, 400);
+    font-style: var(--ct-pos-style, normal);
+    text-transform: var(--ct-pos-transform, none);
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+}
+
+/* ── Hover state ── */
+.team-member:hover::before,
+.team-member:focus-within::before {
+    opacity: 0;
+}
+
+.team-member:hover > .team-member__image,
+.team-member:focus-within > .team-member__image {
+    filter: grayscale(0);
+}
+
+.team-member:hover .team-member__popup,
+.team-member:focus-within .team-member__popup {
+    z-index: 10;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Last-of-row: flip popup to the left */
+.team-member--last-of-row .team-member__popup {
+    left: auto;
+    right: 0;
+    flex-direction: row-reverse;
+}
+
+/* ── Hidden members — grid overflow handles visibility ── */
+
+/* ── Show More overlay ── */
+.team-members__showmore {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 145px;
+    background-color: var(--ct-showmore-bg);
+    text-align: center;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-members__showmore-btn {
+    display: inline-block;
+    height: 50px;
+    line-height: var(--ct-btn-lh, 1.2);
+    background-color: var(--ct-btn-bg);
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: var(--ct-btn-size, 15px);
+    border-radius: 4px;
+    padding: 14px 10px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease;
+}
+
+.team-members__showmore-btn:hover,
+.team-members__showmore-btn:focus {
+    background-color: var(--ct-btn-hover);
+}
+
+.team-members__showmore-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* ── Container — positioning context for overlay ── */
+.team-members--collapsed {
+    position: relative;
+}
+
+/* ── Grid height collapse: show 2 rows of 145px tiles ── */
+.team-members--collapsed .team-members__grid {
+    height: 290px;
+    overflow: hidden;
+}
+
+.team-members--expanded .team-members__grid {
+    height: auto !important;
+    overflow: visible;
+}
+
+/* ── Flat button state (after expanding) ── */
+.team-members__showmore--flat {
+    position: relative;
+    background-color: transparent;
+    height: auto;
+    padding: 16px 0;
+    z-index: 1;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+    .team-member {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-member > .team-member__image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-member__popup {
+        width: 240px;
+        height: 120px;
+    }
+
+    .team-member__popup-photo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-member__popup-photo img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-member__popup-info {
+        width: 120px;
+        height: 120px;
+        padding: 10px 8px;
+        font-size: 10px;
+    }
+
+    .team-member__name {
+        font-size: calc(var(--ct-name-size, 14px) * 0.714);
+    }
+
+    .team-member__position {
+        font-size: calc(var(--ct-pos-size, 11px) * 0.727);
+    }
+
+    .team-members--collapsed .team-members__grid {
+        height: 240px;
+    }
+
+    .team-members__showmore {
+        height: 120px;
+    }
+
+    .team-members__showmore-btn {
+        font-size: calc(var(--ct-btn-size, 15px) * 0.8);
+        padding: 10px 8px;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .team-member {
+        width: 100px;
+        height: 100px;
+    }
+
+    .team-member > .team-member__image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .team-member__popup {
+        width: 200px;
+        height: 100px;
+    }
+
+    .team-member__popup-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .team-member__popup-photo img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .team-member__popup-info {
+        width: 100px;
+        height: 100px;
+        padding: 6px 5px;
+        font-size: 9px;
+    }
+
+    .team-member__name {
+        font-size: calc(var(--ct-name-size, 14px) * 0.643);
+    }
+
+    .team-member__position {
+        font-size: calc(var(--ct-pos-size, 11px) * 0.636);
+    }
+
+    .team-members--collapsed .team-members__grid {
+        height: 200px;
+    }
+
+    .team-members__showmore {
+        height: 100px;
+    }
+
+    .team-members__showmore-btn {
+        font-size: calc(var(--ct-btn-size, 15px) * 0.733);
+    }
+}

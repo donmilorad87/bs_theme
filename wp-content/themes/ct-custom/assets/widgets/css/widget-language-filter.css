@@ -1,0 +1,65 @@
+/**
+ * Widget Language Filter — Tab bar styling
+ *
+ * Applied only on wp-admin/widgets.php (classic editor).
+ */
+
+.ct-widget-lang-filter-bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	margin: 10px 0 16px;
+	padding: 0;
+	border-bottom: 1px solid #c3c4c7;
+}
+
+.ct-widget-lang-tab {
+	padding: 8px 16px;
+	margin: 0 0 -1px;
+	border: 1px solid transparent;
+	border-bottom: none;
+	border-radius: 3px 3px 0 0;
+	background: none;
+	color: #2271b1;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.4;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ct-widget-lang-tab:hover {
+	background-color: #f0f0f1;
+	color: #135e96;
+}
+
+.ct-widget-lang-tab:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: -2px;
+}
+
+.ct-widget-lang-tab--active {
+	background: #fff;
+	border-color: #c3c4c7;
+	color: #1d2327;
+	font-weight: 600;
+	cursor: default;
+}
+
+.ct-widget-lang-tab--active:hover {
+	background: #fff;
+	color: #1d2327;
+}
+
+/* Hide filtered-out sidebars */
+.ct-widget-lang-filter-hidden {
+	display: none !important;
+}
+
+/* Responsive: wrap tabs on narrow viewports */
+@media screen and (max-width: 782px) {
+	.ct-widget-lang-tab {
+		padding: 6px 12px;
+		font-size: 12px;
+	}
+}

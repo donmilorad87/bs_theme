@@ -1,0 +1,34 @@
+$ct-primary: #FF6B35;
+$ct-primary-light: #FFF4EE;
+$ct-primary-dark: #E85A25;
+$ct-dark: #1A1A2E;
+$ct-dark-soft: #2D2D44;
+$ct-white: #FFFFFF;
+$ct-off-white: #FAFBFC;
+$ct-gray: #6B7280;
+$ct-gray-light: #9CA3AF;
+$ct-light-gray: #F3F4F6;
+$ct-border: #E5E7EB;
+$ct-border-light: #F0F1F3;
+$ct-success: #059669;
+$ct-success-light: #ECFDF5;
+$ct-error: #DC2626;
+$ct-error-light: #FEF2F2;
+$ct-warning: #D97706;
+$ct-warning-light: #FFFBEB;
+$ct-info: #2563EB;
+$ct-info-light: #EFF6FF;
+
+$ct-admin-radius: 8px;
+$ct-admin-radius-lg: 12px;
+$ct-admin-spacing: 20px;
+$ct-admin-spacing-sm: 12px;
+$ct-admin-spacing-lg: 28px;
+$ct-admin-transition: 0.2s ease;
+$ct-admin-transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+$ct-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$ct-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+$ct-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+$ct-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+$ct-shadow-primary: 0 4px 14px -3px rgba($ct-primary, 0.35);

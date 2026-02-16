@@ -1,0 +1,563 @@
+@use 'variables' as *;
+
+// --- Topbar ---
+.topbar {
+    padding: $space-sm 0;
+}
+
+.topbar__container {
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+}
+
+.topbar__right {
+    gap: 0;
+}
+
+.topbar__right .menu {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+// --- Header ---
+.site-header__container {
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+}
+
+.main-navigation .menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-navigation .menu > li {
+    position: relative;
+}
+
+.main-navigation .menu > li > a {
+    display: inline-block;
+    padding: 10px 0;
+}
+
+// --- Submenu panels ---
+// Auto-width from content with a shared minimum; applies to all levels.
+.main-navigation .sub-menu {
+    display: none;
+    position: absolute;
+    min-width: $submenu-min-width;
+    width: max-content;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1000;
+}
+
+// First-level dropdown drops below the top-level item.
+.main-navigation .menu > li > .sub-menu {
+    top: 100%;
+    left: 0;
+}
+
+// Right-aligned first-level dropdown when it would overflow the viewport.
+// The .sub-menu--right class is added by JS on load/resize.
+.main-navigation .menu > li.sub-menu--right > .sub-menu {
+    left: auto;
+    right: 0;
+}
+
+.main-navigation .menu > li:hover > .sub-menu {
+    display: block;
+}
+
+.main-navigation .sub-menu li {
+    position: relative;
+}
+
+.main-navigation .sub-menu li a {
+    display: block;
+    padding: $submenu-padding-v $submenu-padding-h;
+    white-space: nowrap;
+}
+
+// Nested submenus (3rd, 4th level, etc.) fly out to the side.
+.main-navigation .sub-menu .sub-menu {
+    top: 0;
+    left: 100%;
+}
+
+.main-navigation .sub-menu li:hover > .sub-menu {
+    display: block;
+}
+
+// --- Dropdown arrow indicators ---
+// Uses CSS borders rotated into chevrons; inherits currentColor
+// so the arrow matches whatever text colour the theme applies.
+
+// Top-level: down-pointing chevron on the right.
+.main-navigation .menu > .menu-item-has-children > a {
+    padding-right: $submenu-padding-h + 2px;
+    position: relative;
+}
+
+.main-navigation .menu > .menu-item-has-children > a::after {
+    content: '';
+    position: absolute;
+    right: $space-xs;
+    top: 50%;
+    width: $arrow-size;
+    height: $arrow-size;
+    border-right: $arrow-thickness solid currentColor;
+    border-bottom: $arrow-thickness solid currentColor;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+// Sub-menu items: right-pointing chevron (default — submenu opens right).
+.main-navigation .sub-menu .menu-item-has-children > a {
+    padding-right: $submenu-padding-h + $space-sm;
+    position: relative;
+}
+
+.main-navigation .sub-menu .menu-item-has-children > a::after {
+    content: '';
+    position: absolute;
+    right: $submenu-padding-v + 2px;
+    top: 50%;
+    width: $arrow-size;
+    height: $arrow-size;
+    border-right: $arrow-thickness solid currentColor;
+    border-bottom: $arrow-thickness solid currentColor;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+// Flipped sub-menu items: left-pointing chevron (submenu opens left).
+// The .sub-menu--left class is added by JS when the panel would overflow.
+.main-navigation .sub-menu .menu-item-has-children.sub-menu--left > a {
+    padding-right: $submenu-padding-h;
+    padding-left: $submenu-padding-h + $space-sm;
+}
+
+.main-navigation .sub-menu .menu-item-has-children.sub-menu--left > a::after {
+    right: auto;
+    left: $submenu-padding-v + 2px;
+    transform: translateY(-50%) rotate(135deg);
+}
+
+// Flipped submenu panel positioning.
+.main-navigation .sub-menu--left > .sub-menu {
+    left: auto;
+    right: 100%;
+}
+
+// Hamburger toggle (hidden on desktop)
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    color: var(--ct-menu-top-color);
+}
+
+// --- Breadcrumbs ---
+.breadcrumbs {
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 20px $container-padding;
+}
+
+// --- Contact Article ---
+.contact-article .ct-container {
+    padding-top: $space-xl;
+    padding-bottom: $space-lg;
+}
+
+.contact-article .entry-content {
+    margin-bottom: $space-lg;
+}
+
+// --- Homepage: Hero Section ---
+.hero-section {
+    padding: $space-xxl 0 $space-xl;
+}
+
+.hero-section__title {
+    margin-bottom: $space-md;
+}
+
+.hero-section__description {
+    max-width: 800px;
+}
+
+// --- Homepage: Image Grid ---
+.image-grid {
+    padding: $space-lg 0;
+}
+
+.image-grid__columns {
+    gap: $space-lg;
+}
+
+.image-grid__item {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.image-grid__card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+a.image-grid__card:hover {
+    opacity: 0.9;
+}
+
+.image-grid__item img,
+.image-grid__item svg {
+    width: 100%;
+    height: 280px;
+    display: block;
+    object-fit: cover;
+}
+
+.image-grid__caption {
+    margin-top: $space-sm;
+}
+
+// --- Homepage: Content Section ---
+.content-section {
+    padding: $space-xl 0 $space-xxl;
+}
+
+.content-section__title {
+    margin-bottom: $space-md;
+}
+
+.content-section__description {
+    max-width: 800px;
+}
+
+// --- Contact Section ---
+.contact-section {
+    gap: $space-xxl;
+    padding: $space-xl 0;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding-left: $container-padding;
+    padding-right: $container-padding;
+}
+
+.contact-section__form,
+.contact-section__info {
+    flex: 1 1 0%;
+    min-width: 0;
+}
+
+.contact-section .section-title {
+    position: relative;
+    padding-bottom: 12px;
+    margin-bottom: $space-lg;
+}
+
+.contact-section .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+}
+
+// --- Form Fields Layout ---
+.ct-contact-form input[type='text'],
+.ct-contact-form input[type='email'],
+.ct-contact-form input[type='tel'],
+.ct-contact-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    outline: none;
+}
+
+.ct-contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.ct-contact-form .ct-contact-form__name-row {
+    gap: 12px;
+}
+
+.ct-contact-form .ct-contact-form__name-row > .ct-contact-form__field {
+    flex: 1;
+}
+
+.ct-contact-form__submit {
+    border: none;
+    padding: 12px 32px;
+    letter-spacing: 1px;
+}
+
+// --- Social Icons ---
+.social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-sm;
+    margin-top: $space-lg;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+}
+
+.social-icons a img {
+    object-fit: contain;
+}
+
+// --- Share Button ---
+.share-button {
+    border-radius: 4px;
+    overflow: hidden;
+    border: none;
+    color: #fff;
+}
+
+// --- Reach Us ---
+.reach-us__company {
+    margin-bottom: $space-sm;
+}
+
+.reach-us__address {
+    margin-bottom: $space-md;
+}
+
+.reach-us__phone,
+.reach-us__fax,
+.reach-us__email {
+    margin-bottom: $space-xs;
+}
+
+// --- Site Content ---
+.site-content {
+    min-height: 50vh;
+}
+
+// --- Footer ---
+.site-footer__widgets {
+    padding: $space-xl 0;
+}
+
+.site-footer__columns {
+    display: grid;
+    gap: $space-lg;
+}
+
+.site-footer__columns--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.site-footer__columns--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.site-footer__columns--4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.site-footer__columns--5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.footer-widget {
+    margin-bottom: $space-md;
+}
+
+.footer-widget__title {
+    margin-bottom: $space-md;
+}
+
+.footer-widget .menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-widget .menu li {
+    margin-bottom: $space-xs;
+}
+
+.footer-widget .menu li a {
+    text-decoration: none;
+}
+
+.footer-widget .menu .sub-menu {
+    list-style: none;
+    margin: 0;
+    padding: $space-xs 0 0 $space-md;
+}
+
+.footer-widget .menu .sub-menu .sub-menu {
+    padding-top: $space-xs;
+    padding-left: $space-md;
+}
+
+.widget-company-info__logo {
+    margin-bottom: $space-md;
+}
+
+.widget-company-info__logo img {
+    max-width: 200px;
+    height: auto;
+}
+
+.widget-company-info__details {
+    margin: 0;
+    padding: 0;
+}
+
+.widget-company-info__details dt {
+    float: left;
+    margin-right: $space-sm;
+}
+
+.widget-company-info__details dd {
+    margin: 0 0 $space-xs 0;
+}
+
+.widget-company-info__description {
+    margin-bottom: $space-md;
+    line-height: 1.6;
+}
+
+.widget-social-icons .social-icons {
+    margin-top: 0;
+    flex-wrap: wrap;
+}
+
+.widget-contact-point__address {
+    font-style: normal;
+    margin-bottom: $space-md;
+    line-height: 1.6;
+}
+
+.widget-contact-point__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.widget-contact-point__item {
+    margin-bottom: $space-xs;
+}
+
+.ct-cp-hidden {
+    display: none;
+}
+
+.ct-cp-hidden + br {
+    display: none;
+}
+
+.site-footer__copyright {
+    padding: $space-md 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ct-footer-copyright-nav {
+    margin-bottom: $space-sm;
+}
+
+.ct-footer-copyright-menu {
+    gap: $space-xs $space-md;
+
+    li a {
+        color: inherit;
+        opacity: 0.75;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            opacity: 1;
+        }
+    }
+}
+
+.ct-footer-copyright-separator {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin: $space-sm auto;
+    max-width: 200px;
+}
+
+// --- Back to Top Button ---
+.ct-back-to-top {
+    position: fixed;
+    bottom: 32px;
+    z-index: 999;
+    width: 44px;
+    height: 44px;
+    background: var(--ct-back-to-top-bg);
+    color: #fff;
+    border: var(--ct-back-to-top-border-width, 1px) solid var(--ct-back-to-top-border-color);
+    border-radius: var(--ct-back-to-top-border-radius, 8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, background 0.2s ease;
+    line-height: 1;
+}
+
+.ct-back-to-top:hover {
+    opacity: 0.85 !important;
+}
+
+.ct-back-to-top:focus-visible {
+    outline: 2px solid var(--ct-back-to-top-bg);
+    outline-offset: 2px;
+}
+
+.ct-back-to-top--visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ct-back-to-top--right {
+    right: 32px;
+}
+
+.ct-back-to-top--left {
+    left: 32px;
+}
+
+.ct-back-to-top--disabled {
+    display: none !important;
+}
+
+.ct-back-to-top__icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.ct-back-to-top__label {
+    font-size: 12px;
+    margin-left: 4px;
+    white-space: nowrap;
+}
+
+.ct-back-to-top--has-label {
+    width: auto;
+    padding: 0 12px;
+}

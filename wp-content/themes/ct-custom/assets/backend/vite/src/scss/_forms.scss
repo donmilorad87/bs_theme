@@ -1,0 +1,302 @@
+@use 'variables' as *;
+
+.ct-admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .ct-admin-field {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        position: relative;
+
+        label {
+            min-width: 140px;
+            font-weight: 600;
+            font-size: 13px;
+            color: $ct-dark-soft;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="url"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"],
+        select,
+        textarea {
+            flex: 1;
+            padding: 9px 12px;
+            border: 1px solid $ct-border;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.5;
+            background: $ct-white;
+            color: $ct-dark;
+            transition: border-color $ct-admin-transition, box-shadow $ct-admin-transition;
+
+            &:focus {
+                border-color: $ct-primary;
+                outline: none;
+                box-shadow: 0 0 0 3px rgba($ct-primary, 0.1);
+            }
+
+            &::placeholder {
+                color: $ct-gray-light;
+            }
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        &::after {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        &.ct-field--saving {
+            &::after {
+                content: "";
+                width: 16px;
+                height: 16px;
+                border: 2px solid $ct-border;
+                border-top-color: $ct-primary;
+                border-radius: 50%;
+                animation: ct-spin 0.6s linear infinite;
+                opacity: 1;
+            }
+
+            input,
+            select,
+            textarea {
+                padding-right: 32px;
+            }
+        }
+
+        &.ct-field--saved {
+            &::after {
+                content: "\2713";
+                color: $ct-success;
+                font-weight: 700;
+                font-size: 15px;
+                opacity: 1;
+            }
+
+            input,
+            select,
+            textarea {
+                border-color: $ct-success;
+                padding-right: 32px;
+            }
+        }
+
+        &.ct-field--error {
+            &::after {
+                content: "\2717";
+                color: $ct-error;
+                font-weight: 700;
+                font-size: 15px;
+                opacity: 1;
+            }
+
+            input,
+            select,
+            textarea {
+                border-color: $ct-error;
+                padding-right: 32px;
+            }
+        }
+    }
+
+    .ct-admin-form-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: $ct-admin-spacing-sm;
+    }
+
+    .ct-admin-submit {
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .ct-admin-cancel-edit {
+        color: $ct-gray;
+        font-size: 13px;
+        font-weight: 500;
+
+        &:hover {
+            color: $ct-error;
+        }
+    }
+
+    .button {
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all $ct-admin-transition;
+        line-height: 1.5;
+    }
+
+    .button-primary {
+        background: $ct-primary;
+        border-color: $ct-primary-dark;
+        color: $ct-white;
+        box-shadow: $ct-shadow-sm;
+
+        &:hover {
+            background: $ct-primary-dark;
+            box-shadow: $ct-shadow-primary;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba($ct-primary, 0.25);
+        }
+    }
+}
+
+@keyframes ct-spin {
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+// --- Per-button loading states ---
+.ct-btn--loading,
+.ct-btn--success,
+.ct-btn--error {
+    position: relative;
+    min-width: 100px;
+    min-height: 36px;
+    color: transparent !important;
+    pointer-events: none;
+
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.ct-btn--loading::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba($ct-white, 0.3);
+    border-top-color: $ct-white;
+    border-radius: 50%;
+    animation: ct-btn-spin 0.6s linear infinite;
+}
+
+.ct-btn--success {
+    background: $ct-success !important;
+    border-color: $ct-success !important;
+
+    &::after {
+        content: "\2713";
+        color: $ct-white;
+        font-weight: 700;
+        font-size: 16px;
+    }
+}
+
+.ct-btn--error {
+    background: $ct-error !important;
+    border-color: $ct-error !important;
+
+    &::after {
+        content: "\2717";
+        color: $ct-white;
+        font-weight: 700;
+        font-size: 16px;
+    }
+}
+
+@keyframes ct-btn-spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.ct-admin-image-preview {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: $ct-admin-spacing-sm;
+    border: 2px dashed $ct-border;
+    border-radius: $ct-admin-radius;
+    min-height: 60px;
+    background: $ct-off-white;
+    transition: border-color $ct-admin-transition;
+
+    &:hover {
+        border-color: $ct-gray-light;
+    }
+
+    img {
+        max-height: 128px;
+        width: auto;
+        border-radius: $ct-admin-radius;
+    }
+
+    .ct-admin-no-image {
+        color: $ct-gray-light;
+        font-style: italic;
+        font-size: 13px;
+    }
+}
+
+.ct-admin-color-pair {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+
+    input[type="color"] {
+        width: 40px;
+        height: 36px;
+        padding: 2px;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        cursor: pointer;
+        flex-shrink: 0;
+        background: $ct-white;
+
+        &::-webkit-color-swatch-wrapper {
+            padding: 2px;
+        }
+
+        &::-webkit-color-swatch {
+            border: none;
+            border-radius: 4px;
+        }
+    }
+
+    input[type="text"] {
+        flex: 1;
+        min-width: 90px;
+    }
+}

@@ -1,0 +1,135 @@
+@use 'sass:color';
+@use 'variables' as *;
+
+.ct-admin-social-list {
+    list-style: none;
+    margin: 0 0 $ct-admin-spacing 0;
+    padding: 0;
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    overflow: hidden;
+
+    .ct-admin-social-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: $ct-admin-spacing-sm $ct-admin-spacing;
+        border-bottom: 1px solid $ct-border-light;
+        background: $ct-white;
+        transition: background $ct-admin-transition;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        &:hover {
+            background: $ct-off-white;
+        }
+
+        .ct-admin-social-num {
+            font-weight: 700;
+            font-size: 12px;
+            min-width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $ct-primary;
+            background: $ct-primary-light;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .ct-admin-social-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 6px;
+            background: $ct-off-white;
+            padding: 2px;
+        }
+
+        .ct-admin-social-name {
+            font-weight: 600;
+            min-width: 100px;
+            color: $ct-dark;
+            font-size: 13px;
+        }
+
+        .ct-admin-social-url {
+            flex: 1;
+            color: $ct-gray;
+            text-decoration: none;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: monospace;
+
+            &:hover {
+                color: $ct-info;
+            }
+        }
+
+        .ct-admin-social-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .ct-admin-edit-social,
+        .ct-admin-remove-social {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all $ct-admin-transition;
+            line-height: 1.5;
+        }
+
+        .ct-admin-edit-social {
+            color: $ct-info;
+            border-color: rgba($ct-info, 0.25);
+            background: $ct-info-light;
+
+            &:hover {
+                background: $ct-info;
+                border-color: $ct-info;
+                color: $ct-white;
+            }
+        }
+
+        .ct-admin-remove-social {
+            color: $ct-error;
+            border-color: rgba($ct-error, 0.2);
+            background: $ct-error-light;
+
+            &:hover {
+                background: $ct-error;
+                border-color: $ct-error;
+                color: $ct-white;
+            }
+        }
+    }
+}
+
+.ct-admin-no-items {
+    color: $ct-gray-light;
+    font-style: italic;
+    padding: $ct-admin-spacing-sm 0;
+    font-size: 13px;
+}
+
+#social_icon_preview {
+    display: inline-flex;
+    align-items: center;
+    min-width: 40px;
+    min-height: 40px;
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+        object-fit: contain;
+        border-radius: 6px;
+    }
+}

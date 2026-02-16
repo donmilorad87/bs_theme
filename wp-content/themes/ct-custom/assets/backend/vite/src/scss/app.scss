@@ -1,0 +1,183 @@
+@use 'variables' as *;
+@use 'accordion';
+@use 'forms';
+@use 'preview';
+@use 'loading';
+@use 'contact';
+@use 'languages';
+@use 'toast';
+
+.ct-admin-page {
+    max-width: 1100px;
+    padding: $ct-admin-spacing-lg 0;
+
+    .ct-admin-header {
+        margin-bottom: $ct-admin-spacing-lg;
+        padding-bottom: $ct-admin-spacing;
+        border-bottom: 2px solid $ct-primary;
+        position: relative;
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: $ct-dark;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+            margin: 0;
+
+            &::before {
+                content: "";
+                display: inline-block;
+                width: 4px;
+                height: 22px;
+                background: $ct-primary;
+                border-radius: 2px;
+                margin-right: 12px;
+                vertical-align: middle;
+                position: relative;
+                top: -1px;
+            }
+        }
+    }
+
+    .ct-admin-section {
+        h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: $ct-dark;
+            margin: 0 0 $ct-admin-spacing 0;
+            padding-bottom: $ct-admin-spacing-sm;
+            border-bottom: 1px solid $ct-border-light;
+            letter-spacing: -0.2px;
+        }
+
+        h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: $ct-dark-soft;
+            margin: $ct-admin-spacing 0 $ct-admin-spacing-sm 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .description {
+            font-size: 13px;
+            color: $ct-gray;
+            line-height: 1.6;
+            margin: 0 0 $ct-admin-spacing 0;
+        }
+
+        hr,
+        .ct-admin-divider {
+            border: none;
+            height: 1px;
+            background: $ct-border-light;
+            margin: $ct-admin-spacing 0;
+        }
+    }
+
+    // Export / Import card styling
+    #export_settings_form,
+    #import_settings_form {
+        background: $ct-off-white;
+        border: 1px solid $ct-border;
+        border-radius: $ct-admin-radius;
+        padding: $ct-admin-spacing;
+        margin-bottom: $ct-admin-spacing;
+
+        .button {
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all $ct-admin-transition;
+            line-height: 1.5;
+        }
+
+        .button-primary {
+            background: $ct-primary;
+            border-color: $ct-primary-dark;
+            color: $ct-white;
+            box-shadow: $ct-shadow-sm;
+
+            &:hover {
+                background: $ct-primary-dark;
+                box-shadow: $ct-shadow-primary;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+        }
+    }
+
+    .ct-admin-field-row {
+        margin-bottom: $ct-admin-spacing-sm;
+    }
+
+    .ct-admin-file-input {
+        display: block;
+        width: 100%;
+        padding: $ct-admin-spacing;
+        border: 2px dashed $ct-border;
+        border-radius: $ct-admin-radius;
+        background: $ct-white;
+        font-size: 13px;
+        color: $ct-gray;
+        cursor: pointer;
+        transition: border-color $ct-admin-transition, background $ct-admin-transition;
+        box-sizing: border-box;
+
+        &:hover {
+            border-color: $ct-primary;
+            background: $ct-primary-light;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $ct-primary;
+        }
+
+        &::file-selector-button {
+            background: $ct-primary;
+            color: $ct-white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 14px;
+            transition: background $ct-admin-transition, box-shadow $ct-admin-transition;
+            box-shadow: $ct-shadow-sm;
+            line-height: 1.5;
+
+            &:hover {
+                background: $ct-primary-dark;
+                box-shadow: $ct-shadow-primary;
+            }
+
+            &:active {
+                transform: scale(0.97);
+            }
+        }
+    }
+
+    .ct-admin-file-info {
+        padding: $ct-admin-spacing-sm $ct-admin-spacing;
+        margin-bottom: $ct-admin-spacing-sm;
+        background: $ct-info-light;
+        border: 1px solid rgba($ct-info, 0.15);
+        border-radius: 6px;
+        font-size: 13px;
+        color: $ct-info;
+        font-weight: 500;
+
+        #import_file_name {
+            font-weight: 700;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+# Environment
+.env
+
+# WordPress uploads (managed by container)
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/debug.log
+wp-content/index.php
+
+# IDE & editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if used by themes/plugins)
+node_modules/
+
+# Composer vendor (installed inside container)
+vendor/
+
+# Playwright MCP
+.playwright-mcp/

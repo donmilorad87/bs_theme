@@ -1,0 +1,37 @@
+.ct-sidebar-content-editor {
+	border: 2px dashed #ccc;
+	border-radius: 4px;
+	padding: 0;
+	margin: 16px 0;
+}
+
+.ct-sidebar-content-editor--left {
+	border-left: 4px solid #2271b1;
+}
+
+.ct-sidebar-content-editor--right {
+	border-left: 4px solid #00a32a;
+}
+
+.ct-sidebar-content-editor__header {
+	padding: 8px 12px;
+	background: #f0f0f0;
+	border-bottom: 1px solid #ddd;
+}
+
+.ct-sidebar-content-editor__label {
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: #1e1e1e;
+}
+
+.ct-sidebar-content-editor__body {
+	padding: 12px;
+	min-height: 60px;
+}
+
+.ct-sidebar-content-editor__notice {
+	margin: 8px 12px 0;
+}

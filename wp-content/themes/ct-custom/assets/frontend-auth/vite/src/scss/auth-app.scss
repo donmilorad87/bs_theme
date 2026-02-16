@@ -1,0 +1,10 @@
+/**
+ * Auth App Styles — Entry point for auth page styles.
+ *
+ * Standalone SCSS bundle loaded only on the login-register.php template.
+ *
+ * @package CT_Custom
+ */
+
+@use 'auth-form';
+@use 'auth-page';

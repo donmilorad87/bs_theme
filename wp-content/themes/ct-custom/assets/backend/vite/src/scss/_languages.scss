@@ -1,0 +1,868 @@
+@use 'variables' as *;
+
+/* ═══ Sub-Tab Navigation (CSS-only radio buttons) ═══ */
+
+/* Radio inputs are direct children of .ct-lang-section (hidden) */
+.ct-lang-section > .ct-lang-tabs__radio {
+    display: none !important;
+}
+
+.ct-lang-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: $ct-admin-spacing;
+    border-bottom: 2px solid $ct-border;
+
+    &__label {
+        padding: $ct-admin-spacing-sm $ct-admin-spacing;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: $ct-gray;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: color $ct-admin-transition, border-color $ct-admin-transition;
+
+        &:hover {
+            color: $ct-dark;
+        }
+    }
+}
+
+/* Active tab label highlighting — radios are siblings of .ct-lang-tabs */
+#ct_lang_tab_manage:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="ct_lang_tab_manage"],
+#ct_lang_tab_translate:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="ct_lang_tab_translate"],
+#ct_lang_tab_pages:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="ct_lang_tab_pages"] {
+    color: $ct-primary;
+    border-bottom-color: $ct-primary;
+}
+
+/* Panels: hidden by default, shown via sibling radio state */
+.ct-lang-panel {
+    display: none;
+}
+
+#ct_lang_tab_manage:checked ~ .ct-lang-panel--manage {
+    display: block;
+}
+
+#ct_lang_tab_translate:checked ~ .ct-lang-panel--translate {
+    display: block;
+}
+
+#ct_lang_tab_pages:checked ~ .ct-lang-panel--pages {
+    display: block;
+}
+
+/* ═══ Language Add Form ═══ */
+
+.ct-lang-add-form {
+    background: $ct-white;
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    padding: $ct-admin-spacing-lg $ct-admin-spacing;
+    margin-bottom: $ct-admin-spacing;
+
+    &__row {
+        display: flex;
+        gap: $ct-admin-spacing;
+        margin-bottom: $ct-admin-spacing;
+    }
+
+    &__field {
+        flex: 1;
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: $ct-dark-soft;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid $ct-border;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.5;
+            background: $ct-white;
+            color: $ct-dark;
+            transition: border-color $ct-admin-transition, box-shadow $ct-admin-transition;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: $ct-primary;
+                box-shadow: 0 0 0 3px rgba($ct-primary, 0.1);
+            }
+
+            &::placeholder {
+                color: $ct-gray-light;
+            }
+        }
+
+        &.ct-field--invalid input[type="text"] {
+            border-color: $ct-error;
+        }
+
+        &.ct-field--invalid .ct-lang-add-form__error {
+            display: block;
+        }
+    }
+
+    &__error {
+        display: none;
+        font-size: 12px;
+        color: $ct-error;
+        margin-top: 4px;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing-sm;
+    }
+
+    &__status {
+        margin-left: $ct-admin-spacing-sm;
+        font-size: 13px;
+        color: $ct-gray;
+    }
+
+    .button {
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all $ct-admin-transition;
+        line-height: 1.5;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .button-primary {
+        background: $ct-primary;
+        border-color: $ct-primary-dark;
+        color: $ct-white;
+        box-shadow: $ct-shadow-sm;
+
+        &:hover:not(:disabled) {
+            background: $ct-primary-dark;
+            box-shadow: $ct-shadow-primary;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba($ct-primary, 0.25);
+        }
+    }
+}
+
+/* Flag Picker */
+
+.ct-lang-flag-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &__preview {
+        width: 32px;
+        height: 22px;
+        object-fit: cover;
+        border-radius: 3px;
+        border: 1px solid $ct-border;
+    }
+
+    &__remove {
+        padding: 4px 8px;
+        line-height: 1;
+        color: $ct-error;
+    }
+}
+
+/* ═══ Language Table ═══ */
+
+.ct-lang-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+
+    th, td {
+        padding: 10px 12px;
+        text-align: left;
+        border-bottom: 1px solid $ct-border-light;
+    }
+
+    th {
+        font-weight: 600;
+        color: $ct-dark-soft;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: $ct-off-white;
+    }
+
+    &__flag {
+        width: 28px;
+        height: 19px;
+        object-fit: cover;
+        border-radius: 3px;
+        border: 1px solid $ct-border-light;
+    }
+
+    &__flag-placeholder {
+        display: inline-block;
+        width: 28px;
+        height: 19px;
+        line-height: 19px;
+        text-align: center;
+        background: $ct-light-gray;
+        border-radius: 3px;
+        font-size: 9px;
+        font-weight: 700;
+        color: $ct-gray;
+    }
+
+    &__badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 600;
+
+        &--default {
+            background: $ct-primary-light;
+            color: $ct-primary;
+        }
+    }
+
+    /* Actions column: gap between Edit and Remove buttons */
+    td:last-child {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+}
+
+/* Toggle Switch */
+
+.ct-lang-toggle {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+
+    &__input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .ct-lang-toggle__slider {
+            background: $ct-success;
+
+            &::before {
+                transform: translateX(16px);
+            }
+        }
+
+        &:disabled + .ct-lang-toggle__slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: $ct-border;
+        border-radius: 10px;
+        transition: background $ct-admin-transition;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 2px;
+            bottom: 2px;
+            background: $ct-white;
+            border-radius: 50%;
+            transition: transform $ct-admin-transition;
+        }
+    }
+}
+
+/* ═══ Edit Language Modal ═══ */
+
+.ct-lang-edit-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    &__panel {
+        position: relative;
+        width: 520px;
+        max-width: 90vw;
+        max-height: 85vh;
+        overflow-y: auto;
+        background: $ct-white;
+        border-radius: $ct-admin-radius-lg;
+        box-shadow: $ct-shadow-lg;
+        padding: $ct-admin-spacing-lg;
+    }
+
+    &__title {
+        font-size: 16px;
+        font-weight: 700;
+        color: $ct-dark;
+        margin: 0 0 $ct-admin-spacing 0;
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+    }
+
+    &__badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        background: $ct-primary-light;
+        color: $ct-primary;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing;
+        padding-top: $ct-admin-spacing;
+        border-top: 1px solid $ct-border-light;
+    }
+
+    &__status {
+        margin-left: auto;
+        font-size: 13px;
+        color: $ct-gray;
+    }
+}
+
+/* ═══ Confirm Modal (reusable) ═══ */
+
+.ct-confirm-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    &__panel {
+        position: relative;
+        width: 420px;
+        max-width: 90vw;
+        background: $ct-white;
+        border-radius: $ct-admin-radius-lg;
+        box-shadow: $ct-shadow-lg;
+        padding: $ct-admin-spacing-lg;
+    }
+
+    &__title {
+        font-size: 16px;
+        font-weight: 700;
+        color: $ct-dark;
+        margin: 0 0 $ct-admin-spacing-sm 0;
+    }
+
+    &__body {
+        font-size: 13px;
+        color: $ct-dark-soft;
+        line-height: 1.5;
+
+        p { margin: 0 0 $ct-admin-spacing-sm 0; }
+    }
+
+    &__checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: $ct-dark-soft;
+        cursor: pointer;
+        margin-top: $ct-admin-spacing-sm;
+    }
+
+    &__checkbox {
+        width: 16px;
+        height: 16px;
+        accent-color: $ct-error;
+        cursor: pointer;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing;
+        padding-top: $ct-admin-spacing;
+        border-top: 1px solid $ct-border-light;
+    }
+
+    &__confirm {
+        margin-left: auto;
+    }
+}
+
+/* ═══ Add Translation Key Modal ═══ */
+
+.ct-add-key-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+    }
+
+    &__panel {
+        position: relative;
+        width: 420px;
+        max-width: 90vw;
+        background: $ct-white;
+        border-radius: $ct-admin-radius-lg;
+        box-shadow: $ct-shadow-lg;
+        padding: $ct-admin-spacing-lg;
+    }
+
+    &__title {
+        font-size: 16px;
+        font-weight: 700;
+        color: $ct-dark;
+        margin: 0 0 $ct-admin-spacing 0;
+    }
+
+    &__body {
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: $ct-dark;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid $ct-border;
+            border-radius: $ct-admin-radius;
+            font-size: 14px;
+            box-sizing: border-box;
+
+            &:focus {
+                border-color: $ct-primary;
+                outline: none;
+                box-shadow: 0 0 0 1px $ct-primary;
+            }
+        }
+    }
+
+    &__hint {
+        font-size: 12px;
+        color: $ct-gray;
+        margin: 6px 0 0 0;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing;
+        padding-top: $ct-admin-spacing;
+        border-top: 1px solid $ct-border-light;
+        justify-content: flex-end;
+    }
+}
+
+/* ═══ Translation Editor ═══ */
+
+.ct-trans-editor {
+    display: flex;
+    gap: $ct-admin-spacing;
+    min-height: 400px;
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    overflow: hidden;
+
+    &__sidebar {
+        width: 220px;
+        min-width: 220px;
+        border-right: 1px solid $ct-border-light;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__search {
+        padding: $ct-admin-spacing-sm;
+        border-bottom: 1px solid $ct-border-light;
+
+        input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid $ct-border;
+            border-radius: 4px;
+            font-size: 12px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: $ct-primary;
+            }
+        }
+    }
+
+    &__actions {
+        padding: 8px $ct-admin-spacing-sm;
+        border-bottom: 1px solid $ct-border-light;
+    }
+
+    &__key-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    &__key-item {
+        padding: 8px $ct-admin-spacing-sm;
+        font-size: 12px;
+        font-family: monospace;
+        cursor: pointer;
+        border-bottom: 1px solid $ct-border-light;
+        transition: background $ct-admin-transition;
+        word-break: break-all;
+
+        &:hover {
+            background: $ct-light-gray;
+        }
+
+        &--active {
+            background: $ct-primary-light;
+            color: $ct-primary;
+            font-weight: 600;
+        }
+    }
+
+    &__key-loading,
+    &__key-empty {
+        padding: 12px;
+        font-size: 12px;
+        color: $ct-gray;
+    }
+
+    &__main {
+        flex: 1;
+        padding: $ct-admin-spacing;
+        overflow-y: auto;
+    }
+
+    &__placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: $ct-gray;
+        font-size: 14px;
+    }
+
+    &__key-header {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-bottom: $ct-admin-spacing;
+
+        h4 {
+            font-size: 14px;
+            font-family: monospace;
+            color: $ct-dark;
+            margin: 0;
+            flex: 1;
+        }
+    }
+
+    &__delete {
+        color: $ct-error !important;
+        border-color: $ct-error !important;
+    }
+
+    &__lang-field {
+        margin-bottom: $ct-admin-spacing;
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: $ct-dark-soft;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid $ct-border;
+            border-radius: 6px;
+            font-size: 13px;
+            box-sizing: border-box;
+            transition: border-color $ct-admin-transition;
+
+            &:focus {
+                outline: none;
+                border-color: $ct-primary;
+            }
+        }
+    }
+
+    &__plural-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+    }
+
+    &__plural-label {
+        min-width: 40px;
+        font-size: 11px;
+        font-weight: 600;
+        color: $ct-gray;
+        text-transform: uppercase;
+    }
+
+    &__status {
+        font-size: 12px;
+        color: $ct-success;
+        margin-top: 8px;
+        display: inline-block;
+    }
+}
+
+/* Type Toggle (Singular / Plural) */
+
+.ct-trans-type-toggle {
+    display: flex;
+    border: 1px solid $ct-border;
+    border-radius: 6px;
+    overflow: hidden;
+
+    &__btn {
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        border: none;
+        background: $ct-white;
+        color: $ct-gray;
+        cursor: pointer;
+        transition: all $ct-admin-transition;
+
+        &--active {
+            background: $ct-primary;
+            color: $ct-white;
+        }
+
+        & + & {
+            border-left: 1px solid $ct-border;
+        }
+    }
+}
+
+/* Placeholder Badges */
+
+.ct-trans-placeholders {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 0;
+    margin-bottom: $ct-admin-spacing-sm;
+    border-bottom: 1px solid $ct-border-light;
+
+    &__label {
+        font-size: 11px;
+        font-weight: 600;
+        color: $ct-dark-soft;
+        text-transform: uppercase;
+    }
+
+    &__badge {
+        display: inline-block;
+        padding: 2px 8px;
+        background: $ct-info-light;
+        color: $ct-info;
+        border-radius: 4px;
+        font-size: 11px;
+        font-family: monospace;
+        font-weight: 600;
+    }
+
+    &__hint {
+        font-size: 11px;
+        color: $ct-gray-light;
+        margin-left: auto;
+    }
+}
+
+/* Bulk export/import */
+
+.ct-trans-bulk {
+    display: flex;
+    gap: $ct-admin-spacing-sm;
+}
+
+/* ═══ Page Translations ═══ */
+
+.ct-page-trans {
+    &__filter {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-bottom: $ct-admin-spacing;
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: $ct-dark-soft;
+        }
+
+        select {
+            min-width: 150px;
+            padding: 6px 28px 6px 12px;
+            border: 1px solid $ct-border;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+    }
+
+    &__loading {
+        color: $ct-gray;
+        font-size: 13px;
+    }
+
+    &__card {
+        border: 1px solid $ct-border;
+        border-radius: $ct-admin-radius;
+        margin-bottom: $ct-admin-spacing-sm;
+        overflow: hidden;
+    }
+
+    &__card-header {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        padding: 10px $ct-admin-spacing-sm;
+        background: $ct-off-white;
+        cursor: pointer;
+        transition: background $ct-admin-transition;
+
+        &:hover {
+            background: $ct-light-gray;
+        }
+
+        strong {
+            flex: 1;
+            font-size: 13px;
+        }
+    }
+
+    &__card-status {
+        font-size: 11px;
+        font-weight: 600;
+        color: $ct-gray;
+        text-transform: uppercase;
+    }
+
+    &__card-slug {
+        font-size: 12px;
+        color: $ct-gray;
+        font-family: monospace;
+    }
+
+    &__card-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+    }
+
+    &__quick-edit {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 10px $ct-admin-spacing-sm;
+        border-top: 1px solid $ct-border-light;
+        background: $ct-white;
+    }
+
+    &__quick-edit-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1;
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: $ct-dark-soft;
+            white-space: nowrap;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid $ct-border;
+            border-radius: 6px;
+            font-size: 13px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: $ct-primary;
+            }
+        }
+    }
+
+    &__quick-edit-buttons {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}

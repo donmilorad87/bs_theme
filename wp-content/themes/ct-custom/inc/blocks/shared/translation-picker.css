@@ -1,0 +1,231 @@
+/**
+ * Translation Picker — Block Editor styles.
+ *
+ * Unified design: orange accent (#FF6B35), consistent with
+ * customizer and widget translation pickers.
+ */
+
+/* ── Wrapper ───────────────────────────────────────── */
+
+.ct-translation-picker {
+    margin-bottom: 4px;
+}
+
+/* ── Actions row: Pick Key + Clear buttons ─────────── */
+
+.ct-translation-picker__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 2px;
+}
+
+.ct-translation-picker__pick-btn {
+    font-size: 12px !important;
+}
+
+/* ── Preview below text input ──────────────────────── */
+
+.ct-translation-picker__preview {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 4px 8px;
+    margin: -4px 0 6px;
+    border-radius: 3px;
+    background: #FFF9C4;
+    border: 1px solid #F9A825;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1e1e1e;
+}
+
+.ct-translation-picker__preview-arrow {
+    color: #F9A825;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ct-translation-picker__preview-text {
+    word-break: break-word;
+    flex: 1;
+}
+
+/* ── Modal overrides ───────────────────────────────── */
+
+.ct-translation-picker__modal {
+    min-width: 400px;
+    max-width: 520px;
+}
+
+.ct-translation-picker__modal .components-modal__content {
+    padding-top: 12px;
+}
+
+/* ── Search field inside modal ─────────────────────── */
+
+.ct-translation-picker__search {
+    margin-bottom: 8px;
+}
+
+/* ── Scrollable key list ───────────────────────────── */
+
+.ct-translation-picker__list {
+    max-height: 340px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* ── Key item buttons ──────────────────────────────── */
+
+.ct-translation-picker__key-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 6px 10px;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #f5f5f5;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e1e1e;
+    transition: background 0.15s ease;
+}
+
+.ct-translation-picker__key-item:last-child {
+    border-bottom: none;
+}
+
+.ct-translation-picker__key-item:hover {
+    background: #FFF4EE;
+    color: #FF6B35;
+}
+
+.ct-translation-picker__key-item:focus {
+    outline: 2px solid #FF6B35;
+    outline-offset: -2px;
+    background: #FFF4EE;
+    color: #FF6B35;
+}
+
+.ct-translation-picker__key-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Plural badge in key list */
+.ct-translation-picker__key-badge {
+    flex-shrink: 0;
+    margin-left: 8px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: #E3F2FD;
+    color: #1565C0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* ── Empty state ───────────────────────────────────── */
+
+.ct-translation-picker__empty {
+    padding: 10px;
+    color: #999;
+    font-style: italic;
+    font-size: 12px;
+}
+
+/* ── Configuration panel ───────────────────────────── */
+
+.ct-tp-config {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ct-tp-config__back {
+    align-self: flex-start;
+    margin-bottom: 4px;
+}
+
+.ct-tp-config__key {
+    padding: 6px 10px;
+    border-radius: 4px;
+    background: #f9f9f9;
+    font-size: 13px;
+}
+
+.ct-tp-config__key code {
+    font-size: 12px;
+    color: #FF6B35;
+}
+
+.ct-tp-config__form {
+    margin-bottom: 0;
+}
+
+.ct-tp-config__args {
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+}
+
+.ct-tp-config__args-label {
+    margin: 0 0 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Live preview inside config panel */
+.ct-tp-config__preview {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    background: #FFF9C4;
+    border: 1px solid #F9A825;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.ct-tp-config__preview-label {
+    color: #888;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.ct-tp-config__preview-value {
+    color: #1e1e1e;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+/* Generated pattern display */
+.ct-tp-config__pattern {
+    padding: 6px 10px;
+    border-radius: 4px;
+    background: #f5f5f5;
+    overflow-x: auto;
+}
+
+.ct-tp-config__pattern code {
+    font-size: 11px;
+    color: #555;
+    word-break: break-all;
+}
+
+.ct-tp-config__insert {
+    align-self: flex-start;
+}

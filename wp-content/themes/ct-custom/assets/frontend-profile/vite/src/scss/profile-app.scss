@@ -1,0 +1,10 @@
+/**
+ * Profile App Styles — Entry point for profile page styles.
+ *
+ * Standalone SCSS bundle loaded only on the profile.php template.
+ *
+ * @package CT_Custom
+ */
+
+@use 'auth-form';
+@use 'profile-page';

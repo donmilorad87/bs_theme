@@ -1,0 +1,141 @@
+@use 'variables' as *;
+
+@media screen and (max-width: $breakpoint-lg) {
+    .contact-section {
+        flex-direction: column;
+        gap: $space-lg;
+    }
+
+    .contact-section__info {
+        flex: 1;
+    }
+
+    .site-footer__columns--4,
+    .site-footer__columns--5 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: $breakpoint-md) {
+    .site-footer__columns--2,
+    .site-footer__columns--3,
+    .site-footer__columns--4,
+    .site-footer__columns--5 {
+        grid-template-columns: 1fr;
+    }
+
+    // Image grid: 2x2 on tablet
+    .image-grid__columns {
+        gap: $space-md;
+    }
+
+    .image-grid__item {
+        flex: 1 1 calc(50% - $space-md);
+    }
+
+    .image-grid__item img,
+    .image-grid__item svg {
+        height: 220px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-navigation .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        min-width: 220px;
+        z-index: 999;
+        padding: 8px 0;
+    }
+
+    .main-navigation.toggled .menu {
+        display: flex;
+    }
+
+    .main-navigation .menu > li > a {
+        margin: 0;
+        padding: 10px 20px;
+        display: block;
+    }
+
+    .main-navigation .menu > li > .sub-menu {
+        position: static;
+        display: none;
+        padding-left: 20px;
+    }
+
+    // Reset right-alignment on mobile — submenus stack inline.
+    .main-navigation .menu > li.sub-menu--right > .sub-menu {
+        left: 0;
+        right: auto;
+    }
+
+    .main-navigation .menu > li:hover > .sub-menu,
+    .main-navigation .menu > li.focus > .sub-menu {
+        display: block;
+    }
+
+    .main-navigation .sub-menu .sub-menu {
+        position: static;
+    }
+
+    // On mobile all dropdown arrows point down, always on right side.
+    // Overrides the left-arrow flip since mobile menus stack vertically.
+    .main-navigation .sub-menu .menu-item-has-children > a::after,
+    .main-navigation .sub-menu .menu-item-has-children.sub-menu--left > a::after {
+        transform: translateY(-50%) rotate(45deg);
+        right: $submenu-padding-v + 2px;
+        left: auto;
+    }
+
+    .main-navigation .sub-menu .menu-item-has-children.sub-menu--left > a {
+        padding-left: $submenu-padding-h;
+        padding-right: $submenu-padding-h + $space-sm;
+    }
+
+    // Reset flipped positioning on mobile — all sub-menus stack inline.
+    .main-navigation .sub-menu--left > .sub-menu {
+        left: 0;
+        right: auto;
+    }
+
+    .topbar__container {
+        flex-direction: column;
+        gap: $space-sm;
+        text-align: center;
+    }
+
+    .site-header__container {
+        flex-wrap: wrap;
+    }
+
+    .site-header__nav {
+        position: relative;
+    }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+    // Image grid: 1 per row on mobile
+    .image-grid__columns {
+        flex-direction: column;
+    }
+
+    .image-grid__item {
+        flex: 1 1 100%;
+    }
+
+    .image-grid__item img,
+    .image-grid__item svg {
+        height: 200px;
+    }
+
+    .ct-contact-form .ct-contact-form__name-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

@@ -1,0 +1,11 @@
+# Ignore all plugins (3rd party installed via WP admin or WP-CLI)
+*
+*/*
+
+# Do not ignore this file
+!.gitignore
+
+# Allow tracking of custom plugins (add your plugins below)
+# Example:
+# !my-custom-plugin/
+# !my-custom-plugin/**

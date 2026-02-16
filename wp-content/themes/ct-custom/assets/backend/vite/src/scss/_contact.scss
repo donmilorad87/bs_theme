@@ -1,0 +1,300 @@
+@use 'variables' as *;
+
+/* ── Contact admin sub-tabs ── */
+.ct-contact-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: $ct-admin-spacing;
+    border-bottom: 2px solid $ct-border-light;
+}
+
+.ct-contact-tabs__btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: $ct-admin-spacing-sm $ct-admin-spacing;
+    font-size: 14px;
+    font-weight: 600;
+    color: $ct-gray;
+    cursor: pointer;
+    margin-bottom: -2px;
+    transition: color $ct-admin-transition, border-color $ct-admin-transition;
+
+    &:hover {
+        color: $ct-dark;
+    }
+
+    &--active {
+        color: $ct-primary;
+        border-bottom-color: $ct-primary;
+    }
+}
+
+/* ── Filters ── */
+.ct-contact-filters {
+    display: flex;
+    gap: $ct-admin-spacing-sm;
+    margin-bottom: $ct-admin-spacing;
+    flex-wrap: wrap;
+}
+
+.ct-admin-input--select {
+    padding: 6px 12px;
+    border: 1px solid $ct-border;
+    border-radius: 6px;
+    font-size: 13px;
+    background: $ct-white;
+    min-width: 140px;
+}
+
+/* ── Message cards ── */
+.ct-contact-messages {
+    display: flex;
+    flex-direction: column;
+    gap: $ct-admin-spacing-sm;
+}
+
+.ct-contact-card {
+    background: $ct-white;
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    padding: $ct-admin-spacing;
+    transition: border-color $ct-admin-transition;
+
+    &--unread {
+        border-left: 4px solid $ct-primary;
+        background: $ct-primary-light;
+    }
+
+    &--read {
+        border-left: 4px solid $ct-border-light;
+    }
+}
+
+.ct-contact-card__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $ct-admin-spacing-sm;
+    align-items: center;
+    margin-bottom: $ct-admin-spacing-sm;
+    font-size: 13px;
+
+    strong {
+        font-size: 14px;
+        color: $ct-dark;
+    }
+}
+
+.ct-contact-card__email,
+.ct-contact-card__phone {
+    color: $ct-gray;
+}
+
+.ct-contact-card__date {
+    color: $ct-gray;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+.ct-contact-card__pointer {
+    background: $ct-off-white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: $ct-dark-soft;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ct-contact-card__body {
+    margin-bottom: $ct-admin-spacing-sm;
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        color: $ct-dark-soft;
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+}
+
+.ct-contact-card__replies {
+    border-top: 1px solid $ct-border-light;
+    padding-top: $ct-admin-spacing-sm;
+    margin-bottom: $ct-admin-spacing-sm;
+}
+
+.ct-contact-card__reply {
+    background: $ct-off-white;
+    padding: $ct-admin-spacing-sm;
+    border-radius: 6px;
+    margin-bottom: $ct-admin-spacing-sm;
+    font-size: 13px;
+
+    strong {
+        color: $ct-primary;
+    }
+
+    p {
+        margin: 4px 0 0;
+        white-space: pre-wrap;
+    }
+}
+
+.ct-contact-card__reply-date {
+    color: $ct-gray;
+    font-size: 12px;
+    margin-left: $ct-admin-spacing-sm;
+}
+
+.ct-contact-card__actions {
+    display: flex;
+    gap: $ct-admin-spacing-sm;
+    flex-wrap: wrap;
+}
+
+.ct-contact-card__reply-form {
+    margin-top: $ct-admin-spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $ct-admin-spacing-sm;
+
+    textarea {
+        width: 100%;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        padding: $ct-admin-spacing-sm;
+        font-size: 13px;
+        resize: vertical;
+        box-sizing: border-box;
+    }
+}
+
+/* ── Pagination ── */
+.ct-contact-pagination {
+    display: flex;
+    gap: 4px;
+    margin-top: $ct-admin-spacing;
+    flex-wrap: wrap;
+}
+
+.ct-contact-pagination__btn {
+    min-width: 36px;
+    text-align: center;
+
+    &--active {
+        background: $ct-primary;
+        border-color: $ct-primary;
+        color: $ct-white;
+    }
+}
+
+/* ── Badge ── */
+.ct-admin-badge {
+    display: inline-block;
+    background: $ct-primary;
+    color: $ct-white;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 0 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* ── Pointer form ── */
+.ct-pointer-form {
+    background: $ct-white;
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    padding: $ct-admin-spacing-lg $ct-admin-spacing;
+    margin: $ct-admin-spacing 0;
+}
+
+.ct-pointer-form__heading {
+    margin: 0 0 $ct-admin-spacing 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: $ct-dark;
+}
+
+.ct-pointer-form__error {
+    display: none;
+    font-size: 12px;
+    color: $ct-error;
+    margin-top: 4px;
+}
+
+.ct-pointer-form .ct-admin-field {
+    flex-wrap: wrap;
+
+    .ct-pointer-form__error {
+        width: 100%;
+        padding-left: 154px;
+    }
+}
+
+.ct-pointer-form .ct-admin-field.ct-field--invalid {
+    input {
+        border-color: $ct-error;
+    }
+
+    .ct-pointer-form__error {
+        display: block;
+    }
+}
+
+/* ── Pointer list ── */
+.ct-admin-pointer-list {
+    list-style: none;
+    padding: 0;
+    margin: $ct-admin-spacing 0 0;
+}
+
+.ct-admin-pointer-item {
+    display: flex;
+    align-items: center;
+    gap: $ct-admin-spacing-sm;
+    padding: $ct-admin-spacing-sm;
+    border: 1px solid $ct-border-light;
+    border-radius: 6px;
+    margin-bottom: $ct-admin-spacing-sm;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.ct-admin-pointer-num {
+    font-weight: 700;
+    color: $ct-gray;
+    min-width: 24px;
+}
+
+.ct-admin-pointer-slug {
+    font-family: monospace;
+    background: $ct-off-white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.ct-admin-pointer-label {
+    font-weight: 600;
+    color: $ct-dark;
+}
+
+.ct-admin-pointer-emails {
+    color: $ct-gray;
+    font-size: 12px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.ct-admin-pointer-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}

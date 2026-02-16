@@ -1,0 +1,98 @@
+@use 'variables' as *;
+
+// --- Auth page layout ---
+// Extracted from frontend/vite/src/scss/_auth-page.scss (auth page specific styles).
+
+.ct-auth-page {
+    min-height: 60vh;
+    padding: $space-xl $space-md;
+}
+
+.ct-auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--ct-header-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: $space-xl $space-lg;
+}
+
+// --- Tab navigation ---
+.ct-auth-card__tabs {
+    border-bottom: 2px solid var(--ct-form-input-border-color);
+    margin-bottom: $space-lg;
+    gap: 0;
+}
+
+.ct-auth-card__tab {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    background: none;
+    font-weight: 600;
+    color: var(--ct-paragraph-color);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s, border-color 0.2s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    text-align: center;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.ct-auth-card__tab--active {
+    opacity: 1;
+    color: var(--ct-topbar-bg-color);
+    border-bottom-color: var(--ct-topbar-bg-color);
+}
+
+// --- Back bar ---
+.ct-auth-card__back-bar {
+    margin-bottom: $space-md;
+}
+
+.ct-auth-card__back-btn {
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 0;
+    color: var(--ct-topbar-bg-color);
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    svg {
+        flex-shrink: 0;
+    }
+}
+
+// --- Form panels ---
+.ct-auth-card__panel {
+    display: none;
+}
+
+.ct-auth-card__panel--active {
+    display: block;
+}
+
+// --- Responsive ---
+@media screen and (max-width: $breakpoint-md) {
+    .ct-auth-card {
+        max-width: calc(100% - 32px);
+        padding: $space-lg $space-md;
+    }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+    .ct-auth-card {
+        padding: $space-md;
+    }
+}

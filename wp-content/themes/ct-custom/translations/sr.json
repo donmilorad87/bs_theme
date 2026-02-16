@@ -1,0 +1,43 @@
+{
+    "SITE_NAME": "CT Custom",
+    "SKIP_TO_CONTENT": "Skip to content",
+    "MENU": {
+        "singular": "Menu"
+    },
+    "MAIN_MENU": "Main Menu",
+    "LOGIN": "Login",
+    "SIGN_UP": "Sign Up",
+    "LOG_OUT": "Log Out",
+    "PROFILE": "Profile",
+    "SEARCH": "Search",
+    "BREADCRUMBS": "Breadcrumbs",
+    "BACK_TO_TOP": "Back to top",
+    "TOGGLE_THEME": "Toggle dark\/light mode",
+    "FOOTER_WIDGETS": "Footer Widgets",
+    "READ_MORE": "Read More",
+    "CONTACT_US": {
+        "singular": "Contact Us sr"
+    },
+    "SEND_MESSAGE": "Send Message",
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "MESSAGE": "Message",
+    "SUBMIT": "Submit",
+    "CLOSE": "Close",
+    "LOADING": "Loading...",
+    "ERROR_OCCURRED": "An error occurred. Please try again.",
+    "SUCCESS": "Success!",
+    "SHARE": "Share",
+    "ITEM_COUNT": {
+        "singular": "Broj jedinke",
+        "one": "##count## item",
+        "other": "##count## items"
+    },
+    "PAGE_COUNT": {
+        "one": "##count## page",
+        "other": "##count## pages"
+    },
+    "COUNTER": {
+        "singular": ""
+    }
+}

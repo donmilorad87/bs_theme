@@ -1,0 +1,15 @@
+// Utility classes — high-frequency properties extracted from component SCSS.
+// Applied directly in templates to avoid duplication across selectors.
+
+.df   { display: flex; }
+.dif  { display: inline-flex; }
+.aic  { align-items: center; }
+.jcc  { justify-content: center; }
+.jcsb { justify-content: space-between; }
+.fww  { flex-wrap: wrap; }
+.m0   { margin: 0; }
+.p0   { padding: 0; }
+.w100 { width: 100%; }
+.cp   { cursor: pointer; }
+.tac  { text-align: center; }
+.fs14 { font-size: 14px; }

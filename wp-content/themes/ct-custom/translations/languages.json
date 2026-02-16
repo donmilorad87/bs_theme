@@ -1,0 +1,26 @@
+[
+    {
+        "id": "lang_en",
+        "iso2": "en",
+        "iso3": "eng",
+        "native_name": "English",
+        "flag": "https:\/\/coalitiontest.local\/wp-content\/uploads\/2026\/02\/Flag_of_the_United_Kingdom_3-5.svg",
+        "locales": [
+            "en_US"
+        ],
+        "enabled": true,
+        "is_default": true
+    },
+    {
+        "id": "lang_sr_41ecf2d1",
+        "iso2": "sr",
+        "iso3": "srb",
+        "native_name": "Srpski",
+        "flag": "https:\/\/coalitiontest.local\/wp-content\/uploads\/2026\/02\/Flag_of_Serbia.svg",
+        "locales": [
+            "sr_RS"
+        ],
+        "enabled": true,
+        "is_default": false
+    }
+]

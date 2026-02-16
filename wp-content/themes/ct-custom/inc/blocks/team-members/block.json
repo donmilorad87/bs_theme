@@ -1,0 +1,137 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "ct-custom/team-members",
+    "title": "CT Team Members",
+    "category": "ct-custom",
+    "icon": "groups",
+    "description": "Team members grid with blue tint photos and hover reveal.",
+    "keywords": [ "team", "members", "staff", "people" ],
+    "attributes": {
+        "members": {
+            "type": "array",
+            "default": []
+        },
+        "visibleCount": {
+            "type": "number",
+            "default": 8
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Meet Our Team"
+        },
+        "hideText": {
+            "type": "string",
+            "default": "Hide"
+        },
+        "gridBgColor": {
+            "type": "string",
+            "default": "#4a6eb0"
+        },
+        "gridBgColorDark": {
+            "type": "string",
+            "default": "#4a6eb0"
+        },
+        "imageOverlayColor": {
+            "type": "string",
+            "default": "#355fad"
+        },
+        "imageOverlayColorDark": {
+            "type": "string",
+            "default": "#355fad"
+        },
+        "showmoreBgColor": {
+            "type": "string",
+            "default": "#021327"
+        },
+        "showmoreBgColorDark": {
+            "type": "string",
+            "default": "#021327"
+        },
+        "showmoreBgOpacity": {
+            "type": "number",
+            "default": 0.65
+        },
+        "buttonBgColor": {
+            "type": "string",
+            "default": "#a8c930"
+        },
+        "buttonBgColorDark": {
+            "type": "string",
+            "default": "#a8c930"
+        },
+        "buttonHoverColor": {
+            "type": "string",
+            "default": "#7e9724"
+        },
+        "buttonHoverColorDark": {
+            "type": "string",
+            "default": "#7e9724"
+        },
+        "nameFontSize": {
+            "type": "number",
+            "default": 14
+        },
+        "nameColor": {
+            "type": "string",
+            "default": "#4eafdc"
+        },
+        "nameColorDark": {
+            "type": "string",
+            "default": "#4eafdc"
+        },
+        "nameBold": {
+            "type": "boolean",
+            "default": true
+        },
+        "nameItalic": {
+            "type": "boolean",
+            "default": false
+        },
+        "nameTransform": {
+            "type": "string",
+            "default": "none"
+        },
+        "positionFontSize": {
+            "type": "number",
+            "default": 11
+        },
+        "positionColor": {
+            "type": "string",
+            "default": "#4eafdc"
+        },
+        "positionColorDark": {
+            "type": "string",
+            "default": "#4eafdc"
+        },
+        "positionBold": {
+            "type": "boolean",
+            "default": false
+        },
+        "positionItalic": {
+            "type": "boolean",
+            "default": false
+        },
+        "positionTransform": {
+            "type": "string",
+            "default": "none"
+        },
+        "buttonFontSize": {
+            "type": "number",
+            "default": 15
+        },
+        "buttonLineHeight": {
+            "type": "number",
+            "default": 1.2
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": [ "wide", "full" ]
+    },
+    "editorScript": "file:./editor.js",
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css",
+    "viewScript": "file:./frontend.js",
+    "render": "file:./render.php"
+}

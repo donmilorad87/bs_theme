@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ct-custom/admin-page",
+	"title": "Admin Page",
+	"category": "ct-custom",
+	"icon": "shield",
+	"description": "Marks this page as admin-only. Non-admin users will be redirected away.",
+	"keywords": [ "access", "admin", "restricted", "shield" ],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"multiple": false,
+		"inserter": true
+	},
+	"editorScript": "file:./editor.js",
+	"render": "file:./render.php"
+}

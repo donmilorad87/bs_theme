@@ -1,0 +1,741 @@
+# French (France) translation for CT Custom theme.
+# Copyright (C) 2026 Coalition Technologies
+# This file is distributed under the same license as the CT Custom package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CT Custom 1.0.0\n"
+"Report-Msgid-Bugs-To: support@coalitiontechnologies.com\n"
+"POT-Creation-Date: 2026-02-08 02:12+0100\n"
+"PO-Revision-Date: 2026-02-08 12:00+0100\n"
+"Last-Translator: Coalition Technologies <support@coalitiontechnologies.com>\n"
+"Language-Team: French <fr@li.org>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: 404.php:18
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Oups ! Cette page est introuvable."
+
+#: 404.php:22
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+"Il semble que rien n&rsquo;ait ete trouve a cet emplacement. Essayez l&rsquo;un des liens "
+"ci-dessous ou une recherche ?"
+
+#: 404.php:31
+msgid "Most Used Categories"
+msgstr "Categories les plus utilisees"
+
+#: 404.php:47
+#, php-format
+msgid "Try looking in the monthly archives. %1$s"
+msgstr "Essayez de consulter les archives mensuelles. %1$s"
+
+#: comments.php:35
+#, php-format
+msgid "One thought on &ldquo;%1$s&rdquo;"
+msgstr "Une reflexion sur &ldquo;%1$s&rdquo;"
+
+#: comments.php:41
+#, php-format
+msgctxt "comments title"
+msgid "%1$s thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "%1$s reflexion sur &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s reflexions sur &ldquo;%2$s&rdquo;"
+
+#: comments.php:66
+msgid "Comments are closed."
+msgstr "Les commentaires sont fermes."
+
+#: core/admin_ajax_trait.php:13
+msgid "Contact point data is required."
+msgstr "Les donnees du point de contact sont requises."
+
+#: core/admin_ajax_trait.php:18
+msgid "Invalid contact point JSON."
+msgstr "JSON du point de contact invalide."
+
+#: core/admin_ajax_trait.php:43
+msgid "Contact point saved."
+msgstr "Point de contact enregistre."
+
+#: core/admin_ajax_trait.php:55
+msgid "Invalid social networks data."
+msgstr "Donnees des reseaux sociaux invalides."
+
+#: core/admin_ajax_trait.php:79
+msgid "Social networks saved."
+msgstr "Reseaux sociaux enregistres."
+
+#: core/admin_ajax_trait.php:110
+msgid "No import data provided."
+msgstr "Aucune donnee d&rsquo;importation fournie."
+
+#: core/admin_ajax_trait.php:115
+msgid "Invalid JSON format."
+msgstr "Format JSON invalide."
+
+#: core/admin_ajax_trait.php:119
+msgid "This export file is not from the CT Custom theme."
+msgstr "Ce fichier d&rsquo;exportation ne provient pas du theme CT Custom."
+
+#: core/admin_ajax_trait.php:125
+msgid "Settings imported successfully."
+msgstr "Parametres importes avec succes."
+
+#: core/admin_ajax_trait.php:509
+msgid "Invalid nonce."
+msgstr "Nonce invalide."
+
+#: core/admin_ajax_trait.php:513
+msgid "Insufficient permissions."
+msgstr "Permissions insuffisantes."
+
+#: footer.php:15
+msgid "Footer Widgets"
+msgstr "Widgets du pied de page"
+
+#: footer.php:40
+#, php-format
+msgid "Theme by %s"
+msgstr "Theme par %s"
+
+#: functions.php:43 header.php:83
+msgid "Main Menu"
+msgstr "Menu principal"
+
+#: functions.php:44
+msgid "Top Bar Menu"
+msgstr "Menu de la barre superieure"
+
+#: functions.php:45
+msgid "Footer Menu"
+msgstr "Menu du pied de page"
+
+#: functions.php:103 functions.php:104
+msgid "CT Custom Theme"
+msgstr "CT Custom Theme"
+
+#: functions.php:197
+#, php-format
+msgid "Footer Column %d"
+msgstr "Colonne du pied de page %d"
+
+#: functions.php:229
+msgid "CT Custom"
+msgstr "CT Custom"
+
+#: header.php:33
+msgid "Skip to content"
+msgstr "Aller au contenu"
+
+#: header.php:57
+msgid "Toggle dark/light mode"
+msgstr "Basculer le mode sombre/clair"
+
+#: header.php:85
+msgid "Menu"
+msgstr "Menu"
+
+#: header.php:102 inc/customizer_theme.php:208
+msgid "Breadcrumbs"
+msgstr "Fil d&rsquo;Ariane"
+
+#: inc/customizer.php:53
+msgid "Site Description"
+msgstr "Description du site"
+
+#: inc/customizer.php:54
+msgid "A longer description of your site, used in schema.org structured data."
+msgstr "Une description plus longue de votre site, utilisee dans les donnees structurees schema.org."
+
+#: inc/customizer_theme.php:26
+msgid "CT Theme Settings"
+msgstr "Parametres du theme CT"
+
+#: inc/customizer_theme.php:60
+#, php-format
+msgid "%s (Light)"
+msgstr "%s (Clair)"
+
+#: inc/customizer_theme.php:71
+#, php-format
+msgid "%s (Dark)"
+msgstr "%s (Sombre)"
+
+#: inc/customizer_theme.php:78
+msgid "Top Bar"
+msgstr "Barre superieure"
+
+#: inc/customizer_theme.php:92
+msgid "Call Label"
+msgstr "Libelle d&rsquo;appel"
+
+#: inc/customizer_theme.php:111
+msgid "Phone Number"
+msgstr "Numero de telephone"
+
+#: inc/customizer_theme.php:112
+msgid "Leave empty to use the phone from Admin Settings."
+msgstr "Laisser vide pour utiliser le telephone des parametres d&rsquo;administration."
+
+#: inc/customizer_theme.php:136
+msgid "Header"
+msgstr "En-tete"
+
+#: inc/customizer_theme.php:154
+msgid "Main Menu - Top Level"
+msgstr "Menu principal - Niveau superieur"
+
+#: inc/customizer_theme.php:170
+msgid "Main Menu - Submenus"
+msgstr "Menu principal - Sous-menus"
+
+#: inc/customizer_theme.php:191
+msgid "Border Style"
+msgstr "Style de bordure"
+
+#: inc/customizer_theme.php:195
+msgid "Solid"
+msgstr "Plein"
+
+#: inc/customizer_theme.php:196
+msgid "Dashed"
+msgstr "Tirets"
+
+#: inc/customizer_theme.php:197
+msgid "Dotted"
+msgstr "Pointilles"
+
+#: inc/customizer_theme.php:198 inc/customizer_theme.php:225
+#: inc/customizer_theme.php:684
+msgid "None"
+msgstr "Aucun"
+
+#: inc/customizer_theme.php:221
+msgid "Text Transform"
+msgstr "Transformation du texte"
+
+#: inc/customizer_theme.php:226 inc/customizer_theme.php:685
+msgid "Capitalize"
+msgstr "Capitalize"
+
+#: inc/customizer_theme.php:227 inc/customizer_theme.php:686
+msgid "Uppercase"
+msgstr "Majuscules"
+
+#: inc/customizer_theme.php:228 inc/customizer_theme.php:687
+msgid "Lowercase"
+msgstr "Minuscules"
+
+#: inc/customizer_theme.php:241
+msgid "Active Bold"
+msgstr "Gras actif"
+
+#: inc/customizer_theme.php:252
+msgid "Active Underline"
+msgstr "Soulignement actif"
+
+#: inc/customizer_theme.php:260
+msgid "Body / Background"
+msgstr "Corps / Arriere-plan"
+
+#: inc/customizer_theme.php:270
+msgid "Footer"
+msgstr "Pied de page"
+
+#: inc/customizer_theme.php:286
+msgid "Footer Columns"
+msgstr "Colonnes du pied de page"
+
+#: inc/customizer_theme.php:290
+msgid "2 Columns"
+msgstr "2 colonnes"
+
+#: inc/customizer_theme.php:291
+msgid "3 Columns"
+msgstr "3 colonnes"
+
+#: inc/customizer_theme.php:292
+msgid "4 Columns"
+msgstr "4 colonnes"
+
+#: inc/customizer_theme.php:293
+msgid "5 Columns"
+msgstr "5 colonnes"
+
+#: inc/customizer_theme.php:300
+msgid "Forms"
+msgstr "Formulaires"
+
+#: inc/customizer_theme.php:312
+msgid "Social Icons"
+msgstr "Icones sociales"
+
+#: inc/customizer_theme.php:322
+msgid "Pages"
+msgstr "Pages"
+
+#: inc/customizer_theme.php:332
+msgid "Homepage"
+msgstr "Page d&rsquo;accueil"
+
+#: inc/customizer_theme.php:344
+msgid "Hero Title"
+msgstr "Titre principal"
+
+#: inc/customizer_theme.php:356
+msgid "Hero Description"
+msgstr "Description principale"
+
+#: inc/customizer_theme.php:370
+#, php-format
+msgid "Image %d"
+msgstr "Image %d"
+
+#: inc/customizer_theme.php:381
+#, php-format
+msgid "Image %d Alt Text"
+msgstr "Texte alternatif de l&rsquo;image %d"
+
+#: inc/customizer_theme.php:392
+#, php-format
+msgid "Image %d Title"
+msgstr "Titre de l&rsquo;image %d"
+
+#: inc/customizer_theme.php:403
+#, php-format
+msgid "Image %d URL"
+msgstr "URL de l&rsquo;image %d"
+
+#: inc/customizer_theme.php:416
+msgid "Second Title"
+msgstr "Second titre"
+
+#: inc/customizer_theme.php:428
+msgid "Second Description"
+msgstr "Seconde description"
+
+#: inc/customizer_theme.php:436
+msgid "Contact"
+msgstr "Contact"
+
+#: inc/customizer_theme.php:448
+msgid "Heading"
+msgstr "Titre"
+
+#: inc/customizer_theme.php:460
+msgid "Content"
+msgstr "Contenu"
+
+#: inc/customizer_theme.php:471
+msgid "Typography"
+msgstr "Typographie"
+
+#: inc/customizer_theme.php:491
+#, php-format
+msgid "%s Heading"
+msgstr "Titre %s"
+
+#: inc/customizer_theme.php:505 inc/customizer_theme.php:540
+#: inc/customizer_theme.php:597
+msgid "Bold"
+msgstr "Gras"
+
+#: inc/customizer_theme.php:516 inc/customizer_theme.php:551
+#: inc/customizer_theme.php:608
+msgid "Italic"
+msgstr "Italique"
+
+#: inc/customizer_theme.php:526
+msgid "Paragraphs"
+msgstr "Paragraphes"
+
+#: inc/customizer_theme.php:565
+msgid "Line Height"
+msgstr "Hauteur de ligne"
+
+#: inc/customizer_theme.php:583
+msgid "Special Text"
+msgstr "Texte special"
+
+#: inc/customizer_theme.php:643
+#, php-format
+msgid "%s Bold"
+msgstr "%s Gras"
+
+#: inc/customizer_theme.php:654
+#, php-format
+msgid "%s Italic"
+msgstr "%s Italique"
+
+#: inc/customizer_theme.php:665
+#, php-format
+msgid "%s Uppercase"
+msgstr "%s Majuscules"
+
+#: inc/template-functions.php:64
+msgid "Home"
+msgstr "Accueil"
+
+#: inc/template-functions.php:105
+msgid "Search Results"
+msgstr "Resultats de recherche"
+
+#: inc/template-functions.php:108
+msgid "Page Not Found"
+msgstr "Page introuvable"
+
+#: inc/template-tags.php:29
+#, php-format
+msgctxt "post date"
+msgid "Posted on %s"
+msgstr "Publie le %s"
+
+#: inc/template-tags.php:45
+#, php-format
+msgctxt "post author"
+msgid "by %s"
+msgstr "par %s"
+
+#: inc/template-tags.php:62
+msgid ", "
+msgstr ", "
+
+#: inc/template-tags.php:65
+#, php-format
+msgid "Posted in %1$s"
+msgstr "Publie dans %1$s"
+
+#: inc/template-tags.php:69
+msgctxt "list item separator"
+msgid ", "
+msgstr ", "
+
+#: inc/template-tags.php:72
+#, php-format
+msgid "Tagged %1$s"
+msgstr "Etiquete %1$s"
+
+#: inc/template-tags.php:82
+#, php-format
+msgid "Leave a Comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "Laisser un commentaire<span class=\"screen-reader-text\"> sur %s</span>"
+
+#: inc/template-tags.php:99 template-parts/content-page.php:37
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">%s</span>"
+msgstr "Modifier <span class=\"screen-reader-text\">%s</span>"
+
+#: inc/widgets/class-ct-company-info-widget.php:19
+msgid "CT Custom: Company Info"
+msgstr "CT Custom : Informations sur l&rsquo;entreprise"
+
+#: inc/widgets/class-ct-company-info-widget.php:21
+msgid "Displays company logo, PIB, MB, and description."
+msgstr "Affiche le logo de l&rsquo;entreprise, le PIB, le MB et la description."
+
+#: inc/widgets/class-ct-company-info-widget.php:78
+#: inc/widgets/class-ct-company-info-widget.php:177
+msgid "PIB:"
+msgstr "PIB :"
+
+#: inc/widgets/class-ct-company-info-widget.php:83
+#: inc/widgets/class-ct-company-info-widget.php:190
+msgid "MB:"
+msgstr "MB :"
+
+#: inc/widgets/class-ct-company-info-widget.php:116
+#: inc/widgets/class-ct-contact-point-widget.php:124
+#: inc/widgets/class-ct-social-icons-widget.php:107
+msgid "Title:"
+msgstr "Titre :"
+
+#: inc/widgets/class-ct-company-info-widget.php:128
+msgid "Logo:"
+msgstr "Logo :"
+
+#: inc/widgets/class-ct-company-info-widget.php:144
+msgid "Using logo from Customizer. Click below to override."
+msgstr "Utilisation du logo du personnalisateur. Cliquez ci-dessous pour le remplacer."
+
+#: inc/widgets/class-ct-company-info-widget.php:160
+#: inc/widgets/class-ct-company-info-widget.php:220
+msgid "Select Logo"
+msgstr "Selectionner le logo"
+
+#: inc/widgets/class-ct-company-info-widget.php:170
+#: inc/widgets/class-ct-company-info-widget.php:229
+msgid "Reset to Default"
+msgstr "Reinitialiser par defaut"
+
+#: inc/widgets/class-ct-company-info-widget.php:203
+msgid "Description:"
+msgstr "Description :"
+
+#: inc/widgets/class-ct-contact-point-widget.php:18
+msgid "CT Custom: Contact Point"
+msgstr "CT Custom : Point de contact"
+
+#: inc/widgets/class-ct-contact-point-widget.php:20
+msgid "Displays contact point data from admin settings."
+msgstr "Affiche les donnees du point de contact depuis les parametres d&rsquo;administration."
+
+#: inc/widgets/class-ct-contact-point-widget.php:89
+#: template-functions/contact.php:214
+msgid "Phone:"
+msgstr "Telephone :"
+
+#: inc/widgets/class-ct-contact-point-widget.php:96
+#: template-functions/contact.php:223
+msgid "Fax:"
+msgstr "Fax :"
+
+#: inc/widgets/class-ct-contact-point-widget.php:103
+#: template-functions/contact.php:230
+msgid "Email:"
+msgstr "E-mail :"
+
+#: inc/widgets/class-ct-contact-point-widget.php:135
+msgid "Contact data is read from CT Custom Theme > Contact Point settings."
+msgstr "Les donnees de contact sont lues depuis CT Custom Theme > Parametres du point de contact."
+
+#: inc/widgets/class-ct-social-icons-widget.php:18
+msgid "CT Custom: Social Icons"
+msgstr "CT Custom : Icones sociales"
+
+#: inc/widgets/class-ct-social-icons-widget.php:20
+msgid "Displays social network icons from CT Custom Theme Settings."
+msgstr "Affiche les icones des reseaux sociaux depuis les parametres du CT Custom Theme."
+
+#: inc/widgets/class-ct-social-icons-widget.php:43
+#: template-admin/partials/add-social-networks.php:14
+#: template-admin/template-admin-main.php:24 template-functions/contact.php:237
+msgid "Social Networks"
+msgstr "Reseaux sociaux"
+
+#: inc/widgets/class-ct-social-icons-widget.php:85
+#: inc/widgets/class-ct-social-icons-widget.php:87
+#: template-functions/contact.php:272 template-functions/contact.php:274
+msgid "Share with a friend"
+msgstr "Partager avec un ami"
+
+#: inc/widgets/class-ct-social-icons-widget.php:118
+msgid "Icons are managed in CT Custom Theme > Social Networks settings."
+msgstr "Les icones sont gerees dans CT Custom Theme > Parametres des reseaux sociaux."
+
+#: inc/woocommerce.php:227
+msgid "View your shopping cart"
+msgstr "Voir votre panier"
+
+#: inc/woocommerce.php:231
+#, php-format
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d article"
+msgstr[1] "%d articles"
+
+#: page.php:28 template-parts/content-page.php:24 template-parts/content.php:50
+msgid "Pages:"
+msgstr "Pages :"
+
+#: search.php:22
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Resultats de recherche pour : %s"
+
+#: template-admin/partials/add-contact-point.php:38
+#: template-admin/template-admin-main.php:16
+msgid "Contact Point"
+msgstr "Point de contact"
+
+#: template-admin/partials/add-contact-point.php:43
+msgid "Telephone"
+msgstr "Telephone"
+
+#: template-admin/partials/add-contact-point.php:49
+msgid "Fax Number"
+msgstr "Numero de fax"
+
+#: template-admin/partials/add-contact-point.php:55
+msgid "Email"
+msgstr "E-mail"
+
+#: template-admin/partials/add-contact-point.php:61
+msgid "Contact Type"
+msgstr "Type de contact"
+
+#: template-admin/partials/add-contact-point.php:65
+msgid "Customer Service"
+msgstr "Service client"
+
+#: template-admin/partials/add-contact-point.php:66
+msgid "Technical Support"
+msgstr "Support technique"
+
+#: template-admin/partials/add-contact-point.php:67
+msgid "Billing Support"
+msgstr "Support facturation"
+
+#: template-admin/partials/add-contact-point.php:68
+msgid "Sales"
+msgstr "Ventes"
+
+#: template-admin/partials/add-contact-point.php:69
+msgid "Reservations"
+msgstr "Reservations"
+
+#: template-admin/partials/add-contact-point.php:70
+msgid "Emergency"
+msgstr "Urgence"
+
+#: template-admin/partials/add-contact-point.php:90
+msgid "Postal Address"
+msgstr "Adresse postale"
+
+#: template-admin/partials/add-contact-point.php:93
+msgid "Street Number"
+msgstr "Numero de rue"
+
+#: template-admin/partials/add-contact-point.php:99
+msgid "Street Address"
+msgstr "Adresse"
+
+#: template-admin/partials/add-contact-point.php:105
+msgid "City"
+msgstr "Ville"
+
+#: template-admin/partials/add-contact-point.php:111
+msgid "State / Region"
+msgstr "Departement / Region"
+
+#: template-admin/partials/add-contact-point.php:117
+msgid "Postal Code"
+msgstr "Code postal"
+
+#: template-admin/partials/add-contact-point.php:123
+msgid "Country"
+msgstr "Pays"
+
+#: template-admin/partials/add-social-networks.php:40
+msgid "Edit"
+msgstr "Modifier"
+
+#: template-admin/partials/add-social-networks.php:41
+msgid "Remove"
+msgstr "Supprimer"
+
+#: template-admin/partials/add-social-networks.php:47
+msgid "No social networks added yet."
+msgstr "Aucun reseau social ajoute pour le moment."
+
+#: template-admin/partials/add-social-networks.php:51
+msgid "Add New Social Network"
+msgstr "Ajouter un nouveau reseau social"
+
+#: template-admin/partials/add-social-networks.php:56
+msgid "Name"
+msgstr "Nom"
+
+#: template-admin/partials/add-social-networks.php:61
+msgid "URL"
+msgstr "URL"
+
+#: template-admin/partials/add-social-networks.php:66
+msgid "SVG Icon"
+msgstr "Icone SVG"
+
+#: template-admin/partials/add-social-networks.php:73
+msgid "Select SVG Icon"
+msgstr "Selectionner une icone SVG"
+
+#: template-admin/partials/add-social-networks.php:80
+msgid "Add Social Network"
+msgstr "Ajouter un reseau social"
+
+#: template-admin/partials/add-social-networks.php:83
+msgid "Cancel"
+msgstr "Annuler"
+
+#: template-admin/partials/export-import.php:9
+#: template-admin/partials/export-import.php:15
+msgid "Export Settings"
+msgstr "Exporter les parametres"
+
+#: template-admin/partials/export-import.php:10
+msgid ""
+"Download all theme customizer settings and admin options as a JSON file."
+msgstr ""
+"Telecharger tous les parametres du personnalisateur de theme et les options d&rsquo;administration sous forme de fichier JSON."
+
+#: template-admin/partials/export-import.php:21
+#: template-admin/partials/export-import.php:36
+msgid "Import Settings"
+msgstr "Importer les parametres"
+
+#: template-admin/partials/export-import.php:22
+msgid ""
+"Upload a previously exported JSON file to restore settings. This will "
+"overwrite current values."
+msgstr ""
+"Televersez un fichier JSON precedemment exporte pour restaurer les parametres. Cela "
+"ecrasera les valeurs actuelles."
+
+#: template-admin/template-admin-main.php:9
+msgid "CT Custom Theme Settings"
+msgstr "Parametres du theme CT Custom"
+
+#: template-admin/template-admin-main.php:32
+msgid "Export / Import"
+msgstr "Exporter / Importer"
+
+#: template-functions/contact.php:188
+msgid "CONTACT US"
+msgstr "CONTACTEZ-NOUS"
+
+#: template-functions/contact.php:193
+msgid "Please install Contact Form 7 plugin to display the contact form."
+msgstr "Veuillez installer le plugin Contact Form 7 pour afficher le formulaire de contact."
+
+#: template-functions/contact.php:200
+msgid "REACH US"
+msgstr "NOUS JOINDRE"
+
+#: template-parts/content-none.php:14
+msgid "Nothing Found"
+msgstr "Aucun resultat"
+
+#: template-parts/content-none.php:24
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Pret a publier votre premier article ? <a href=\"%1$s\">Commencez ici</a>."
+
+#: template-parts/content-none.php:37
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"Desole, mais aucun resultat ne correspond a vos termes de recherche. Veuillez reessayer avec "
+"d&rsquo;autres mots-cles."
+
+#: template-parts/content-none.php:44
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"Il semble que nous ne puissions pas trouver ce que vous cherchez. Peut-etre "
+"qu&rsquo;une recherche pourrait vous aider."
+
+#: template-parts/content.php:39
+#, php-format
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "Continuer la lecture<span class=\"screen-reader-text\"> &laquo; %s &raquo;</span>"

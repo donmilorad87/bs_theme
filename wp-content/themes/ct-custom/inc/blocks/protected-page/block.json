@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ct-custom/protected-page",
+	"title": "Protected Page",
+	"category": "ct-custom",
+	"icon": "lock",
+	"description": "Marks this page as members-only. Guests will be redirected to login.",
+	"keywords": [ "access", "protected", "login", "members" ],
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"multiple": false,
+		"inserter": true
+	},
+	"editorScript": "file:./editor.js",
+	"render": "file:./render.php"
+}

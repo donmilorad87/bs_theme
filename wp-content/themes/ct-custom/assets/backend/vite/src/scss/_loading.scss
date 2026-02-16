@@ -1,0 +1,55 @@
+@use 'variables' as *;
+
+.ct-admin-notice {
+    padding: $ct-admin-spacing-sm $ct-admin-spacing;
+    margin: $ct-admin-spacing 0;
+    border-radius: $ct-admin-radius;
+    background: $ct-white;
+    box-shadow: $ct-shadow-md;
+    font-size: 13px;
+    font-weight: 500;
+    animation: ct-notice-in 0.3s $ct-admin-transition-slow;
+    border-left: 4px solid $ct-info;
+    color: $ct-dark;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &::before {
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    &--success {
+        border-left-color: $ct-success;
+        background: $ct-success-light;
+
+        &::before {
+            content: "\2713";
+            color: $ct-success;
+            font-weight: 700;
+        }
+    }
+
+    &--error {
+        border-left-color: $ct-error;
+        background: $ct-error-light;
+
+        &::before {
+            content: "\2717";
+            color: $ct-error;
+            font-weight: 700;
+        }
+    }
+}
+
+@keyframes ct-notice-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

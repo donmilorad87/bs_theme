@@ -1,0 +1,18 @@
+{
+  "name": "ct-custom-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "jsdom": "^26.0.0",
+    "sass": "^1.97.0",
+    "vite": "^7.3.0",
+    "vitest": "^3.0.0"
+  }
+}

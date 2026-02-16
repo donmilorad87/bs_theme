@@ -1,0 +1,95 @@
+/**
+ * Translation Preview — Block Editor styles.
+ *
+ * Orange accent (#FF6B35 / #FFF4EE) matching existing
+ * translation picker styles.
+ *
+ * @package CT_Custom
+ */
+
+/* ── Inline badge below blocks ────────────────────────────── */
+
+.ct-translation-preview {
+	margin-top: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.ct-translation-preview__badge {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	padding: 5px 10px;
+	border-radius: 4px;
+	background: #FFF4EE;
+	border: 1px solid #FF6B35;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #1e1e1e;
+	max-width: 100%;
+	cursor: default;
+}
+
+.ct-translation-preview__badge:hover {
+	background: #FFE8D9;
+}
+
+.ct-translation-preview__arrow {
+	color: #FF6B35;
+	font-weight: 600;
+	flex-shrink: 0;
+}
+
+.ct-translation-preview__value {
+	word-break: break-word;
+}
+
+/* ── Sidebar panel ────────────────────────────────────────── */
+
+.ct-translation-preview-panel__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ct-translation-preview-panel__item {
+	padding: 6px 0;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.ct-translation-preview-panel__item:last-child {
+	border-bottom: none;
+}
+
+.ct-translation-preview-panel__key {
+	display: block;
+	font-family: monospace;
+	font-size: 11px;
+	color: #757575;
+	margin-bottom: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ct-translation-preview-panel__resolved {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 13px;
+	color: #1e1e1e;
+}
+
+.ct-translation-preview-panel__resolved-arrow {
+	color: #FF6B35;
+	font-weight: 600;
+	flex-shrink: 0;
+}
+
+.ct-translation-preview-panel__empty {
+	color: #757575;
+	font-style: italic;
+	font-size: 12px;
+	padding: 4px 0;
+}

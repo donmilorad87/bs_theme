@@ -1,0 +1,128 @@
+/**
+ * Widget Translation Picker — admin styles.
+ *
+ * Unified design: orange accent (#FF6B35), consistent with
+ * customizer and block-editor translation pickers.
+ */
+
+.ct-wtp-field {
+    margin-bottom: 1em;
+}
+
+.ct-wtp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    width: 100%;
+}
+
+.ct-wtp__target {
+    margin-bottom: 0;
+}
+
+input.ct-wtp__target {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+}
+
+textarea.ct-wtp__target {
+    flex-basis: 100%;
+}
+
+.ct-wtp__pick-btn {
+    white-space: nowrap;
+    font-size: 12px !important;
+    padding: 4px 10px !important;
+    flex-shrink: 0;
+}
+
+.ct-wtp__dropdown {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    margin-top: 2px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    max-height: 220px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-wtp__search {
+    padding: 6px 8px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.ct-wtp__search:focus {
+    outline: none;
+}
+
+.ct-wtp__key-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    max-height: 180px;
+    flex: 1;
+}
+
+.ct-wtp__key-item {
+    padding: 6px 10px;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 12px;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background 0.15s ease;
+}
+
+.ct-wtp__key-item:hover {
+    background: #FFF4EE;
+    color: #FF6B35;
+}
+
+.ct-wtp__no-results {
+    padding: 10px;
+    color: #999;
+    font-style: italic;
+    font-size: 12px;
+}
+
+/* ═══ Translation Preview ═══ */
+
+.ct-wtp__preview {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 4px 8px;
+    margin-top: 4px;
+    border-radius: 3px;
+    background: #FFF9C4;
+    border: 1px solid #F9A825;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1e1e1e;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ct-wtp__preview-arrow {
+    color: #F9A825;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ct-wtp__preview-text {
+    word-break: break-word;
+    flex: 1;
+}

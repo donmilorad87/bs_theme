@@ -1,0 +1,32 @@
+@use 'variables' as *;
+
+// --- Profile page layout ---
+// Extracted from frontend/vite/src/scss/_auth-page.scss (profile page specific styles).
+
+.ct-profile-page {
+    min-height: 60vh;
+    padding: $space-xl $space-md;
+}
+
+.ct-profile-card {
+    width: 100%;
+    max-width: 540px;
+    background: var(--ct-header-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: $space-xl $space-lg;
+}
+
+// --- Responsive ---
+@media screen and (max-width: $breakpoint-md) {
+    .ct-profile-card {
+        max-width: calc(100% - 32px);
+        padding: $space-lg $space-md;
+    }
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+    .ct-profile-card {
+        padding: $space-md;
+    }
+}

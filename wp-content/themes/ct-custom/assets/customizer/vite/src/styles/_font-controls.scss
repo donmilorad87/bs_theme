@@ -1,0 +1,116 @@
+/**
+ * Font Controls — Customizer panel styles
+ *
+ * 1. Toggle switch for "Enable Web Fonts"
+ * 2. Font family datalist input
+ * 3. Font weights vertical checkbox list
+ */
+
+/* ── Toggle Switch ──────────────────────────────────────────────── */
+
+.ct-toggle-switch-control {
+    padding: 6px 0;
+}
+
+.ct-toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.ct-toggle-switch__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.ct-toggle-switch__slider {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    background: #b4b9be;
+    border-radius: 11px;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s ease;
+    }
+}
+
+.ct-toggle-switch__input:checked + .ct-toggle-switch__slider {
+    background: #0073aa;
+
+    &::after {
+        transform: translateX(18px);
+    }
+}
+
+.ct-toggle-switch__input:focus + .ct-toggle-switch__slider {
+    box-shadow: 0 0 0 2px #0073aa40;
+}
+
+/* ── Font Family Input ──────────────────────────────────────────── */
+
+.ct-font-family-control__input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 1.4;
+
+    &:focus {
+        border-color: #0073aa;
+        box-shadow: 0 0 0 1px #0073aa;
+        outline: none;
+    }
+
+    &::placeholder {
+        color: #999;
+    }
+}
+
+/* ── Font Weights ───────────────────────────────────────────────── */
+
+.ct-font-weights-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.ct-font-weight-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 12px;
+    line-height: 1.3;
+    cursor: pointer;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background: #f7f7f7;
+    }
+}
+
+.ct-font-weight-checkbox {
+    margin: 0;
+    flex-shrink: 0;
+}

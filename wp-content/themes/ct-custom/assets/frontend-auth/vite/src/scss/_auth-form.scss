@@ -1,0 +1,412 @@
+@use 'variables' as *;
+
+// --- Auth form ---
+// Extracted from frontend/vite/src/scss/_auth.scss (form component styles).
+
+.ct-auth-form__header {
+    margin-bottom: $space-lg;
+}
+
+.ct-auth-form__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ct-h3-color);
+}
+
+// --- Profile tabs ---
+.ct-auth-form__tabs {
+    border-bottom: 2px solid var(--ct-form-input-border-color);
+    margin-bottom: $space-lg;
+    gap: 0;
+}
+
+.ct-auth-form__tab {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    background: none;
+    font-weight: 600;
+    color: var(--ct-paragraph-color);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s, border-color 0.2s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    text-align: center;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.ct-auth-form__tab--active {
+    opacity: 1;
+    color: var(--ct-topbar-bg-color);
+    border-bottom-color: var(--ct-topbar-bg-color);
+}
+
+.ct-auth-form__tab-panel {
+    display: none;
+}
+
+.ct-auth-form__tab-panel--active {
+    display: block;
+}
+
+// --- Messages ---
+.ct-auth-form__messages {
+    &:empty {
+        display: none;
+    }
+}
+
+.ct-auth-form__message {
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: $space-md;
+    line-height: 1.4;
+}
+
+.ct-auth-form__message--error {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.ct-auth-form__message--success {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+// --- Form fields ---
+.ct-auth-form__fields {
+    margin-bottom: $space-lg;
+}
+
+.ct-auth-form__field {
+    margin-bottom: $space-md;
+}
+
+.ct-auth-form__label {
+    display: block;
+    margin-bottom: $space-xs;
+    font-weight: 600;
+    color: var(--ct-paragraph-color);
+}
+
+.ct-auth-form__input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--ct-form-input-border-color);
+    border-radius: 4px;
+    background: var(--ct-form-input-bg-color);
+    color: var(--ct-paragraph-color);
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+
+    &:focus {
+        border-color: var(--ct-topbar-bg-color);
+    }
+}
+
+// --- Password toggle (eye icon) ---
+.ct-auth-form__password-wrap {
+    position: relative;
+
+    .ct-auth-form__input {
+        padding-right: 44px;
+    }
+}
+
+.ct-auth-form__password-toggle {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ct-paragraph-color);
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    padding: 0;
+    border-radius: 0 3px 3px 0;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.ct-auth-form__eye-hide {
+    display: none;
+}
+
+.ct-auth-form__password-toggle--active {
+    .ct-auth-form__eye-show {
+        display: none;
+    }
+
+    .ct-auth-form__eye-hide {
+        display: block;
+    }
+}
+
+.ct-auth-form__name-row {
+    gap: 12px;
+
+    .ct-auth-form__field {
+        flex: 1;
+    }
+}
+
+.ct-auth-form__row {
+    margin-bottom: $space-md;
+}
+
+.ct-auth-form__checkbox-label {
+    gap: 6px;
+    color: var(--ct-paragraph-color);
+}
+
+.ct-auth-form__link {
+    color: var(--ct-topbar-bg-color);
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+// --- Submit button ---
+.ct-auth-form__submit {
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background: var(--ct-topbar-bg-color);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+    position: relative;
+    gap: 8px;
+
+    &:hover {
+        background: var(--ct-form-submit-hover-color);
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}
+
+// --- Loading spinner ---
+.ct-auth-form__submit--loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: ct-auth-spin 0.6s linear infinite;
+}
+
+@keyframes ct-auth-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// --- Disabled submit state ---
+.ct-auth-form__submit--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+// --- Password validation checklist ---
+.ct-auth-form__validation {
+    margin-top: $space-xs;
+    padding: 0;
+    list-style: none;
+}
+
+.ct-auth-form__validation--hidden {
+    display: none;
+}
+
+.ct-auth-form__rule {
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ct-paragraph-color);
+    opacity: 0.6;
+    padding: 2px 0;
+    transition: color 0.2s, opacity 0.2s;
+
+    &::before {
+        content: '';
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 1.5px solid currentColor;
+        flex-shrink: 0;
+        transition: border-color 0.2s, background 0.2s;
+    }
+}
+
+.ct-auth-form__rule--pass {
+    color: #28a745;
+    opacity: 1;
+
+    &::before {
+        background: #28a745;
+        border-color: #28a745;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.5 7l2.5 2.5 4.5-5' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-size: 14px 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+.ct-auth-form__rule--fail {
+    color: #dc3545;
+    opacity: 1;
+
+    &::before {
+        background: #dc3545;
+        border-color: #dc3545;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M4 4l6 6M10 4l-6 6' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-size: 14px 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+.ct-auth-form__rule--info {
+    color: #0d6efd;
+    opacity: 1;
+
+    &::before {
+        background: #0d6efd;
+        border-color: #0d6efd;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' fill='%23fff' font-size='9' font-weight='700' font-family='serif'%3Ei%3C/text%3E%3C/svg%3E");
+        background-size: 14px 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .ct-auth-form__rule-default {
+        display: none;
+    }
+
+    .ct-auth-form__rule-info {
+        display: inline;
+    }
+}
+
+// --- Rule text variants (default visible, info hidden) ---
+.ct-auth-form__rule-info {
+    display: none;
+}
+
+// --- Confirm password match hint ---
+.ct-auth-form__match-hint {
+    margin-top: $space-xs;
+}
+
+.ct-auth-form__match-hint--hidden {
+    display: none !important;
+}
+
+.ct-auth-form__match-hint-pass,
+.ct-auth-form__match-hint-fail {
+    display: none;
+}
+
+.ct-auth-form__match-hint--pass .ct-auth-form__match-hint-pass {
+    display: flex;
+    color: #28a745;
+
+    &::before {
+        background: #28a745;
+        border-color: #28a745;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.5 7l2.5 2.5 4.5-5' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-size: 14px 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+.ct-auth-form__match-hint--fail .ct-auth-form__match-hint-fail {
+    display: flex;
+    color: #dc3545;
+
+    &::before {
+        background: #dc3545;
+        border-color: #dc3545;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M4 4l6 6M10 4l-6 6' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-size: 14px 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+// --- Input valid/invalid states ---
+.ct-auth-form__input--valid {
+    border-color: #28a745;
+}
+
+.ct-auth-form__input--invalid {
+    border-color: #dc3545;
+}
+
+// --- 6-digit code input ---
+.ct-auth-form__code-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--ct-form-input-border-color);
+    border-radius: 4px;
+    background: var(--ct-form-input-bg-color);
+    color: var(--ct-paragraph-color);
+    font-size: 24px;
+    font-family: monospace;
+    letter-spacing: 0.5em;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+
+    &:focus {
+        border-color: var(--ct-topbar-bg-color);
+    }
+
+    &::placeholder {
+        letter-spacing: 0.3em;
+        font-size: 16px;
+    }
+}
+
+// --- Footer ---
+.ct-auth-form__footer {
+    margin-top: $space-lg;
+    color: var(--ct-paragraph-color);
+}
+
+// --- Responsive ---
+@media screen and (max-width: $breakpoint-md) {
+    .ct-auth-form__name-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

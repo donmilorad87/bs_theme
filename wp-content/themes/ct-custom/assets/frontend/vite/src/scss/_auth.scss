@@ -1,0 +1,54 @@
+@use 'variables' as *;
+
+// --- Z-index strategy ---
+$z-topbar: 1100;
+$z-header: 1000;
+
+.ct-site-header-wrap {
+    position: relative;
+}
+
+.topbar {
+    position: relative;
+    z-index: $z-topbar;
+}
+
+.site-header {
+    position: relative;
+    z-index: $z-header;
+}
+
+// --- Auth links in topbar ---
+.ct-auth-links {
+    gap: 6px;
+    margin-left: 12px;
+}
+
+.ct-auth-links__link {
+    color: var(--ct-topbar-links-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--ct-topbar-links-hover-color);
+    }
+}
+
+.ct-auth-links__separator {
+    color: var(--ct-topbar-links-color);
+    opacity: 0.6;
+    user-select: none;
+}
+
+.ct-auth-links__greeting {
+    color: var(--ct-topbar-links-color);
+}
+
+// --- Responsive ---
+@media screen and (max-width: $breakpoint-sm) {
+    .ct-auth-links {
+        margin-left: 8px;
+        gap: 4px;
+    }
+}

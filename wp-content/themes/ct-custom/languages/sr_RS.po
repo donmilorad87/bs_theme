@@ -1,0 +1,743 @@
+# Serbian (sr_RS) translation for CT Custom theme.
+# Copyright (C) 2026 Coalition Technologies
+# This file is distributed under the same license as the CT Custom package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CT Custom 1.0.0\n"
+"Report-Msgid-Bugs-To: support@coalitiontechnologies.com\n"
+"POT-Creation-Date: 2026-02-08 02:12+0100\n"
+"PO-Revision-Date: 2026-02-08 12:00+0100\n"
+"Last-Translator: Coalition Technologies <support@coalitiontechnologies.com>\n"
+"Language-Team: Serbian <sr@li.org>\n"
+"Language: sr_RS\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: 404.php:18
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Упс! Та страница не може бити пронађена."
+
+#: 404.php:22
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+"Изгледа да ништа није пронађено на овој локацији. Можда пробајте неки од "
+"линкова испод или претрагу?"
+
+#: 404.php:31
+msgid "Most Used Categories"
+msgstr "Најкоришћеније категорије"
+
+#: 404.php:47
+#, php-format
+msgid "Try looking in the monthly archives. %1$s"
+msgstr "Покушајте да потражите у месечним архивама. %1$s"
+
+#: comments.php:35
+#, php-format
+msgid "One thought on &ldquo;%1$s&rdquo;"
+msgstr "Једна мисао о &ldquo;%1$s&rdquo;"
+
+#: comments.php:41
+#, php-format
+msgctxt "comments title"
+msgid "%1$s thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "%1$s мисао о &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s мисли о &ldquo;%2$s&rdquo;"
+msgstr[2] "%1$s мисли о &ldquo;%2$s&rdquo;"
+
+#: comments.php:66
+msgid "Comments are closed."
+msgstr "Коментари су затворени."
+
+#: core/admin_ajax_trait.php:13
+msgid "Contact point data is required."
+msgstr "Подаци о контакт тачки су обавезни."
+
+#: core/admin_ajax_trait.php:18
+msgid "Invalid contact point JSON."
+msgstr "Неважећи JSON контакт тачке."
+
+#: core/admin_ajax_trait.php:43
+msgid "Contact point saved."
+msgstr "Контакт тачка је сачувана."
+
+#: core/admin_ajax_trait.php:55
+msgid "Invalid social networks data."
+msgstr "Неважећи подаци друштвених мрежа."
+
+#: core/admin_ajax_trait.php:79
+msgid "Social networks saved."
+msgstr "Друштвене мреже су сачуване."
+
+#: core/admin_ajax_trait.php:110
+msgid "No import data provided."
+msgstr "Нису достављени подаци за увоз."
+
+#: core/admin_ajax_trait.php:115
+msgid "Invalid JSON format."
+msgstr "Неважећи JSON формат."
+
+#: core/admin_ajax_trait.php:119
+msgid "This export file is not from the CT Custom theme."
+msgstr "Ова извозна датотека није из CT Custom теме."
+
+#: core/admin_ajax_trait.php:125
+msgid "Settings imported successfully."
+msgstr "Подешавања су успешно увезена."
+
+#: core/admin_ajax_trait.php:509
+msgid "Invalid nonce."
+msgstr "Неважећи сигурносни токен."
+
+#: core/admin_ajax_trait.php:513
+msgid "Insufficient permissions."
+msgstr "Недовољне дозволе."
+
+#: footer.php:15
+msgid "Footer Widgets"
+msgstr "Виџети подножја"
+
+#: footer.php:40
+#, php-format
+msgid "Theme by %s"
+msgstr "Тема од %s"
+
+#: functions.php:43 header.php:83
+msgid "Main Menu"
+msgstr "Главни мени"
+
+#: functions.php:44
+msgid "Top Bar Menu"
+msgstr "Мени горње траке"
+
+#: functions.php:45
+msgid "Footer Menu"
+msgstr "Мени подножја"
+
+#: functions.php:103 functions.php:104
+msgid "CT Custom Theme"
+msgstr "CT Custom тема"
+
+#: functions.php:197
+#, php-format
+msgid "Footer Column %d"
+msgstr "Колона подножја %d"
+
+#: functions.php:229
+msgid "CT Custom"
+msgstr "CT Custom"
+
+#: header.php:33
+msgid "Skip to content"
+msgstr "Прескочи на садржај"
+
+#: header.php:57
+msgid "Toggle dark/light mode"
+msgstr "Промени тамни/светли режим"
+
+#: header.php:85
+msgid "Menu"
+msgstr "Мени"
+
+#: header.php:102 inc/customizer_theme.php:208
+msgid "Breadcrumbs"
+msgstr "Путања навигације"
+
+#: inc/customizer.php:53
+msgid "Site Description"
+msgstr "Опис сајта"
+
+#: inc/customizer.php:54
+msgid "A longer description of your site, used in schema.org structured data."
+msgstr "Дужи опис вашег сајта, који се користи у schema.org структурираним подацима."
+
+#: inc/customizer_theme.php:26
+msgid "CT Theme Settings"
+msgstr "CT подешавања теме"
+
+#: inc/customizer_theme.php:60
+#, php-format
+msgid "%s (Light)"
+msgstr "%s (светло)"
+
+#: inc/customizer_theme.php:71
+#, php-format
+msgid "%s (Dark)"
+msgstr "%s (тамно)"
+
+#: inc/customizer_theme.php:78
+msgid "Top Bar"
+msgstr "Горња трака"
+
+#: inc/customizer_theme.php:92
+msgid "Call Label"
+msgstr "Ознака позива"
+
+#: inc/customizer_theme.php:111
+msgid "Phone Number"
+msgstr "Број телефона"
+
+#: inc/customizer_theme.php:112
+msgid "Leave empty to use the phone from Admin Settings."
+msgstr "Оставите празно да бисте користили телефон из админ подешавања."
+
+#: inc/customizer_theme.php:136
+msgid "Header"
+msgstr "Заглавље"
+
+#: inc/customizer_theme.php:154
+msgid "Main Menu - Top Level"
+msgstr "Главни мени - врхунски ниво"
+
+#: inc/customizer_theme.php:170
+msgid "Main Menu - Submenus"
+msgstr "Главни мени - подменији"
+
+#: inc/customizer_theme.php:191
+msgid "Border Style"
+msgstr "Стил ивице"
+
+#: inc/customizer_theme.php:195
+msgid "Solid"
+msgstr "Пуна"
+
+#: inc/customizer_theme.php:196
+msgid "Dashed"
+msgstr "Испрекидана"
+
+#: inc/customizer_theme.php:197
+msgid "Dotted"
+msgstr "Тачкаста"
+
+#: inc/customizer_theme.php:198 inc/customizer_theme.php:225
+#: inc/customizer_theme.php:684
+msgid "None"
+msgstr "Ништа"
+
+#: inc/customizer_theme.php:221
+msgid "Text Transform"
+msgstr "Трансформација текста"
+
+#: inc/customizer_theme.php:226 inc/customizer_theme.php:685
+msgid "Capitalize"
+msgstr "Велико почетно слово"
+
+#: inc/customizer_theme.php:227 inc/customizer_theme.php:686
+msgid "Uppercase"
+msgstr "Велика слова"
+
+#: inc/customizer_theme.php:228 inc/customizer_theme.php:687
+msgid "Lowercase"
+msgstr "Мала слова"
+
+#: inc/customizer_theme.php:241
+msgid "Active Bold"
+msgstr "Активно подебљано"
+
+#: inc/customizer_theme.php:252
+msgid "Active Underline"
+msgstr "Активно подвучено"
+
+#: inc/customizer_theme.php:260
+msgid "Body / Background"
+msgstr "Тело / Позадина"
+
+#: inc/customizer_theme.php:270
+msgid "Footer"
+msgstr "Подножје"
+
+#: inc/customizer_theme.php:286
+msgid "Footer Columns"
+msgstr "Колоне подножја"
+
+#: inc/customizer_theme.php:290
+msgid "2 Columns"
+msgstr "2 колоне"
+
+#: inc/customizer_theme.php:291
+msgid "3 Columns"
+msgstr "3 колоне"
+
+#: inc/customizer_theme.php:292
+msgid "4 Columns"
+msgstr "4 колоне"
+
+#: inc/customizer_theme.php:293
+msgid "5 Columns"
+msgstr "5 колона"
+
+#: inc/customizer_theme.php:300
+msgid "Forms"
+msgstr "Обрасци"
+
+#: inc/customizer_theme.php:312
+msgid "Social Icons"
+msgstr "Иконе друштвених мрежа"
+
+#: inc/customizer_theme.php:322
+msgid "Pages"
+msgstr "Странице"
+
+#: inc/customizer_theme.php:332
+msgid "Homepage"
+msgstr "Почетна страница"
+
+#: inc/customizer_theme.php:344
+msgid "Hero Title"
+msgstr "Главни наслов"
+
+#: inc/customizer_theme.php:356
+msgid "Hero Description"
+msgstr "Главни опис"
+
+#: inc/customizer_theme.php:370
+#, php-format
+msgid "Image %d"
+msgstr "Слика %d"
+
+#: inc/customizer_theme.php:381
+#, php-format
+msgid "Image %d Alt Text"
+msgstr "Алтернативни текст слике %d"
+
+#: inc/customizer_theme.php:392
+#, php-format
+msgid "Image %d Title"
+msgstr "Наслов слике %d"
+
+#: inc/customizer_theme.php:403
+#, php-format
+msgid "Image %d URL"
+msgstr "URL адреса слике %d"
+
+#: inc/customizer_theme.php:416
+msgid "Second Title"
+msgstr "Други наслов"
+
+#: inc/customizer_theme.php:428
+msgid "Second Description"
+msgstr "Други опис"
+
+#: inc/customizer_theme.php:436
+msgid "Contact"
+msgstr "Контакт"
+
+#: inc/customizer_theme.php:448
+msgid "Heading"
+msgstr "Наслов"
+
+#: inc/customizer_theme.php:460
+msgid "Content"
+msgstr "Садржај"
+
+#: inc/customizer_theme.php:471
+msgid "Typography"
+msgstr "Типографија"
+
+#: inc/customizer_theme.php:491
+#, php-format
+msgid "%s Heading"
+msgstr "%s наслов"
+
+#: inc/customizer_theme.php:505 inc/customizer_theme.php:540
+#: inc/customizer_theme.php:597
+msgid "Bold"
+msgstr "Подебљано"
+
+#: inc/customizer_theme.php:516 inc/customizer_theme.php:551
+#: inc/customizer_theme.php:608
+msgid "Italic"
+msgstr "Курзив"
+
+#: inc/customizer_theme.php:526
+msgid "Paragraphs"
+msgstr "Параграфи"
+
+#: inc/customizer_theme.php:565
+msgid "Line Height"
+msgstr "Висина реда"
+
+#: inc/customizer_theme.php:583
+msgid "Special Text"
+msgstr "Посебан текст"
+
+#: inc/customizer_theme.php:643
+#, php-format
+msgid "%s Bold"
+msgstr "%s подебљано"
+
+#: inc/customizer_theme.php:654
+#, php-format
+msgid "%s Italic"
+msgstr "%s курзив"
+
+#: inc/customizer_theme.php:665
+#, php-format
+msgid "%s Uppercase"
+msgstr "%s велика слова"
+
+#: inc/template-functions.php:64
+msgid "Home"
+msgstr "Почетна"
+
+#: inc/template-functions.php:105
+msgid "Search Results"
+msgstr "Резултати претраге"
+
+#: inc/template-functions.php:108
+msgid "Page Not Found"
+msgstr "Страница није пронађена"
+
+#: inc/template-tags.php:29
+#, php-format
+msgctxt "post date"
+msgid "Posted on %s"
+msgstr "Објављено %s"
+
+#: inc/template-tags.php:45
+#, php-format
+msgctxt "post author"
+msgid "by %s"
+msgstr "од %s"
+
+#: inc/template-tags.php:62
+msgid ", "
+msgstr ", "
+
+#: inc/template-tags.php:65
+#, php-format
+msgid "Posted in %1$s"
+msgstr "Објављено у %1$s"
+
+#: inc/template-tags.php:69
+msgctxt "list item separator"
+msgid ", "
+msgstr ", "
+
+#: inc/template-tags.php:72
+#, php-format
+msgid "Tagged %1$s"
+msgstr "Означено са %1$s"
+
+#: inc/template-tags.php:82
+#, php-format
+msgid "Leave a Comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "Оставите коментар<span class=\"screen-reader-text\"> на %s</span>"
+
+#: inc/template-tags.php:99 template-parts/content-page.php:37
+#, php-format
+msgid "Edit <span class=\"screen-reader-text\">%s</span>"
+msgstr "Уреди <span class=\"screen-reader-text\">%s</span>"
+
+#: inc/widgets/class-ct-company-info-widget.php:19
+msgid "CT Custom: Company Info"
+msgstr "CT Custom: Информације о фирми"
+
+#: inc/widgets/class-ct-company-info-widget.php:21
+msgid "Displays company logo, PIB, MB, and description."
+msgstr "Приказује лого фирме, ПИБ, МБ и опис."
+
+#: inc/widgets/class-ct-company-info-widget.php:78
+#: inc/widgets/class-ct-company-info-widget.php:177
+msgid "PIB:"
+msgstr "ПИБ:"
+
+#: inc/widgets/class-ct-company-info-widget.php:83
+#: inc/widgets/class-ct-company-info-widget.php:190
+msgid "MB:"
+msgstr "МБ:"
+
+#: inc/widgets/class-ct-company-info-widget.php:116
+#: inc/widgets/class-ct-contact-point-widget.php:124
+#: inc/widgets/class-ct-social-icons-widget.php:107
+msgid "Title:"
+msgstr "Наслов:"
+
+#: inc/widgets/class-ct-company-info-widget.php:128
+msgid "Logo:"
+msgstr "Лого:"
+
+#: inc/widgets/class-ct-company-info-widget.php:144
+msgid "Using logo from Customizer. Click below to override."
+msgstr "Користи се лого из Прилагођавача. Кликните испод да бисте га заменили."
+
+#: inc/widgets/class-ct-company-info-widget.php:160
+#: inc/widgets/class-ct-company-info-widget.php:220
+msgid "Select Logo"
+msgstr "Изаберите лого"
+
+#: inc/widgets/class-ct-company-info-widget.php:170
+#: inc/widgets/class-ct-company-info-widget.php:229
+msgid "Reset to Default"
+msgstr "Врати на подразумевано"
+
+#: inc/widgets/class-ct-company-info-widget.php:203
+msgid "Description:"
+msgstr "Опис:"
+
+#: inc/widgets/class-ct-contact-point-widget.php:18
+msgid "CT Custom: Contact Point"
+msgstr "CT Custom: Контакт тачка"
+
+#: inc/widgets/class-ct-contact-point-widget.php:20
+msgid "Displays contact point data from admin settings."
+msgstr "Приказује податке контакт тачке из админ подешавања."
+
+#: inc/widgets/class-ct-contact-point-widget.php:89
+#: template-functions/contact.php:214
+msgid "Phone:"
+msgstr "Телефон:"
+
+#: inc/widgets/class-ct-contact-point-widget.php:96
+#: template-functions/contact.php:223
+msgid "Fax:"
+msgstr "Факс:"
+
+#: inc/widgets/class-ct-contact-point-widget.php:103
+#: template-functions/contact.php:230
+msgid "Email:"
+msgstr "Е-пошта:"
+
+#: inc/widgets/class-ct-contact-point-widget.php:135
+msgid "Contact data is read from CT Custom Theme > Contact Point settings."
+msgstr "Контакт подаци се читају из CT Custom тема > Контакт тачка подешавања."
+
+#: inc/widgets/class-ct-social-icons-widget.php:18
+msgid "CT Custom: Social Icons"
+msgstr "CT Custom: Иконе друштвених мрежа"
+
+#: inc/widgets/class-ct-social-icons-widget.php:20
+msgid "Displays social network icons from CT Custom Theme Settings."
+msgstr "Приказује иконе друштвених мрежа из CT Custom подешавања теме."
+
+#: inc/widgets/class-ct-social-icons-widget.php:43
+#: template-admin/partials/add-social-networks.php:14
+#: template-admin/template-admin-main.php:24 template-functions/contact.php:237
+msgid "Social Networks"
+msgstr "Друштвене мреже"
+
+#: inc/widgets/class-ct-social-icons-widget.php:85
+#: inc/widgets/class-ct-social-icons-widget.php:87
+#: template-functions/contact.php:272 template-functions/contact.php:274
+msgid "Share with a friend"
+msgstr "Поделите са пријатељем"
+
+#: inc/widgets/class-ct-social-icons-widget.php:118
+msgid "Icons are managed in CT Custom Theme > Social Networks settings."
+msgstr "Иконе се управљају у CT Custom тема > Друштвене мреже подешавања."
+
+#: inc/woocommerce.php:227
+msgid "View your shopping cart"
+msgstr "Погледајте вашу корпу"
+
+#: inc/woocommerce.php:231
+#, php-format
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d ставка"
+msgstr[1] "%d ставке"
+msgstr[2] "%d ставки"
+
+#: page.php:28 template-parts/content-page.php:24 template-parts/content.php:50
+msgid "Pages:"
+msgstr "Странице:"
+
+#: search.php:22
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Резултати претраге за: %s"
+
+#: template-admin/partials/add-contact-point.php:38
+#: template-admin/template-admin-main.php:16
+msgid "Contact Point"
+msgstr "Контакт тачка"
+
+#: template-admin/partials/add-contact-point.php:43
+msgid "Telephone"
+msgstr "Телефон"
+
+#: template-admin/partials/add-contact-point.php:49
+msgid "Fax Number"
+msgstr "Број факса"
+
+#: template-admin/partials/add-contact-point.php:55
+msgid "Email"
+msgstr "Е-пошта"
+
+#: template-admin/partials/add-contact-point.php:61
+msgid "Contact Type"
+msgstr "Тип контакта"
+
+#: template-admin/partials/add-contact-point.php:65
+msgid "Customer Service"
+msgstr "Корисничка подршка"
+
+#: template-admin/partials/add-contact-point.php:66
+msgid "Technical Support"
+msgstr "Техничка подршка"
+
+#: template-admin/partials/add-contact-point.php:67
+msgid "Billing Support"
+msgstr "Подршка за наплату"
+
+#: template-admin/partials/add-contact-point.php:68
+msgid "Sales"
+msgstr "Продаја"
+
+#: template-admin/partials/add-contact-point.php:69
+msgid "Reservations"
+msgstr "Резервације"
+
+#: template-admin/partials/add-contact-point.php:70
+msgid "Emergency"
+msgstr "Хитни случајеви"
+
+#: template-admin/partials/add-contact-point.php:90
+msgid "Postal Address"
+msgstr "Поштанска адреса"
+
+#: template-admin/partials/add-contact-point.php:93
+msgid "Street Number"
+msgstr "Кућни број"
+
+#: template-admin/partials/add-contact-point.php:99
+msgid "Street Address"
+msgstr "Улица"
+
+#: template-admin/partials/add-contact-point.php:105
+msgid "City"
+msgstr "Град"
+
+#: template-admin/partials/add-contact-point.php:111
+msgid "State / Region"
+msgstr "Држава / Регион"
+
+#: template-admin/partials/add-contact-point.php:117
+msgid "Postal Code"
+msgstr "Поштански број"
+
+#: template-admin/partials/add-contact-point.php:123
+msgid "Country"
+msgstr "Земља"
+
+#: template-admin/partials/add-social-networks.php:40
+msgid "Edit"
+msgstr "Уреди"
+
+#: template-admin/partials/add-social-networks.php:41
+msgid "Remove"
+msgstr "Уклони"
+
+#: template-admin/partials/add-social-networks.php:47
+msgid "No social networks added yet."
+msgstr "Још нису додате друштвене мреже."
+
+#: template-admin/partials/add-social-networks.php:51
+msgid "Add New Social Network"
+msgstr "Додај нову друштвену мрежу"
+
+#: template-admin/partials/add-social-networks.php:56
+msgid "Name"
+msgstr "Назив"
+
+#: template-admin/partials/add-social-networks.php:61
+msgid "URL"
+msgstr "URL адреса"
+
+#: template-admin/partials/add-social-networks.php:66
+msgid "SVG Icon"
+msgstr "SVG икона"
+
+#: template-admin/partials/add-social-networks.php:73
+msgid "Select SVG Icon"
+msgstr "Изаберите SVG икону"
+
+#: template-admin/partials/add-social-networks.php:80
+msgid "Add Social Network"
+msgstr "Додај друштвену мрежу"
+
+#: template-admin/partials/add-social-networks.php:83
+msgid "Cancel"
+msgstr "Откажи"
+
+#: template-admin/partials/export-import.php:9
+#: template-admin/partials/export-import.php:15
+msgid "Export Settings"
+msgstr "Извоз подешавања"
+
+#: template-admin/partials/export-import.php:10
+msgid ""
+"Download all theme customizer settings and admin options as a JSON file."
+msgstr ""
+"Преузмите сва подешавања прилагођавача теме и админ опције као JSON датотеку."
+
+#: template-admin/partials/export-import.php:21
+#: template-admin/partials/export-import.php:36
+msgid "Import Settings"
+msgstr "Увоз подешавања"
+
+#: template-admin/partials/export-import.php:22
+msgid ""
+"Upload a previously exported JSON file to restore settings. This will "
+"overwrite current values."
+msgstr ""
+"Отпремите претходно извезену JSON датотеку да бисте вратили подешавања. Ово "
+"ће преписати тренутне вредности."
+
+#: template-admin/template-admin-main.php:9
+msgid "CT Custom Theme Settings"
+msgstr "CT Custom подешавања теме"
+
+#: template-admin/template-admin-main.php:32
+msgid "Export / Import"
+msgstr "Извоз / Увоз"
+
+#: template-functions/contact.php:188
+msgid "CONTACT US"
+msgstr "КОНТАКТИРАЈТЕ НАС"
+
+#: template-functions/contact.php:193
+msgid "Please install Contact Form 7 plugin to display the contact form."
+msgstr "Молимо инсталирајте Contact Form 7 додатак да бисте приказали контакт образац."
+
+#: template-functions/contact.php:200
+msgid "REACH US"
+msgstr "ПРОНАЂИТЕ НАС"
+
+#: template-parts/content-none.php:14
+msgid "Nothing Found"
+msgstr "Ништа није пронађено"
+
+#: template-parts/content-none.php:24
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Спремни да објавите свој први чланак? <a href=\"%1$s\">Почните овде</a>."
+
+#: template-parts/content-none.php:37
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"Жао нам је, али ништа не одговара вашим терминима претраге. Молимо покушајте "
+"поново са другачијим кључним речима."
+
+#: template-parts/content-none.php:44
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"Изгледа да не можемо пронаћи оно што тражите. Можда вам претрага може "
+"помоћи."
+
+#: template-parts/content.php:39
+#, php-format
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "Наставите читање<span class=\"screen-reader-text\"> &bdquo;%s&ldquo;</span>"

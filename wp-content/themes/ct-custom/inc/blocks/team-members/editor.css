@@ -1,0 +1,175 @@
+/* ── CT Team Members — Editor Styles ── */
+
+/* Neutralise the full-bleed frontend rules inside the editor */
+.editor-styles-wrapper .wp-block-ct-custom-team-members {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.ct-team-members-editor {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+/* Top header */
+.ct-team-members-editor__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.ct-team-members-editor__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.ct-team-members-editor__count {
+    color: #757575;
+    font-size: 13px;
+}
+
+.ct-team-members-editor__empty {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* Member list */
+.ct-team-members-editor__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* Single member card */
+.ct-team-member-editor__card {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    background: #fff;
+}
+
+.ct-team-member-editor__card--beyond {
+    border-left: 3px solid #f0ad4e;
+    opacity: 0.65;
+}
+
+/* Card header row */
+.ct-team-member-editor__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ct-team-member-editor__number {
+    font-weight: 700;
+    font-size: 13px;
+    color: #1e1e1e;
+}
+
+.ct-team-member-editor__actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+    align-items: center;
+}
+
+.ct-team-member-editor__actions .components-button {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ct-team-member-editor__actions .components-button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* Image area */
+.ct-team-member-editor__image-wrap {
+    margin-bottom: 12px;
+}
+
+.ct-team-member-editor__image-wrap img {
+    max-width: 180px;
+    max-height: 200px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 8px;
+    border-radius: 2px;
+}
+
+.ct-team-member-editor__image-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Upload placeholder */
+.ct-team-member-editor__upload {
+    width: 180px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #c0c0c0;
+    border-radius: 4px;
+    background: #f8f8f8;
+    margin-bottom: 12px;
+    cursor: pointer;
+    color: #757575;
+    font-size: 13px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.ct-team-member-editor__upload:hover {
+    border-color: #007cba;
+    background: #f0f6fc;
+    color: #007cba;
+}
+
+/* Add button */
+.ct-team-members-editor__add {
+    width: 100%;
+    justify-content: center !important;
+}
+
+/* ── Translation preview (iframe needs its own copy) ── */
+
+.ct-translation-picker__preview {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 4px 8px;
+    margin: -4px 0 6px;
+    border-radius: 3px;
+    background: #FFF9C4;
+    border: 1px solid #F9A825;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1e1e1e;
+}
+
+.ct-translation-picker__preview-arrow {
+    color: #F9A825;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ct-translation-picker__preview-text {
+    word-break: break-word;
+    flex: 1;
+}
