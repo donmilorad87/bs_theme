@@ -43,9 +43,11 @@ assert( function_exists( 'esc_attr__' ), 'esc_attr__ must exist' );
                 <div class="ct-auth-form__rule df aic" data-rule="special"><?php esc_html_e( 'One special character', 'ct-custom' ); ?></div>
             </div>
         </div>
-        <div class="ct-auth-form__row df jce aic">
-            <a href="#" class="ct-auth-form__link fs14" data-ct-auth-action="show-forgot"><?php esc_html_e( 'Forgot password?', 'ct-custom' ); ?></a>
-        </div>
+        <?php if ( function_exists( 'bs_email_enabled' ) && bs_email_enabled() ) : ?>
+            <div class="ct-auth-form__row df jce aic">
+                <a href="#" class="ct-auth-form__link fs14" data-ct-auth-action="show-forgot"><?php esc_html_e( 'Forgot password?', 'ct-custom' ); ?></a>
+            </div>
+        <?php endif; ?>
     </div>
 
     <button type="button" class="ct-auth-form__submit df aic jcc w100 cp ct-auth-form__submit--disabled" data-ct-auth-action="login" disabled>

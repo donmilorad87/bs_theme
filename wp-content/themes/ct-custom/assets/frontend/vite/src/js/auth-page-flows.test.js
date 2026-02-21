@@ -437,7 +437,7 @@ describe('Auth Page Flows — Login', () => {
 
         await flushPromises();
 
-        expect(localStorage.getItem('ct_auth_token')).toBe('jwt-abc');
+        expect(localStorage.getItem('bs_auth_token')).toBe('jwt-abc');
         expect(locationMock.href).toBe('/');
     });
 

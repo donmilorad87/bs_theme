@@ -2,7 +2,7 @@
 /**
  * Multilanguage Service.
  *
- * Singleton service class that consumes the CT_Multilang_Helpers trait,
+ * Singleton service class that consumes the BS_Multilang_Helpers trait,
  * providing a single entry point for all multilanguage operations.
  *
  * @package BS_Custom

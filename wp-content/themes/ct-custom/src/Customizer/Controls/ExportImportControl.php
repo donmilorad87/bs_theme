@@ -6,7 +6,7 @@
  * Panel-side JS handles the AJAX calls via the existing endpoints.
  *
  * Migrated from inc/customizer/customizer_controls.php.
- * Old class: CT_Export_Import_Control -> New: ExportImportControl
+ * Old class: BS_Export_Import_Control -> New: ExportImportControl
  *
  * @package BS_Custom
  */
@@ -15,7 +15,7 @@ namespace BSCustom\Customizer\Controls;
 
 class ExportImportControl extends \WP_Customize_Control {
 
-    public $type = 'ct_export_import';
+    public $type = 'bs_export_import';
 
     public function enqueue() {
         /* Handled by centralized bs_custom_customize_controls_js() */

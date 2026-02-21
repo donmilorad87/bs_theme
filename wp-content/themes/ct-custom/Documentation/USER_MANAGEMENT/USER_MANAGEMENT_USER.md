@@ -11,16 +11,16 @@
 1. The user navigates to the **Login Register** page (uses the `login-register.php` template)
 2. Clicks the **Register** tab
 3. Fills in: username, email, first name, last name, password, and password confirmation
-4. On submit, the system creates a WordPress subscriber account with `ct_account_active = 0`
+4. On submit, the system creates a WordPress subscriber account with `bs_account_active = 0`
 5. A **6-digit activation code** is emailed to the user (valid for 30 minutes)
 6. The UI automatically switches to the **Activation Code** panel
-7. The user enters the code, and on success the account is activated (`ct_account_active = 1`)
+7. The user enters the code, and on success the account is activated (`bs_account_active = 1`)
 8. The user is redirected to the **Sign In** panel
 
 ### 2. Login
 
 1. The user enters their username (or email) and password on the **Sign In** panel
-2. On success, a JWT token is issued and stored in `localStorage` under the key `ct_auth_token`
+2. On success, a JWT token is issued and stored in `localStorage` under the key `bs_auth_token`
 3. A WP REST nonce is also returned for cookie-based auth fallback
 4. The browser redirects to the home page (or to `redirect_to` if present in the query string)
 5. If the account is inactive, the system automatically resends an activation code and shows the activation panel
@@ -133,7 +133,7 @@ The system provides three Gutenberg blocks for controlling page access. When pla
 - **Unprotected page** (logged-in user visits): Redirects to `bs_custom_get_profile_page_url()`
 - **Protected page** (guest visits): Redirects to `bs_custom_get_auth_page_url()`
 - **Admin page** (guest visits): Redirects to `bs_custom_get_auth_page_url()`
-- **Admin page** (non-admin logged-in user visits): Redirects to `ct_get_language_home_url()`
+- **Admin page** (non-admin logged-in user visits): Redirects to `bs_get_language_home_url()`
 
 ### Page Templates
 
@@ -202,7 +202,7 @@ The frontend auth system is built with vanilla ES6 classes, bundled by Vite. The
 
 | Module | Responsibility |
 |--------|---------------|
-| `auth-config.js` | Constants: form names, validation rules, localStorage key (`ct_auth_token`) |
+| `auth-config.js` | Constants: form names, validation rules, localStorage key (`bs_auth_token`) |
 | `auth-store.js` | localStorage wrapper for JWT token (`getToken`, `setToken`, `clearToken`) |
 | `auth-api.js` | REST client with `post()` (nonce auth), `postAuth()` (JWT auth), `getAuth()`, and `uploadAuth()` (file upload) |
 | `auth-form-binder.js` | Binds validation events, Enter-key submission, and password visibility toggles to server-rendered form panels |
@@ -284,7 +284,7 @@ Protected endpoints accept two authentication methods (checked in order):
 1. **JWT Bearer token**: `Authorization: Bearer <token>` header
 2. **WordPress cookie**: Standard WordPress login cookie (fallback)
 
-The permission callback `ct_jwt_or_cookie_permission_check` tries JWT first (if an `Authorization` header is present), then falls back to cookie auth. Public endpoints use `__return_true` as their permission callback.
+The permission callback `bs_jwt_or_cookie_permission_check` tries JWT first (if an `Authorization` header is present), then falls back to cookie auth. Public endpoints use `__return_true` as their permission callback.
 
 ### Rate Limiting
 
@@ -371,7 +371,7 @@ SET option_value = '{"secret":"your-secret-key-minimum-16-chars","expiration_hou
 WHERE option_name = 'bs_custom_jwt_auth';
 ```
 
-When `WP_DEBUG` is enabled, the error `[CT_JWT_Service] JWT secret is not configured or too short.` will appear in the PHP error log.
+When `WP_DEBUG` is enabled, the error `[BS_JWT_Service] JWT secret is not configured or too short.` will appear in the PHP error log.
 
 ### Emails Not Sending
 
@@ -382,7 +382,7 @@ When `WP_DEBUG` is enabled, the error `[CT_JWT_Service] JWT secret is not config
 1. **SMTP not configured**: Check that the `bs_custom_email_config` option has valid `host`, `username`, and `password` values
 2. **Wrong port or encryption**: Common configs: port `587` with `tls`, or port `465` with `ssl`
 3. **Firewall blocking outbound SMTP**: Ensure the server allows outbound connections on the SMTP port
-4. **PHPMailer errors**: Enable `WP_DEBUG` and check for `[CT_Mail_Service] PHPMailer error:` messages in the error log
+4. **PHPMailer errors**: Enable `WP_DEBUG` and check for `[BS_Mail_Service] PHPMailer error:` messages in the error log
 5. **Spam folder**: Check the recipient's spam/junk folder
 
 ### Rate Limiting Issues
@@ -399,7 +399,7 @@ WHERE option_name LIKE '_transient_ct_login_attempts_%'
    OR option_name LIKE '_transient_timeout_ct_login_attempts_%';
 ```
 
-Replace `ct_login_attempts_` with the relevant prefix (`ct_register_attempts_`, `ct_forgot_attempts_`, `ct_verify_activation_`, `ct_verify_reset_`, `ct_resend_activation_`, `ct_avatar_upload_`).
+Replace `bs_login_attempts_` with the relevant prefix (`bs_register_attempts_`, `bs_forgot_attempts_`, `bs_verify_activation_`, `bs_verify_reset_`, `bs_resend_activation_`, `bs_avatar_upload_`).
 
 ### Account Not Activating
 
@@ -439,16 +439,16 @@ Replace `ct_login_attempts_` with the relevant prefix (`ct_register_attempts_`, 
 - **Max file size**: 5 MB
 - **Allowed types**: `image/jpeg`, `image/png`, `image/gif`, `image/webp`
 - **Rate limit**: 5 uploads per minute per user
-- The file is uploaded to the WordPress media library and the attachment ID is stored in user meta as `ct_avatar_id`
+- The file is uploaded to the WordPress media library and the attachment ID is stored in user meta as `bs_avatar_id`
 
 ### Debug Logging
 
 When `WP_DEBUG` is enabled, all auth endpoints log key events to `error_log` with the format:
 
 ```
-[CT_REST_Login] Auth failed: user not found for login=baduser
-[CT_REST_Register] Rate limited: IP=192.168.1.100
-[CT_REST_ForgotPassword] Rate limited: email=user@example.com
+[BS_REST_Login] Auth failed: user not found for login=baduser
+[BS_REST_Register] Rate limited: IP=192.168.1.100
+[BS_REST_ForgotPassword] Rate limited: email=user@example.com
 ```
 
 These logs appear in the PHP error log (e.g., `docker logs` output when running in Docker, or the configured error log file).

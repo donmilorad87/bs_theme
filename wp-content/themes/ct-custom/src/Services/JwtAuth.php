@@ -6,7 +6,7 @@ namespace BSCustom\Services;
  * JWT Authentication Helpers
  *
  * Static methods extracted from the standalone functions
- * ct_jwt_permission_check() and ct_jwt_or_cookie_permission_check().
+ * bs_jwt_permission_check() and bs_jwt_or_cookie_permission_check().
  * These are REST API permission callbacks for JWT-protected endpoints.
  */
 class JwtAuth {
@@ -35,7 +35,7 @@ class JwtAuth {
         }
 
         return new \WP_Error(
-            'ct_auth_required',
+            'bs_auth_required',
             __( 'Authentication is required.', 'ct-custom' ),
             array( 'status' => 401 )
         );
@@ -57,7 +57,7 @@ class JwtAuth {
 
         if ( empty( $auth_header ) ) {
             return new \WP_Error(
-                'ct_jwt_missing',
+                'bs_jwt_missing',
                 __( 'Authorization header is required.', 'ct-custom' ),
                 array( 'status' => 401 )
             );
@@ -67,7 +67,7 @@ class JwtAuth {
 
         if ( 0 !== strpos( $auth_header, 'Bearer ' ) ) {
             return new \WP_Error(
-                'ct_jwt_invalid_format',
+                'bs_jwt_invalid_format',
                 __( 'Authorization header must use Bearer scheme.', 'ct-custom' ),
                 array( 'status' => 401 )
             );
@@ -79,7 +79,7 @@ class JwtAuth {
 
         if ( false === $decoded ) {
             return new \WP_Error(
-                'ct_jwt_invalid',
+                'bs_jwt_invalid',
                 __( 'Invalid or expired token.', 'ct-custom' ),
                 array( 'status' => 401 )
             );
@@ -87,7 +87,7 @@ class JwtAuth {
 
         if ( ! isset( $decoded->user_id ) ) {
             return new \WP_Error(
-                'ct_jwt_no_user',
+                'bs_jwt_no_user',
                 __( 'Token does not contain user information.', 'ct-custom' ),
                 array( 'status' => 401 )
             );
@@ -98,7 +98,7 @@ class JwtAuth {
 
         if ( ! $user ) {
             return new \WP_Error(
-                'ct_jwt_user_not_found',
+                'bs_jwt_user_not_found',
                 __( 'User not found.', 'ct-custom' ),
                 array( 'status' => 401 )
             );

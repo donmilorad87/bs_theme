@@ -2,7 +2,7 @@
 /**
  * REST Resolve Translation Endpoint
  *
- * Resolves ct_translate() patterns in a text string.
+ * Resolves bs_translate() patterns in a text string.
  * POST /wp-json/ct-custom/v1/resolve-translation
  *
  * Public endpoint — translations are public strings.

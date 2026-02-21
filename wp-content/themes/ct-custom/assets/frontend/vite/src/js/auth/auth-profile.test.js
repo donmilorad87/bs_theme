@@ -27,7 +27,7 @@ describe('AuthProfile', () => {
             <input name="new_password" value="" />
             <input name="new_password_confirm" value="" />
             <div data-ct-password-section></div>
-            <div id="ct_profile_messages"></div>
+            <div id="bs_profile_messages"></div>
             <input type="file" class="ct-auth-form__avatar-file-input" />
             <div class="ct-auth-form__avatar-img"></div>
         `;
@@ -161,7 +161,7 @@ describe('AuthProfile', () => {
 
         await authProfile.loadUserMessages(container);
 
-        const messagesDiv = container.querySelector('#ct_profile_messages');
+        const messagesDiv = container.querySelector('#bs_profile_messages');
         expect(messagesDiv.textContent).toContain('No messages yet.');
         expect(mockApi.getAuth).toHaveBeenCalledWith('contact/user-messages');
     });

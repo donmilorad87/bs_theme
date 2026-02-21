@@ -28,7 +28,7 @@ class ResendActivation {
     const ROUTE             = '/resend-activation';
     const MAX_ATTEMPTS      = 3;
     const WINDOW_SEC        = 3600;
-    const ACTIVATION_PREFIX = 'ct_activation_code_';
+    const ACTIVATION_PREFIX = 'bs_activation_code_';
     const ACTIVATION_TTL    = 1800; /* 30 minutes */
 
     /**
@@ -60,10 +60,17 @@ class ResendActivation {
     public function handle( \WP_REST_Request $request ) {
         assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
 
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() ) {
+            return new \WP_REST_Response( array(
+                'success' => false,
+                'message' => __( 'Email features are disabled.', 'ct-custom' ),
+            ), 403 );
+        }
+
         $email   = $request->get_param( 'email' );
         $message = __( 'If that email is registered, a new activation code has been sent.', 'ct-custom' );
 
-        if ( $this->is_rate_limited_by_key( 'ct_resend_activation_', $email, self::MAX_ATTEMPTS ) ) {
+        if ( $this->is_rate_limited_by_key( 'bs_resend_activation_', $email, self::MAX_ATTEMPTS ) ) {
             $this->log( 'Rate limited: email=' . $email );
             return new \WP_REST_Response( array(
                 'success' => true,
@@ -74,11 +81,11 @@ class ResendActivation {
         $user = get_user_by( 'email', $email );
 
         if ( $user ) {
-            $is_active = get_user_meta( $user->ID, 'ct_account_active', true );
+            $is_active = get_user_meta( $user->ID, 'bs_account_active', true );
 
             /* Only resend if the account is still inactive */
             if ( '0' === $is_active ) {
-                $this->increment_rate_limit( 'ct_resend_activation_', $email, self::WINDOW_SEC );
+                $this->increment_rate_limit( 'bs_resend_activation_', $email, self::WINDOW_SEC );
 
                 $code = $this->generate_code();
                 $this->store_code( self::ACTIVATION_PREFIX, $email, $code, self::ACTIVATION_TTL );

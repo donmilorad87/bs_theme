@@ -18,7 +18,7 @@ use BSCustom\Customizer\FontManager;
 
 class FontFamilyControl extends \WP_Customize_Control {
 
-    public $type = 'ct_font_family';
+    public $type = 'bs_font_family';
 
     public function enqueue() {
         /* Handled by centralized bs_custom_customize_controls_js() */

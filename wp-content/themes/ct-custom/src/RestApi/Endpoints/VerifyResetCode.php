@@ -23,7 +23,7 @@ class VerifyResetCode {
 
     const NAMESPACE    = 'ct-auth/v1';
     const ROUTE        = '/verify-reset-code';
-    const RESET_PREFIX = 'ct_reset_code_';
+    const RESET_PREFIX = 'bs_reset_code_';
     const MAX_ATTEMPTS = 5;
     const WINDOW_SEC   = 300;
     const TOKEN_TTL    = 10; /* minutes */
@@ -62,11 +62,18 @@ class VerifyResetCode {
     public function handle( \WP_REST_Request $request ) {
         assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
 
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() ) {
+            return new \WP_REST_Response( array(
+                'success' => false,
+                'message' => __( 'Email features are disabled.', 'ct-custom' ),
+            ), 403 );
+        }
+
         $ip = $this->get_client_ip();
 
-        if ( $this->is_rate_limited_by_ip( 'ct_verify_reset_', $ip, self::MAX_ATTEMPTS ) ) {
+        if ( $this->is_rate_limited_by_ip( 'bs_verify_reset_', $ip, self::MAX_ATTEMPTS ) ) {
             $this->log( 'Rate limited: IP=' . $ip );
-            $remaining = $this->get_rate_limit_remaining( 'ct_verify_reset_', $ip );
+            $remaining = $this->get_rate_limit_remaining( 'bs_verify_reset_', $ip );
             $wait_text = $this->format_wait_time( $remaining );
             return new \WP_REST_Response( array(
                 'success' => false,
@@ -83,7 +90,7 @@ class VerifyResetCode {
 
         if ( ! $this->verify_code( self::RESET_PREFIX, $email, $code ) ) {
             $this->log( 'Validation failed: invalid or expired reset code, email=' . $email );
-            $this->increment_rate_limit( 'ct_verify_reset_', $ip, self::WINDOW_SEC );
+            $this->increment_rate_limit( 'bs_verify_reset_', $ip, self::WINDOW_SEC );
             return new \WP_REST_Response( array(
                 'success' => false,
                 'message' => __( 'Invalid or expired reset code.', 'ct-custom' ),

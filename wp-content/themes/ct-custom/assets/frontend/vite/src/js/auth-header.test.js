@@ -38,8 +38,8 @@ describe('AuthHeader', () => {
     });
 
     it('should clear token from localStorage when logout is clicked', async () => {
-        localStorage.setItem('ct_auth_token', 'test-jwt');
-        expect(localStorage.getItem('ct_auth_token')).toBe('test-jwt');
+        localStorage.setItem('bs_auth_token', 'test-jwt');
+        expect(localStorage.getItem('bs_auth_token')).toBe('test-jwt');
 
         new AuthHeader();
 
@@ -48,7 +48,7 @@ describe('AuthHeader', () => {
 
         await new Promise(resolve => setTimeout(resolve, 0));
 
-        expect(localStorage.getItem('ct_auth_token')).toBeNull();
+        expect(localStorage.getItem('bs_auth_token')).toBeNull();
     });
 
     it('should call fetch with logout endpoint when logout is clicked', async () => {

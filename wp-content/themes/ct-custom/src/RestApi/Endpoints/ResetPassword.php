@@ -61,6 +61,13 @@ class ResetPassword {
     public function handle( \WP_REST_Request $request ) {
         assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
 
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() ) {
+            return new \WP_REST_Response( array(
+                'success' => false,
+                'message' => __( 'Email features are disabled.', 'ct-custom' ),
+            ), 403 );
+        }
+
         $reset_token       = $request->get_param( 'reset_token' );
         $new_password      = $request->get_param( 'new_password' );
         $password_confirm  = $request->get_param( 'new_password_confirm' );

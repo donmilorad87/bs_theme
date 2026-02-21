@@ -2,12 +2,12 @@
 /**
  * Multilanguage helper trait for sidebar components.
  *
- * OOP wrapper around CT_Multilang_Service singleton methods.
+ * OOP wrapper around BS_Multilang_Service singleton methods.
  * Replaces direct calls to the procedural BS_* functions
- * (ct_get_current_language, ct_translate, etc.) with trait
+ * (bs_get_current_language, bs_translate, etc.) with trait
  * methods that can be consumed by any class in the Sidebar namespace.
  *
- * Each method delegates to CT_Multilang_Service::instance() and
+ * Each method delegates to BS_Multilang_Service::instance() and
  * contains at least two assertions per NASA "Power of 10" rule 5.
  *
  * @package BS_Custom

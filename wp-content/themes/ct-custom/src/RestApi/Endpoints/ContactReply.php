@@ -76,12 +76,28 @@ class ContactReply {
 
 		$msg_user_id = (int) get_post_meta( $message_id, '_ct_msg_user_id', true );
 
+		$email_enabled = true;
+		if ( function_exists( 'bs_email_enabled' ) ) {
+			$email_enabled = bs_email_enabled();
+		}
+
 		if ( $msg_user_id < 1 ) {
-			$this->log( 'Validation failed: guest message cannot be replied to, message_id=' . $message_id );
-			return new \WP_REST_Response( array(
-				'success' => false,
-				'message' => __( 'Cannot reply to guest messages.', 'ct-custom' ),
-			), 400 );
+			if ( ! $email_enabled ) {
+				$this->log( 'Validation failed: guest reply blocked (email disabled), message_id=' . $message_id );
+				return new \WP_REST_Response( array(
+					'success' => false,
+					'message' => __( 'Email replies are disabled.', 'ct-custom' ),
+				), 400 );
+			}
+
+			$sender_email = get_post_meta( $message_id, '_ct_msg_sender_email', true );
+			if ( empty( $sender_email ) || ! is_email( $sender_email ) ) {
+				$this->log( 'Validation failed: guest reply missing sender email, message_id=' . $message_id );
+				return new \WP_REST_Response( array(
+					'success' => false,
+					'message' => __( 'Guest email not available for reply.', 'ct-custom' ),
+				), 400 );
+			}
 		}
 
 		$current_user = wp_get_current_user();
@@ -134,7 +150,24 @@ class ContactReply {
 		assert( $message_id > 0, 'Message ID must be positive' );
 		assert( is_string( $reply_body ), 'Reply body must be a string' );
 
+		$email_enabled = true;
+		if ( function_exists( 'bs_email_enabled' ) ) {
+			$email_enabled = bs_email_enabled();
+		}
+		if ( ! $email_enabled ) {
+			return;
+		}
+
 		$sender_email = get_post_meta( $message_id, '_ct_msg_sender_email', true );
+		if ( empty( $sender_email ) || ! is_email( $sender_email ) ) {
+			$msg_user_id = (int) get_post_meta( $message_id, '_ct_msg_user_id', true );
+			if ( $msg_user_id > 0 ) {
+				$user = get_user_by( 'id', $msg_user_id );
+				if ( $user && ! empty( $user->user_email ) ) {
+					$sender_email = $user->user_email;
+				}
+			}
+		}
 
 		if ( empty( $sender_email ) || ! is_email( $sender_email ) ) {
 			return;

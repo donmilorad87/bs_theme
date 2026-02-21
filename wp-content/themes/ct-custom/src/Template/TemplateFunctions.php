@@ -4,7 +4,7 @@
  *
  * Contains methods that enhance the theme by hooking into WordPress
  * (body classes, pingback, breadcrumbs, schemas, attachment images).
- * Consumed by CT_Template_Hooks.
+ * Consumed by BS_Template_Hooks.
  *
  * @package BS_Custom
  */
@@ -289,7 +289,7 @@ trait TemplateFunctions {
 		assert( function_exists( 'get_bloginfo' ), 'WordPress must be loaded' );
 		assert( function_exists( 'home_url' ), 'home_url must exist' );
 
-		$cached_json = get_transient( 'ct_contact_point_schema' );
+		$cached_json = get_transient( 'bs_contact_point_schema' );
 
 		if ( false !== $cached_json ) {
 			echo '<script type="application/ld+json">' . "\n";
@@ -305,7 +305,7 @@ trait TemplateFunctions {
 			'url'      => home_url( '/' ),
 		);
 
-		$description = get_theme_mod( 'ct_site_description', '' );
+		$description = get_theme_mod( 'bs_site_description', '' );
 		if ( ! empty( $description ) ) {
 			$schema['description'] = $description;
 		}
@@ -348,7 +348,7 @@ trait TemplateFunctions {
 		$json = wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT );
 
 		if ( $json ) {
-			set_transient( 'ct_contact_point_schema', $json );
+			set_transient( 'bs_contact_point_schema', $json );
 			echo '<script type="application/ld+json">' . "\n";
 			echo $json . "\n";
 			echo '</script>' . "\n";
@@ -362,7 +362,7 @@ trait TemplateFunctions {
 		assert( function_exists( 'delete_transient' ), 'WordPress must be loaded' );
 		assert( true, 'Invalidating schema cache' );
 
-		delete_transient( 'ct_contact_point_schema' );
+		delete_transient( 'bs_contact_point_schema' );
 	}
 
 	/**

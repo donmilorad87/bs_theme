@@ -157,6 +157,12 @@
     }
 }
 
+// --- Required asterisk ---
+.ct-auth-form__required {
+    color: #dc3545;
+    margin-left: 2px;
+}
+
 .ct-auth-form__name-row {
     gap: 12px;
 
@@ -182,6 +188,24 @@
     &:hover {
         opacity: 0.8;
     }
+}
+
+// --- Agree checkbox ---
+.ct-auth-form__agree {
+    margin-bottom: $space-lg;
+}
+
+.ct-auth-form__agree-label {
+    gap: 8px;
+    color: var(--ct-paragraph-color);
+    cursor: pointer;
+}
+
+.ct-auth-form__agree-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--ct-topbar-bg-color);
+    flex-shrink: 0;
 }
 
 // --- Submit button ---

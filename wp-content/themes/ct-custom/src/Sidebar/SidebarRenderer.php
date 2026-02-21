@@ -181,7 +181,7 @@ class SidebarRenderer {
 			return $this->mode_cache[ $cache_key ];
 		}
 
-		$meta_key = 'ct_sidebar_' . $position;
+		$meta_key = 'bs_sidebar_' . $position;
 		$value    = get_post_meta( $post_id, $meta_key, true );
 
 		$mode = 'off';
@@ -300,19 +300,15 @@ class SidebarRenderer {
 		echo '<aside class="ct-sidebar ct-sidebar--' . esc_attr( $position ) . '" role="complementary" aria-label="' . esc_attr( $label ) . '">' . "\n";
 
 		if ( 'global' === $mode ) {
-			$iso2       = function_exists( 'ct_get_current_language' ) ? ct_get_current_language() : 'en';
+			$iso2       = function_exists( 'bs_get_current_language' ) ? bs_get_current_language() : 'en';
 			$sidebar_id = 'sidebar-' . $position . '-' . $iso2;
 			if ( is_active_sidebar( $sidebar_id ) ) {
 				dynamic_sidebar( $sidebar_id );
-			} else {
-				echo '<p class="ct-sidebar__empty fs14">' . esc_html__( 'No widgets assigned to this sidebar.', 'ct-custom' ) . '</p>';
 			}
 		} elseif ( 'custom' === $mode ) {
 			$content = $this->extractContent( $position );
 			if ( '' !== $content ) {
 				echo wp_kses_post( $content );
-			} else {
-				echo '<p class="ct-sidebar__empty fs14">' . esc_html__( 'Add a Sidebar Content block to this page.', 'ct-custom' ) . '</p>';
 			}
 		}
 
@@ -332,12 +328,28 @@ class SidebarRenderer {
 
 		assert( is_array( $classes ), 'Classes must be an array' );
 
-		if ( $this->has( 'left' ) ) {
+		$has_left  = $this->has( 'left' );
+		$has_right = $this->has( 'right' );
+
+		if ( $has_left ) {
 			$classes[] = 'ct-layout--with-left';
 		}
 
-		if ( $this->has( 'right' ) ) {
+		if ( $has_right ) {
 			$classes[] = 'ct-layout--with-right';
+		}
+
+		if ( ! $has_left && ! $has_right ) {
+			$post_id    = $this->resolvePostId();
+			$full_width = $post_id ? get_post_meta( $post_id, 'bs_page_full_width', true ) : 'on';
+
+			if ( '' === $full_width ) {
+				$full_width = 'on';
+			}
+
+			if ( 'on' !== $full_width ) {
+				$classes[] = 'ct-layout--constrained';
+			}
 		}
 
 		assert( count( $classes ) >= 2, 'Must have at least base classes' );

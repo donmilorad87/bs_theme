@@ -6,7 +6,7 @@
  * Panel-side JS builds a fixed-shape form (no repeater).
  *
  * Migrated from inc/customizer/customizer_controls.php.
- * Old class: CT_Contact_Point_Control -> New: ContactPointControl
+ * Old class: BS_Contact_Point_Control -> New: ContactPointControl
  *
  * @package BS_Custom
  */
@@ -15,7 +15,7 @@ namespace BSCustom\Customizer\Controls;
 
 class ContactPointControl extends \WP_Customize_Control {
 
-    public $type = 'ct_contact_point';
+    public $type = 'bs_contact_point';
 
     /**
      * Contact type choices exposed to JS.

@@ -31,29 +31,29 @@ export default class Admin_Languages {
     /* ═══ A) Language Management ═══ */
 
     initLanguages() {
-        const form = document.getElementById('ct_add_language_form');
+        const form = document.getElementById('bs_add_language_form');
         if (form) {
             form.addEventListener('submit', (e) => this.handleAddLanguage(e));
             this._bindLangFormValidation(form);
         }
 
-        const flagBtn = document.getElementById('ct_lang_flag_btn');
+        const flagBtn = document.getElementById('bs_lang_flag_btn');
         if (flagBtn) {
             flagBtn.addEventListener('click', () => this.openMediaPicker());
         }
 
-        const flagRemove = document.getElementById('ct_lang_flag_remove');
+        const flagRemove = document.getElementById('bs_lang_flag_remove');
         if (flagRemove) {
             flagRemove.addEventListener('click', () => this.clearFlag());
         }
 
         /* Edit modal bindings */
-        const editForm = document.getElementById('ct_edit_language_form');
+        const editForm = document.getElementById('bs_edit_language_form');
         if (editForm) {
             editForm.addEventListener('submit', (e) => this.handleUpdateLanguage(e));
         }
 
-        const editCancel = document.getElementById('ct_edit_cancel');
+        const editCancel = document.getElementById('bs_edit_cancel');
         if (editCancel) {
             editCancel.addEventListener('click', () => this.closeEditModal());
         }
@@ -63,12 +63,12 @@ export default class Admin_Languages {
             editBackdrop.addEventListener('click', () => this.closeEditModal());
         }
 
-        const editFlagBtn = document.getElementById('ct_edit_flag_btn');
+        const editFlagBtn = document.getElementById('bs_edit_flag_btn');
         if (editFlagBtn) {
             editFlagBtn.addEventListener('click', () => this.openEditMediaPicker());
         }
 
-        const editFlagRemove = document.getElementById('ct_edit_flag_remove');
+        const editFlagRemove = document.getElementById('bs_edit_flag_remove');
         if (editFlagRemove) {
             editFlagRemove.addEventListener('click', () => this.clearEditFlag());
         }
@@ -77,7 +77,7 @@ export default class Admin_Languages {
     }
 
     bindTableActions() {
-        const table = document.getElementById('ct_language_table');
+        const table = document.getElementById('bs_language_table');
         if (!table) { return; }
 
         table.addEventListener('click', (e) => {
@@ -108,7 +108,7 @@ export default class Admin_Languages {
     }
 
     _bindLangFormValidation(form) {
-        const ids = ['ct_lang_iso2', 'ct_lang_iso3', 'ct_lang_native_name', 'ct_lang_locale'];
+        const ids = ['bs_lang_iso2', 'bs_lang_iso3', 'bs_lang_native_name', 'bs_lang_locale'];
         const maxFields = 4;
         let count = 0;
 
@@ -124,11 +124,11 @@ export default class Admin_Languages {
     }
 
     _validateLangForm() {
-        const iso2Input = document.getElementById('ct_lang_iso2');
-        const iso3Input = document.getElementById('ct_lang_iso3');
-        const nameInput = document.getElementById('ct_lang_native_name');
-        const localeInput = document.getElementById('ct_lang_locale');
-        const submitBtn = document.getElementById('ct_lang_submit_btn');
+        const iso2Input = document.getElementById('bs_lang_iso2');
+        const iso3Input = document.getElementById('bs_lang_iso3');
+        const nameInput = document.getElementById('bs_lang_native_name');
+        const localeInput = document.getElementById('bs_lang_locale');
+        const submitBtn = document.getElementById('bs_lang_submit_btn');
 
         const iso2 = iso2Input ? iso2Input.value.trim() : '';
         const iso3 = iso3Input ? iso3Input.value.trim() : '';
@@ -139,7 +139,7 @@ export default class Admin_Languages {
 
         /* ISO 639-1: required, exactly 2 lowercase letters */
         const iso2Field = iso2Input ? iso2Input.closest('.ct-lang-add-form__field') : null;
-        const iso2Error = document.getElementById('ct_lang_iso2_error');
+        const iso2Error = document.getElementById('bs_lang_iso2_error');
         if (!iso2) {
             if (iso2Field) { iso2Field.classList.add('ct-field--invalid'); }
             if (iso2Error) { iso2Error.textContent = 'ISO code is required.'; }
@@ -155,7 +155,7 @@ export default class Admin_Languages {
 
         /* ISO 639-2: optional, but if provided must be 3 lowercase letters */
         const iso3Field = iso3Input ? iso3Input.closest('.ct-lang-add-form__field') : null;
-        const iso3Error = document.getElementById('ct_lang_iso3_error');
+        const iso3Error = document.getElementById('bs_lang_iso3_error');
         if (iso3 && !/^[a-z]{3}$/.test(iso3)) {
             if (iso3Field) { iso3Field.classList.add('ct-field--invalid'); }
             if (iso3Error) { iso3Error.textContent = 'Must be exactly 3 lowercase letters.'; }
@@ -167,7 +167,7 @@ export default class Admin_Languages {
 
         /* Native Name: required */
         const nameField = nameInput ? nameInput.closest('.ct-lang-add-form__field') : null;
-        const nameError = document.getElementById('ct_lang_native_name_error');
+        const nameError = document.getElementById('bs_lang_native_name_error');
         if (!name) {
             if (nameField) { nameField.classList.add('ct-field--invalid'); }
             if (nameError) { nameError.textContent = 'Native name is required.'; }
@@ -179,7 +179,7 @@ export default class Admin_Languages {
 
         /* Locale: optional, but if provided must match xx_XX pattern */
         const localeField = localeInput ? localeInput.closest('.ct-lang-add-form__field') : null;
-        const localeError = document.getElementById('ct_lang_locale_error');
+        const localeError = document.getElementById('bs_lang_locale_error');
         if (locale && !/^[a-z]{2}_[A-Z]{2}$/.test(locale)) {
             if (localeField) { localeField.classList.add('ct-field--invalid'); }
             if (localeError) { localeError.textContent = 'Must match format: xx_XX (e.g. fr_FR).'; }
@@ -199,11 +199,11 @@ export default class Admin_Languages {
 
         if (!this._validateLangForm()) { return; }
 
-        const iso2       = document.getElementById('ct_lang_iso2').value.trim().toLowerCase();
-        const iso3       = document.getElementById('ct_lang_iso3').value.trim().toLowerCase();
-        const nativeName = document.getElementById('ct_lang_native_name').value.trim();
-        const locale     = document.getElementById('ct_lang_locale').value.trim();
-        const flag       = document.getElementById('ct_lang_flag').value.trim();
+        const iso2       = document.getElementById('bs_lang_iso2').value.trim().toLowerCase();
+        const iso3       = document.getElementById('bs_lang_iso3').value.trim().toLowerCase();
+        const nativeName = document.getElementById('bs_lang_native_name').value.trim();
+        const locale     = document.getElementById('bs_lang_locale').value.trim();
+        const flag       = document.getElementById('bs_lang_flag').value.trim();
 
         const data = { iso2, iso3, native_name: nativeName, locale, flag };
 
@@ -211,13 +211,13 @@ export default class Admin_Languages {
 
         if (result.success) {
             window.ctToast.show(result.data.message || 'Language added.', 'success');
-            document.getElementById('ct_add_language_form').reset();
+            document.getElementById('bs_add_language_form').reset();
             this.clearFlag();
 
-            const submitBtn = document.getElementById('ct_lang_submit_btn');
+            const submitBtn = document.getElementById('bs_lang_submit_btn');
             if (submitBtn) { submitBtn.disabled = true; }
 
-            const fields = document.querySelectorAll('#ct_add_language_form .ct-field--invalid');
+            const fields = document.querySelectorAll('#bs_add_language_form .ct-field--invalid');
             const maxF = 10;
             let fc = 0;
             for (const f of fields) {
@@ -267,29 +267,44 @@ export default class Admin_Languages {
             'Remove Language',
             `<p>The language <strong>${this.escapeHtml(iso2.toUpperCase())}</strong>, its pages, menus and widgets will be removed.</p>`
             + '<label class="ct-confirm-modal__checkbox-label">'
-            + '<input type="checkbox" id="ct_remove_force_delete" class="ct-confirm-modal__checkbox" checked>'
+            + '<input type="checkbox" id="bs_remove_force_delete" class="ct-confirm-modal__checkbox" checked>'
             + '<span>Delete pages permanently (skip trash)</span>'
             + '</label>'
             + '<label class="ct-confirm-modal__checkbox-label">'
-            + '<input type="checkbox" id="ct_remove_menus" class="ct-confirm-modal__checkbox" checked>'
+            + '<input type="checkbox" id="bs_remove_posts" class="ct-confirm-modal__checkbox" checked>'
+            + '<span>Remove posts</span>'
+            + '</label>'
+            + '<label class="ct-confirm-modal__checkbox-label">'
+            + '<input type="checkbox" id="bs_remove_tags" class="ct-confirm-modal__checkbox" checked>'
+            + '<span>Remove tags</span>'
+            + '</label>'
+            + '<label class="ct-confirm-modal__checkbox-label">'
+            + '<input type="checkbox" id="bs_remove_categories" class="ct-confirm-modal__checkbox" checked>'
+            + '<span>Remove categories</span>'
+            + '</label>'
+            + '<label class="ct-confirm-modal__checkbox-label">'
+            + '<input type="checkbox" id="bs_remove_menus" class="ct-confirm-modal__checkbox" checked>'
             + '<span>Remove menus</span>'
             + '</label>'
             + '<label class="ct-confirm-modal__checkbox-label">'
-            + '<input type="checkbox" id="ct_remove_widgets" class="ct-confirm-modal__checkbox" checked>'
+            + '<input type="checkbox" id="bs_remove_widgets" class="ct-confirm-modal__checkbox" checked>'
             + '<span>Remove widgets</span>'
             + '</label>',
             'Remove Language',
             () => {
-                const forceDelete   = !!document.getElementById('ct_remove_force_delete')?.checked;
-                const removeMenus   = !!document.getElementById('ct_remove_menus')?.checked;
-                const removeWidgets = !!document.getElementById('ct_remove_widgets')?.checked;
-                this.executeRemoveLanguage(iso2, forceDelete, removeMenus, removeWidgets);
+                const forceDelete   = !!document.getElementById('bs_remove_force_delete')?.checked;
+                const removePosts   = !!document.getElementById('bs_remove_posts')?.checked;
+                const removeTags    = !!document.getElementById('bs_remove_tags')?.checked;
+                const removeCategories = !!document.getElementById('bs_remove_categories')?.checked;
+                const removeMenus   = !!document.getElementById('bs_remove_menus')?.checked;
+                const removeWidgets = !!document.getElementById('bs_remove_widgets')?.checked;
+                this.executeRemoveLanguage(iso2, forceDelete, removeMenus, removeWidgets, removePosts, removeTags, removeCategories);
             }
         );
     }
 
     /** @private */
-    async executeRemoveLanguage(iso2, forceDelete, removeMenus = true, removeWidgets = true) {
+    async executeRemoveLanguage(iso2, forceDelete, removeMenus = true, removeWidgets = true, removePosts = true, removeTags = true, removeCategories = true) {
         const formData = new FormData();
         formData.append('action', 'admin_remove_language');
         formData.append('nonce', this.nonce);
@@ -297,6 +312,9 @@ export default class Admin_Languages {
         formData.append('force_delete', forceDelete ? 'true' : 'false');
         formData.append('remove_menus', removeMenus ? 'true' : 'false');
         formData.append('remove_widgets', removeWidgets ? 'true' : 'false');
+        formData.append('remove_posts', removePosts ? 'true' : 'false');
+        formData.append('remove_tags', removeTags ? 'true' : 'false');
+        formData.append('remove_categories', removeCategories ? 'true' : 'false');
 
         const result = await this.ajaxPostForm(formData);
 
@@ -368,7 +386,7 @@ export default class Admin_Languages {
 
         const modal = document.createElement('div');
         modal.className = 'ct-confirm-modal';
-        modal.id = 'ct_confirm_modal';
+        modal.id = 'bs_confirm_modal';
         modal.setAttribute('role', 'dialog');
         modal.setAttribute('aria-modal', 'true');
         modal.appendChild(backdrop);
@@ -384,7 +402,7 @@ export default class Admin_Languages {
     }
 
     closeConfirmModal() {
-        const modal = document.getElementById('ct_confirm_modal');
+        const modal = document.getElementById('bs_confirm_modal');
         if (modal) { modal.remove(); }
     }
 
@@ -399,7 +417,7 @@ export default class Admin_Languages {
     }
 
     getUpdatedLanguagesArray(iso2, field, value) {
-        const rows = document.querySelectorAll('#ct_language_table tbody tr[data-iso2]');
+        const rows = document.querySelectorAll('#bs_language_table tbody tr[data-iso2]');
         const langs = [];
         const max = 50;
         let count = 0;
@@ -432,15 +450,15 @@ export default class Admin_Languages {
 
         frame.on('select', () => {
             const attachment = frame.state().get('selection').first().toJSON();
-            document.getElementById('ct_lang_flag').value = attachment.url || '';
+            document.getElementById('bs_lang_flag').value = attachment.url || '';
 
-            const preview = document.getElementById('ct_lang_flag_preview');
+            const preview = document.getElementById('bs_lang_flag_preview');
             if (preview) {
                 preview.src = attachment.url || '';
                 preview.style.display = attachment.url ? 'block' : 'none';
             }
 
-            const removeBtn = document.getElementById('ct_lang_flag_remove');
+            const removeBtn = document.getElementById('bs_lang_flag_remove');
             if (removeBtn) {
                 removeBtn.style.display = attachment.url ? 'inline-block' : 'none';
             }
@@ -450,17 +468,17 @@ export default class Admin_Languages {
     }
 
     clearFlag() {
-        document.getElementById('ct_lang_flag').value = '';
-        const preview = document.getElementById('ct_lang_flag_preview');
+        document.getElementById('bs_lang_flag').value = '';
+        const preview = document.getElementById('bs_lang_flag_preview');
         if (preview) { preview.style.display = 'none'; }
-        const removeBtn = document.getElementById('ct_lang_flag_remove');
+        const removeBtn = document.getElementById('bs_lang_flag_remove');
         if (removeBtn) { removeBtn.style.display = 'none'; }
     }
 
     /* ═══ Table DOM Helpers ═══ */
 
     appendLanguageRow(lang) {
-        const tbody = document.querySelector('#ct_language_table tbody');
+        const tbody = document.querySelector('#bs_language_table tbody');
         if (!tbody) { return; }
 
         const row = this.buildLanguageRow(lang);
@@ -468,12 +486,12 @@ export default class Admin_Languages {
     }
 
     removeLanguageRow(iso2) {
-        const row = document.querySelector(`#ct_language_table tbody tr[data-iso2="${iso2}"]`);
+        const row = document.querySelector(`#bs_language_table tbody tr[data-iso2="${iso2}"]`);
         if (row) { row.remove(); }
     }
 
     updateDefaultInTable(newDefaultIso2) {
-        const rows = document.querySelectorAll('#ct_language_table tbody tr[data-iso2]');
+        const rows = document.querySelectorAll('#bs_language_table tbody tr[data-iso2]');
         const max = 50;
         let count = 0;
 
@@ -522,7 +540,7 @@ export default class Admin_Languages {
     }
 
     updateLanguageRow(iso2, data) {
-        const row = document.querySelector(`#ct_language_table tbody tr[data-iso2="${iso2}"]`);
+        const row = document.querySelector(`#bs_language_table tbody tr[data-iso2="${iso2}"]`);
         if (!row) { return; }
 
         const cells = row.querySelectorAll('td');
@@ -659,18 +677,18 @@ export default class Admin_Languages {
     /* ═══ Edit Language Modal ═══ */
 
     openEditModal(button) {
-        const modal = document.getElementById('ct_lang_edit_modal');
+        const modal = document.getElementById('bs_lang_edit_modal');
         if (!modal) { return; }
 
-        document.getElementById('ct_edit_iso2').value = button.dataset.iso2 || '';
-        document.getElementById('ct_edit_iso2_badge').textContent = (button.dataset.iso2 || '').toUpperCase();
-        document.getElementById('ct_edit_native_name').value = button.dataset.nativeName || '';
-        document.getElementById('ct_edit_iso3').value = button.dataset.iso3 || '';
-        document.getElementById('ct_edit_locale').value = button.dataset.locale || '';
-        document.getElementById('ct_edit_flag').value = button.dataset.flag || '';
+        document.getElementById('bs_edit_iso2').value = button.dataset.iso2 || '';
+        document.getElementById('bs_edit_iso2_badge').textContent = (button.dataset.iso2 || '').toUpperCase();
+        document.getElementById('bs_edit_native_name').value = button.dataset.nativeName || '';
+        document.getElementById('bs_edit_iso3').value = button.dataset.iso3 || '';
+        document.getElementById('bs_edit_locale').value = button.dataset.locale || '';
+        document.getElementById('bs_edit_flag').value = button.dataset.flag || '';
 
-        const preview = document.getElementById('ct_edit_flag_preview');
-        const removeBtn = document.getElementById('ct_edit_flag_remove');
+        const preview = document.getElementById('bs_edit_flag_preview');
+        const removeBtn = document.getElementById('bs_edit_flag_remove');
 
         if (button.dataset.flag) {
             preview.src = button.dataset.flag;
@@ -681,25 +699,25 @@ export default class Admin_Languages {
             removeBtn.style.display = 'none';
         }
 
-        const status = document.getElementById('ct_edit_status');
+        const status = document.getElementById('bs_edit_status');
         if (status) { status.textContent = ''; }
 
         modal.style.display = 'flex';
     }
 
     closeEditModal() {
-        const modal = document.getElementById('ct_lang_edit_modal');
+        const modal = document.getElementById('bs_lang_edit_modal');
         if (modal) { modal.style.display = 'none'; }
     }
 
     async handleUpdateLanguage(e) {
         e.preventDefault();
 
-        const iso2       = document.getElementById('ct_edit_iso2').value.trim();
-        const nativeName = document.getElementById('ct_edit_native_name').value.trim();
-        const iso3       = document.getElementById('ct_edit_iso3').value.trim().toLowerCase();
-        const locale     = document.getElementById('ct_edit_locale').value.trim();
-        const flag       = document.getElementById('ct_edit_flag').value.trim();
+        const iso2       = document.getElementById('bs_edit_iso2').value.trim();
+        const nativeName = document.getElementById('bs_edit_native_name').value.trim();
+        const iso3       = document.getElementById('bs_edit_iso3').value.trim().toLowerCase();
+        const locale     = document.getElementById('bs_edit_locale').value.trim();
+        const flag       = document.getElementById('bs_edit_flag').value.trim();
 
         if (!iso2 || !nativeName) { return; }
 
@@ -727,15 +745,15 @@ export default class Admin_Languages {
 
         frame.on('select', () => {
             const attachment = frame.state().get('selection').first().toJSON();
-            document.getElementById('ct_edit_flag').value = attachment.url || '';
+            document.getElementById('bs_edit_flag').value = attachment.url || '';
 
-            const preview = document.getElementById('ct_edit_flag_preview');
+            const preview = document.getElementById('bs_edit_flag_preview');
             if (preview) {
                 preview.src = attachment.url || '';
                 preview.style.display = attachment.url ? 'block' : 'none';
             }
 
-            const removeBtn = document.getElementById('ct_edit_flag_remove');
+            const removeBtn = document.getElementById('bs_edit_flag_remove');
             if (removeBtn) {
                 removeBtn.style.display = attachment.url ? 'inline-block' : 'none';
             }
@@ -745,10 +763,10 @@ export default class Admin_Languages {
     }
 
     clearEditFlag() {
-        document.getElementById('ct_edit_flag').value = '';
-        const preview = document.getElementById('ct_edit_flag_preview');
+        document.getElementById('bs_edit_flag').value = '';
+        const preview = document.getElementById('bs_edit_flag_preview');
         if (preview) { preview.style.display = 'none'; }
-        const removeBtn = document.getElementById('ct_edit_flag_remove');
+        const removeBtn = document.getElementById('bs_edit_flag_remove');
         if (removeBtn) { removeBtn.style.display = 'none'; }
     }
 
@@ -757,46 +775,46 @@ export default class Admin_Languages {
     initTranslationEditor() {
         this.loadTranslationKeys();
 
-        const search = document.getElementById('ct_trans_search');
+        const search = document.getElementById('bs_trans_search');
         if (search) {
             search.addEventListener('input', () => this.filterKeys(search.value));
         }
 
-        const addKeyBtn = document.getElementById('ct_trans_add_key');
+        const addKeyBtn = document.getElementById('bs_trans_add_key');
         if (addKeyBtn) {
             addKeyBtn.addEventListener('click', () => this.openAddKeyModal());
         }
 
         this.initAddKeyModal();
 
-        const deleteKeyBtn = document.getElementById('ct_trans_delete_key');
+        const deleteKeyBtn = document.getElementById('bs_trans_delete_key');
         if (deleteKeyBtn) {
             deleteKeyBtn.addEventListener('click', () => this.deleteCurrentKey());
         }
 
-        const singularBtn = document.getElementById('ct_trans_type_singular');
+        const singularBtn = document.getElementById('bs_trans_type_singular');
         if (singularBtn) {
             singularBtn.addEventListener('click', () => this.toggleKeyType('singular'));
         }
 
-        const pluralBtn = document.getElementById('ct_trans_type_plural');
+        const pluralBtn = document.getElementById('bs_trans_type_plural');
         if (pluralBtn) {
             pluralBtn.addEventListener('click', () => this.toggleKeyType('plural'));
         }
 
-        const exportBtn = document.getElementById('ct_trans_export');
+        const exportBtn = document.getElementById('bs_trans_export');
         if (exportBtn) {
             exportBtn.addEventListener('click', () => this.exportTranslations());
         }
 
-        const importBtn = document.getElementById('ct_trans_import');
+        const importBtn = document.getElementById('bs_trans_import');
         if (importBtn) {
             importBtn.addEventListener('click', () => {
-                document.getElementById('ct_trans_import_file')?.click();
+                document.getElementById('bs_trans_import_file')?.click();
             });
         }
 
-        const importFile = document.getElementById('ct_trans_import_file');
+        const importFile = document.getElementById('bs_trans_import_file');
         if (importFile) {
             importFile.addEventListener('change', (e) => this.importTranslations(e));
         }
@@ -812,7 +830,7 @@ export default class Admin_Languages {
     }
 
     renderKeyList(keys) {
-        const list = document.getElementById('ct_trans_key_list');
+        const list = document.getElementById('bs_trans_key_list');
         if (!list) { return; }
 
         list.innerHTML = '';
@@ -850,22 +868,22 @@ export default class Admin_Languages {
     async selectKey(key) {
         this.currentTransKey = key;
 
-        const placeholder = document.getElementById('ct_trans_placeholder');
-        const fields = document.getElementById('ct_trans_fields');
-        const header = document.getElementById('ct_trans_current_key');
+        const placeholder = document.getElementById('bs_trans_placeholder');
+        const fields = document.getElementById('bs_trans_fields');
+        const header = document.getElementById('bs_trans_current_key');
 
         if (placeholder) { placeholder.style.display = 'none'; }
         if (fields) { fields.style.display = 'block'; }
         if (header) { header.textContent = key; }
 
         this.renderKeyList(this.allKeys.filter(k => {
-            const search = document.getElementById('ct_trans_search');
+            const search = document.getElementById('bs_trans_search');
             if (!search || !search.value) { return true; }
             return k.toLowerCase().includes(search.value.toLowerCase());
         }));
 
         /* Load values for each language */
-        const container = document.getElementById('ct_trans_lang_fields');
+        const container = document.getElementById('bs_trans_lang_fields');
         if (!container) { return; }
 
         container.innerHTML = '<p>Loading...</p>';
@@ -1009,7 +1027,7 @@ export default class Admin_Languages {
     }
 
     async saveTranslation(key, iso2) {
-        const container = document.getElementById('ct_trans_lang_fields');
+        const container = document.getElementById('bs_trans_lang_fields');
         if (!container) { return; }
 
         /* Read singular value */
@@ -1060,11 +1078,11 @@ export default class Admin_Languages {
     }
 
     initAddKeyModal() {
-        const modal     = document.getElementById('ct_add_key_modal');
+        const modal     = document.getElementById('bs_add_key_modal');
         const backdrop  = modal ? modal.querySelector('.ct-add-key-modal__backdrop') : null;
-        const cancelBtn = document.getElementById('ct_add_key_cancel');
-        const confirmBtn = document.getElementById('ct_add_key_confirm');
-        const input     = document.getElementById('ct_add_key_input');
+        const cancelBtn = document.getElementById('bs_add_key_cancel');
+        const confirmBtn = document.getElementById('bs_add_key_confirm');
+        const input     = document.getElementById('bs_add_key_input');
 
         if (!modal) { return; }
 
@@ -1086,8 +1104,8 @@ export default class Admin_Languages {
     }
 
     openAddKeyModal() {
-        const modal = document.getElementById('ct_add_key_modal');
-        const input = document.getElementById('ct_add_key_input');
+        const modal = document.getElementById('bs_add_key_modal');
+        const input = document.getElementById('bs_add_key_input');
         if (!modal) { return; }
 
         modal.style.display = 'flex';
@@ -1098,12 +1116,12 @@ export default class Admin_Languages {
     }
 
     closeAddKeyModal() {
-        const modal = document.getElementById('ct_add_key_modal');
+        const modal = document.getElementById('bs_add_key_modal');
         if (modal) { modal.style.display = 'none'; }
     }
 
     async addTranslationKey() {
-        const input = document.getElementById('ct_add_key_input');
+        const input = document.getElementById('bs_add_key_input');
         const key = input ? input.value : '';
         if (!key || !key.trim()) { return; }
 
@@ -1136,15 +1154,15 @@ export default class Admin_Languages {
 
         if (result.success) {
             this.currentTransKey = '';
-            document.getElementById('ct_trans_placeholder').style.display = 'block';
-            document.getElementById('ct_trans_fields').style.display = 'none';
+            document.getElementById('bs_trans_placeholder').style.display = 'block';
+            document.getElementById('bs_trans_fields').style.display = 'none';
             await this.loadTranslationKeys();
         }
     }
 
     updateToggleUI() {
-        const singularBtn = document.getElementById('ct_trans_type_singular');
-        const pluralBtn = document.getElementById('ct_trans_type_plural');
+        const singularBtn = document.getElementById('bs_trans_type_singular');
+        const pluralBtn = document.getElementById('bs_trans_type_plural');
         if (!singularBtn || !pluralBtn) { return; }
 
         if (this.currentKeyIsPlural) {
@@ -1164,7 +1182,7 @@ export default class Admin_Languages {
         this.updateToggleUI();
 
         /* Toggle visibility of singular/plural wrappers */
-        const container = document.getElementById('ct_trans_lang_fields');
+        const container = document.getElementById('bs_trans_lang_fields');
         if (!container) { return; }
 
         const singularWraps = container.querySelectorAll('.ct-trans-editor__singular-wrap');
@@ -1194,7 +1212,7 @@ export default class Admin_Languages {
      * format (object vs string) for the key.
      */
     async saveAllLanguagesForKey(key) {
-        const container = document.getElementById('ct_trans_lang_fields');
+        const container = document.getElementById('bs_trans_lang_fields');
         if (!container) { return; }
 
         const fields = container.querySelectorAll('.ct-trans-editor__lang-field');
@@ -1214,7 +1232,7 @@ export default class Admin_Languages {
     }
 
     detectPlaceholders() {
-        const container = document.getElementById('ct_trans_lang_fields');
+        const container = document.getElementById('bs_trans_lang_fields');
         if (!container) { return; }
 
         const inputs = container.querySelectorAll('input[type="text"]');
@@ -1238,8 +1256,8 @@ export default class Admin_Languages {
     }
 
     renderPlaceholderBadges(placeholders) {
-        const wrapper = document.getElementById('ct_trans_placeholders');
-        const list = document.getElementById('ct_trans_placeholder_list');
+        const wrapper = document.getElementById('bs_trans_placeholders');
+        const list = document.getElementById('bs_trans_placeholder_list');
         if (!wrapper || !list) { return; }
 
         if (placeholders.size === 0) {
@@ -1297,7 +1315,7 @@ export default class Admin_Languages {
     /* ═══ C) Page Translations ═══ */
 
     initPageTranslations() {
-        const filter = document.getElementById('ct_page_lang_filter');
+        const filter = document.getElementById('bs_page_lang_filter');
         if (!filter) { return; }
 
         filter.addEventListener('change', () => this.loadPagesForLanguage(filter.value));
@@ -1308,7 +1326,7 @@ export default class Admin_Languages {
     }
 
     async loadPagesForLanguage(iso2) {
-        const container = document.getElementById('ct_page_list');
+        const container = document.getElementById('bs_page_list');
         if (!container) { return; }
 
         container.innerHTML = '<p class="ct-page-trans__loading">Loading pages...</p>';

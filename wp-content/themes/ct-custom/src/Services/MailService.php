@@ -63,14 +63,19 @@ class MailService {
     /**
      * Send an HTML email.
      *
-     * @param string $to      Recipient email address.
-     * @param string $subject Email subject.
-     * @param string $body    HTML body content.
+     * @param string $to          Recipient email address.
+     * @param string $subject     Email subject.
+     * @param string $body        HTML body content.
+     * @param array  $attachments Attachment list (paths or arrays with path/name).
      * @return bool True on success, false on failure.
      */
-    public function send( $to, $subject, $body ) {
+    public function send( $to, $subject, $body, $attachments = array() ) {
         assert( is_string( $to ) && strlen( $to ) > 0, 'Recipient must be a non-empty string' );
         assert( is_string( $subject ) && strlen( $subject ) <= self::MAX_SUBJECT_LEN, 'Subject must be valid' );
+
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() ) {
+            return false;
+        }
 
         if ( ! class_exists( PHPMailer::class ) ) {
             return false;
@@ -83,12 +88,13 @@ class MailService {
             $this->configure_sender( $mail );
             $this->configure_recipient( $mail, $to );
             $this->configure_content( $mail, $subject, $body );
+            $this->configure_attachments( $mail, $attachments );
 
             $mail->send();
             return true;
         } catch ( PHPMailerException $e ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( '[CT_Mail_Service] PHPMailer error: ' . $e->getMessage() );
+                error_log( '[BS_Mail_Service] PHPMailer error: ' . $e->getMessage() );
             }
             return false;
         }
@@ -182,5 +188,49 @@ class MailService {
         $mail->Subject = $subject;
         $mail->Body    = $body;
         $mail->AltBody = wp_strip_all_tags( $body );
+    }
+
+    /**
+     * Configure email attachments.
+     *
+     * @param PHPMailer $mail        PHPMailer instance.
+     * @param array     $attachments Attachment list.
+     */
+    private function configure_attachments( PHPMailer $mail, $attachments ) {
+        assert( $mail instanceof PHPMailer, 'Must receive PHPMailer instance' );
+
+        if ( ! is_array( $attachments ) || empty( $attachments ) ) {
+            return;
+        }
+
+        $max_files = 10;
+        $count     = 0;
+
+        foreach ( $attachments as $attachment ) {
+            if ( $count >= $max_files ) {
+                break;
+            }
+            $count++;
+
+            $path = '';
+            $name = '';
+
+            if ( is_array( $attachment ) ) {
+                $path = isset( $attachment['path'] ) ? (string) $attachment['path'] : '';
+                $name = isset( $attachment['name'] ) ? (string) $attachment['name'] : '';
+            } elseif ( is_string( $attachment ) ) {
+                $path = $attachment;
+            }
+
+            if ( '' === $path || ! file_exists( $path ) ) {
+                continue;
+            }
+
+            if ( '' !== $name ) {
+                $mail->addAttachment( $path, $name );
+            } else {
+                $mail->addAttachment( $path );
+            }
+        }
     }
 }

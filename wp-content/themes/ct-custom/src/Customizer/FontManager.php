@@ -9,7 +9,7 @@
  * Docker entrypoint ensures write permissions on container start.
  *
  * Migrated from inc/customizer/class-ct-font-manager.php.
- * Old class: CT_Font_Manager -> New: FontManager
+ * Old class: BS_Font_Manager -> New: FontManager
  *
  * @package BS_Custom
  */
@@ -48,7 +48,7 @@ class FontManager {
         assert( strlen( $message ) > 0, 'Log message must not be empty' );
 
         if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-            error_log( '[CT_FontManager] ' . $message );
+            error_log( '[BS_FontManager] ' . $message );
         }
     }
 
@@ -97,10 +97,10 @@ class FontManager {
      * When fonts are enabled:
      *   1. Remove ALL woff2 files from assets/fonts/
      *   2. Re-download only the currently checked family + weights
-     *   3. Store the resulting @font-face CSS in ct_font_face_css
+     *   3. Store the resulting @font-face CSS in bs_font_face_css
      *
      * When fonts are disabled:
-     *   Clean up all font files and remove ct_font_face_css.
+     *   Clean up all font files and remove bs_font_face_css.
      *
      * @param \WP_Customize_Manager $wp_customize Customizer manager.
      */
@@ -109,9 +109,9 @@ class FontManager {
 
         $this->ensure_paths_resolved();
 
-        $enabled = get_theme_mod( 'ct_font_enabled', false );
-        $family  = get_theme_mod( 'ct_font_family', '' );
-        $weights = get_theme_mod( 'ct_font_weights', '' );
+        $enabled = get_theme_mod( 'bs_font_enabled', false );
+        $family  = get_theme_mod( 'bs_font_family', '' );
+        $weights = get_theme_mod( 'bs_font_weights', '' );
 
         assert( is_string( $family ), 'Font family must be a string' );
         assert( is_string( $weights ), 'Font weights must be a string' );
@@ -119,8 +119,8 @@ class FontManager {
         /* If fonts disabled or no family selected, clean up everything */
         if ( ! $enabled || '' === $family ) {
             $this->cleanup_all();
-            remove_theme_mod( 'ct_font_face_css' );
-            remove_theme_mod( 'ct_font_prev_family' );
+            remove_theme_mod( 'bs_font_face_css' );
+            remove_theme_mod( 'bs_font_prev_family' );
             return;
         }
 
@@ -139,12 +139,12 @@ class FontManager {
                 $face_css       = $this->download_font( $api_family, $weights_string, $family );
 
                 if ( '' !== $face_css ) {
-                    set_theme_mod( 'ct_font_face_css', $face_css );
+                    set_theme_mod( 'bs_font_face_css', $face_css );
                 }
             }
         }
 
-        set_theme_mod( 'ct_font_prev_family', $family );
+        set_theme_mod( 'bs_font_prev_family', $family );
     }
 
     /**
@@ -634,7 +634,7 @@ class FontManager {
      * @return array Array of font objects with family, variants, category.
      */
     public static function get_font_catalog() {
-        $json_path = get_template_directory() . '/inc/customizer/google-fonts.json';
+        $json_path = get_template_directory() . '/src/Customizer/google-fonts.json';
 
         assert( is_string( $json_path ), 'JSON path must be a string' );
 

@@ -37,11 +37,11 @@ class DynamicCss {
     public static function output() {
         assert( function_exists( 'get_transient' ), 'WordPress must be loaded' );
 
-        $css = get_transient( 'ct_dynamic_css' );
+        $css = get_transient( 'bs_dynamic_css' );
 
         if ( false === $css ) {
             $css = static::build();
-            set_transient( 'ct_dynamic_css', $css );
+            set_transient( 'bs_dynamic_css', $css );
         }
 
         assert( is_string( $css ), 'Dynamic CSS must be a string' );
@@ -61,7 +61,7 @@ class DynamicCss {
         assert( function_exists( 'delete_transient' ), 'WordPress must be loaded' );
         assert( true, 'Invalidating dynamic CSS cache' );
 
-        delete_transient( 'ct_dynamic_css' );
+        delete_transient( 'bs_dynamic_css' );
     }
 
     /**
@@ -117,52 +117,52 @@ class DynamicCss {
 
         return array(
             /* Topbar */
-            '--ct-topbar-bg-color'            => array( 'ct_topbar_bg_color', '#FF6B35', 'ct_topbar_bg_color_dark', '#D45A2B' ),
-            '--ct-topbar-text1-color'         => array( 'ct_topbar_text1_color', '#FFFFFF', 'ct_topbar_text1_color_dark', '#FFFFFF' ),
-            '--ct-topbar-text2-color'         => array( 'ct_topbar_text2_color', '#FFFFFF', 'ct_topbar_text2_color_dark', '#FFFFFF' ),
-            '--ct-topbar-links-color'         => array( 'ct_topbar_links_color', '#FFFFFF', 'ct_topbar_links_color_dark', '#FFFFFF' ),
-            '--ct-topbar-links-hover-color'   => array( 'ct_topbar_links_hover_color', '#CCCCCC', 'ct_topbar_links_hover_color_dark', '#FFB088' ),
+            '--ct-topbar-bg-color'            => array( 'bs_topbar_bg_color', '#FF6B35', 'bs_topbar_bg_color_dark', '#D45A2B' ),
+            '--ct-topbar-text1-color'         => array( 'bs_topbar_text1_color', '#FFFFFF', 'bs_topbar_text1_color_dark', '#FFFFFF' ),
+            '--ct-topbar-text2-color'         => array( 'bs_topbar_text2_color', '#FFFFFF', 'bs_topbar_text2_color_dark', '#FFFFFF' ),
+            '--ct-topbar-links-color'         => array( 'bs_topbar_links_color', '#FFFFFF', 'bs_topbar_links_color_dark', '#FFFFFF' ),
+            '--ct-topbar-links-hover-color'   => array( 'bs_topbar_links_hover_color', '#CCCCCC', 'bs_topbar_links_hover_color_dark', '#FFB088' ),
             /* Header */
-            '--ct-header-bg-color'            => array( 'ct_header_bg_color', '#FFFFFF', 'ct_header_bg_color_dark', '#1A1A2E' ),
-            '--ct-header-border-color'        => array( 'ct_header_border_color', '#EEEEEE', 'ct_header_border_color_dark', '#2A2A3E' ),
-            '--ct-site-title-color'           => array( 'ct_site_title_color', '#333333', 'ct_site_title_color_dark', '#E0E0E0' ),
+            '--ct-header-bg-color'            => array( 'bs_header_bg_color', '#FFFFFF', 'bs_header_bg_color_dark', '#1A1A2E' ),
+            '--ct-header-border-color'        => array( 'bs_header_border_color', '#EEEEEE', 'bs_header_border_color_dark', '#2A2A3E' ),
+            '--ct-site-title-color'           => array( 'bs_site_title_color', '#333333', 'bs_site_title_color_dark', '#E0E0E0' ),
             /* Menu */
-            '--ct-menu-top-color'             => array( 'ct_menu_top_color', '#333333', 'ct_menu_top_color_dark', '#E0E0E0' ),
-            '--ct-menu-active-underline-color' => array( 'ct_menu_active_underline_color', '#FF6B35', 'ct_menu_active_underline_color_dark', '#FF8C5A' ),
-            '--ct-menu-sub-color'             => array( 'ct_menu_sub_color', '#333333', 'ct_menu_sub_color_dark', '#E0E0E0' ),
-            '--ct-menu-sub-border-color'      => array( 'ct_menu_sub_border_color', '#CCCCCC', 'ct_menu_sub_border_color_dark', '#3A3A4E' ),
-            '--ct-menu-sub-bg-color'          => array( 'ct_menu_sub_bg_color', '#FFFFFF', 'ct_menu_sub_bg_color_dark', '#242438' ),
-            '--ct-menu-sub-hover-bg-color'    => array( 'ct_menu_sub_hover_bg_color', '#F7F7F7', 'ct_menu_sub_hover_bg_color_dark', '#2E2E44' ),
+            '--ct-menu-top-color'             => array( 'bs_menu_top_color', '#333333', 'bs_menu_top_color_dark', '#E0E0E0' ),
+            '--ct-menu-active-underline-color' => array( 'bs_menu_active_underline_color', '#FF6B35', 'bs_menu_active_underline_color_dark', '#FF8C5A' ),
+            '--ct-menu-sub-color'             => array( 'bs_menu_sub_color', '#333333', 'bs_menu_sub_color_dark', '#E0E0E0' ),
+            '--ct-menu-sub-border-color'      => array( 'bs_menu_sub_border_color', '#CCCCCC', 'bs_menu_sub_border_color_dark', '#3A3A4E' ),
+            '--ct-menu-sub-bg-color'          => array( 'bs_menu_sub_bg_color', '#FFFFFF', 'bs_menu_sub_bg_color_dark', '#242438' ),
+            '--ct-menu-sub-hover-bg-color'    => array( 'bs_menu_sub_hover_bg_color', '#F7F7F7', 'bs_menu_sub_hover_bg_color_dark', '#2E2E44' ),
             /* Mobile Menu */
-            '--ct-mobile-menu-bg-color'       => array( 'ct_mobile_menu_bg_color', '#FFFFFF', 'ct_mobile_menu_bg_color_dark', '#1A1A2E' ),
-            '--ct-mobile-menu-border-color'   => array( 'ct_mobile_menu_border_color', '#EEEEEE', 'ct_mobile_menu_border_color_dark', '#2A2A3E' ),
+            '--ct-mobile-menu-bg-color'       => array( 'bs_mobile_menu_bg_color', '#FFFFFF', 'bs_mobile_menu_bg_color_dark', '#1A1A2E' ),
+            '--ct-mobile-menu-border-color'   => array( 'bs_mobile_menu_border_color', '#EEEEEE', 'bs_mobile_menu_border_color_dark', '#2A2A3E' ),
             /* Breadcrumbs */
-            '--ct-breadcrumb-color'           => array( 'ct_breadcrumb_color', '#999999', 'ct_breadcrumb_color_dark', '#888888' ),
-            '--ct-breadcrumb-active-color'    => array( 'ct_breadcrumb_active_color', '#333333', 'ct_breadcrumb_active_color_dark', '#E0E0E0' ),
+            '--ct-breadcrumb-color'           => array( 'bs_breadcrumb_color', '#999999', 'bs_breadcrumb_color_dark', '#888888' ),
+            '--ct-breadcrumb-active-color'    => array( 'bs_breadcrumb_active_color', '#333333', 'bs_breadcrumb_active_color_dark', '#E0E0E0' ),
             /* Body */
-            '--ct-body-bg-color'              => array( 'ct_body_bg_color', '#FFFFFF', 'ct_body_bg_color_dark', '#16162A' ),
+            '--ct-body-bg-color'              => array( 'bs_body_bg_color', '#FFFFFF', 'bs_body_bg_color_dark', '#16162A' ),
             /* Typography */
-            '--ct-h1-color'                   => array( 'ct_h1_color', '#FF6B35', 'ct_h1_color_dark', '#FF8C5A' ),
-            '--ct-h2-color'                   => array( 'ct_h2_color', '#FF6B35', 'ct_h2_color_dark', '#FF8C5A' ),
-            '--ct-h3-color'                   => array( 'ct_h3_color', '#FF6B35', 'ct_h3_color_dark', '#FF8C5A' ),
-            '--ct-h4-color'                   => array( 'ct_h4_color', '#333333', 'ct_h4_color_dark', '#D0D0D0' ),
-            '--ct-h5-color'                   => array( 'ct_h5_color', '#333333', 'ct_h5_color_dark', '#D0D0D0' ),
-            '--ct-paragraph-color'            => array( 'ct_paragraph_color', '#666666', 'ct_paragraph_color_dark', '#B0B0B0' ),
-            '--ct-special-color'              => array( 'ct_special_color', '#333333', 'ct_special_color_dark', '#D0D0D0' ),
+            '--ct-h1-color'                   => array( 'bs_h1_color', '#FF6B35', 'bs_h1_color_dark', '#FF8C5A' ),
+            '--ct-h2-color'                   => array( 'bs_h2_color', '#FF6B35', 'bs_h2_color_dark', '#FF8C5A' ),
+            '--ct-h3-color'                   => array( 'bs_h3_color', '#FF6B35', 'bs_h3_color_dark', '#FF8C5A' ),
+            '--ct-h4-color'                   => array( 'bs_h4_color', '#333333', 'bs_h4_color_dark', '#D0D0D0' ),
+            '--ct-h5-color'                   => array( 'bs_h5_color', '#333333', 'bs_h5_color_dark', '#D0D0D0' ),
+            '--ct-paragraph-color'            => array( 'bs_paragraph_color', '#666666', 'bs_paragraph_color_dark', '#B0B0B0' ),
+            '--ct-special-color'              => array( 'bs_special_color', '#333333', 'bs_special_color_dark', '#D0D0D0' ),
             /* Forms */
-            '--ct-form-input-bg-color'        => array( 'ct_form_input_bg_color', '#FFFFFF', 'ct_form_input_bg_color_dark', '#1E1E32' ),
-            '--ct-form-input-border-color'    => array( 'ct_form_input_border_color', '#DDDDDD', 'ct_form_input_border_color_dark', '#3A3A4E' ),
-            '--ct-form-submit-hover-color'    => array( 'ct_form_submit_hover_color', '#E55A28', 'ct_form_submit_hover_color_dark', '#C44A1E' ),
+            '--ct-form-input-bg-color'        => array( 'bs_form_input_bg_color', '#FFFFFF', 'bs_form_input_bg_color_dark', '#1E1E32' ),
+            '--ct-form-input-border-color'    => array( 'bs_form_input_border_color', '#DDDDDD', 'bs_form_input_border_color_dark', '#3A3A4E' ),
+            '--ct-form-submit-hover-color'    => array( 'bs_form_submit_hover_color', '#E55A28', 'bs_form_submit_hover_color_dark', '#C44A1E' ),
             /* Footer */
-            '--ct-footer-bg-color'            => array( 'ct_footer_bg_color', '#333333', 'ct_footer_bg_color_dark', '#0D0D1A' ),
-            '--ct-footer-text-color'          => array( 'ct_footer_text_color', '#999999', 'ct_footer_text_color_dark', '#888888' ),
-            '--ct-footer-link-color'          => array( 'ct_footer_link_color', '#CCCCCC', 'ct_footer_link_color_dark', '#BBBBBB' ),
-            '--ct-footer-link-hover-color'    => array( 'ct_footer_link_hover_color', '#FFFFFF', 'ct_footer_link_hover_color_dark', '#FFFFFF' ),
+            '--ct-footer-bg-color'            => array( 'bs_footer_bg_color', '#333333', 'bs_footer_bg_color_dark', '#0D0D1A' ),
+            '--ct-footer-text-color'          => array( 'bs_footer_text_color', '#999999', 'bs_footer_text_color_dark', '#888888' ),
+            '--ct-footer-link-color'          => array( 'bs_footer_link_color', '#CCCCCC', 'bs_footer_link_color_dark', '#BBBBBB' ),
+            '--ct-footer-link-hover-color'    => array( 'bs_footer_link_hover_color', '#FFFFFF', 'bs_footer_link_hover_color_dark', '#FFFFFF' ),
             /* Social */
-            '--ct-social-bg-color'            => array( 'ct_social_bg_color', '#888888', 'ct_social_bg_color_dark', '#555566' ),
+            '--ct-social-bg-color'            => array( 'bs_social_bg_color', '#888888', 'bs_social_bg_color_dark', '#555566' ),
             /* Back to Top */
-            '--ct-back-to-top-bg'             => array( 'ct_back_to_top_bg_color', '#FF6B35', 'ct_back_to_top_bg_color_dark', '#D45A2B' ),
-            '--ct-back-to-top-border-color'   => array( 'ct_back_to_top_border_color', '#E5E5E5', 'ct_back_to_top_border_color_dark', '#333333' ),
+            '--ct-back-to-top-bg'             => array( 'bs_back_to_top_bg_color', '#FF6B35', 'bs_back_to_top_bg_color_dark', '#D45A2B' ),
+            '--ct-back-to-top-border-color'   => array( 'bs_back_to_top_border_color', '#E5E5E5', 'bs_back_to_top_border_color_dark', '#333333' ),
         );
     }
 
@@ -208,7 +208,7 @@ body[data-theme=\"dark\"] {
      * Container max-width CSS applied to header, footer, breadcrumbs.
      */
     private static function containerCss() {
-        $max_width = absint( get_theme_mod( 'ct_container_max_width', 1200 ) );
+        $max_width = absint( get_theme_mod( 'bs_container_max_width', 1200 ) );
 
         assert( $max_width >= 800, 'Container max width must be at least 800' );
         assert( $max_width <= 1920, 'Container max width must be at most 1920' );
@@ -231,7 +231,7 @@ body[data-theme=\"dark\"] {
      * Content area is centered at the container max-width only when sidebars are active.
      */
     private static function layoutCss() {
-        $max_width = absint( get_theme_mod( 'ct_container_max_width', 1200 ) );
+        $max_width = absint( get_theme_mod( 'bs_container_max_width', 1200 ) );
 
         assert( $max_width >= 800, 'Layout max width must be at least 800' );
         assert( $max_width <= 1920, 'Layout max width must be at most 1920' );
@@ -242,7 +242,8 @@ body[data-theme=\"dark\"] {
     padding:0;
 }
 .ct-layout--with-left .ct-layout__content,
-.ct-layout--with-right .ct-layout__content {
+.ct-layout--with-right .ct-layout__content,
+.ct-layout--constrained .ct-layout__content {
     max-width:{$max_width}px;
     margin-left:auto;
     margin-right:auto;
@@ -252,32 +253,32 @@ body[data-theme=\"dark\"] {
     }
 
     private static function topbarCss() {
-        $t1_size   = get_theme_mod( 'ct_topbar_text1_size', 14 );
+        $t1_size   = get_theme_mod( 'bs_topbar_text1_size', 14 );
         assert( is_numeric( $t1_size ), 'Topbar text1 size must be numeric' );
         assert( $t1_size >= 0 && $t1_size <= 100, 'Topbar text1 size must be in range' );
 
-        $t1_bold   = get_theme_mod( 'ct_topbar_text1_bold', true );
-        $t1_italic = get_theme_mod( 'ct_topbar_text1_italic', false );
-        $t1_upper  = get_theme_mod( 'ct_topbar_text1_uppercase', false );
-        $t1_ml     = get_theme_mod( 'ct_topbar_text1_margin_left', 0 );
-        $t1_mr     = get_theme_mod( 'ct_topbar_text1_margin_right', 10 );
-        $t1_mt     = get_theme_mod( 'ct_topbar_text1_margin_top', 0 );
+        $t1_bold   = get_theme_mod( 'bs_topbar_text1_bold', true );
+        $t1_italic = get_theme_mod( 'bs_topbar_text1_italic', false );
+        $t1_upper  = get_theme_mod( 'bs_topbar_text1_uppercase', false );
+        $t1_ml     = get_theme_mod( 'bs_topbar_text1_margin_left', 0 );
+        $t1_mr     = get_theme_mod( 'bs_topbar_text1_margin_right', 10 );
+        $t1_mt     = get_theme_mod( 'bs_topbar_text1_margin_top', 0 );
 
-        $t2_size   = get_theme_mod( 'ct_topbar_text2_size', 14 );
-        $t2_bold   = get_theme_mod( 'ct_topbar_text2_bold', false );
-        $t2_italic = get_theme_mod( 'ct_topbar_text2_italic', false );
-        $t2_upper  = get_theme_mod( 'ct_topbar_text2_uppercase', false );
-        $t2_ml     = get_theme_mod( 'ct_topbar_text2_margin_left', 0 );
-        $t2_mr     = get_theme_mod( 'ct_topbar_text2_margin_right', 0 );
-        $t2_mt     = get_theme_mod( 'ct_topbar_text2_margin_top', 0 );
+        $t2_size   = get_theme_mod( 'bs_topbar_text2_size', 14 );
+        $t2_bold   = get_theme_mod( 'bs_topbar_text2_bold', false );
+        $t2_italic = get_theme_mod( 'bs_topbar_text2_italic', false );
+        $t2_upper  = get_theme_mod( 'bs_topbar_text2_uppercase', false );
+        $t2_ml     = get_theme_mod( 'bs_topbar_text2_margin_left', 0 );
+        $t2_mr     = get_theme_mod( 'bs_topbar_text2_margin_right', 0 );
+        $t2_mt     = get_theme_mod( 'bs_topbar_text2_margin_top', 0 );
 
-        $link_size  = get_theme_mod( 'ct_topbar_links_size', 14 );
-        $link_bold  = get_theme_mod( 'ct_topbar_links_bold', true );
-        $link_italic = get_theme_mod( 'ct_topbar_links_italic', false );
-        $link_upper = get_theme_mod( 'ct_topbar_links_uppercase', true );
-        $link_ml    = get_theme_mod( 'ct_topbar_links_margin_left', 0 );
-        $link_mr    = get_theme_mod( 'ct_topbar_links_margin_right', 0 );
-        $link_mt    = get_theme_mod( 'ct_topbar_links_margin_top', 0 );
+        $link_size  = get_theme_mod( 'bs_topbar_links_size', 14 );
+        $link_bold  = get_theme_mod( 'bs_topbar_links_bold', true );
+        $link_italic = get_theme_mod( 'bs_topbar_links_italic', false );
+        $link_upper = get_theme_mod( 'bs_topbar_links_uppercase', true );
+        $link_ml    = get_theme_mod( 'bs_topbar_links_margin_left', 0 );
+        $link_mr    = get_theme_mod( 'bs_topbar_links_margin_right', 0 );
+        $link_mt    = get_theme_mod( 'bs_topbar_links_margin_top', 0 );
 
         $t1_props   = static::getCheckboxStyleProps( $t1_bold, $t1_italic, $t1_upper );
         $t2_props   = static::getCheckboxStyleProps( $t2_bold, $t2_italic, $t2_upper );
@@ -319,13 +320,13 @@ body[data-theme=\"dark\"] {
     }
 
     private static function headerCss() {
-        $logo_h     = get_theme_mod( 'ct_header_logo_height', 60 );
+        $logo_h     = get_theme_mod( 'bs_header_logo_height', 60 );
         assert( is_numeric( $logo_h ), 'Logo height must be numeric' );
         assert( $logo_h >= 0 && $logo_h <= 1000, 'Logo height must be in range' );
-        $logo_ml    = get_theme_mod( 'ct_header_logo_margin_left', 0 );
-        $logo_mr    = get_theme_mod( 'ct_header_logo_margin_right', 0 );
-        $logo_mt    = get_theme_mod( 'ct_header_logo_margin_top', 10 );
-        $logo_mb    = get_theme_mod( 'ct_header_logo_margin_bottom', 10 );
+        $logo_ml    = get_theme_mod( 'bs_header_logo_margin_left', 0 );
+        $logo_mr    = get_theme_mod( 'bs_header_logo_margin_right', 0 );
+        $logo_mt    = get_theme_mod( 'bs_header_logo_margin_top', 10 );
+        $logo_mb    = get_theme_mod( 'bs_header_logo_margin_bottom', 10 );
 
         return "
 .site-header {
@@ -348,25 +349,25 @@ body[data-theme=\"dark\"] {
     }
 
     private static function menuCss() {
-        $top_size    = get_theme_mod( 'ct_menu_top_font_size', 14 );
+        $top_size    = get_theme_mod( 'bs_menu_top_font_size', 14 );
         assert( is_numeric( $top_size ), 'Menu top font size must be numeric' );
         assert( $top_size >= 0 && $top_size <= 100, 'Menu top font size must be in range' );
-        $top_bold    = get_theme_mod( 'ct_menu_top_bold', false );
-        $top_italic  = get_theme_mod( 'ct_menu_top_italic', false );
-        $top_upper   = get_theme_mod( 'ct_menu_top_uppercase', true );
-        $top_ml      = get_theme_mod( 'ct_menu_top_margin_left', 10 );
-        $top_mr      = get_theme_mod( 'ct_menu_top_margin_right', 10 );
-        $top_mt      = get_theme_mod( 'ct_menu_top_margin_top', 0 );
+        $top_bold    = get_theme_mod( 'bs_menu_top_bold', false );
+        $top_italic  = get_theme_mod( 'bs_menu_top_italic', false );
+        $top_upper   = get_theme_mod( 'bs_menu_top_uppercase', true );
+        $top_ml      = get_theme_mod( 'bs_menu_top_margin_left', 10 );
+        $top_mr      = get_theme_mod( 'bs_menu_top_margin_right', 10 );
+        $top_mt      = get_theme_mod( 'bs_menu_top_margin_top', 0 );
 
-        $sub_size    = get_theme_mod( 'ct_menu_sub_font_size', 13 );
-        $sub_bold    = get_theme_mod( 'ct_menu_sub_bold', false );
-        $sub_italic  = get_theme_mod( 'ct_menu_sub_italic', false );
-        $sub_upper   = get_theme_mod( 'ct_menu_sub_uppercase', true );
-        $sub_ml      = get_theme_mod( 'ct_menu_sub_margin_left', 0 );
-        $sub_mr      = get_theme_mod( 'ct_menu_sub_margin_right', 0 );
-        $sub_mt      = get_theme_mod( 'ct_menu_sub_margin_top', 0 );
-        $sub_bw      = get_theme_mod( 'ct_menu_sub_border_width', 1 );
-        $sub_bs      = get_theme_mod( 'ct_menu_sub_border_style', 'solid' );
+        $sub_size    = get_theme_mod( 'bs_menu_sub_font_size', 13 );
+        $sub_bold    = get_theme_mod( 'bs_menu_sub_bold', false );
+        $sub_italic  = get_theme_mod( 'bs_menu_sub_italic', false );
+        $sub_upper   = get_theme_mod( 'bs_menu_sub_uppercase', true );
+        $sub_ml      = get_theme_mod( 'bs_menu_sub_margin_left', 0 );
+        $sub_mr      = get_theme_mod( 'bs_menu_sub_margin_right', 0 );
+        $sub_mt      = get_theme_mod( 'bs_menu_sub_margin_top', 0 );
+        $sub_bw      = get_theme_mod( 'bs_menu_sub_border_width', 1 );
+        $sub_bs      = get_theme_mod( 'bs_menu_sub_border_style', 'solid' );
 
         $top_props = static::getCheckboxStyleProps( $top_bold, $top_italic, $top_upper );
         $sub_props = static::getCheckboxStyleProps( $sub_bold, $sub_italic, $sub_upper );
@@ -413,7 +414,7 @@ body[data-theme=\"dark\"] {
     }
 
     private static function mobileMenuCss() {
-        $bw = absint( get_theme_mod( 'ct_mobile_menu_border_width', 1 ) );
+        $bw = absint( get_theme_mod( 'bs_mobile_menu_border_width', 1 ) );
         assert( $bw >= 0 && $bw <= 10, 'Mobile menu border width must be in range' );
         assert( true, 'Mobile bg color set via cssVariables()' );
 
@@ -432,13 +433,13 @@ body[data-theme=\"dark\"] {
     }
 
     private static function breadcrumbCss() {
-        $font_size  = get_theme_mod( 'ct_breadcrumb_font_size', 14 );
+        $font_size  = get_theme_mod( 'bs_breadcrumb_font_size', 14 );
         assert( is_numeric( $font_size ), 'Breadcrumb font size must be numeric' );
         assert( true, 'Breadcrumb transform validated at retrieval' );
 
-        $transform  = get_theme_mod( 'ct_breadcrumb_transform', 'none' );
-        $bold       = get_theme_mod( 'ct_breadcrumb_active_bold', true );
-        $underline  = get_theme_mod( 'ct_breadcrumb_active_underline', false );
+        $transform  = get_theme_mod( 'bs_breadcrumb_transform', 'none' );
+        $bold       = get_theme_mod( 'bs_breadcrumb_active_bold', true );
+        $underline  = get_theme_mod( 'bs_breadcrumb_active_underline', false );
 
         $active_fw = $bold ? 'font-weight:700;' : 'font-weight:400;';
         $active_td = $underline ? 'text-decoration:underline;' : 'text-decoration:none;';
@@ -470,53 +471,53 @@ body[data-theme=\"dark\"] {
 
     private static function typographyCss() {
         /* H1 */
-        $h1_size      = get_theme_mod( 'ct_h1_font_size', 36 );
+        $h1_size      = get_theme_mod( 'bs_h1_font_size', 36 );
         assert( is_numeric( $h1_size ), 'H1 font size must be numeric' );
         assert( $h1_size >= 0 && $h1_size <= 200, 'H1 font size must be in range' );
-        $h1_bold      = get_theme_mod( 'ct_h1_bold', true );
-        $h1_italic    = get_theme_mod( 'ct_h1_italic', false );
-        $h1_transform = get_theme_mod( 'ct_h1_transform', 'uppercase' );
+        $h1_bold      = get_theme_mod( 'bs_h1_bold', true );
+        $h1_italic    = get_theme_mod( 'bs_h1_italic', false );
+        $h1_transform = get_theme_mod( 'bs_h1_transform', 'uppercase' );
 
         /* H2 */
-        $h2_size      = get_theme_mod( 'ct_h2_font_size', 30 );
-        $h2_bold      = get_theme_mod( 'ct_h2_bold', true );
-        $h2_italic    = get_theme_mod( 'ct_h2_italic', false );
-        $h2_transform = get_theme_mod( 'ct_h2_transform', 'uppercase' );
+        $h2_size      = get_theme_mod( 'bs_h2_font_size', 30 );
+        $h2_bold      = get_theme_mod( 'bs_h2_bold', true );
+        $h2_italic    = get_theme_mod( 'bs_h2_italic', false );
+        $h2_transform = get_theme_mod( 'bs_h2_transform', 'uppercase' );
 
         /* H3 */
-        $h3_size      = get_theme_mod( 'ct_h3_font_size', 24 );
-        $h3_bold      = get_theme_mod( 'ct_h3_bold', true );
-        $h3_italic    = get_theme_mod( 'ct_h3_italic', false );
-        $h3_transform = get_theme_mod( 'ct_h3_transform', 'none' );
+        $h3_size      = get_theme_mod( 'bs_h3_font_size', 24 );
+        $h3_bold      = get_theme_mod( 'bs_h3_bold', true );
+        $h3_italic    = get_theme_mod( 'bs_h3_italic', false );
+        $h3_transform = get_theme_mod( 'bs_h3_transform', 'none' );
 
         /* H4 */
-        $h4_size      = get_theme_mod( 'ct_h4_font_size', 20 );
-        $h4_bold      = get_theme_mod( 'ct_h4_bold', true );
-        $h4_italic    = get_theme_mod( 'ct_h4_italic', false );
-        $h4_transform = get_theme_mod( 'ct_h4_transform', 'none' );
+        $h4_size      = get_theme_mod( 'bs_h4_font_size', 20 );
+        $h4_bold      = get_theme_mod( 'bs_h4_bold', true );
+        $h4_italic    = get_theme_mod( 'bs_h4_italic', false );
+        $h4_transform = get_theme_mod( 'bs_h4_transform', 'none' );
 
         /* H5 */
-        $h5_size      = get_theme_mod( 'ct_h5_font_size', 18 );
-        $h5_bold      = get_theme_mod( 'ct_h5_bold', true );
-        $h5_italic    = get_theme_mod( 'ct_h5_italic', false );
-        $h5_transform = get_theme_mod( 'ct_h5_transform', 'none' );
+        $h5_size      = get_theme_mod( 'bs_h5_font_size', 18 );
+        $h5_bold      = get_theme_mod( 'bs_h5_bold', true );
+        $h5_italic    = get_theme_mod( 'bs_h5_italic', false );
+        $h5_transform = get_theme_mod( 'bs_h5_transform', 'none' );
 
         /* Paragraphs */
-        $p_size          = get_theme_mod( 'ct_paragraph_font_size', 16 );
-        $p_bold          = get_theme_mod( 'ct_paragraph_bold', false );
-        $p_italic        = get_theme_mod( 'ct_paragraph_italic', false );
-        $p_transform     = get_theme_mod( 'ct_paragraph_transform', 'none' );
-        $p_line_height   = floatval( get_theme_mod( 'ct_paragraph_line_height', 1.6 ) );
-        $p_margin_top    = absint( get_theme_mod( 'ct_paragraph_margin_top', 0 ) );
-        $p_margin_right  = absint( get_theme_mod( 'ct_paragraph_margin_right', 0 ) );
-        $p_margin_bottom = absint( get_theme_mod( 'ct_paragraph_margin_bottom', 16 ) );
-        $p_margin_left   = absint( get_theme_mod( 'ct_paragraph_margin_left', 0 ) );
+        $p_size          = get_theme_mod( 'bs_paragraph_font_size', 16 );
+        $p_bold          = get_theme_mod( 'bs_paragraph_bold', false );
+        $p_italic        = get_theme_mod( 'bs_paragraph_italic', false );
+        $p_transform     = get_theme_mod( 'bs_paragraph_transform', 'none' );
+        $p_line_height   = floatval( get_theme_mod( 'bs_paragraph_line_height', 1.6 ) );
+        $p_margin_top    = absint( get_theme_mod( 'bs_paragraph_margin_top', 0 ) );
+        $p_margin_right  = absint( get_theme_mod( 'bs_paragraph_margin_right', 0 ) );
+        $p_margin_bottom = absint( get_theme_mod( 'bs_paragraph_margin_bottom', 16 ) );
+        $p_margin_left   = absint( get_theme_mod( 'bs_paragraph_margin_left', 0 ) );
 
         /* Special text */
-        $s_size      = get_theme_mod( 'ct_special_font_size', 16 );
-        $s_bold      = get_theme_mod( 'ct_special_bold', true );
-        $s_italic    = get_theme_mod( 'ct_special_italic', false );
-        $s_transform = get_theme_mod( 'ct_special_transform', 'none' );
+        $s_size      = get_theme_mod( 'bs_special_font_size', 16 );
+        $s_bold      = get_theme_mod( 'bs_special_bold', true );
+        $s_italic    = get_theme_mod( 'bs_special_italic', false );
+        $s_transform = get_theme_mod( 'bs_special_transform', 'none' );
 
         $h1_fw = $h1_bold ? 'font-weight:700;' : 'font-weight:400;';
         $h1_fs = $h1_italic ? 'font-style:italic;' : 'font-style:normal;';
@@ -651,8 +652,8 @@ h5 {
     }
 
     private static function socialCss() {
-        $icon_w = absint( get_theme_mod( 'ct_social_icon_width', 36 ) );
-        $icon_h = absint( get_theme_mod( 'ct_social_icon_height', 36 ) );
+        $icon_w = absint( get_theme_mod( 'bs_social_icon_width', 36 ) );
+        $icon_h = absint( get_theme_mod( 'bs_social_icon_height', 36 ) );
 
         assert( $icon_w >= 12 && $icon_w <= 128, 'Social icon width must be in range' );
         assert( $icon_h >= 12 && $icon_h <= 128, 'Social icon height must be in range' );
@@ -713,9 +714,9 @@ h5 {
     }
 
     private static function backToTopCss() {
-        $enabled       = get_theme_mod( 'ct_back_to_top_enabled', true );
-        $border_width  = absint( get_theme_mod( 'ct_back_to_top_border_width', 1 ) );
-        $border_radius = absint( get_theme_mod( 'ct_back_to_top_border_radius', 8 ) );
+        $enabled       = get_theme_mod( 'bs_back_to_top_enabled', true );
+        $border_width  = absint( get_theme_mod( 'bs_back_to_top_border_width', 1 ) );
+        $border_radius = absint( get_theme_mod( 'bs_back_to_top_border_radius', 8 ) );
 
         assert( $border_width >= 0 && $border_width <= 10, 'Back to top border width must be in range' );
         assert( $border_radius >= 0 && $border_radius <= 100, 'Back to top border radius must be in range' );
@@ -751,10 +752,10 @@ h5 {
     }
 
     private static function authCss() {
-        $link_size   = get_theme_mod( 'ct_topbar_links_size', 14 );
-        $link_bold   = get_theme_mod( 'ct_topbar_links_bold', true );
-        $link_italic = get_theme_mod( 'ct_topbar_links_italic', false );
-        $link_upper  = get_theme_mod( 'ct_topbar_links_uppercase', true );
+        $link_size   = get_theme_mod( 'bs_topbar_links_size', 14 );
+        $link_bold   = get_theme_mod( 'bs_topbar_links_bold', true );
+        $link_italic = get_theme_mod( 'bs_topbar_links_italic', false );
+        $link_upper  = get_theme_mod( 'bs_topbar_links_uppercase', true );
 
         assert( is_numeric( $link_size ), 'Auth link size must be numeric' );
         assert( $link_size >= 0 && $link_size <= 100, 'Auth link size must be in range' );
@@ -775,7 +776,7 @@ h5 {
      * Google Fonts @font-face rules and body font-family.
      */
     private static function fontCss() {
-        $enabled = get_theme_mod( 'ct_font_enabled', false );
+        $enabled = get_theme_mod( 'bs_font_enabled', false );
 
         assert( is_bool( $enabled ) || is_string( $enabled ) || is_int( $enabled ), 'Font enabled must be bool-like' );
 
@@ -783,8 +784,8 @@ h5 {
             return '';
         }
 
-        $face_css = get_theme_mod( 'ct_font_face_css', '' );
-        $family   = get_theme_mod( 'ct_font_family', '' );
+        $face_css = get_theme_mod( 'bs_font_face_css', '' );
+        $family   = get_theme_mod( 'bs_font_family', '' );
 
         assert( is_string( $face_css ), 'Font face CSS must be a string' );
         assert( is_string( $family ), 'Font family must be a string' );

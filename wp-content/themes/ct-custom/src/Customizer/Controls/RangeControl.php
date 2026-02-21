@@ -5,7 +5,7 @@
  * Custom customizer control for range slider inputs.
  *
  * Migrated from inc/customizer/customizer_controls.php.
- * Old class: CT_Range_Control -> New: RangeControl
+ * Old class: BS_Range_Control -> New: RangeControl
  *
  * @package BS_Custom
  */
@@ -14,7 +14,7 @@ namespace BSCustom\Customizer\Controls;
 
 class RangeControl extends \WP_Customize_Control {
 
-    public $type = 'ct_range';
+    public $type = 'bs_range';
 
     public function enqueue() {
         /* Handled by centralized bs_custom_customize_controls_js() */

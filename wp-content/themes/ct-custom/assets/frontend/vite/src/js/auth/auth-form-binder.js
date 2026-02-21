@@ -35,6 +35,7 @@ export default class AuthFormBinder {
             });
 
             this._bindEnterSubmit(form, submitBtn);
+            this._bindAgreeCheckbox(form, submitBtn);
         } else {
             /* Forms without disabled submit just need validation UI */
             this._validator.bindFields(form, null);
@@ -62,6 +63,24 @@ export default class AuthFormBinder {
             if (!submitBtn.disabled) {
                 submitBtn.click();
             }
+        });
+    }
+
+    /**
+     * Bind agree checkbox to trigger full-form validation on change.
+     *
+     * @param {HTMLElement} form      Form container.
+     * @param {HTMLElement} submitBtn The submit button to enable/disable.
+     */
+    _bindAgreeCheckbox(form, submitBtn) {
+        const agreeCheckbox = form.querySelector('[data-ct-validate-agree]');
+        if (!agreeCheckbox) { return; }
+
+        agreeCheckbox.addEventListener('change', () => {
+            this._validator.validateAll(form);
+            const allValid = this._validator.isFormValid(form);
+            submitBtn.disabled = !allValid;
+            submitBtn.classList.toggle('ct-auth-form__submit--disabled', !allValid);
         });
     }
 

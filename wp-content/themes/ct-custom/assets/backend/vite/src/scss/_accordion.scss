@@ -61,7 +61,8 @@
 #rd_contact:checked ~ .ct-admin-layout .ct-admin-nav__item[for="rd_contact"],
 #rd_languages:checked ~ .ct-admin-layout .ct-admin-nav__item[for="rd_languages"],
 #rd_email:checked ~ .ct-admin-layout .ct-admin-nav__item[for="rd_email"],
-#rd_jwt:checked ~ .ct-admin-layout .ct-admin-nav__item[for="rd_jwt"] {
+#rd_jwt:checked ~ .ct-admin-layout .ct-admin-nav__item[for="rd_jwt"],
+#rd_seo:checked ~ .ct-admin-layout .ct-admin-nav__item[for="rd_seo"] {
     color: $ct-primary;
     background: $ct-white;
     border-left-color: $ct-primary;
@@ -73,6 +74,7 @@
 #rd_contact:checked ~ .ct-admin-layout .ct-admin-panel--contact,
 #rd_languages:checked ~ .ct-admin-layout .ct-admin-panel--languages,
 #rd_email:checked ~ .ct-admin-layout .ct-admin-panel--email,
-#rd_jwt:checked ~ .ct-admin-layout .ct-admin-panel--jwt {
+#rd_jwt:checked ~ .ct-admin-layout .ct-admin-panel--jwt,
+#rd_seo:checked ~ .ct-admin-layout .ct-admin-panel--seo {
     display: block;
 }

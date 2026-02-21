@@ -3,7 +3,7 @@
  * REST Profile Upload Avatar Endpoint
  *
  * Uploads a user avatar image via JWT-authenticated request.
- * Saves to WordPress media library and stores as ct_avatar_id user meta.
+ * Saves to WordPress media library and stores as bs_avatar_id user meta.
  * POST /wp-json/ct-auth/v1/profile/upload-avatar
  *
  * Rate limited: 5 uploads per user per minute.
@@ -46,7 +46,7 @@ class ProfileUploadAvatar {
         register_rest_route( self::NAMESPACE, self::ROUTE, array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array( $this, 'handle' ),
-            'permission_callback' => 'ct_jwt_or_cookie_permission_check',
+            'permission_callback' => 'bs_jwt_or_cookie_permission_check',
         ) );
     }
 
@@ -64,10 +64,10 @@ class ProfileUploadAvatar {
         assert( $user_id > 0, 'User must be authenticated' );
 
         /* Rate limit */
-        $rate_key = 'ct_avatar_upload_' . $user_id;
-        if ( $this->is_rate_limited_by_key( 'ct_avatar_upload_', (string) $user_id, self::MAX_UPLOADS ) ) {
+        $rate_key = 'bs_avatar_upload_' . $user_id;
+        if ( $this->is_rate_limited_by_key( 'bs_avatar_upload_', (string) $user_id, self::MAX_UPLOADS ) ) {
             $this->log( 'Rate limited: user_id=' . $user_id );
-            $remaining = $this->get_rate_limit_remaining( 'ct_avatar_upload_', (string) $user_id );
+            $remaining = $this->get_rate_limit_remaining( 'bs_avatar_upload_', (string) $user_id );
             $wait_text = $this->format_wait_time( $remaining );
             return new \WP_REST_Response( array(
                 'success' => false,
@@ -123,8 +123,8 @@ class ProfileUploadAvatar {
         }
 
         /* Store avatar ID in user meta — used by pre_get_avatar_data filter */
-        update_user_meta( $user_id, 'ct_avatar_id', $attachment_id );
-        $this->increment_rate_limit( 'ct_avatar_upload_', (string) $user_id, self::WINDOW_SEC );
+        update_user_meta( $user_id, 'bs_avatar_id', $attachment_id );
+        $this->increment_rate_limit( 'bs_avatar_upload_', (string) $user_id, self::WINDOW_SEC );
 
         /* Return the WordPress avatar URL (our filter serves the local image) */
         $avatar_url = get_avatar_url( $user_id, array( 'size' => 150 ) );

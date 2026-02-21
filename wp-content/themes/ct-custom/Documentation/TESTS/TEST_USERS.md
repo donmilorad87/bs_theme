@@ -95,7 +95,7 @@ class MyNewEndpointTest extends AuthTestCase {
 ```php
 public function test_rate_limited_returns_429(): void {
     // Pre-seed the rate limit counter
-    $key = 'ct_rate_my_endpoint_127.0.0.1';
+    $key = 'bs_rate_my_endpoint_127.0.0.1';
     set_transient($key, 5, 900); // 5 attempts
 
     $request = $this->makeRequest(['param1' => 'value1']);

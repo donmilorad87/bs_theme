@@ -21,16 +21,16 @@ Total: **241 tests** across PHP and JavaScript.
 
 Provides in-memory implementations of WordPress functions so tests run without a real WordPress installation:
 
-- **Transients**: `set_transient()` / `get_transient()` / `delete_transient()` backed by `$GLOBALS['ct_test_transients']`
-- **Users**: `wp_insert_user()` / `get_user_by()` / `wp_check_password()` backed by `$GLOBALS['ct_test_users']`
-- **User meta**: `get_user_meta()` / `update_user_meta()` backed by `$GLOBALS['ct_test_user_meta']`
-- **Options**: `get_option()` / `update_option()` backed by `$GLOBALS['ct_test_options']`
+- **Transients**: `set_transient()` / `get_transient()` / `delete_transient()` backed by `$GLOBALS['bs_test_transients']`
+- **Users**: `wp_insert_user()` / `get_user_by()` / `wp_check_password()` backed by `$GLOBALS['bs_test_users']`
+- **User meta**: `get_user_meta()` / `update_user_meta()` backed by `$GLOBALS['bs_test_user_meta']`
+- **Options**: `get_option()` / `update_option()` backed by `$GLOBALS['bs_test_options']`
 - **REST**: `WP_REST_Request` / `WP_REST_Response` / `WP_Error` classes
 - **Mail**: `wp_mail()` stub (PHPMailer fallback produces harmless stderr; does not affect test outcomes)
 - **Security**: `wp_hash_password()` / `check_ajax_referer()` stubs
 - **Template**: `get_theme_mod()` / `get_bloginfo()` / `esc_url()` / `wp_strip_all_tags()` / `wp_get_attachment_image_url()`
 
-Guard: `define('CT_WP_STUBS_LOADED', true)` prevents double-loading.
+Guard: `define('BS_WP_STUBS_LOADED', true)` prevents double-loading.
 
 ### Base Class: `tests/auth/AuthTestCase.php`
 
@@ -43,7 +43,7 @@ All auth tests extend `AuthTestCase` which:
    - `createTestUser(overrides)` - inserts a test user with sensible defaults
    - `setJwtConfig(secret, expiry)` - configures JWT options
    - `generateToken(userId)` / `generateResetToken(email)` - creates JWT tokens
-   - `loginAsUser(userId)` - sets `$GLOBALS['ct_test_current_user']`
+   - `loginAsUser(userId)` - sets `$GLOBALS['bs_test_current_user']`
 
 ### PHPUnit Configuration: `phpunit.xml`
 
@@ -170,8 +170,8 @@ Integration test fixtures replicate the exact HTML structure from PHP template f
 
 ```php
 // set_transient stores value + TTL
-$GLOBALS['ct_test_transients']['key'] = $value;
-$GLOBALS['ct_test_transient_ttl']['key'] = time() + $expiration;
+$GLOBALS['bs_test_transients']['key'] = $value;
+$GLOBALS['bs_test_transient_ttl']['key'] = time() + $expiration;
 
 // get_transient checks TTL, returns false if expired
 // delete_transient removes both entries
@@ -181,8 +181,8 @@ $GLOBALS['ct_test_transient_ttl']['key'] = time() + $expiration;
 
 ```php
 // wp_insert_user assigns auto-incrementing ID
-$id = $GLOBALS['ct_test_next_user_id']++;
-$GLOBALS['ct_test_users'][$id] = $user_data;
+$id = $GLOBALS['bs_test_next_user_id']++;
+$GLOBALS['bs_test_users'][$id] = $user_data;
 
 // get_user_by searches by 'login', 'email', or 'id'
 // wp_check_password uses password_verify()

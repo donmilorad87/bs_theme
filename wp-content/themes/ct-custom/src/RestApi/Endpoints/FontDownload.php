@@ -26,7 +26,7 @@ class FontDownload {
     const ROUTE           = '/font/download';
     const RATE_LIMIT      = 30;
     const RATE_WINDOW_SEC = 60;
-    const RATE_PREFIX     = 'ct_font_dl_';
+    const RATE_PREFIX     = 'bs_font_dl_';
 
     /**
      * Register the route.
@@ -128,8 +128,8 @@ class FontDownload {
 
         /* Empty weights = cleanup-only request (e.g. fonts disabled) */
         if ( '' === trim( $weights ) ) {
-            set_theme_mod( 'ct_font_face_css', '' );
-            delete_transient( 'ct_dynamic_css' );
+            set_theme_mod( 'bs_font_face_css', '' );
+            delete_transient( 'bs_dynamic_css' );
 
             return new \WP_REST_Response( array(
                 'success' => true,
@@ -152,8 +152,8 @@ class FontDownload {
         $valid_weights = FontManager::validate_weights_for_font( $api_family, $weights );
 
         if ( empty( $valid_weights ) ) {
-            set_theme_mod( 'ct_font_face_css', '' );
-            delete_transient( 'ct_dynamic_css' );
+            set_theme_mod( 'bs_font_face_css', '' );
+            delete_transient( 'bs_dynamic_css' );
 
             return new \WP_REST_Response( array(
                 'success' => true,
@@ -178,11 +178,11 @@ class FontDownload {
         }
 
         /* Store result in theme mod */
-        set_theme_mod( 'ct_font_face_css', $face_css );
-        set_theme_mod( 'ct_font_prev_family', $display_name );
+        set_theme_mod( 'bs_font_face_css', $face_css );
+        set_theme_mod( 'bs_font_prev_family', $display_name );
 
         /* Invalidate dynamic CSS transient */
-        delete_transient( 'ct_dynamic_css' );
+        delete_transient( 'bs_dynamic_css' );
 
         return new \WP_REST_Response( array(
             'success' => true,

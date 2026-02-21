@@ -4,10 +4,10 @@
  *
  * Text input with a "Pick Key" button that opens a searchable
  * dropdown of available translation keys. Value is stored as
- * plain text or `ct_translate('KEY')` string.
+ * plain text or `bs_translate('KEY')` string.
  *
  * Migrated from inc/customizer/customizer_controls.php.
- * Old class: CT_Translation_Control -> New: TranslationControl
+ * Old class: BS_Translation_Control -> New: TranslationControl
  *
  * @package BS_Custom
  */
@@ -18,7 +18,7 @@ use BSCustom\Multilang\TranslationService;
 
 class TranslationControl extends \WP_Customize_Control {
 
-    public $type = 'ct_translation';
+    public $type = 'bs_translation';
 
     /**
      * Input element type: 'text' for a single-line input, 'textarea' for multi-line.

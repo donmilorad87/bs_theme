@@ -50,11 +50,10 @@ class ContactMessages {
 				'type'     => 'integer',
 				'default'  => 1,
 			),
-			'pointer' => array(
+			'form_id' => array(
 				'required'          => false,
-				'type'              => 'string',
-				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
+				'type'              => 'integer',
+				'default'           => 0,
 			),
 			'status' => array(
 				'required'          => false,
@@ -75,15 +74,16 @@ class ContactMessages {
 		assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
 
 		$page    = max( 1, (int) $request->get_param( 'page' ) );
-		$pointer = $request->get_param( 'pointer' );
+		$form_id = (int) $request->get_param( 'form_id' );
 		$status  = $request->get_param( 'status' );
 
 		$meta_query = array();
 
-		if ( ! empty( $pointer ) ) {
+		if ( $form_id > 0 ) {
 			$meta_query[] = array(
-				'key'   => '_ct_msg_pointer',
-				'value' => $pointer,
+				'key'   => '_ct_msg_form_id',
+				'value' => $form_id,
+				'type'  => 'NUMERIC',
 			);
 		}
 
@@ -178,11 +178,28 @@ class ContactMessages {
 			'sender_email' => get_post_meta( $post->ID, '_ct_msg_sender_email', true ),
 			'sender_phone' => get_post_meta( $post->ID, '_ct_msg_sender_phone', true ),
 			'body'         => get_post_meta( $post->ID, '_ct_msg_body', true ),
+			'form_id'      => (int) get_post_meta( $post->ID, '_ct_msg_form_id', true ),
+			'form_label'   => get_post_meta( $post->ID, '_ct_msg_form_label', true ),
 			'pointer'      => get_post_meta( $post->ID, '_ct_msg_pointer', true ),
+			'fields'       => $this->decode_meta_json( $post->ID, '_ct_msg_fields' ),
+			'attachments'  => $this->decode_meta_json( $post->ID, '_ct_msg_attachments' ),
 			'user_id'      => (int) get_post_meta( $post->ID, '_ct_msg_user_id', true ),
 			'is_read'      => get_post_meta( $post->ID, '_ct_msg_is_read', true ) === '1',
 			'replies'      => $replies,
 			'date'         => $post->post_date,
 		);
+	}
+
+	/**
+	 * Decode JSON meta field safely.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $key     Meta key.
+	 * @return array
+	 */
+	private function decode_meta_json( $post_id, $key ) {
+		$raw = get_post_meta( $post_id, $key, true );
+		$data = json_decode( $raw, true );
+		return is_array( $data ) ? $data : array();
 	}
 }

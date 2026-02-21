@@ -1,56 +1,31 @@
 /**
- * Menu Language Filter — Tab bar styling
+ * Menu Language Filter — Select box styling
  *
- * Applied on wp-admin/nav-menus.php for both:
+ * Applied on wp-admin/nav-menus.php for:
  * - Manage Locations tab (above the locations table)
  * - Edit Menus tab (inside Menu Settings > Display location)
+ * - Pages metabox (above the Most Recent / View All / Search tabs)
  */
+
+/* ----- Menu location language select ----- */
 
 .ct-menu-lang-filter-bar {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 0;
+	align-items: center;
+	gap: 6px;
 	margin: 10px 0 16px;
 	padding: 0;
-	border-bottom: 1px solid #c3c4c7;
 }
 
-.ct-menu-lang-tab {
-	padding: 8px 16px;
-	margin: 0 0 -1px;
-	border: 1px solid transparent;
-	border-bottom: none;
-	border-radius: 3px 3px 0 0;
-	background: none;
-	color: #2271b1;
+.ct-menu-lang-filter-bar__label {
 	font-size: 13px;
-	font-weight: 400;
-	line-height: 1.4;
-	cursor: pointer;
-	text-decoration: none;
-	transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.ct-menu-lang-tab:hover {
-	background-color: #f0f0f1;
-	color: #135e96;
-	text-decoration: none;
-}
-
-.ct-menu-lang-tab:focus-visible {
-	outline: 2px solid #2271b1;
-	outline-offset: -2px;
-}
-
-.ct-menu-lang-tab--active,
-.ct-menu-lang-tab--active:hover,
-.ct-menu-lang-tab--active:focus {
-	background: #fff;
-	border-color: #c3c4c7;
-	color: #1d2327;
 	font-weight: 600;
-	cursor: default;
-	text-decoration: none;
+	color: #1d2327;
+	white-space: nowrap;
+}
+
+.ct-menu-lang-filter-bar__select {
+	max-width: 200px;
 }
 
 /* Inside Menu Settings fieldset: tighter margins */
@@ -58,8 +33,7 @@
 	margin: 8px 0 12px;
 }
 
-.menu-theme-locations .ct-menu-lang-tab {
-	padding: 6px 12px;
+.menu-theme-locations .ct-menu-lang-filter-bar__label {
 	font-size: 12px;
 }
 
@@ -68,10 +42,27 @@
 	display: none !important;
 }
 
-/* Responsive: wrap tabs on narrow viewports */
-@media screen and (max-width: 782px) {
-	.ct-menu-lang-tab {
-		padding: 6px 12px;
-		font-size: 12px;
-	}
+/* ----- Page metabox language select ----- */
+
+.ct-nav-page-lang-filter {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 10px;
+	margin-bottom: 16px;
+	border-bottom: 1px solid #c3c4c7;
+	background: #f6f7f7;
+}
+
+.ct-nav-page-lang-filter__label {
+	font-size: 12px;
+	font-weight: 600;
+	color: #1d2327;
+	white-space: nowrap;
+}
+
+.ct-nav-page-lang-filter__select {
+	max-width: 100%;
+	min-width: 0;
+	flex: 1 1 auto;
 }

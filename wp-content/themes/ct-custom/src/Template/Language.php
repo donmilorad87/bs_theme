@@ -100,21 +100,21 @@ class Language {
 	 * @return array{items: array, current_iso2: string, is_multilingual: bool}
 	 */
 	public function get_language_switcher_data(): array {
-		assert( function_exists( 'ct_get_language_manager' ), 'ct_get_language_manager must exist' );
-		assert( function_exists( 'ct_get_current_language' ), 'ct_get_current_language must exist' );
+		assert( function_exists( 'bs_get_language_manager' ), 'bs_get_language_manager must exist' );
+		assert( function_exists( 'bs_get_current_language' ), 'bs_get_current_language must exist' );
 
-		$mgr       = ct_get_language_manager();
+		$mgr       = bs_get_language_manager();
 		$languages = $mgr->get_enabled();
 
 		if ( count( $languages ) < 2 ) {
 			return array(
 				'items'           => array(),
-				'current_iso2'    => ct_get_current_language(),
+				'current_iso2'    => bs_get_current_language(),
 				'is_multilingual' => false,
 			);
 		}
 
-		$current_iso2 = ct_get_current_language();
+		$current_iso2 = bs_get_current_language();
 		$post_id      = get_the_ID();
 		$translations = array();
 
@@ -171,9 +171,9 @@ class Language {
 	 * @return bool
 	 */
 	public function is_multilingual(): bool {
-		assert( function_exists( 'ct_get_language_manager' ), 'ct_get_language_manager must exist' );
+		assert( function_exists( 'bs_get_language_manager' ), 'bs_get_language_manager must exist' );
 
-		$mgr     = ct_get_language_manager();
+		$mgr     = bs_get_language_manager();
 		$enabled = $mgr->get_enabled();
 
 		assert( is_array( $enabled ), 'enabled must be an array' );
@@ -190,14 +190,14 @@ class Language {
 	public function get_menu_location( string $base_location ): string {
 		assert( is_string( $base_location ) && '' !== $base_location, 'Base location must be a non-empty string' );
 
-		$current       = ct_get_current_language();
+		$current       = bs_get_current_language();
 		$lang_location = $base_location . '-' . $current;
 
 		if ( has_nav_menu( $lang_location ) ) {
 			return $lang_location;
 		}
 
-		$mgr     = ct_get_language_manager();
+		$mgr     = bs_get_language_manager();
 		$default = $mgr->get_default();
 		$iso2    = ( null !== $default ) ? $default['iso2'] : 'en';
 

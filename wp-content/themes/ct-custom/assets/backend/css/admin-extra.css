@@ -1,0 +1,42 @@
+#rd_general:checked ~ .ct-admin-layout .ct-admin-nav__item[for=rd_general] {
+    color: #ff6b35;
+    background: #fff;
+    border-left-color: #ff6b35;
+    font-weight: 700;
+}
+
+#rd_general:checked ~ .ct-admin-layout .ct-admin-panel--general {
+    display: block;
+}
+
+#bs_seo_tab_social_icons:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_social_icons"],
+#bs_seo_tab_contact_point:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_contact_point"] {
+    color: #ff6b35;
+    border-bottom-color: #ff6b35;
+}
+
+#bs_seo_tab_social_icons:checked ~ .ct-seo-panel--social-icons {
+    display: block;
+}
+
+#bs_seo_tab_contact_point:checked ~ .ct-seo-panel--contact-point {
+    display: block;
+}
+
+.ct-general-theme-mode {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.ct-general-theme-mode__option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ct-general-theme-mode--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}

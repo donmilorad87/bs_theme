@@ -2,7 +2,6 @@
 
 .ct-lang-switcher {
     position: relative;
-    display: inline-block;
     margin-left: 8px;
 
     &__toggle {
@@ -65,8 +64,6 @@
     }
 
     &__item {
-        margin: 0;
-        padding: 0;
     }
 
     &__link {

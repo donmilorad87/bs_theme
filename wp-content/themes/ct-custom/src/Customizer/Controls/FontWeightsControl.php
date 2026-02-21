@@ -10,7 +10,7 @@
  * JS handles dynamic show/hide when the font family changes.
  *
  * Migrated from inc/customizer/customizer_controls.php.
- * Old class: CT_Font_Weights_Control -> New: FontWeightsControl
+ * Old class: BS_Font_Weights_Control -> New: FontWeightsControl
  *
  * @package BS_Custom
  */
@@ -21,7 +21,7 @@ use BSCustom\Customizer\FontManager;
 
 class FontWeightsControl extends \WP_Customize_Control {
 
-    public $type = 'ct_font_weights';
+    public $type = 'bs_font_weights';
 
     public function enqueue() {
         /* Handled by centralized bs_custom_customize_controls_js() */
@@ -53,7 +53,7 @@ class FontWeightsControl extends \WP_Customize_Control {
         );
 
         /* Get the current font's available variants */
-        $current_family   = get_theme_mod( 'ct_font_family', '' );
+        $current_family   = get_theme_mod( 'bs_font_family', '' );
         $available_weights = $this->get_available_weights( $current_family );
 
         $current = $this->value();

@@ -16,7 +16,7 @@ class LanguagePageManager {
     const MAX_META_KEYS          = 50;
 
     /** @var array Meta keys to exclude when duplicating a page. */
-    private static $excluded_meta_keys = array( 'ct_language', 'ct_locale', 'ct_translation_group' );
+    private static $excluded_meta_keys = array( 'bs_language', 'bs_locale', 'bs_translation_group' );
 
     /**
      * Duplicate all pages from the default language for a new language.
@@ -33,7 +33,7 @@ class LanguagePageManager {
         assert( ! empty( $target_iso2 ), 'target_iso2 must not be empty' );
 
         if ( '' === $default_iso2 ) {
-            $mgr     = ct_get_language_manager();
+            $mgr     = bs_get_language_manager();
             $default = $mgr->get_default();
             $default_iso2 = ( null !== $default ) ? $default['iso2'] : 'en';
         }
@@ -44,7 +44,7 @@ class LanguagePageManager {
             'post_type'      => 'page',
             'post_status'    => array( 'publish', 'draft', 'private' ),
             'posts_per_page' => self::MAX_PAGES_TO_DUPLICATE,
-            'meta_key'       => 'ct_language',
+            'meta_key'       => 'bs_language',
             'meta_value'     => $default_iso2,
             'orderby'        => 'parent ID',
             'order'          => 'ASC',
@@ -186,11 +186,11 @@ class LanguagePageManager {
         $this->copy_post_meta( $source_page->ID, $new_id );
 
         /* Set language */
-        update_post_meta( $new_id, 'ct_language', $target_iso2 );
+        update_post_meta( $new_id, 'bs_language', $target_iso2 );
 
         /* Link translation group */
         $group = $this->get_translation_group( $source_page->ID );
-        update_post_meta( $new_id, 'ct_translation_group', $group );
+        update_post_meta( $new_id, 'bs_translation_group', $group );
 
         return $new_id;
     }
@@ -209,14 +209,14 @@ class LanguagePageManager {
             return '';
         }
 
-        $group = get_post_meta( $post_id, 'ct_translation_group', true );
+        $group = get_post_meta( $post_id, 'bs_translation_group', true );
 
         if ( is_string( $group ) && '' !== $group ) {
             return $group;
         }
 
         $group = wp_generate_uuid4();
-        update_post_meta( $post_id, 'ct_translation_group', $group );
+        update_post_meta( $post_id, 'bs_translation_group', $group );
 
         return $group;
     }
@@ -230,7 +230,7 @@ class LanguagePageManager {
     public function get_translations( int $post_id ): array {
         assert( is_int( $post_id ), 'post_id must be an int' );
 
-        $group = get_post_meta( $post_id, 'ct_translation_group', true );
+        $group = get_post_meta( $post_id, 'bs_translation_group', true );
 
         if ( ! is_string( $group ) || '' === $group ) {
             return array();
@@ -244,7 +244,7 @@ class LanguagePageManager {
             'post_type'      => 'page',
             'post_status'    => array( 'publish', 'draft', 'private' ),
             'posts_per_page' => self::MAX_PAGES_TO_DUPLICATE,
-            'meta_key'       => 'ct_translation_group',
+            'meta_key'       => 'bs_translation_group',
             'meta_value'     => $group,
             'orderby'        => 'ID',
             'order'          => 'ASC',
@@ -260,7 +260,7 @@ class LanguagePageManager {
             }
             $count++;
 
-            $lang = get_post_meta( $post->ID, 'ct_language', true );
+            $lang = get_post_meta( $post->ID, 'bs_language', true );
 
             if ( is_string( $lang ) && '' !== $lang ) {
                 $translations[ $lang ] = $post->ID;
@@ -297,7 +297,7 @@ class LanguagePageManager {
             'post_type'      => 'page',
             'post_status'    => array( 'publish', 'draft', 'private' ),
             'posts_per_page' => self::MAX_PAGES_TO_DUPLICATE,
-            'meta_key'       => 'ct_language',
+            'meta_key'       => 'bs_language',
             'meta_value'     => $iso2,
             'orderby'        => 'ID',
             'order'          => 'ASC',
@@ -368,7 +368,7 @@ class LanguagePageManager {
             'posts_per_page' => self::MAX_PAGES_TO_DUPLICATE,
             'meta_query'     => array(
                 array(
-                    'key'     => 'ct_language',
+                    'key'     => 'bs_language',
                     'compare' => 'NOT EXISTS',
                 ),
             ),
@@ -390,7 +390,7 @@ class LanguagePageManager {
                 break;
             }
 
-            update_post_meta( $page->ID, 'ct_language', $default_iso2 );
+            update_post_meta( $page->ID, 'bs_language', $default_iso2 );
             $mgr->get_translation_group( $page->ID );
             $migrated++;
         }
@@ -436,7 +436,7 @@ class LanguagePageManager {
             'post_type'      => 'page',
             'post_status'    => array( 'publish', 'draft', 'private' ),
             'posts_per_page' => self::MAX_PAGES_TO_DUPLICATE,
-            'meta_key'       => 'ct_translation_group',
+            'meta_key'       => 'bs_translation_group',
             'meta_value'     => $group,
             'orderby'        => 'ID',
             'order'          => 'ASC',
@@ -454,7 +454,7 @@ class LanguagePageManager {
             if ( $count >= $max ) { break; }
             $count++;
 
-            $iso2 = get_post_meta( $post->ID, 'ct_language', true );
+            $iso2 = get_post_meta( $post->ID, 'bs_language', true );
 
             if ( ! is_string( $iso2 ) || '' === $iso2 ) {
                 continue;
@@ -502,13 +502,13 @@ class LanguagePageManager {
         assert( is_array( $page_id_map ), 'page_id_map must be an array' );
 
         if ( '' === $default_iso2 ) {
-            $mgr     = ct_get_language_manager();
+            $mgr     = bs_get_language_manager();
             $default = $mgr->get_default();
             $default_iso2 = ( null !== $default ) ? $default['iso2'] : 'en';
         }
 
         /* Resolve the ISO 639-2 (3-letter) code for the menu name suffix */
-        $mgr          = ct_get_language_manager();
+        $mgr          = bs_get_language_manager();
         $target_lang  = $mgr->get_by_iso2( $target_iso2 );
         $iso3_suffix  = '';
 
@@ -695,7 +695,7 @@ class LanguagePageManager {
      * Clone widget instances from default language sidebars to a new language.
      *
      * Each widget in the source sidebar is cloned to a new instance number
-     * so the target language can be edited independently. ct_menu widgets
+     * so the target language can be edited independently. bs_menu widgets
      * get their nav_menu field remapped to the target language's menu.
      *
      * @param string $target_iso2  New language code.
@@ -706,7 +706,7 @@ class LanguagePageManager {
         assert( ! empty( $target_iso2 ), 'target_iso2 must not be empty' );
 
         if ( '' === $default_iso2 ) {
-            $mgr     = ct_get_language_manager();
+            $mgr     = bs_get_language_manager();
             $default = $mgr->get_default();
             $default_iso2 = ( null !== $default ) ? $default['iso2'] : 'en';
         }
@@ -801,10 +801,10 @@ class LanguagePageManager {
      * Clone a single widget instance, returning the new widget ID.
      *
      * If the same source widget ID was already cloned (tracked in $cache),
-     * returns the previously cloned ID. For ct_menu widgets, remaps the
+     * returns the previously cloned ID. For bs_menu widgets, remaps the
      * nav_menu field using the menu mapping.
      *
-     * @param string            $widget_id   Source widget ID (e.g. "ct_company_info-1").
+     * @param string            $widget_id   Source widget ID (e.g. "bs_company_info-1").
      * @param array<int, int>   $menu_map    Source menu ID => target menu ID.
      * @param array<string, string> &$cache  Clone cache: source ID => cloned ID.
      * @param array<string, bool>   &$dirty  Tracks modified widget types for batch write.
@@ -840,8 +840,8 @@ class LanguagePageManager {
         $new_number  = self::next_widget_instance_number( $instances );
         $new_data    = is_array( $source_data ) ? $source_data : array();
 
-        /* ct_menu widgets: remap nav_menu to the target language's menu */
-        if ( 'ct_menu' === $type && isset( $new_data['nav_menu'] ) ) {
+        /* bs_menu widgets: remap nav_menu to the target language's menu */
+        if ( 'bs_menu' === $type && isset( $new_data['nav_menu'] ) ) {
             $source_menu = (int) $new_data['nav_menu'];
 
             if ( isset( $menu_map[ $source_menu ] ) ) {
@@ -863,7 +863,7 @@ class LanguagePageManager {
     /**
      * Parse a widget ID into its type and instance number.
      *
-     * @param string $widget_id Widget ID (e.g. "ct_company_info-1").
+     * @param string $widget_id Widget ID (e.g. "bs_company_info-1").
      * @return array{0: string, 1: int}|null [type, number] or null if unparseable.
      */
     private static function parse_widget_id( string $widget_id ): ?array {

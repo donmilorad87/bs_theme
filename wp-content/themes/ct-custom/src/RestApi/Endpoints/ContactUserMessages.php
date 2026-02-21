@@ -31,7 +31,7 @@ class ContactUserMessages {
 		register_rest_route( self::NAMESPACE, self::ROUTE, array(
 			'methods'             => \WP_REST_Server::READABLE,
 			'callback'            => array( $this, 'handle' ),
-			'permission_callback' => 'ct_jwt_or_cookie_permission_check',
+			'permission_callback' => 'bs_jwt_or_cookie_permission_check',
 			'args'                => array(
 				'page' => array(
 					'required' => false,
@@ -95,7 +95,9 @@ class ContactUserMessages {
 				'id'      => $post->ID,
 				'subject' => get_the_title( $post->ID ),
 				'body'    => get_post_meta( $post->ID, '_ct_msg_body', true ),
-				'pointer' => get_post_meta( $post->ID, '_ct_msg_pointer', true ),
+				'form_id'    => (int) get_post_meta( $post->ID, '_ct_msg_form_id', true ),
+				'form_label' => get_post_meta( $post->ID, '_ct_msg_form_label', true ),
+				'pointer'    => get_post_meta( $post->ID, '_ct_msg_pointer', true ),
 				'date'    => $post->post_date,
 				'replies' => $replies,
 			);

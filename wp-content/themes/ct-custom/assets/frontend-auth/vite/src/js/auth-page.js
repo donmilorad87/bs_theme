@@ -35,6 +35,7 @@ export default class AuthPage {
         this._nonce = this._card.getAttribute('data-nonce') || '';
         this._cacheVersion = this._card.getAttribute('data-cache-version') || '0';
         this._homeUrl = this._card.getAttribute('data-home-url') || '/';
+        this._emailEnabled = this._card.getAttribute('data-email-enabled') !== '0';
 
         assert(typeof this._restUrl === 'string', 'restUrl must be a string');
         assert(typeof this._nonce === 'string', 'nonce must be a string');
@@ -65,9 +66,9 @@ export default class AuthPage {
         assert(this._card instanceof HTMLElement, 'card must be HTMLElement');
 
         const panels = this._card.querySelectorAll('[data-ct-auth-form]');
-        const max = AUTH_FORMS.length;
+        const max = panels.length;
 
-        for (let i = 0; i < panels.length && i < max; i++) {
+        for (let i = 0; i < max; i++) {
             this._binder.bind(panels[i]);
         }
     }
@@ -109,6 +110,13 @@ export default class AuthPage {
     _handleAction(action) {
         assert(typeof action === 'string', 'action must be a string');
         assert(action.length > 0, 'action must not be empty');
+
+        if (!this._emailEnabled) {
+            const blocked = ['show-forgot', 'forgot', 'verify-activation', 'verify-reset-code', 'reset-password', 'resend-reset-code', 'resend-activation-code'];
+            if (blocked.includes(action)) {
+                return;
+            }
+        }
 
         switch (action) {
             case 'show-forgot':
@@ -159,9 +167,13 @@ export default class AuthPage {
         assert(typeof name === 'string', 'name must be a string');
 
         const panels = this._card.querySelectorAll('[data-ct-auth-form]');
-        const max = AUTH_FORMS.length;
+        const target = this._card.querySelector('[data-ct-auth-form="' + name + '"]');
+        if (!target) {
+            return;
+        }
+        const max = panels.length;
 
-        for (let i = 0; i < panels.length && i < max; i++) {
+        for (let i = 0; i < max; i++) {
             const isTarget = panels[i].getAttribute('data-ct-auth-form') === name;
             panels[i].classList.toggle('ct-auth-card__panel--active', isTarget);
         }
@@ -277,6 +289,10 @@ export default class AuthPage {
                     this._setLoading(panel, false);
                     this._unblockPage();
                     if (data.data && data.data.requires_activation) {
+                        if (!this._emailEnabled) {
+                            this._showMessage(panel, 'error', data.message || 'Login failed.');
+                            return;
+                        }
                         this._flowData.email = data.data.email || '';
                         this._showForm('activation-code');
                     } else {
@@ -294,6 +310,18 @@ export default class AuthPage {
     _submitRegister() {
         const panel = this._getActivePanel();
         if (!panel) { return; }
+
+        const form = panel.querySelector('.ct-auth-form');
+
+        /* Check agree checkbox first — triggers full-form validation */
+        const agreeCheckbox = panel.querySelector('[data-ct-validate-agree]');
+        if (agreeCheckbox && !agreeCheckbox.checked) {
+            if (form) {
+                this._binder.getValidator().validateAll(form);
+            }
+            this._showMessage(panel, 'error', 'You must agree to the Terms and Conditions.');
+            return;
+        }
 
         const fields = {
             username: panel.querySelector('input[name="username"]'),
@@ -316,6 +344,9 @@ export default class AuthPage {
 
         if (!values.username || !values.email || !values.first_name ||
             !values.last_name || !values.password || !values.password_confirm) {
+            if (form) {
+                this._binder.getValidator().validateAll(form);
+            }
             this._showMessage(panel, 'error', 'Please fill in all fields.');
             return;
         }
@@ -339,6 +370,16 @@ export default class AuthPage {
                 this._setLoading(panel, false);
                 this._unblockPage();
                 if (data.success) {
+                    if (!this._emailEnabled) {
+                        this._flowData = {};
+                        this._showForm('login');
+                        const loginPanel = this._getActivePanel();
+                        if (loginPanel) {
+                            this._showMessage(loginPanel, 'success', 'Account created. You can now log in.');
+                        }
+                        return;
+                    }
+
                     const email = (data.data && data.data.email) ? data.data.email : values.email;
                     this._flowData.email = email;
                     this._showForm('activation-code');
@@ -354,6 +395,9 @@ export default class AuthPage {
     }
 
     _submitForgotPassword() {
+        if (!this._emailEnabled) {
+            return;
+        }
         const panel = this._getActivePanel();
         if (!panel) { return; }
 
@@ -387,6 +431,9 @@ export default class AuthPage {
     }
 
     _resendResetCode() {
+        if (!this._emailEnabled) {
+            return;
+        }
         const panel = this._getActivePanel();
         if (!panel) { return; }
 
@@ -419,6 +466,9 @@ export default class AuthPage {
     }
 
     _resendActivationCode() {
+        if (!this._emailEnabled) {
+            return;
+        }
         const panel = this._getActivePanel();
         if (!panel) { return; }
 
@@ -451,6 +501,9 @@ export default class AuthPage {
     }
 
     _submitVerifyActivation() {
+        if (!this._emailEnabled) {
+            return;
+        }
         const panel = this._getActivePanel();
         if (!panel) { return; }
 
@@ -490,6 +543,9 @@ export default class AuthPage {
     }
 
     _submitVerifyResetCode() {
+        if (!this._emailEnabled) {
+            return;
+        }
         const panel = this._getActivePanel();
         if (!panel) { return; }
 
@@ -526,6 +582,9 @@ export default class AuthPage {
     }
 
     _submitResetPassword() {
+        if (!this._emailEnabled) {
+            return;
+        }
         const panel = this._getActivePanel();
         if (!panel) { return; }
 

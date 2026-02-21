@@ -9,8 +9,8 @@ import {
 } from './auth-config.js';
 
 describe('auth-config', () => {
-    it('STORAGE_TOKEN_KEY equals ct_auth_token', () => {
-        expect(STORAGE_TOKEN_KEY).toBe('ct_auth_token');
+    it('STORAGE_TOKEN_KEY equals bs_auth_token', () => {
+        expect(STORAGE_TOKEN_KEY).toBe('bs_auth_token');
     });
 
     it('MAX_FIELDS equals 20', () => {

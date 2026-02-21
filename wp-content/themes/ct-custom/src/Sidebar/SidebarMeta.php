@@ -2,7 +2,7 @@
 /**
  * Sidebar Meta Registration
  *
- * Registers ct_sidebar_left and ct_sidebar_right post meta
+ * Registers bs_sidebar_left and bs_sidebar_right post meta
  * for per-page sidebar configuration.
  *
  * @package BS_Custom
@@ -28,7 +28,7 @@ class SidebarMeta {
 	}
 
 	/**
-	 * Register sidebar post meta for pages and posts.
+	 * Register sidebar and layout post meta for pages and posts.
 	 *
 	 * Hooked on `init`.
 	 *
@@ -39,7 +39,7 @@ class SidebarMeta {
 		assert( function_exists( 'sanitize_text_field' ), 'sanitize_text_field must exist' );
 
 		$post_types = array( 'page', 'post' );
-		$meta_keys  = array( 'ct_sidebar_left', 'ct_sidebar_right' );
+		$meta_keys  = array( 'bs_sidebar_left', 'bs_sidebar_right' );
 		$max_types  = 10;
 		$max_keys   = 10;
 		$type_count = 0;
@@ -68,7 +68,37 @@ class SidebarMeta {
 					},
 				) );
 			}
+
+			register_post_meta( $post_type, 'bs_page_full_width', array(
+				'type'              => 'string',
+				'default'           => 'on',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'sanitize_callback' => array( self::class, 'sanitizeOnOff' ),
+				'auth_callback'     => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			) );
 		}
+	}
+
+	/**
+	 * Sanitize a strict on/off value.
+	 *
+	 * @param string $value Raw meta value.
+	 * @return string 'on' or 'off'.
+	 */
+	public static function sanitizeOnOff( $value ) {
+		assert( is_string( $value ) || is_null( $value ), 'Value must be a string or null' );
+		assert( function_exists( 'sanitize_text_field' ), 'sanitize_text_field must exist' );
+
+		$clean = sanitize_text_field( (string) $value );
+
+		if ( 'on' === $clean ) {
+			return 'on';
+		}
+
+		return 'off';
 	}
 
 	/**

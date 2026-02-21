@@ -6,7 +6,7 @@
  * @package BS_Custom
  */
 
-export const STORAGE_TOKEN_KEY = 'ct_auth_token';
+export const STORAGE_TOKEN_KEY = 'bs_auth_token';
 
 export const MAX_FIELDS = 20;
 

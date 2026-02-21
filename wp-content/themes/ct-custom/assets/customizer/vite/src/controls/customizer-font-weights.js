@@ -215,7 +215,7 @@ function autoCheckAllWeights(controlContainer) {
 
 /**
  * Send a debounced cleanup request to the REST API (empty weights = clean all files).
- * Clears ct_font_face_css and removes the preview style from the iframe.
+ * Clears bs_font_face_css and removes the preview style from the iframe.
  * Uses the shared restTimer to avoid overlapping with download requests.
  */
 function triggerFontCleanup() {
@@ -228,7 +228,7 @@ function triggerFontCleanup() {
 
     /* Clear face CSS setting immediately */
     if (typeof wp !== 'undefined' && wp.customize) {
-        var cssSetting = wp.customize('ct_font_face_css');
+        var cssSetting = wp.customize('bs_font_face_css');
         if (cssSetting) {
             cssSetting.set('');
         }
@@ -244,7 +244,7 @@ function triggerFontCleanup() {
         /* Determine the family to send (needed for endpoint validation) */
         var family = currentFamily || currentApiFamily || '';
         if (!family && typeof wp !== 'undefined' && wp.customize) {
-            var familySetting = wp.customize('ct_font_family');
+            var familySetting = wp.customize('bs_font_family');
             if (familySetting) {
                 family = familySetting.get() || '';
             }
@@ -285,7 +285,7 @@ function triggerFontDownload() {
     restTimer = setTimeout(function () {
         /* Skip download if fonts are disabled */
         if (typeof wp !== 'undefined' && wp.customize) {
-            var enabledSetting = wp.customize('ct_font_enabled');
+            var enabledSetting = wp.customize('bs_font_enabled');
             if (enabledSetting && !enabledSetting.get()) {
                 return;
             }
@@ -297,14 +297,14 @@ function triggerFontDownload() {
 
         /* Read current weights from the Customizer setting */
         if (typeof wp !== 'undefined' && wp.customize) {
-            var weightsSetting = wp.customize('ct_font_weights');
+            var weightsSetting = wp.customize('bs_font_weights');
             if (weightsSetting) {
                 weights = weightsSetting.get() || '';
             }
 
             /* Read family from setting if not set by event */
             if (!family) {
-                var familySetting = wp.customize('ct_font_family');
+                var familySetting = wp.customize('bs_font_family');
                 if (familySetting) {
                     family = familySetting.get() || '';
                     apiFamily = family;
@@ -360,9 +360,9 @@ function downloadFont(family, apiFamily, weights) {
 
         var faceCss = response.data.face_css || '';
 
-        /* Update the ct_font_face_css setting in the Customizer */
+        /* Update the bs_font_face_css setting in the Customizer */
         if (typeof wp !== 'undefined' && wp.customize) {
-            var cssSetting = wp.customize('ct_font_face_css');
+            var cssSetting = wp.customize('bs_font_face_css');
             if (cssSetting) {
                 cssSetting.set(faceCss);
             }
@@ -427,11 +427,11 @@ function setFontControlsActive(isActive) {
         return;
     }
 
-    wp.customize.control('ct_font_family', function (familyControl) {
+    wp.customize.control('bs_font_family', function (familyControl) {
         familyControl.active.set(isActive);
     });
 
-    wp.customize.control('ct_font_weights', function (weightsControl) {
+    wp.customize.control('bs_font_weights', function (weightsControl) {
         weightsControl.active.set(isActive);
     });
 }
@@ -445,14 +445,14 @@ export function init() {
     }
 
     /* Read current family from setting on init */
-    wp.customize('ct_font_family', function (setting) {
+    wp.customize('bs_font_family', function (setting) {
         currentFamily = setting.get() || '';
     });
 
     /** @type {HTMLElement|null} Weights control container — set once embedded */
     var weightsContainer = null;
 
-    wp.customize.control('ct_font_weights', function (control) {
+    wp.customize.control('bs_font_weights', function (control) {
         control.deferred.embedded.done(function () {
             var container = control.container[0];
             if (container) {
@@ -463,8 +463,8 @@ export function init() {
         });
     });
 
-    /* Toggle visibility: listen for ct_font_enabled changes */
-    wp.customize('ct_font_enabled', function (setting) {
+    /* Toggle visibility: listen for bs_font_enabled changes */
+    wp.customize('bs_font_enabled', function (setting) {
         /* Set initial visibility based on current value */
         var initialValue = setting.get();
         setFontControlsActive(!!initialValue);

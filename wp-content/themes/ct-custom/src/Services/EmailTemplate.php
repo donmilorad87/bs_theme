@@ -20,21 +20,21 @@ class EmailTemplate {
         }
 
         $this->template_config_cache = array(
-            'title_font_size'   => (int) get_theme_mod( 'ct_email_title_font_size', 24 ),
-            'title_color'       => get_theme_mod( 'ct_email_title_color', '#333333' ),
-            'title_color_dark'  => get_theme_mod( 'ct_email_title_color_dark', '#E0E0E0' ),
-            'title_bold'        => (bool) get_theme_mod( 'ct_email_title_bold', true ),
-            'title_transform'   => get_theme_mod( 'ct_email_title_transform', 'none' ),
-            'text_font_size'    => (int) get_theme_mod( 'ct_email_text_font_size', 15 ),
-            'text_color'        => get_theme_mod( 'ct_email_text_color', '#555555' ),
-            'text_color_dark'   => get_theme_mod( 'ct_email_text_color_dark', '#B0B0B0' ),
-            'text_line_height'  => (float) get_theme_mod( 'ct_email_text_line_height', 1.6 ),
-            'border_color'      => get_theme_mod( 'ct_email_border_color', '#E5E5E5' ),
-            'border_color_dark' => get_theme_mod( 'ct_email_border_color_dark', '#333333' ),
-            'bg_color'          => get_theme_mod( 'ct_email_bg_color', '#FFFFFF' ),
-            'bg_color_dark'     => get_theme_mod( 'ct_email_bg_color_dark', '#1A1A2E' ),
-            'accent_color'      => get_theme_mod( 'ct_email_accent_color', '#FF6B35' ),
-            'accent_color_dark' => get_theme_mod( 'ct_email_accent_color_dark', '#FF8C5A' ),
+            'title_font_size'   => (int) get_theme_mod( 'bs_email_title_font_size', 24 ),
+            'title_color'       => get_theme_mod( 'bs_email_title_color', '#333333' ),
+            'title_color_dark'  => get_theme_mod( 'bs_email_title_color_dark', '#E0E0E0' ),
+            'title_bold'        => (bool) get_theme_mod( 'bs_email_title_bold', true ),
+            'title_transform'   => get_theme_mod( 'bs_email_title_transform', 'none' ),
+            'text_font_size'    => (int) get_theme_mod( 'bs_email_text_font_size', 15 ),
+            'text_color'        => get_theme_mod( 'bs_email_text_color', '#555555' ),
+            'text_color_dark'   => get_theme_mod( 'bs_email_text_color_dark', '#B0B0B0' ),
+            'text_line_height'  => (float) get_theme_mod( 'bs_email_text_line_height', 1.6 ),
+            'border_color'      => get_theme_mod( 'bs_email_border_color', '#E5E5E5' ),
+            'border_color_dark' => get_theme_mod( 'bs_email_border_color_dark', '#333333' ),
+            'bg_color'          => get_theme_mod( 'bs_email_bg_color', '#FFFFFF' ),
+            'bg_color_dark'     => get_theme_mod( 'bs_email_bg_color_dark', '#1A1A2E' ),
+            'accent_color'      => get_theme_mod( 'bs_email_accent_color', '#FF6B35' ),
+            'accent_color_dark' => get_theme_mod( 'bs_email_accent_color_dark', '#FF8C5A' ),
         );
 
         assert( is_array( $this->template_config_cache ), 'Template config must be an array' );

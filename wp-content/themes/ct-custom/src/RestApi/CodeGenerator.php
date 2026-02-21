@@ -29,7 +29,7 @@ trait CodeGenerator {
     /**
      * Store a verification code in a transient.
      *
-     * @param string $prefix Transient prefix (e.g. 'ct_activation_code_').
+     * @param string $prefix Transient prefix (e.g. 'bs_activation_code_').
      * @param string $key    Identifier (e.g. email or user_id).
      * @param string $code   The 6-digit code.
      * @param int    $ttl    Time to live in seconds.

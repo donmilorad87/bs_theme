@@ -12,13 +12,12 @@ get_header();
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
-
             <!-- hentry (mf1) + h-entry (mf2) microformat markup for parsers/SEO -->
             <article class="contact-article hentry h-entry">
                 <div class="ct-container">
                     <h1 class="entry-title p-name ct-contact-heading"><?php echo esc_html( $contact_heading ); ?></h1>
 
-                    <div class="entry-content e-content">
+                    <div class="entry-content e-content mb24">
                         <p class="ct-p ct-contact-content"><?php echo esc_html( $contact_content ); ?></p>
                     </div>
 

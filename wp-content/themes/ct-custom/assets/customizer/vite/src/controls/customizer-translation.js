@@ -2,7 +2,7 @@
  * Customizer Translation Control.
  *
  * Handles the "Pick Key" button, searchable dropdown, and value setting
- * for CT_Translation_Control in the Customizer panel.
+ * for BS_Translation_Control in the Customizer panel.
  *
  * @package BS_Custom
  */
@@ -12,7 +12,7 @@ export function init() {
         return;
     }
 
-    wp.customize.controlConstructor.ct_translation = wp.customize.Control.extend({
+    wp.customize.controlConstructor.bs_translation = wp.customize.Control.extend({
         ready: function () {
             var control = this;
             var container = control.container[0] || control.container;
@@ -32,10 +32,10 @@ export function init() {
             var previewEl = null;
 
             /**
-             * Resolve a ct_translate() pattern to its translated text.
+             * Resolve a bs_translate() pattern to its translated text.
              */
             function resolveTranslation(value) {
-                if (!value || value.indexOf('ct_translate(') === -1) {
+                if (!value || value.indexOf('bs_translate(') === -1) {
                     return null;
                 }
                 if (window.ctEditorTranslator && typeof window.ctEditorTranslator.resolve === 'function') {
@@ -105,7 +105,7 @@ export function init() {
 
                     li.addEventListener('click', (function (k) {
                         return function () {
-                            input.value = "ct_translate('" + k + "')";
+                            input.value = "bs_translate('" + k + "')";
                             control.setting.set(input.value);
                             closeDropdown();
                             updatePreview();

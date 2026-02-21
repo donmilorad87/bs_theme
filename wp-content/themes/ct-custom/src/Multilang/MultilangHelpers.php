@@ -27,7 +27,7 @@ trait MultilangHelpers {
     /**
      * Get the current language iso2 code for the current page/post.
      *
-     * Reads from post meta ct_language, falls back to default language.
+     * Reads from post meta bs_language, falls back to default language.
      * Caching is deferred until after the 'wp' action so that early calls
      * (e.g. theme_mod filters in customizer preview) cannot poison the
      * cache before the queried post is available.
@@ -45,10 +45,26 @@ trait MultilangHelpers {
             return $this->cached_language;
         }
 
+        if ( ! is_admin() && function_exists( 'get_query_var' ) ) {
+            $query_lang = get_query_var( 'bs_lang' );
+            if ( is_string( $query_lang ) && '' !== $query_lang ) {
+                $query_lang = sanitize_key( $query_lang );
+                $mgr        = $this->get_language_manager();
+                $known      = $mgr->get_by_iso2( $query_lang );
+
+                if ( null !== $known ) {
+                    if ( $wp_ready ) {
+                        $this->cached_language = $query_lang;
+                    }
+                    return $query_lang;
+                }
+            }
+        }
+
         $post_id = get_the_ID();
 
         if ( $post_id ) {
-            $lang = get_post_meta( $post_id, 'ct_language', true );
+            $lang = get_post_meta( $post_id, 'bs_language', true );
             if ( is_string( $lang ) && '' !== $lang ) {
                 if ( $wp_ready ) {
                     $this->cached_language = $lang;
@@ -84,7 +100,7 @@ trait MultilangHelpers {
             return null;
         }
 
-        $locale = get_post_meta( $post_id, 'ct_locale', true );
+        $locale = get_post_meta( $post_id, 'bs_locale', true );
 
         if ( is_string( $locale ) && '' !== $locale ) {
             return $locale;

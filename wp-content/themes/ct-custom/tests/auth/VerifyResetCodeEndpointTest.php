@@ -32,7 +32,7 @@ class VerifyResetCodeEndpointTest extends AuthTestCase {
      * @param int    $ttl   TTL in seconds.
      */
     private function storeResetCode( string $email, string $code, int $ttl = 900 ): void {
-        $key = 'ct_reset_code_' . md5( $email );
+        $key = 'bs_reset_code_' . md5( $email );
         $this->setTransient( $key, $code, $ttl );
     }
 
@@ -43,7 +43,7 @@ class VerifyResetCodeEndpointTest extends AuthTestCase {
      * @return bool
      */
     private function resetCodeExists( string $email ): bool {
-        $key = 'ct_reset_code_' . md5( $email );
+        $key = 'bs_reset_code_' . md5( $email );
         return false !== \get_transient( $key );
     }
 
@@ -92,9 +92,9 @@ class VerifyResetCodeEndpointTest extends AuthTestCase {
         $code  = '123456';
 
         /* Store with a TTL that has already elapsed. */
-        $key = 'ct_reset_code_' . md5( $email );
-        $GLOBALS['ct_test_transients'][ $key ]    = $code;
-        $GLOBALS['ct_test_transient_ttl'][ $key ] = time() - 1;
+        $key = 'bs_reset_code_' . md5( $email );
+        $GLOBALS['bs_test_transients'][ $key ]    = $code;
+        $GLOBALS['bs_test_transient_ttl'][ $key ] = time() - 1;
 
         $request  = $this->makeRequest( array(
             'email' => $email,
@@ -113,7 +113,7 @@ class VerifyResetCodeEndpointTest extends AuthTestCase {
         $this->setClientIp( $ip );
 
         /* Simulate 5 prior failed attempts. */
-        $rate_key = 'ct_verify_reset_' . md5( $ip );
+        $rate_key = 'bs_verify_reset_' . md5( $ip );
         $this->setTransient( $rate_key, 5, 300 );
 
         $request  = $this->makeRequest( array(

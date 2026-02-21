@@ -3,13 +3,13 @@
  * The sidebar containing the main widget area
  *
  * This file is kept for backward compatibility but sidebars
- * are now rendered via ct_sidebar_render() in templates.
+ * are now rendered via bs_sidebar_render() in templates.
  *
  * @package BS_Custom
  */
 
-if ( function_exists( 'ct_sidebar_render' ) ) {
-	ct_sidebar_render( 'left' );
-	ct_sidebar_render( 'right' );
+if ( function_exists( 'bs_sidebar_render' ) ) {
+	bs_sidebar_render( 'left' );
+	bs_sidebar_render( 'right' );
 	return;
 }

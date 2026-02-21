@@ -18,7 +18,6 @@
 // --- Tab navigation ---
 .ct-auth-card__tabs {
     border-bottom: 2px solid var(--ct-form-input-border-color);
-    margin-bottom: $space-lg;
     gap: 0;
 }
 
@@ -49,7 +48,6 @@
 
 // --- Back bar ---
 .ct-auth-card__back-bar {
-    margin-bottom: $space-md;
 }
 
 .ct-auth-card__back-btn {
@@ -70,15 +68,6 @@
     svg {
         flex-shrink: 0;
     }
-}
-
-// --- Form panels ---
-.ct-auth-card__panel {
-    display: none;
-}
-
-.ct-auth-card__panel--active {
-    display: block;
 }
 
 // --- Profile page layout ---

@@ -2,7 +2,7 @@
  * Frontend Translation helper.
  *
  * Reads from ctTranslationData.translations injected via wp_localize_script.
- * Provides window.ct_translate(key, args, count) for frontend JS usage.
+ * Provides window.bs_translate(key, args, count) for frontend JS usage.
  *
  * @package BS_Custom
  */
@@ -17,7 +17,7 @@ const MAX_ARGS = 50;
  * @param {number|null} count Plural count.
  * @return {string}
  */
-function ct_translate(key, args = {}, count = null) {
+function bs_translate(key, args = {}, count = null) {
     const data = window.ctTranslationData?.translations || {};
 
     if (!data[key]) {
@@ -64,7 +64,7 @@ function ct_translate(key, args = {}, count = null) {
 }
 
 /**
- * Simple plural category resolver (mirrors PHP CT_CLDR_Plural_Rules).
+ * Simple plural category resolver (mirrors PHP BS_CLDR_Plural_Rules).
  *
  * @param {string} iso2  Language code.
  * @param {number} count Integer count.
@@ -119,6 +119,6 @@ function resolvePluralCategory(iso2, count) {
 }
 
 /* Expose globally */
-window.ct_translate = ct_translate;
+window.bs_translate = bs_translate;
 
-export default ct_translate;
+export default bs_translate;

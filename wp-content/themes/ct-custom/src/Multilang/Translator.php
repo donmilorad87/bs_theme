@@ -86,9 +86,9 @@ class Translator {
     }
 
     /**
-     * Parse ct_translate() patterns with HTML escaping.
+     * Parse bs_translate() patterns with HTML escaping.
      *
-     * @param string $text Input text with ct_translate() patterns.
+     * @param string $text Input text with bs_translate() patterns.
      * @return string
      */
     public function parse_ct_translate_patterns( string $text ): string {
@@ -96,11 +96,11 @@ class Translator {
     }
 
     /**
-     * Parse ct_translate() patterns without HTML escaping (raw output).
+     * Parse bs_translate() patterns without HTML escaping (raw output).
      *
      * Use when the caller will apply its own escaping (e.g. esc_html()).
      *
-     * @param string $text Input text with ct_translate() patterns.
+     * @param string $text Input text with bs_translate() patterns.
      * @return string
      */
     public function parse_ct_translate_patterns_raw( string $text ): string {
@@ -108,18 +108,18 @@ class Translator {
     }
 
     /**
-     * Internal: parse ct_translate('KEY', [.../{...}], 'form'|N) patterns.
+     * Internal: parse bs_translate('KEY', [.../{...}], 'form'|N) patterns.
      *
      * Supports both PHP arrow syntax ['key' => 'val'] and JSON colon syntax {"key": "val"}.
      *
-     * @param string $text   Input text with ct_translate() patterns.
+     * @param string $text   Input text with bs_translate() patterns.
      * @param bool   $escape Whether to HTML-escape resolved values.
      * @return string
      */
     private function parse_ct_translate_internal( string $text, bool $escape ): string {
         assert( is_string( $text ), 'Text must be a string' );
 
-        if ( false === strpos( $text, 'ct_translate(' ) ) {
+        if ( false === strpos( $text, 'bs_translate(' ) ) {
             return $text;
         }
 
@@ -127,7 +127,7 @@ class Translator {
         $max_matches = self::MAX_PATTERN_MATCHES;
         $translator  = $this;
 
-        $pattern = '/ct_translate\(\s*[\'"]([A-Z][A-Z0-9_]*)[\'"]' .
+        $pattern = '/bs_translate\(\s*[\'"]([A-Z][A-Z0-9_]*)[\'"]' .
             '\s*(?:,\s*(?:\[(.*?)\]|\{(.*?)\})\s*(?:,\s*(?:[\'"]([a-z]+)[\'"]|(\d+))\s*)?)?\)/';
 
         $result = preg_replace_callback(

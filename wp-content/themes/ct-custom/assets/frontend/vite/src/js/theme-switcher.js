@@ -7,7 +7,7 @@
  * @package BS_Custom
  */
 
-const COOKIE_NAME = 'ct_theme';
+const COOKIE_NAME = 'bs_theme';
 const MAX_AGE = 31536000;
 const THEME_LIGHT = 'light';
 const THEME_DARK = 'dark';
@@ -93,7 +93,7 @@ export default class ThemeSwitcher {
         const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
         mq.addEventListener('change', (e) => {
-            const cookieMatch = document.cookie.match(/(?:^|;\s*)ct_theme=(light|dark)/);
+            const cookieMatch = document.cookie.match(/(?:^|;\s*)bs_theme=(light|dark)/);
             if (cookieMatch) {
                 return;
             }

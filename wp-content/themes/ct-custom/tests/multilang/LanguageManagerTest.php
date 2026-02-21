@@ -22,7 +22,7 @@ class LanguageManagerTest extends TestCase {
     private $tmp_file;
 
     protected function setUp(): void {
-        $this->tmp_dir  = sys_get_temp_dir() . '/ct_langmgr_test_' . getmypid() . '_' . mt_rand();
+        $this->tmp_dir  = sys_get_temp_dir() . '/bs_langmgr_test_' . getmypid() . '_' . mt_rand();
         $this->tmp_file = $this->tmp_dir . '/languages.json';
 
         if ( ! is_dir( $this->tmp_dir ) ) {

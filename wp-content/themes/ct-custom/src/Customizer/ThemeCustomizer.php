@@ -7,7 +7,7 @@
  * text-transform) remain as single settings.
  *
  * Migrated from inc/customizer/customizer_theme.php.
- * Old class: CT_Theme_Customizer -> New: ThemeCustomizer
+ * Old class: BS_Theme_Customizer -> New: ThemeCustomizer
  *
  * @package BS_Custom
  */
@@ -18,8 +18,6 @@ use BSCustom\Customizer\Controls\FontFamilyControl;
 use BSCustom\Customizer\Controls\FontWeightsControl;
 use BSCustom\Customizer\Controls\ToggleSwitchControl;
 use BSCustom\Customizer\Controls\TranslationControl;
-use BSCustom\Customizer\Controls\SocialNetworksControl;
-use BSCustom\Customizer\Controls\ContactPointControl;
 use BSCustom\Customizer\Controls\RangeControl;
 
 class ThemeCustomizer {
@@ -48,25 +46,44 @@ class ThemeCustomizer {
         /* Remove built-in sections we don't use */
         $wp_customize->remove_section( 'static_front_page' );
 
-        $wp_customize->add_panel( 'ct_theme_panel', array(
+        $wp_customize->add_panel( 'bs_theme_panel', array(
             'title'    => __( 'BS Theme Settings', 'ct-custom' ),
             'priority' => 1,
         ) );
 
         $this->register_theme_settings_section( $wp_customize );
-        $this->register_topbar_section( $wp_customize );
+        $topbar_enabled = get_theme_mod( 'bs_topbar_enabled', true );
+        if ( ! empty( $topbar_enabled ) ) {
+            $this->register_topbar_section( $wp_customize );
+        }
         $this->register_header_section( $wp_customize );
         $this->register_menu_top_section( $wp_customize );
         $this->register_menu_sub_section( $wp_customize );
         $this->register_mobile_menu_section( $wp_customize );
-        $this->register_breadcrumb_section( $wp_customize );
+        $breadcrumbs_enabled = get_option( 'bs_seo_global_breadcrumb_enabled', '' );
+        if ( ! empty( $breadcrumbs_enabled ) && 'off' !== $breadcrumbs_enabled && '0' !== $breadcrumbs_enabled ) {
+            $this->register_breadcrumb_section( $wp_customize );
+        }
         $this->register_body_section( $wp_customize );
         $this->register_footer_section( $wp_customize );
         $this->register_form_section( $wp_customize );
-        $this->register_social_section( $wp_customize );
-        $this->register_contact_point_section( $wp_customize );
-        $this->register_back_to_top_section( $wp_customize );
-        $this->register_email_template_section( $wp_customize );
+        $social_icons_enabled = get_option( 'bs_social_icons_enabled', 'on' );
+        if ( 'off' !== $social_icons_enabled && '0' !== $social_icons_enabled ) {
+            $this->register_social_section( $wp_customize );
+        }
+        $back_to_top_enabled = get_theme_mod( 'bs_back_to_top_enabled', true );
+        if ( ! empty( $back_to_top_enabled ) ) {
+            $this->register_back_to_top_section( $wp_customize );
+        }
+        $email_enabled = get_option( 'bs_email_enabled', 'on' );
+        if ( is_string( $email_enabled ) ) {
+            $normalized = strtolower( $email_enabled );
+            $email_enabled = ! ( '0' === $email_enabled || 'off' === $normalized || 'false' === $normalized );
+        }
+        $email_template_enabled = get_option( 'bs_email_template_enabled', 'on' );
+        if ( $email_enabled && 'off' !== $email_template_enabled && '0' !== $email_template_enabled ) {
+            $this->register_email_template_section( $wp_customize );
+        }
         $this->register_typography_sections( $wp_customize );
         $this->register_pages_panel( $wp_customize );
         $this->register_language_menus_panel( $wp_customize );
@@ -89,8 +106,9 @@ class ThemeCustomizer {
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, $id, array(
-            'label'   => sprintf( __( '%s (Light)', 'ct-custom' ), $label ),
-            'section' => $section,
+            'label'           => sprintf( __( '%s (Light)', 'ct-custom' ), $label ),
+            'section'         => $section,
+            'active_callback' => array( $this, 'show_light_colors' ),
         ) ) );
 
         /* Dark */
@@ -100,146 +118,165 @@ class ThemeCustomizer {
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control( new \WP_Customize_Color_Control( $wp_customize, $id . '_dark', array(
-            'label'   => sprintf( __( '%s (Dark)', 'ct-custom' ), $label ),
-            'section' => $section,
+            'label'           => sprintf( __( '%s (Dark)', 'ct-custom' ), $label ),
+            'section'         => $section,
+            'active_callback' => array( $this, 'show_dark_colors' ),
         ) ) );
+    }
+
+    public function show_light_colors() {
+        return 'dark' !== $this->get_color_mode();
+    }
+
+    public function show_dark_colors() {
+        return 'light' !== $this->get_color_mode();
+    }
+
+    private function get_color_mode() {
+        $toggle_enabled = get_theme_mod( 'bs_theme_toggle_enabled', true );
+        if ( ! empty( $toggle_enabled ) ) {
+            return 'both';
+        }
+
+        $mode = get_theme_mod( 'bs_theme_color_mode', 'light' );
+        return ( 'dark' === $mode ) ? 'dark' : 'light';
     }
 
     private function register_theme_settings_section( $wp_customize ) {
         assert( $wp_customize instanceof \WP_Customize_Manager, 'Must receive WP_Customize_Manager' );
         assert( is_object( $wp_customize ), 'Customizer must be an object' );
 
-        $wp_customize->add_section( 'ct_theme_settings_section', array(
+        $wp_customize->add_section( 'bs_theme_settings_section', array(
             'title'    => __( 'Theme Settings', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 5,
         ) );
 
         /* Logo controls (moved from Header section) */
-        $this->add_range_control( $wp_customize, 'ct_header_logo_height', 'Logo Height', 'ct_theme_settings_section', 60, 20, 300 );
-        $this->add_range_control( $wp_customize, 'ct_header_logo_margin_left', 'Logo Margin Left', 'ct_theme_settings_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_header_logo_margin_right', 'Logo Margin Right', 'ct_theme_settings_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_header_logo_margin_top', 'Logo Margin Top', 'ct_theme_settings_section', 10, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_header_logo_margin_bottom', 'Logo Margin Bottom', 'ct_theme_settings_section', 10, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_header_logo_height', 'Logo Height', 'bs_theme_settings_section', 60, 20, 300 );
+        $this->add_range_control( $wp_customize, 'bs_header_logo_margin_left', 'Logo Margin Left', 'bs_theme_settings_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_header_logo_margin_right', 'Logo Margin Right', 'bs_theme_settings_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_header_logo_margin_top', 'Logo Margin Top', 'bs_theme_settings_section', 10, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_header_logo_margin_bottom', 'Logo Margin Bottom', 'bs_theme_settings_section', 10, 0, 100 );
 
         /* Container Max Width */
-        $this->add_range_control( $wp_customize, 'ct_container_max_width', 'Container Max Width', 'ct_theme_settings_section', 1200, 800, 1920 );
+        $this->add_range_control( $wp_customize, 'bs_container_max_width', 'Container Max Width', 'bs_theme_settings_section', 1200, 800, 1920 );
 
     }
 
     private function register_topbar_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_topbar_section', array(
+        $wp_customize->add_section( 'bs_topbar_section', array(
             'title' => __( 'Top Bar', 'ct-custom' ),
-            'panel' => 'ct_theme_panel',
+            'panel' => 'bs_theme_panel',
             'priority' => 10,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_topbar_bg_color', 'Background Color', 'ct_topbar_section', '#FF6B35', '#D45A2B' );
+        $this->add_color_control_pair( $wp_customize, 'bs_topbar_bg_color', 'Background Color', 'bs_topbar_section', '#FF6B35', '#D45A2B' );
 
         /* Call Label */
-        $wp_customize->add_setting( 'ct_topbar_text1_content', array(
+        $wp_customize->add_setting( 'bs_topbar_text1_content', array(
             'default'           => 'CALL US NOW!',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_topbar_text1_content', array(
+            new TranslationControl( $wp_customize, 'bs_topbar_text1_content', array(
                 'label'   => __( 'Call Label', 'ct-custom' ),
-                'section' => 'ct_topbar_section',
+                'section' => 'bs_topbar_section',
             ) )
         );
 
-        $this->add_range_control( $wp_customize, 'ct_topbar_text1_size', 'Call Label Size', 'ct_topbar_section', 14, 10, 30 );
-        $this->add_color_control_pair( $wp_customize, 'ct_topbar_text1_color', 'Call Label Color', 'ct_topbar_section', '#FFFFFF', '#FFFFFF' );
-        $this->add_style_checkboxes( $wp_customize, 'ct_topbar_text1', 'Call Label', 'ct_topbar_section', true, false, false );
-        $this->add_range_control( $wp_customize, 'ct_topbar_text1_margin_left', 'Call Label Margin Left', 'ct_topbar_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_topbar_text1_margin_right', 'Call Label Margin Right', 'ct_topbar_section', 10, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_topbar_text1_margin_top', 'Call Label Margin Top', 'ct_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text1_size', 'Call Label Size', 'bs_topbar_section', 14, 10, 30 );
+        $this->add_color_control_pair( $wp_customize, 'bs_topbar_text1_color', 'Call Label Color', 'bs_topbar_section', '#FFFFFF', '#FFFFFF' );
+        $this->add_style_checkboxes( $wp_customize, 'bs_topbar_text1', 'Call Label', 'bs_topbar_section', true, false, false );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text1_margin_left', 'Call Label Margin Left', 'bs_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text1_margin_right', 'Call Label Margin Right', 'bs_topbar_section', 10, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text1_margin_top', 'Call Label Margin Top', 'bs_topbar_section', 0, 0, 100 );
 
         /* Phone Number */
-        $wp_customize->add_setting( 'ct_topbar_text2_content', array(
+        $wp_customize->add_setting( 'bs_topbar_text2_content', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_topbar_text2_content', array(
+            new TranslationControl( $wp_customize, 'bs_topbar_text2_content', array(
                 'label'       => __( 'Phone Number', 'ct-custom' ),
                 'description' => __( 'Leave empty to use the phone from Admin Settings.', 'ct-custom' ),
-                'section'     => 'ct_topbar_section',
+                'section'     => 'bs_topbar_section',
             ) )
         );
 
-        $this->add_range_control( $wp_customize, 'ct_topbar_text2_size', 'Phone Number Size', 'ct_topbar_section', 14, 10, 30 );
-        $this->add_color_control_pair( $wp_customize, 'ct_topbar_text2_color', 'Phone Number Color', 'ct_topbar_section', '#FFFFFF', '#FFFFFF' );
-        $this->add_style_checkboxes( $wp_customize, 'ct_topbar_text2', 'Phone Number', 'ct_topbar_section', false, false, false );
-        $this->add_range_control( $wp_customize, 'ct_topbar_text2_margin_left', 'Phone Number Margin Left', 'ct_topbar_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_topbar_text2_margin_right', 'Phone Number Margin Right', 'ct_topbar_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_topbar_text2_margin_top', 'Phone Number Margin Top', 'ct_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text2_size', 'Phone Number Size', 'bs_topbar_section', 14, 10, 30 );
+        $this->add_color_control_pair( $wp_customize, 'bs_topbar_text2_color', 'Phone Number Color', 'bs_topbar_section', '#FFFFFF', '#FFFFFF' );
+        $this->add_style_checkboxes( $wp_customize, 'bs_topbar_text2', 'Phone Number', 'bs_topbar_section', false, false, false );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text2_margin_left', 'Phone Number Margin Left', 'bs_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text2_margin_right', 'Phone Number Margin Right', 'bs_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_text2_margin_top', 'Phone Number Margin Top', 'bs_topbar_section', 0, 0, 100 );
 
         /* Top Bar Menu */
-        $this->add_color_control_pair( $wp_customize, 'ct_topbar_links_color', 'Top Bar Menu Color', 'ct_topbar_section', '#FFFFFF', '#FFFFFF' );
-        $this->add_range_control( $wp_customize, 'ct_topbar_links_size', 'Top Bar Menu Font Size', 'ct_topbar_section', 14, 10, 30 );
-        $this->add_color_control_pair( $wp_customize, 'ct_topbar_links_hover_color', 'Top Bar Menu Hover Color', 'ct_topbar_section', '#CCCCCC', '#FFB088' );
-        $this->add_style_checkboxes( $wp_customize, 'ct_topbar_links', 'Top Bar Menu', 'ct_topbar_section', true, false, true );
-        $this->add_range_control( $wp_customize, 'ct_topbar_links_margin_left', 'Top Bar Menu Margin Left', 'ct_topbar_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_topbar_links_margin_right', 'Top Bar Menu Margin Right', 'ct_topbar_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_topbar_links_margin_top', 'Top Bar Menu Margin Top', 'ct_topbar_section', 0, 0, 100 );
+        $this->add_color_control_pair( $wp_customize, 'bs_topbar_links_color', 'Top Bar Menu Color', 'bs_topbar_section', '#FFFFFF', '#FFFFFF' );
+        $this->add_range_control( $wp_customize, 'bs_topbar_links_size', 'Top Bar Menu Font Size', 'bs_topbar_section', 14, 10, 30 );
+        $this->add_color_control_pair( $wp_customize, 'bs_topbar_links_hover_color', 'Top Bar Menu Hover Color', 'bs_topbar_section', '#CCCCCC', '#FFB088' );
+        $this->add_style_checkboxes( $wp_customize, 'bs_topbar_links', 'Top Bar Menu', 'bs_topbar_section', true, false, true );
+        $this->add_range_control( $wp_customize, 'bs_topbar_links_margin_left', 'Top Bar Menu Margin Left', 'bs_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_links_margin_right', 'Top Bar Menu Margin Right', 'bs_topbar_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_topbar_links_margin_top', 'Top Bar Menu Margin Top', 'bs_topbar_section', 0, 0, 100 );
     }
 
     private function register_header_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_header_section', array(
+        $wp_customize->add_section( 'bs_header_section', array(
             'title' => __( 'Header', 'ct-custom' ),
-            'panel' => 'ct_theme_panel',
+            'panel' => 'bs_theme_panel',
             'priority' => 20,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_header_bg_color', 'Background Color', 'ct_header_section', '#FFFFFF', '#1A1A2E' );
-        $this->add_color_control_pair( $wp_customize, 'ct_header_border_color', 'Border Color', 'ct_header_section', '#EEEEEE', '#2A2A3E' );
-        $this->add_color_control_pair( $wp_customize, 'ct_site_title_color', 'Site Title Color', 'ct_header_section', '#333333', '#E0E0E0' );
+        $this->add_color_control_pair( $wp_customize, 'bs_header_bg_color', 'Background Color', 'bs_header_section', '#FFFFFF', '#1A1A2E' );
+        $this->add_color_control_pair( $wp_customize, 'bs_header_border_color', 'Border Color', 'bs_header_section', '#EEEEEE', '#2A2A3E' );
+        $this->add_color_control_pair( $wp_customize, 'bs_site_title_color', 'Site Title Color', 'bs_header_section', '#333333', '#E0E0E0' );
     }
 
     private function register_menu_top_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_menu_top_section', array(
+        $wp_customize->add_section( 'bs_menu_top_section', array(
             'title' => __( 'Main Menu - Top Level', 'ct-custom' ),
-            'panel' => 'ct_theme_panel',
+            'panel' => 'bs_theme_panel',
             'priority' => 30,
         ) );
 
-        $this->add_range_control( $wp_customize, 'ct_menu_top_font_size', 'Font Size', 'ct_menu_top_section', 14, 10, 30 );
-        $this->add_color_control_pair( $wp_customize, 'ct_menu_top_color', 'Text Color', 'ct_menu_top_section', '#333333', '#E0E0E0' );
-        $this->add_style_checkboxes( $wp_customize, 'ct_menu_top', 'Menu', 'ct_menu_top_section', false, false, true );
-        $this->add_range_control( $wp_customize, 'ct_menu_top_margin_left', 'Margin Left', 'ct_menu_top_section', 10, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_menu_top_margin_right', 'Margin Right', 'ct_menu_top_section', 10, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_menu_top_margin_top', 'Margin Top', 'ct_menu_top_section', 0, 0, 100 );
-        $this->add_color_control_pair( $wp_customize, 'ct_menu_active_underline_color', 'Active Underline Color', 'ct_menu_top_section', '#FF6B35', '#FF8C5A' );
+        $this->add_range_control( $wp_customize, 'bs_menu_top_font_size', 'Font Size', 'bs_menu_top_section', 14, 10, 30 );
+        $this->add_color_control_pair( $wp_customize, 'bs_menu_top_color', 'Text Color', 'bs_menu_top_section', '#333333', '#E0E0E0' );
+        $this->add_style_checkboxes( $wp_customize, 'bs_menu_top', 'Menu', 'bs_menu_top_section', false, false, true );
+        $this->add_range_control( $wp_customize, 'bs_menu_top_margin_left', 'Margin Left', 'bs_menu_top_section', 10, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_menu_top_margin_right', 'Margin Right', 'bs_menu_top_section', 10, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_menu_top_margin_top', 'Margin Top', 'bs_menu_top_section', 0, 0, 100 );
+        $this->add_color_control_pair( $wp_customize, 'bs_menu_active_underline_color', 'Active Underline Color', 'bs_menu_top_section', '#FF6B35', '#FF8C5A' );
     }
 
     private function register_menu_sub_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_menu_sub_section', array(
+        $wp_customize->add_section( 'bs_menu_sub_section', array(
             'title' => __( 'Main Menu - Submenus', 'ct-custom' ),
-            'panel' => 'ct_theme_panel',
+            'panel' => 'bs_theme_panel',
             'priority' => 40,
         ) );
 
-        $this->add_range_control( $wp_customize, 'ct_menu_sub_font_size', 'Font Size', 'ct_menu_sub_section', 13, 10, 30 );
-        $this->add_color_control_pair( $wp_customize, 'ct_menu_sub_color', 'Text Color', 'ct_menu_sub_section', '#333333', '#E0E0E0' );
-        $this->add_style_checkboxes( $wp_customize, 'ct_menu_sub', 'Submenu', 'ct_menu_sub_section', false, false, true );
-        $this->add_range_control( $wp_customize, 'ct_menu_sub_margin_left', 'Margin Left', 'ct_menu_sub_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_menu_sub_margin_right', 'Margin Right', 'ct_menu_sub_section', 0, 0, 100 );
-        $this->add_range_control( $wp_customize, 'ct_menu_sub_margin_top', 'Margin Top', 'ct_menu_sub_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_menu_sub_font_size', 'Font Size', 'bs_menu_sub_section', 13, 10, 30 );
+        $this->add_color_control_pair( $wp_customize, 'bs_menu_sub_color', 'Text Color', 'bs_menu_sub_section', '#333333', '#E0E0E0' );
+        $this->add_style_checkboxes( $wp_customize, 'bs_menu_sub', 'Submenu', 'bs_menu_sub_section', false, false, true );
+        $this->add_range_control( $wp_customize, 'bs_menu_sub_margin_left', 'Margin Left', 'bs_menu_sub_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_menu_sub_margin_right', 'Margin Right', 'bs_menu_sub_section', 0, 0, 100 );
+        $this->add_range_control( $wp_customize, 'bs_menu_sub_margin_top', 'Margin Top', 'bs_menu_sub_section', 0, 0, 100 );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_menu_sub_border_color', 'Border Color', 'ct_menu_sub_section', '#CCCCCC', '#3A3A4E' );
-        $this->add_range_control( $wp_customize, 'ct_menu_sub_border_width', 'Border Width', 'ct_menu_sub_section', 1, 0, 10 );
+        $this->add_color_control_pair( $wp_customize, 'bs_menu_sub_border_color', 'Border Color', 'bs_menu_sub_section', '#CCCCCC', '#3A3A4E' );
+        $this->add_range_control( $wp_customize, 'bs_menu_sub_border_width', 'Border Width', 'bs_menu_sub_section', 1, 0, 10 );
 
-        $wp_customize->add_setting( 'ct_menu_sub_border_style', array(
+        $wp_customize->add_setting( 'bs_menu_sub_border_style', array(
             'default'           => 'solid',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_menu_sub_border_style', array(
+        $wp_customize->add_control( 'bs_menu_sub_border_style', array(
             'label'   => __( 'Border Style', 'ct-custom' ),
-            'section' => 'ct_menu_sub_section',
+            'section' => 'bs_menu_sub_section',
             'type'    => 'select',
             'choices' => array(
                 'solid'  => __( 'Solid', 'ct-custom' ),
@@ -249,39 +286,39 @@ class ThemeCustomizer {
             ),
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_menu_sub_bg_color', 'Submenu Background', 'ct_menu_sub_section', '#FFFFFF', '#242438' );
-        $this->add_color_control_pair( $wp_customize, 'ct_menu_sub_hover_bg_color', 'Submenu Hover Background', 'ct_menu_sub_section', '#F7F7F7', '#2E2E44' );
+        $this->add_color_control_pair( $wp_customize, 'bs_menu_sub_bg_color', 'Submenu Background', 'bs_menu_sub_section', '#FFFFFF', '#242438' );
+        $this->add_color_control_pair( $wp_customize, 'bs_menu_sub_hover_bg_color', 'Submenu Hover Background', 'bs_menu_sub_section', '#F7F7F7', '#2E2E44' );
     }
 
     private function register_mobile_menu_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_mobile_menu_section', array(
+        $wp_customize->add_section( 'bs_mobile_menu_section', array(
             'title'    => __( 'Mobile Menu', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 45,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_mobile_menu_bg_color', 'Background Color', 'ct_mobile_menu_section', '#FFFFFF', '#1A1A2E' );
-        $this->add_color_control_pair( $wp_customize, 'ct_mobile_menu_border_color', 'Border Color', 'ct_mobile_menu_section', '#EEEEEE', '#2A2A3E' );
-        $this->add_range_control( $wp_customize, 'ct_mobile_menu_border_width', 'Border Width', 'ct_mobile_menu_section', 1, 0, 5 );
+        $this->add_color_control_pair( $wp_customize, 'bs_mobile_menu_bg_color', 'Background Color', 'bs_mobile_menu_section', '#FFFFFF', '#1A1A2E' );
+        $this->add_color_control_pair( $wp_customize, 'bs_mobile_menu_border_color', 'Border Color', 'bs_mobile_menu_section', '#EEEEEE', '#2A2A3E' );
+        $this->add_range_control( $wp_customize, 'bs_mobile_menu_border_width', 'Border Width', 'bs_mobile_menu_section', 1, 0, 5 );
     }
 
     private function register_breadcrumb_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_breadcrumb_section', array(
+        $wp_customize->add_section( 'bs_breadcrumb_section', array(
             'title' => __( 'Breadcrumbs', 'ct-custom' ),
-            'panel' => 'ct_theme_panel',
+            'panel' => 'bs_theme_panel',
             'priority' => 50,
         ) );
 
-        $this->add_range_control( $wp_customize, 'ct_breadcrumb_font_size', 'Font Size', 'ct_breadcrumb_section', 14, 10, 24 );
+        $this->add_range_control( $wp_customize, 'bs_breadcrumb_font_size', 'Font Size', 'bs_breadcrumb_section', 14, 10, 24 );
 
-        $wp_customize->add_setting( 'ct_breadcrumb_transform', array(
+        $wp_customize->add_setting( 'bs_breadcrumb_transform', array(
             'default'           => 'none',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_breadcrumb_transform', array(
+        $wp_customize->add_control( 'bs_breadcrumb_transform', array(
             'label'   => __( 'Text Transform', 'ct-custom' ),
-            'section' => 'ct_breadcrumb_section',
+            'section' => 'bs_breadcrumb_section',
             'type'    => 'select',
             'choices' => array(
                 'none'       => __( 'None', 'ct-custom' ),
@@ -291,62 +328,62 @@ class ThemeCustomizer {
             ),
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_breadcrumb_color', 'Link Color', 'ct_breadcrumb_section', '#999999', '#888888' );
-        $this->add_color_control_pair( $wp_customize, 'ct_breadcrumb_active_color', 'Active Color', 'ct_breadcrumb_section', '#333333', '#E0E0E0' );
+        $this->add_color_control_pair( $wp_customize, 'bs_breadcrumb_color', 'Link Color', 'bs_breadcrumb_section', '#999999', '#888888' );
+        $this->add_color_control_pair( $wp_customize, 'bs_breadcrumb_active_color', 'Active Color', 'bs_breadcrumb_section', '#333333', '#E0E0E0' );
 
-        $wp_customize->add_setting( 'ct_breadcrumb_active_bold', array(
+        $wp_customize->add_setting( 'bs_breadcrumb_active_bold', array(
             'default'           => true,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_breadcrumb_active_bold', array(
+        $wp_customize->add_control( 'bs_breadcrumb_active_bold', array(
             'label'   => __( 'Active Bold', 'ct-custom' ),
-            'section' => 'ct_breadcrumb_section',
+            'section' => 'bs_breadcrumb_section',
             'type'    => 'checkbox',
         ) );
 
-        $wp_customize->add_setting( 'ct_breadcrumb_active_underline', array(
+        $wp_customize->add_setting( 'bs_breadcrumb_active_underline', array(
             'default'           => false,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_breadcrumb_active_underline', array(
+        $wp_customize->add_control( 'bs_breadcrumb_active_underline', array(
             'label'   => __( 'Active Underline', 'ct-custom' ),
-            'section' => 'ct_breadcrumb_section',
+            'section' => 'bs_breadcrumb_section',
             'type'    => 'checkbox',
         ) );
     }
 
     private function register_body_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_body_section', array(
+        $wp_customize->add_section( 'bs_body_section', array(
             'title'    => __( 'Body / Background', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 55,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_body_bg_color', 'Background Color', 'ct_body_section', '#FFFFFF', '#16162A' );
+        $this->add_color_control_pair( $wp_customize, 'bs_body_bg_color', 'Background Color', 'bs_body_section', '#FFFFFF', '#16162A' );
     }
 
     private function register_footer_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_footer_section', array(
+        $wp_customize->add_section( 'bs_footer_section', array(
             'title'    => __( 'Footer', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 60,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_footer_bg_color', 'Background Color', 'ct_footer_section', '#333333', '#0D0D1A' );
-        $this->add_color_control_pair( $wp_customize, 'ct_footer_text_color', 'Text Color', 'ct_footer_section', '#999999', '#888888' );
-        $this->add_color_control_pair( $wp_customize, 'ct_footer_link_color', 'Link Color', 'ct_footer_section', '#CCCCCC', '#BBBBBB' );
-        $this->add_color_control_pair( $wp_customize, 'ct_footer_link_hover_color', 'Link Hover Color', 'ct_footer_section', '#FFFFFF', '#FFFFFF' );
+        $this->add_color_control_pair( $wp_customize, 'bs_footer_bg_color', 'Background Color', 'bs_footer_section', '#333333', '#0D0D1A' );
+        $this->add_color_control_pair( $wp_customize, 'bs_footer_text_color', 'Text Color', 'bs_footer_section', '#999999', '#888888' );
+        $this->add_color_control_pair( $wp_customize, 'bs_footer_link_color', 'Link Color', 'bs_footer_section', '#CCCCCC', '#BBBBBB' );
+        $this->add_color_control_pair( $wp_customize, 'bs_footer_link_hover_color', 'Link Hover Color', 'bs_footer_section', '#FFFFFF', '#FFFFFF' );
 
-        $wp_customize->add_setting( 'ct_footer_columns', array(
+        $wp_customize->add_setting( 'bs_footer_columns', array(
             'default'           => 3,
             'sanitize_callback' => 'absint',
             'transport'         => 'refresh',
         ) );
-        $wp_customize->add_control( 'ct_footer_columns', array(
+        $wp_customize->add_control( 'bs_footer_columns', array(
             'label'   => __( 'Footer Columns', 'ct-custom' ),
-            'section' => 'ct_footer_section',
+            'section' => 'bs_footer_section',
             'type'    => 'select',
             'choices' => array(
                 2 => __( '2 Columns', 'ct-custom' ),
@@ -358,134 +395,97 @@ class ThemeCustomizer {
     }
 
     private function register_form_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_form_section', array(
+        $wp_customize->add_section( 'bs_form_section', array(
             'title'    => __( 'Forms', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 65,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_form_input_bg_color', 'Input Background', 'ct_form_section', '#FFFFFF', '#1E1E32' );
-        $this->add_color_control_pair( $wp_customize, 'ct_form_input_border_color', 'Input Border Color', 'ct_form_section', '#DDDDDD', '#3A3A4E' );
-        $this->add_color_control_pair( $wp_customize, 'ct_form_submit_hover_color', 'Submit Hover Color', 'ct_form_section', '#E55A28', '#C44A1E' );
+        $this->add_color_control_pair( $wp_customize, 'bs_form_input_bg_color', 'Input Background', 'bs_form_section', '#FFFFFF', '#1E1E32' );
+        $this->add_color_control_pair( $wp_customize, 'bs_form_input_border_color', 'Input Border Color', 'bs_form_section', '#DDDDDD', '#3A3A4E' );
+        $this->add_color_control_pair( $wp_customize, 'bs_form_submit_hover_color', 'Submit Hover Color', 'bs_form_section', '#E55A28', '#C44A1E' );
     }
 
     private function register_social_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_social_section', array(
+        $wp_customize->add_section( 'bs_social_section', array(
             'title'    => __( 'Social Icons', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 70,
         ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_social_bg_color', 'Icon Background', 'ct_social_section', '#888888', '#555566' );
+        $this->add_color_control_pair( $wp_customize, 'bs_social_bg_color', 'Icon Background', 'bs_social_section', '#888888', '#555566' );
 
-        $this->add_range_control( $wp_customize, 'ct_social_icon_width', 'Icon Width', 'ct_social_section', 36, 12, 128 );
-        $this->add_range_control( $wp_customize, 'ct_social_icon_height', 'Icon Height', 'ct_social_section', 36, 12, 128 );
+        $this->add_range_control( $wp_customize, 'bs_social_icon_width', 'Icon Width', 'bs_social_section', 36, 12, 128 );
+        $this->add_range_control( $wp_customize, 'bs_social_icon_height', 'Icon Height', 'bs_social_section', 36, 12, 128 );
 
-        /* Share with Friend toggle */
-        $wp_customize->add_setting( 'ct_social_share_enabled', array(
+        /* Share with Friend toggle (managed in BS Custom Theme Settings) */
+        $wp_customize->add_setting( 'bs_social_share_enabled', array(
             'default'           => true,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'refresh',
         ) );
-        $wp_customize->add_control( new ToggleSwitchControl( $wp_customize, 'ct_social_share_enabled', array(
-            'label'   => __( 'Share with Friend', 'ct-custom' ),
-            'section' => 'ct_social_section',
-        ) ) );
 
-        /* Social Networks repeater (stored as option, not theme_mod) */
+        /* Social Networks repeater (stored as option, managed in admin) */
         $wp_customize->add_setting( 'bs_custom_social_networks', array(
             'type'              => 'option',
             'default'           => '[]',
             'sanitize_callback' => array( $this, 'sanitize_social_networks' ),
             'transport'         => 'postMessage',
         ) );
-
-        $wp_customize->add_control( new SocialNetworksControl( $wp_customize, 'bs_custom_social_networks', array(
-            'label'       => __( 'Social Networks', 'ct-custom' ),
-            'description' => __( 'Add, edit, or remove social network icons.', 'ct-custom' ),
-            'section'     => 'ct_social_section',
-            'priority'    => 20,
-        ) ) );
-    }
-
-    private function register_contact_point_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_contact_point_section', array(
-            'title'    => __( 'Contact Point', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
-            'priority' => 71,
-        ) );
-
-        $wp_customize->add_setting( 'bs_custom_contact_point', array(
-            'type'              => 'option',
-            'default'           => '{}',
-            'sanitize_callback' => array( $this, 'sanitize_contact_point' ),
-            'transport'         => 'postMessage',
-        ) );
-
-        $wp_customize->add_control( new ContactPointControl( $wp_customize, 'bs_custom_contact_point', array(
-            'label'       => __( 'Contact Point', 'ct-custom' ),
-            'description' => __( 'Manage contact details: phone, fax, email, address.', 'ct-custom' ),
-            'section'     => 'ct_contact_point_section',
-        ) ) );
     }
 
     private function register_back_to_top_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_back_to_top_section', array(
+        $wp_customize->add_section( 'bs_back_to_top_section', array(
             'title'    => __( 'Back to Top', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 72,
         ) );
 
         /* Enable / Disable */
-        $wp_customize->add_setting( 'ct_back_to_top_enabled', array(
+        $wp_customize->add_setting( 'bs_back_to_top_enabled', array(
             'default'           => true,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_back_to_top_enabled', array(
-            'label'   => __( 'Enable Back to Top', 'ct-custom' ),
-            'section' => 'ct_back_to_top_section',
-            'type'    => 'checkbox',
-        ) );
 
         /* Button Label */
-        $wp_customize->add_setting( 'ct_back_to_top_label', array(
+        $wp_customize->add_setting( 'bs_back_to_top_label', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_back_to_top_label', array(
+            new TranslationControl( $wp_customize, 'bs_back_to_top_label', array(
                 'label'   => __( 'Button Label', 'ct-custom' ),
-                'section' => 'ct_back_to_top_section',
+                'section' => 'bs_back_to_top_section',
             ) )
         );
 
         /* Custom Icon */
-        $wp_customize->add_setting( 'ct_back_to_top_icon', array(
+        $wp_customize->add_setting( 'bs_back_to_top_icon', array(
             'default'           => 0,
             'sanitize_callback' => 'absint',
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( new \WP_Customize_Media_Control( $wp_customize, 'ct_back_to_top_icon', array(
+        $wp_customize->add_control( new \WP_Customize_Media_Control( $wp_customize, 'bs_back_to_top_icon', array(
             'label'     => __( 'Custom Icon', 'ct-custom' ),
-            'section'   => 'ct_back_to_top_section',
+            'section'   => 'bs_back_to_top_section',
             'mime_type' => 'image',
         ) ) );
 
-        $this->add_color_control_pair( $wp_customize, 'ct_back_to_top_bg_color', 'Background Color', 'ct_back_to_top_section', '#FF6B35', '#D45A2B' );
-        $this->add_color_control_pair( $wp_customize, 'ct_back_to_top_border_color', 'Border Color', 'ct_back_to_top_section', '#E5E5E5', '#333333' );
-        $this->add_range_control( $wp_customize, 'ct_back_to_top_border_width', 'Border Width', 'ct_back_to_top_section', 1, 0, 5 );
-        $this->add_range_control( $wp_customize, 'ct_back_to_top_border_radius', 'Border Radius', 'ct_back_to_top_section', 8, 0, 50 );
+        $this->add_color_control_pair( $wp_customize, 'bs_back_to_top_bg_color', 'Background Color', 'bs_back_to_top_section', '#FF6B35', '#D45A2B' );
+        $this->add_color_control_pair( $wp_customize, 'bs_back_to_top_border_color', 'Border Color', 'bs_back_to_top_section', '#E5E5E5', '#333333' );
+        $this->add_range_control( $wp_customize, 'bs_back_to_top_border_width', 'Border Width', 'bs_back_to_top_section', 1, 0, 5 );
+        $this->add_range_control( $wp_customize, 'bs_back_to_top_border_radius', 'Border Radius', 'bs_back_to_top_section', 8, 0, 50 );
 
-        $wp_customize->add_setting( 'ct_back_to_top_position', array(
+        $wp_customize->add_setting( 'bs_back_to_top_position', array(
             'default'           => 'right',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_back_to_top_position', array(
+        $wp_customize->add_control( 'bs_back_to_top_position', array(
             'label'   => __( 'Position', 'ct-custom' ),
-            'section' => 'ct_back_to_top_section',
+            'section' => 'bs_back_to_top_section',
             'type'    => 'radio',
             'choices' => array(
                 'left'  => __( 'Left', 'ct-custom' ),
@@ -498,48 +498,48 @@ class ThemeCustomizer {
         assert( $wp_customize instanceof \WP_Customize_Manager, 'Must receive WP_Customize_Manager' );
         assert( is_object( $wp_customize ), 'Customizer must be an object' );
 
-        $section = 'ct_email_template_section';
+        $section = 'bs_email_template_section';
 
         $wp_customize->add_section( $section, array(
             'title'    => __( 'Email Template', 'ct-custom' ),
-            'panel'    => 'ct_theme_panel',
+            'panel'    => 'bs_theme_panel',
             'priority' => 73,
         ) );
 
         /* Title Font Size */
-        $this->add_range_control( $wp_customize, 'ct_email_title_font_size', 'Title Font Size', $section, 24, 14, 48 );
+        $this->add_range_control( $wp_customize, 'bs_email_title_font_size', 'Title Font Size', $section, 24, 14, 48 );
 
         /* Title Color (light/dark) */
-        $this->add_color_control_pair( $wp_customize, 'ct_email_title_color', 'Title Color', $section, '#333333', '#E0E0E0' );
+        $this->add_color_control_pair( $wp_customize, 'bs_email_title_color', 'Title Color', $section, '#333333', '#E0E0E0' );
 
         /* Title Bold */
-        $wp_customize->add_setting( 'ct_email_title_bold', array(
+        $wp_customize->add_setting( 'bs_email_title_bold', array(
             'default'           => true,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_email_title_bold', array(
+        $wp_customize->add_control( 'bs_email_title_bold', array(
             'label'   => __( 'Title Bold', 'ct-custom' ),
             'section' => $section,
             'type'    => 'checkbox',
         ) );
 
         /* Title Transform */
-        $this->add_transform_select( $wp_customize, 'ct_email_title_transform', 'Title Transform', $section, 'none' );
+        $this->add_transform_select( $wp_customize, 'bs_email_title_transform', 'Title Transform', $section, 'none' );
 
         /* Text Font Size */
-        $this->add_range_control( $wp_customize, 'ct_email_text_font_size', 'Text Font Size', $section, 15, 12, 24 );
+        $this->add_range_control( $wp_customize, 'bs_email_text_font_size', 'Text Font Size', $section, 15, 12, 24 );
 
         /* Text Color (light/dark) */
-        $this->add_color_control_pair( $wp_customize, 'ct_email_text_color', 'Text Color', $section, '#555555', '#B0B0B0' );
+        $this->add_color_control_pair( $wp_customize, 'bs_email_text_color', 'Text Color', $section, '#555555', '#B0B0B0' );
 
         /* Text Line Height */
-        $wp_customize->add_setting( 'ct_email_text_line_height', array(
+        $wp_customize->add_setting( 'bs_email_text_line_height', array(
             'default'           => 1.6,
             'sanitize_callback' => array( $this, 'sanitize_float' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( new RangeControl( $wp_customize, 'ct_email_text_line_height', array(
+        $wp_customize->add_control( new RangeControl( $wp_customize, 'bs_email_text_line_height', array(
             'label'       => __( 'Text Line Height', 'ct-custom' ),
             'section'     => $section,
             'input_attrs' => array(
@@ -550,13 +550,13 @@ class ThemeCustomizer {
         ) ) );
 
         /* Border Color (light/dark) */
-        $this->add_color_control_pair( $wp_customize, 'ct_email_border_color', 'Border Color', $section, '#E5E5E5', '#333333' );
+        $this->add_color_control_pair( $wp_customize, 'bs_email_border_color', 'Border Color', $section, '#E5E5E5', '#333333' );
 
         /* Background Color (light/dark) */
-        $this->add_color_control_pair( $wp_customize, 'ct_email_bg_color', 'Background Color', $section, '#FFFFFF', '#1A1A2E' );
+        $this->add_color_control_pair( $wp_customize, 'bs_email_bg_color', 'Background Color', $section, '#FFFFFF', '#1A1A2E' );
 
         /* Accent Color (light/dark) */
-        $this->add_color_control_pair( $wp_customize, 'ct_email_accent_color', 'Accent Color', $section, '#FF6B35', '#FF8C5A' );
+        $this->add_color_control_pair( $wp_customize, 'bs_email_accent_color', 'Accent Color', $section, '#FF6B35', '#FF8C5A' );
     }
 
     /**
@@ -566,18 +566,18 @@ class ThemeCustomizer {
     private function register_language_menus_panel( $wp_customize ) {
         assert( $wp_customize instanceof \WP_Customize_Manager, 'Must receive WP_Customize_Manager' );
 
-        if ( ! function_exists( 'ct_get_language_manager' ) ) {
+        if ( ! function_exists( 'bs_get_language_manager' ) ) {
             return;
         }
 
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $languages = $mgr->get_enabled();
 
         if ( count( $languages ) < 2 ) {
             return;
         }
 
-        $wp_customize->add_panel( 'ct_language_menus_panel', array(
+        $wp_customize->add_panel( 'bs_language_menus_panel', array(
             'title'    => __( 'Language Menus', 'ct-custom' ),
             'priority' => 2,
         ) );
@@ -611,11 +611,11 @@ class ThemeCustomizer {
             $lang_count++;
 
             $iso2       = sanitize_key( $lang['iso2'] );
-            $section_id = 'ct_lang_menu_' . $iso2;
+            $section_id = 'bs_lang_menu_' . $iso2;
 
             $wp_customize->add_section( $section_id, array(
                 'title' => $lang['native_name'],
-                'panel' => 'ct_language_menus_panel',
+                'panel' => 'bs_language_menus_panel',
             ) );
 
             $base_count = 0;
@@ -645,7 +645,7 @@ class ThemeCustomizer {
     }
 
     private function register_pages_panel( $wp_customize ) {
-        $wp_customize->add_panel( 'ct_pages_panel', array(
+        $wp_customize->add_panel( 'bs_pages_panel', array(
             'title'    => __( 'Pages', 'ct-custom' ),
             'priority' => 3,
         ) );
@@ -655,35 +655,35 @@ class ThemeCustomizer {
     }
 
     private function register_page_homepage_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_page_homepage_section', array(
+        $wp_customize->add_section( 'bs_page_homepage_section', array(
             'title'    => __( 'Homepage', 'ct-custom' ),
-            'panel'    => 'ct_pages_panel',
+            'panel'    => 'bs_pages_panel',
             'priority' => 10,
         ) );
 
         /* Hero Title */
-        $wp_customize->add_setting( 'ct_hero_title', array(
+        $wp_customize->add_setting( 'bs_hero_title', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_hero_title', array(
+            new TranslationControl( $wp_customize, 'bs_hero_title', array(
                 'label'   => __( 'Hero Title', 'ct-custom' ),
-                'section' => 'ct_page_homepage_section',
+                'section' => 'bs_page_homepage_section',
             ) )
         );
 
         /* Hero Description */
-        $wp_customize->add_setting( 'ct_hero_description', array(
+        $wp_customize->add_setting( 'bs_hero_description', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_textarea_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_hero_description', array(
+            new TranslationControl( $wp_customize, 'bs_hero_description', array(
                 'label'      => __( 'Hero Description', 'ct-custom' ),
-                'section'    => 'ct_page_homepage_section',
+                'section'    => 'bs_page_homepage_section',
                 'input_type' => 'textarea',
             ) )
         );
@@ -691,138 +691,138 @@ class ThemeCustomizer {
         /* 4 Images with Alt and Title */
         $max_images = 4;
         for ( $i = 1; $i <= $max_images; $i++ ) {
-            $wp_customize->add_setting( 'ct_hero_image_' . $i, array(
+            $wp_customize->add_setting( 'bs_hero_image_' . $i, array(
                 'default'           => 0,
                 'sanitize_callback' => 'absint',
                 'transport'         => 'postMessage',
             ) );
-            $wp_customize->add_control( new \WP_Customize_Media_Control( $wp_customize, 'ct_hero_image_' . $i, array(
+            $wp_customize->add_control( new \WP_Customize_Media_Control( $wp_customize, 'bs_hero_image_' . $i, array(
                 'label'     => sprintf( __( 'Image %d', 'ct-custom' ), $i ),
-                'section'   => 'ct_page_homepage_section',
+                'section'   => 'bs_page_homepage_section',
                 'mime_type' => 'image',
             ) ) );
 
-            $wp_customize->add_setting( 'ct_hero_image_' . $i . '_alt', array(
+            $wp_customize->add_setting( 'bs_hero_image_' . $i . '_alt', array(
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
                 'transport'         => 'postMessage',
             ) );
             $wp_customize->add_control(
-                new TranslationControl( $wp_customize, 'ct_hero_image_' . $i . '_alt', array(
+                new TranslationControl( $wp_customize, 'bs_hero_image_' . $i . '_alt', array(
                     'label'   => sprintf( __( 'Image %d Alt Text', 'ct-custom' ), $i ),
-                    'section' => 'ct_page_homepage_section',
+                    'section' => 'bs_page_homepage_section',
                 ) )
             );
 
-            $wp_customize->add_setting( 'ct_hero_image_' . $i . '_title', array(
+            $wp_customize->add_setting( 'bs_hero_image_' . $i . '_title', array(
                 'default'           => '',
                 'sanitize_callback' => 'sanitize_text_field',
                 'transport'         => 'postMessage',
             ) );
             $wp_customize->add_control(
-                new TranslationControl( $wp_customize, 'ct_hero_image_' . $i . '_title', array(
+                new TranslationControl( $wp_customize, 'bs_hero_image_' . $i . '_title', array(
                     'label'   => sprintf( __( 'Image %d Title', 'ct-custom' ), $i ),
-                    'section' => 'ct_page_homepage_section',
+                    'section' => 'bs_page_homepage_section',
                 ) )
             );
 
-            $wp_customize->add_setting( 'ct_hero_image_' . $i . '_url', array(
+            $wp_customize->add_setting( 'bs_hero_image_' . $i . '_url', array(
                 'default'           => '',
                 'sanitize_callback' => 'esc_url_raw',
                 'transport'         => 'postMessage',
             ) );
-            $wp_customize->add_control( 'ct_hero_image_' . $i . '_url', array(
+            $wp_customize->add_control( 'bs_hero_image_' . $i . '_url', array(
                 'label'   => sprintf( __( 'Image %d URL', 'ct-custom' ), $i ),
-                'section' => 'ct_page_homepage_section',
+                'section' => 'bs_page_homepage_section',
                 'type'    => 'url',
             ) );
         }
 
         /* Section 2 Title */
-        $wp_customize->add_setting( 'ct_section2_title', array(
+        $wp_customize->add_setting( 'bs_section2_title', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_section2_title', array(
+            new TranslationControl( $wp_customize, 'bs_section2_title', array(
                 'label'   => __( 'Second Title', 'ct-custom' ),
-                'section' => 'ct_page_homepage_section',
+                'section' => 'bs_page_homepage_section',
             ) )
         );
 
         /* Section 2 Description */
-        $wp_customize->add_setting( 'ct_section2_description', array(
+        $wp_customize->add_setting( 'bs_section2_description', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_textarea_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_section2_description', array(
+            new TranslationControl( $wp_customize, 'bs_section2_description', array(
                 'label'      => __( 'Second Description', 'ct-custom' ),
-                'section'    => 'ct_page_homepage_section',
+                'section'    => 'bs_page_homepage_section',
                 'input_type' => 'textarea',
             ) )
         );
     }
 
     private function register_page_contact_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_page_contact_section', array(
+        $wp_customize->add_section( 'bs_page_contact_section', array(
             'title'    => __( 'Contact', 'ct-custom' ),
-            'panel'    => 'ct_pages_panel',
+            'panel'    => 'bs_pages_panel',
             'priority' => 20,
         ) );
 
         /* Contact Heading */
-        $wp_customize->add_setting( 'ct_contact_heading', array(
+        $wp_customize->add_setting( 'bs_contact_heading', array(
             'default'           => 'Contact',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_contact_heading', array(
+            new TranslationControl( $wp_customize, 'bs_contact_heading', array(
                 'label'   => __( 'Heading', 'ct-custom' ),
-                'section' => 'ct_page_contact_section',
+                'section' => 'bs_page_contact_section',
             ) )
         );
 
         /* Contact Content */
-        $wp_customize->add_setting( 'ct_contact_content', array(
+        $wp_customize->add_setting( 'bs_contact_content', array(
             'default'           => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere ipsum nec velit mattis elementum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas eu placerat metus, eget placerat libero.',
             'sanitize_callback' => 'sanitize_textarea_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_contact_content', array(
+            new TranslationControl( $wp_customize, 'bs_contact_content', array(
                 'label'      => __( 'Content', 'ct-custom' ),
-                'section'    => 'ct_page_contact_section',
+                'section'    => 'bs_page_contact_section',
                 'input_type' => 'textarea',
             ) )
         );
 
         /* Reach Us Title */
-        $wp_customize->add_setting( 'ct_reach_us_title', array(
+        $wp_customize->add_setting( 'bs_reach_us_title', array(
             'default'           => 'REACH US',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_reach_us_title', array(
+            new TranslationControl( $wp_customize, 'bs_reach_us_title', array(
                 'label'   => __( 'Reach Us Title', 'ct-custom' ),
-                'section' => 'ct_page_contact_section',
+                'section' => 'bs_page_contact_section',
             ) )
         );
 
         /* Contact Us Title */
-        $wp_customize->add_setting( 'ct_contact_us_title', array(
+        $wp_customize->add_setting( 'bs_contact_us_title', array(
             'default'           => 'CONTACT US',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_contact_us_title', array(
+            new TranslationControl( $wp_customize, 'bs_contact_us_title', array(
                 'label'   => __( 'Contact Us Title', 'ct-custom' ),
-                'section' => 'ct_page_contact_section',
+                'section' => 'bs_page_contact_section',
             ) )
         );
     }
@@ -831,17 +831,17 @@ class ThemeCustomizer {
      * Typography: one panel with nested sections for H1-H5, Paragraphs, Special.
      */
     private function register_typography_sections( $wp_customize ) {
-        $wp_customize->add_panel( 'ct_typography_panel', array(
+        $wp_customize->add_panel( 'bs_typography_panel', array(
             'title'    => __( 'Typography', 'ct-custom' ),
             'priority' => 2,
         ) );
 
         $this->register_web_fonts_section( $wp_customize );
-        $this->register_heading_level_section( $wp_customize, 'ct_h1', 'H1', 36, '#FF6B35', '#FF8C5A', true, false, 'uppercase', 10 );
-        $this->register_heading_level_section( $wp_customize, 'ct_h2', 'H2', 30, '#FF6B35', '#FF8C5A', true, false, 'uppercase', 20 );
-        $this->register_heading_level_section( $wp_customize, 'ct_h3', 'H3', 24, '#FF6B35', '#FF8C5A', true, false, 'none', 30 );
-        $this->register_heading_level_section( $wp_customize, 'ct_h4', 'H4', 20, '#333333', '#D0D0D0', true, false, 'none', 40 );
-        $this->register_heading_level_section( $wp_customize, 'ct_h5', 'H5', 18, '#333333', '#D0D0D0', true, false, 'none', 50 );
+        $this->register_heading_level_section( $wp_customize, 'bs_h1', 'H1', 36, '#FF6B35', '#FF8C5A', true, false, 'uppercase', 10 );
+        $this->register_heading_level_section( $wp_customize, 'bs_h2', 'H2', 30, '#FF6B35', '#FF8C5A', true, false, 'uppercase', 20 );
+        $this->register_heading_level_section( $wp_customize, 'bs_h3', 'H3', 24, '#FF6B35', '#FF8C5A', true, false, 'none', 30 );
+        $this->register_heading_level_section( $wp_customize, 'bs_h4', 'H4', 20, '#333333', '#D0D0D0', true, false, 'none', 40 );
+        $this->register_heading_level_section( $wp_customize, 'bs_h5', 'H5', 18, '#333333', '#D0D0D0', true, false, 'none', 50 );
         $this->register_paragraph_section( $wp_customize );
         $this->register_special_section( $wp_customize );
     }
@@ -850,56 +850,56 @@ class ThemeCustomizer {
      * Web Fonts section inside the Typography panel.
      */
     private function register_web_fonts_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_web_fonts_section', array(
+        $wp_customize->add_section( 'bs_web_fonts_section', array(
             'title'    => __( 'Web Fonts', 'ct-custom' ),
-            'panel'    => 'ct_typography_panel',
+            'panel'    => 'bs_typography_panel',
             'priority' => 1,
         ) );
 
         /* Enable Web Fonts */
-        $wp_customize->add_setting( 'ct_font_enabled', array(
+        $wp_customize->add_setting( 'bs_font_enabled', array(
             'default'           => false,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( new ToggleSwitchControl( $wp_customize, 'ct_font_enabled', array(
+        $wp_customize->add_control( new ToggleSwitchControl( $wp_customize, 'bs_font_enabled', array(
             'label'   => __( 'Enable Web Fonts', 'ct-custom' ),
-            'section' => 'ct_web_fonts_section',
+            'section' => 'bs_web_fonts_section',
         ) ) );
 
         /* Font Family */
-        $wp_customize->add_setting( 'ct_font_family', array(
+        $wp_customize->add_setting( 'bs_font_family', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( new FontFamilyControl( $wp_customize, 'ct_font_family', array(
+        $wp_customize->add_control( new FontFamilyControl( $wp_customize, 'bs_font_family', array(
             'label'       => __( 'Font Family', 'ct-custom' ),
             'description' => __( 'Select a Google Font.', 'ct-custom' ),
-            'section'     => 'ct_web_fonts_section',
+            'section'     => 'bs_web_fonts_section',
         ) ) );
 
         /* Font Weights */
-        $wp_customize->add_setting( 'ct_font_weights', array(
+        $wp_customize->add_setting( 'bs_font_weights', array(
             'default'           => '400',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( new FontWeightsControl( $wp_customize, 'ct_font_weights', array(
+        $wp_customize->add_control( new FontWeightsControl( $wp_customize, 'bs_font_weights', array(
             'label'       => __( 'Font Weights', 'ct-custom' ),
             'description' => __( 'Select which weights to download.', 'ct-custom' ),
-            'section'     => 'ct_web_fonts_section',
+            'section'     => 'bs_web_fonts_section',
         ) ) );
 
         /* Hidden setting to store generated @font-face CSS */
-        $wp_customize->add_setting( 'ct_font_face_css', array(
+        $wp_customize->add_setting( 'bs_font_face_css', array(
             'default'           => '',
             'sanitize_callback' => 'wp_kses_post',
             'transport'         => 'postMessage',
         ) );
 
         /* Hidden setting to track previous font family for cleanup */
-        $wp_customize->add_setting( 'ct_font_prev_family', array(
+        $wp_customize->add_setting( 'bs_font_prev_family', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field',
             'transport'         => 'postMessage',
@@ -914,7 +914,7 @@ class ThemeCustomizer {
 
         $wp_customize->add_section( $section_id, array(
             'title'    => sprintf( __( '%s Heading', 'ct-custom' ), $label ),
-            'panel'    => 'ct_typography_panel',
+            'panel'    => 'bs_typography_panel',
             'priority' => $priority,
         ) );
 
@@ -947,48 +947,48 @@ class ThemeCustomizer {
     }
 
     private function register_paragraph_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_paragraph_section', array(
+        $wp_customize->add_section( 'bs_paragraph_section', array(
             'title'    => __( 'Paragraphs', 'ct-custom' ),
-            'panel'    => 'ct_typography_panel',
+            'panel'    => 'bs_typography_panel',
             'priority' => 60,
         ) );
 
-        $this->add_range_control( $wp_customize, 'ct_paragraph_font_size', 'Font Size', 'ct_paragraph_section', 16, 12, 24 );
-        $this->add_color_control_pair( $wp_customize, 'ct_paragraph_color', 'Color', 'ct_paragraph_section', '#666666', '#B0B0B0' );
+        $this->add_range_control( $wp_customize, 'bs_paragraph_font_size', 'Font Size', 'bs_paragraph_section', 16, 12, 24 );
+        $this->add_color_control_pair( $wp_customize, 'bs_paragraph_color', 'Color', 'bs_paragraph_section', '#666666', '#B0B0B0' );
 
-        $wp_customize->add_setting( 'ct_paragraph_bold', array(
+        $wp_customize->add_setting( 'bs_paragraph_bold', array(
             'default'           => false,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_paragraph_bold', array(
+        $wp_customize->add_control( 'bs_paragraph_bold', array(
             'label'   => __( 'Bold', 'ct-custom' ),
-            'section' => 'ct_paragraph_section',
+            'section' => 'bs_paragraph_section',
             'type'    => 'checkbox',
         ) );
 
-        $wp_customize->add_setting( 'ct_paragraph_italic', array(
+        $wp_customize->add_setting( 'bs_paragraph_italic', array(
             'default'           => false,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_paragraph_italic', array(
+        $wp_customize->add_control( 'bs_paragraph_italic', array(
             'label'   => __( 'Italic', 'ct-custom' ),
-            'section' => 'ct_paragraph_section',
+            'section' => 'bs_paragraph_section',
             'type'    => 'checkbox',
         ) );
 
-        $this->add_transform_select( $wp_customize, 'ct_paragraph_transform', 'Text Transform', 'ct_paragraph_section', 'none' );
+        $this->add_transform_select( $wp_customize, 'bs_paragraph_transform', 'Text Transform', 'bs_paragraph_section', 'none' );
 
         /* Line height */
-        $wp_customize->add_setting( 'ct_paragraph_line_height', array(
+        $wp_customize->add_setting( 'bs_paragraph_line_height', array(
             'default'           => 1.6,
             'sanitize_callback' => array( $this, 'sanitize_float' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( new RangeControl( $wp_customize, 'ct_paragraph_line_height', array(
+        $wp_customize->add_control( new RangeControl( $wp_customize, 'bs_paragraph_line_height', array(
             'label'       => __( 'Line Height', 'ct-custom' ),
-            'section'     => 'ct_paragraph_section',
+            'section'     => 'bs_paragraph_section',
             'input_attrs' => array(
                 'min'  => 1.0,
                 'max'  => 3.0,
@@ -997,45 +997,45 @@ class ThemeCustomizer {
         ) ) );
 
         /* Margins */
-        $this->add_range_control( $wp_customize, 'ct_paragraph_margin_top', 'Margin Top', 'ct_paragraph_section', 0, 0, 60 );
-        $this->add_range_control( $wp_customize, 'ct_paragraph_margin_right', 'Margin Right', 'ct_paragraph_section', 0, 0, 60 );
-        $this->add_range_control( $wp_customize, 'ct_paragraph_margin_bottom', 'Margin Bottom', 'ct_paragraph_section', 16, 0, 60 );
-        $this->add_range_control( $wp_customize, 'ct_paragraph_margin_left', 'Margin Left', 'ct_paragraph_section', 0, 0, 60 );
+        $this->add_range_control( $wp_customize, 'bs_paragraph_margin_top', 'Margin Top', 'bs_paragraph_section', 0, 0, 60 );
+        $this->add_range_control( $wp_customize, 'bs_paragraph_margin_right', 'Margin Right', 'bs_paragraph_section', 0, 0, 60 );
+        $this->add_range_control( $wp_customize, 'bs_paragraph_margin_bottom', 'Margin Bottom', 'bs_paragraph_section', 16, 0, 60 );
+        $this->add_range_control( $wp_customize, 'bs_paragraph_margin_left', 'Margin Left', 'bs_paragraph_section', 0, 0, 60 );
     }
 
     private function register_special_section( $wp_customize ) {
-        $wp_customize->add_section( 'ct_special_section', array(
+        $wp_customize->add_section( 'bs_special_section', array(
             'title'    => __( 'Special Text', 'ct-custom' ),
-            'panel'    => 'ct_typography_panel',
+            'panel'    => 'bs_typography_panel',
             'priority' => 70,
         ) );
 
-        $this->add_range_control( $wp_customize, 'ct_special_font_size', 'Font Size', 'ct_special_section', 16, 12, 24 );
-        $this->add_color_control_pair( $wp_customize, 'ct_special_color', 'Color', 'ct_special_section', '#333333', '#D0D0D0' );
+        $this->add_range_control( $wp_customize, 'bs_special_font_size', 'Font Size', 'bs_special_section', 16, 12, 24 );
+        $this->add_color_control_pair( $wp_customize, 'bs_special_color', 'Color', 'bs_special_section', '#333333', '#D0D0D0' );
 
-        $wp_customize->add_setting( 'ct_special_bold', array(
+        $wp_customize->add_setting( 'bs_special_bold', array(
             'default'           => true,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_special_bold', array(
+        $wp_customize->add_control( 'bs_special_bold', array(
             'label'   => __( 'Bold', 'ct-custom' ),
-            'section' => 'ct_special_section',
+            'section' => 'bs_special_section',
             'type'    => 'checkbox',
         ) );
 
-        $wp_customize->add_setting( 'ct_special_italic', array(
+        $wp_customize->add_setting( 'bs_special_italic', array(
             'default'           => false,
             'sanitize_callback' => array( $this, 'sanitize_checkbox' ),
             'transport'         => 'postMessage',
         ) );
-        $wp_customize->add_control( 'ct_special_italic', array(
+        $wp_customize->add_control( 'bs_special_italic', array(
             'label'   => __( 'Italic', 'ct-custom' ),
-            'section' => 'ct_special_section',
+            'section' => 'bs_special_section',
             'type'    => 'checkbox',
         ) );
 
-        $this->add_transform_select( $wp_customize, 'ct_special_transform', 'Text Transform', 'ct_special_section', 'none' );
+        $this->add_transform_select( $wp_customize, 'bs_special_transform', 'Text Transform', 'bs_special_section', 'none' );
     }
 
     /* Helper: add range control */

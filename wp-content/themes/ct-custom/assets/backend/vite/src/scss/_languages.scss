@@ -30,9 +30,9 @@
 }
 
 /* Active tab label highlighting — radios are siblings of .ct-lang-tabs */
-#ct_lang_tab_manage:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="ct_lang_tab_manage"],
-#ct_lang_tab_translate:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="ct_lang_tab_translate"],
-#ct_lang_tab_pages:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="ct_lang_tab_pages"] {
+#bs_lang_tab_manage:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="bs_lang_tab_manage"],
+#bs_lang_tab_translate:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="bs_lang_tab_translate"],
+#bs_lang_tab_pages:checked ~ .ct-lang-tabs .ct-lang-tabs__label[for="bs_lang_tab_pages"] {
     color: $ct-primary;
     border-bottom-color: $ct-primary;
 }
@@ -42,15 +42,15 @@
     display: none;
 }
 
-#ct_lang_tab_manage:checked ~ .ct-lang-panel--manage {
+#bs_lang_tab_manage:checked ~ .ct-lang-panel--manage {
     display: block;
 }
 
-#ct_lang_tab_translate:checked ~ .ct-lang-panel--translate {
+#bs_lang_tab_translate:checked ~ .ct-lang-panel--translate {
     display: block;
 }
 
-#ct_lang_tab_pages:checked ~ .ct-lang-panel--pages {
+#bs_lang_tab_pages:checked ~ .ct-lang-panel--pages {
     display: block;
 }
 

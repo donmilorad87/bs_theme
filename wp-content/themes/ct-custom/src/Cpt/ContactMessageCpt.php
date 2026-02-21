@@ -4,7 +4,7 @@ namespace BSCustom\Cpt;
 
 class ContactMessageCpt {
 
-	const POST_TYPE      = 'ct_contact_message';
+	const POST_TYPE      = 'bs_contact_message';
 	const MAX_POINTERS   = 20;
 	const MAX_EMAILS_PER = 10;
 

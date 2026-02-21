@@ -78,13 +78,13 @@ class CustomizerSetup {
             $image_settings = array();
             $max_images     = 4;
             for ( $i = 1; $i <= $max_images; $i++ ) {
-                $image_settings[] = 'ct_hero_image_' . $i;
-                $image_settings[] = 'ct_hero_image_' . $i . '_alt';
-                $image_settings[] = 'ct_hero_image_' . $i . '_title';
-                $image_settings[] = 'ct_hero_image_' . $i . '_url';
+                $image_settings[] = 'bs_hero_image_' . $i;
+                $image_settings[] = 'bs_hero_image_' . $i . '_alt';
+                $image_settings[] = 'bs_hero_image_' . $i . '_title';
+                $image_settings[] = 'bs_hero_image_' . $i . '_url';
             }
 
-            $wp_customize->selective_refresh->add_partial( 'ct_homepage_image_grid', array(
+            $wp_customize->selective_refresh->add_partial( 'bs_homepage_image_grid', array(
                 'selector'            => '#ct-homepage-image-grid',
                 'settings'            => $image_settings,
                 'render_callback'     => array( static::class, 'partialImageGrid' ),
@@ -100,7 +100,7 @@ class CustomizerSetup {
             ) );
 
             /* Social icons on contact page "Reach Us" section */
-            $wp_customize->selective_refresh->add_partial( 'ct_contact_social_icons', array(
+            $wp_customize->selective_refresh->add_partial( 'bs_contact_social_icons', array(
                 'selector'            => '.ct-contact-social-icons',
                 'settings'            => array( 'bs_custom_social_networks' ),
                 'render_callback'     => array( static::class, 'partialContactSocialIcons' ),
@@ -116,13 +116,13 @@ class CustomizerSetup {
         }
 
         /* Site Description - added to Site Identity (title_tagline) section */
-        $wp_customize->add_setting( 'ct_site_description', array(
+        $wp_customize->add_setting( 'bs_site_description', array(
             'default'           => '',
             'sanitize_callback' => 'sanitize_textarea_field',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_site_description', array(
+            new TranslationControl( $wp_customize, 'bs_site_description', array(
                 'label'       => __( 'Site Description', 'ct-custom' ),
                 'description' => __( 'A longer description of your site, used in schema.org structured data.', 'ct-custom' ),
                 'section'     => 'title_tagline',
@@ -132,13 +132,13 @@ class CustomizerSetup {
         );
 
         /* Footer Copyright - added to Site Identity (title_tagline) section */
-        $wp_customize->add_setting( 'ct_footer_copyright', array(
+        $wp_customize->add_setting( 'bs_footer_copyright', array(
             'default'           => '© {year} Blazing Sun',
             'sanitize_callback' => 'wp_kses_post',
             'transport'         => 'postMessage',
         ) );
         $wp_customize->add_control(
-            new TranslationControl( $wp_customize, 'ct_footer_copyright', array(
+            new TranslationControl( $wp_customize, 'bs_footer_copyright', array(
                 'label'       => __( 'Footer Copyright', 'ct-custom' ),
                 'description' => __( 'Use {year} for the current year. HTML links are allowed.', 'ct-custom' ),
                 'section'     => 'title_tagline',

@@ -21,14 +21,14 @@ class PageAccessControlTest extends AuthTestCase {
         $this->pac = new PageAccessControl();
 
         /* Enable the throw-on-redirect flag so exit is never reached. */
-        $GLOBALS['ct_test_options']['_throw_on_redirect'] = true;
+        $GLOBALS['bs_test_options']['_throw_on_redirect'] = true;
 
         /* Default to singular page context. */
-        $GLOBALS['ct_test_options']['_is_singular'] = true;
+        $GLOBALS['bs_test_options']['_is_singular'] = true;
     }
 
     protected function tearDown(): void {
-        unset( $GLOBALS['ct_test_options']['_throw_on_redirect'] );
+        unset( $GLOBALS['bs_test_options']['_throw_on_redirect'] );
         parent::tearDown();
     }
 
@@ -55,7 +55,7 @@ class PageAccessControlTest extends AuthTestCase {
      * @param \WP_Post $post Post object.
      */
     private function setQueriedObject( \WP_Post $post ): void {
-        $GLOBALS['ct_test_options']['_queried_object'] = $post;
+        $GLOBALS['bs_test_options']['_queried_object'] = $post;
     }
 
     /**
@@ -64,7 +64,7 @@ class PageAccessControlTest extends AuthTestCase {
      * @return string|null
      */
     private function getLastRedirect(): ?string {
-        return $GLOBALS['ct_test_options']['_last_redirect'] ?? null;
+        return $GLOBALS['bs_test_options']['_last_redirect'] ?? null;
     }
 
     /**
@@ -166,7 +166,7 @@ class PageAccessControlTest extends AuthTestCase {
     }
 
     public function test_non_singular_skips(): void {
-        $GLOBALS['ct_test_options']['_is_singular'] = false;
+        $GLOBALS['bs_test_options']['_is_singular'] = false;
 
         $post = $this->makePageWithBlock( 'ct-custom/protected-page' );
         $this->setQueriedObject( $post );

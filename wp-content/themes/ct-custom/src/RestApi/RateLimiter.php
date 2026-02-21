@@ -143,4 +143,91 @@ trait RateLimiter {
             $secs
         );
     }
+
+    /**
+     * Get a per-user identifier for throttling.
+     *
+     * Logged-in users use their user ID. Guests use a session/cookie token.
+     *
+     * @return string
+     */
+    protected function get_rate_identifier(): string {
+        if ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() ) {
+            return 'user_' . get_current_user_id();
+        }
+
+        $session_id = '';
+        if ( function_exists( 'session_id' ) ) {
+            if ( session_status() !== PHP_SESSION_ACTIVE && ! headers_sent() ) {
+                @session_start();
+            }
+            $session_id = session_id();
+        }
+
+        $token = '';
+        if ( is_string( $session_id ) && '' !== $session_id ) {
+            $token = $session_id;
+        }
+
+        $cookie_name = 'bs_rest_throttle';
+        if ( '' === $token && isset( $_COOKIE[ $cookie_name ] ) && is_string( $_COOKIE[ $cookie_name ] ) ) {
+            $cookie_val = sanitize_text_field( wp_unslash( $_COOKIE[ $cookie_name ] ) );
+            if ( '' !== $cookie_val ) {
+                $token = $cookie_val;
+            }
+        }
+
+        if ( '' === $token ) {
+            $token = wp_generate_uuid4();
+            if ( ! headers_sent() ) {
+                $expires = time() + ( 30 * DAY_IN_SECONDS );
+                $path = defined( 'COOKIEPATH' ) ? COOKIEPATH : '/';
+                $domain = defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '';
+                $secure = function_exists( 'is_ssl' ) ? is_ssl() : false;
+                setcookie( $cookie_name, $token, $expires, $path, $domain, $secure, true );
+                $_COOKIE[ $cookie_name ] = $token;
+            }
+        }
+
+        $ua = '';
+        if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && is_string( $_SERVER['HTTP_USER_AGENT'] ) ) {
+            $ua = substr( md5( $_SERVER['HTTP_USER_AGENT'] ), 0, 8 );
+        }
+
+        return 'guest_' . $ua . '_' . $token;
+    }
+
+    /**
+     * Get global throttle limit (max submissions).
+     *
+     * @return int
+     */
+    protected function get_global_throttle_limit(): int {
+        $limit = get_option( 'bs_contact_throttle_limit', 5 );
+        $limit = absint( $limit );
+        if ( $limit < 1 ) {
+            $limit = 5;
+        }
+        if ( $limit > 200 ) {
+            $limit = 200;
+        }
+        return $limit;
+    }
+
+    /**
+     * Get global throttle window in seconds.
+     *
+     * @return int
+     */
+    protected function get_global_throttle_window(): int {
+        $minutes = get_option( 'bs_contact_throttle_window', 1 );
+        $minutes = absint( $minutes );
+        if ( $minutes < 1 ) {
+            $minutes = 1;
+        }
+        if ( $minutes > 1440 ) {
+            $minutes = 1440;
+        }
+        return $minutes * 60;
+    }
 }

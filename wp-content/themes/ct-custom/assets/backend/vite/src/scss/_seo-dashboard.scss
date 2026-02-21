@@ -1,0 +1,178 @@
+@use 'variables' as *;
+
+/* ═══ SEO Dashboard ═══ */
+
+.ct-seo-dashboard {
+
+    &__cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: $ct-admin-spacing;
+        margin-bottom: $ct-admin-spacing-lg;
+    }
+
+    &__card {
+        background: $ct-white;
+        border: 1px solid $ct-border;
+        border-radius: $ct-admin-radius;
+        padding: $ct-admin-spacing;
+        text-align: center;
+        transition: box-shadow $ct-admin-transition;
+
+        &:hover {
+            box-shadow: $ct-shadow-md;
+        }
+    }
+
+    &__card-value {
+        display: block;
+        font-size: 28px;
+        font-weight: 700;
+        color: $ct-primary;
+        line-height: 1.2;
+        margin-bottom: 4px;
+    }
+
+    &__card-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: $ct-gray;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    &__filters {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-bottom: $ct-admin-spacing;
+        flex-wrap: wrap;
+    }
+
+    &__loading,
+    &__empty {
+        color: $ct-gray;
+        font-size: 13px;
+        padding: $ct-admin-spacing;
+    }
+
+    /* Data table */
+    &__data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid $ct-border-light;
+        }
+
+        th {
+            font-weight: 600;
+            color: $ct-dark-soft;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: $ct-off-white;
+        }
+
+        tbody tr {
+            transition: background $ct-admin-transition;
+
+            &:hover {
+                background: $ct-light-gray;
+            }
+        }
+
+        a {
+            color: $ct-primary;
+            text-decoration: none;
+            font-weight: 500;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    /* Pagination */
+    &__pagination {
+        display: flex;
+        gap: 4px;
+        margin-top: $ct-admin-spacing;
+        flex-wrap: wrap;
+    }
+
+    &__page-btn {
+        display: inline-block;
+        min-width: 32px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        padding: 0 8px;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        background: $ct-white;
+        font-size: 13px;
+        font-weight: 600;
+        color: $ct-dark-soft;
+        cursor: pointer;
+        transition: all $ct-admin-transition;
+
+        &:hover {
+            background: $ct-light-gray;
+            border-color: $ct-primary;
+            color: $ct-primary;
+        }
+
+        &--active {
+            background: $ct-primary;
+            border-color: $ct-primary;
+            color: $ct-white;
+
+            &:hover {
+                background: $ct-primary-dark;
+                color: $ct-white;
+            }
+        }
+    }
+
+    /* Actions row */
+    &__actions {
+        display: flex;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing;
+        padding-top: $ct-admin-spacing;
+        border-top: 1px solid $ct-border-light;
+
+        .button {
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all $ct-admin-transition;
+            line-height: 1.5;
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+
+        .button-primary {
+            background: $ct-primary;
+            border-color: $ct-primary-dark;
+            color: $ct-white;
+            box-shadow: $ct-shadow-sm;
+
+            &:hover:not(:disabled) {
+                background: $ct-primary-dark;
+                box-shadow: $ct-shadow-primary;
+            }
+        }
+    }
+}

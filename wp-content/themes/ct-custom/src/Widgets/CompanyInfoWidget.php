@@ -11,7 +11,7 @@ class CompanyInfoWidget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'ct_company_info',
+            'bs_company_info',
             __( 'BS Custom: Company Info', 'ct-custom' ),
             array(
                 'description' => __( 'Displays company logo, PIB, MB, and description.', 'ct-custom' ),
@@ -57,8 +57,8 @@ class CompanyInfoWidget extends WP_Widget {
         if ( $logo_id > 0 ) {
             $logo_image = wp_get_attachment_image( $logo_id, 'medium', false, array( 'loading' => 'lazy' ) );
             if ( $logo_image ) {
-                $home_link = function_exists( 'ct_get_language_home_url' ) ? ct_get_language_home_url() : home_url( '/' );
-                echo '<div class="widget-company-info__logo">';
+                $home_link = function_exists( 'bs_get_language_home_url' ) ? bs_get_language_home_url() : home_url( '/' );
+                echo '<div class="widget-company-info__logo mb16">';
                 echo '<a href="' . esc_url( $home_link ) . '" rel="home">';
                 echo $logo_image;
                 echo '</a>';
@@ -67,20 +67,20 @@ class CompanyInfoWidget extends WP_Widget {
         }
 
         if ( $description ) {
-            echo '<p class="widget-company-info__description">' . esc_html( TranslationService::resolve_raw( $description ) ) . '</p>';
+            echo '<p class="widget-company-info__description mb16">' . esc_html( TranslationService::resolve_raw( $description ) ) . '</p>';
         }
 
         if ( $pib || $mb ) {
-            echo '<dl class="widget-company-info__details">';
+            echo '<dl class="widget-company-info__details m0 p0">';
 
             if ( $pib ) {
                 echo '<dt class="widget-company-info__label">' . esc_html__( 'PIB:', 'ct-custom' ) . '</dt>';
-                echo '<dd class="widget-company-info__value">' . esc_html( $pib ) . '</dd>';
+                echo '<dd class="widget-company-info__value m0 mb4">' . esc_html( $pib ) . '</dd>';
             }
 
             if ( $mb ) {
                 echo '<dt class="widget-company-info__label">' . esc_html__( 'MB:', 'ct-custom' ) . '</dt>';
-                echo '<dd class="widget-company-info__value">' . esc_html( $mb ) . '</dd>';
+                echo '<dd class="widget-company-info__value m0 mb4">' . esc_html( $mb ) . '</dd>';
             }
 
             echo '</dl>';

@@ -5,6 +5,9 @@
 @use 'loading';
 @use 'contact';
 @use 'languages';
+@use 'seo';
+@use 'seo-dashboard';
+@use 'seo-redirects';
 @use 'toast';
 
 .ct-admin-page {

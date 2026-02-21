@@ -23,7 +23,7 @@ get_header();
 
             <section class="hero-section">
                 <div class="ct-container">
-                    <h1 class="hero-section__title p-name"><?php echo esc_html( $hero_title ); ?></h1>
+                    <h1 class="hero-section__title p-name mb16"><?php echo esc_html( $hero_title ); ?></h1>
                     <p class="hero-section__description p-summary"><?php echo esc_html( $hero_description ); ?></p>
                 </div>
             </section>
@@ -39,7 +39,7 @@ get_header();
 
                 <section class="content-section">
                     <div class="ct-container">
-                        <h2 class="content-section__title"><?php echo esc_html( $section2_title ); ?></h2>
+                        <h2 class="content-section__title mb16"><?php echo esc_html( $section2_title ); ?></h2>
                         <p class="content-section__description"><?php echo esc_html( $section2_desc ); ?></p>
                     </div>
                 </section>

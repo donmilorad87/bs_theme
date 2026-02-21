@@ -10,6 +10,8 @@
 
 namespace BSCustom\Template;
 
+use BSCustom\Cpt\ContactFormCpt;
+
 class TemplateHooks {
 
 	use TemplateTags;
@@ -51,32 +53,31 @@ class TemplateHooks {
 		assert( function_exists( 'add_filter' ), 'add_filter must exist' );
 		assert( function_exists( 'add_action' ), 'add_action must exist' );
 
-		/* From CT_Template_Functions trait */
+		/* From BS_Template_Functions trait */
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
 		add_action( 'wp_head', array( $this, 'pingback_header' ) );
-		add_action( 'wp_head', array( $this, 'breadcrumb_schema' ), 5 );
-		add_action( 'wp_head', array( $this, 'contact_point_schema' ), 5 );
 
-		/* Invalidate Organization schema cache when relevant options change */
-		add_action( 'update_option_bs_custom_contact_point', array( $this, 'invalidate_schema_cache' ) );
-		add_action( 'update_option_bs_custom_social_networks', array( $this, 'invalidate_schema_cache' ) );
-		add_action( 'customize_save_after', array( $this, 'invalidate_schema_cache' ) );
+		/*
+		 * breadcrumb_schema and contact_point_schema are now handled by
+		 * SeoService::output_schema_graph() as a unified @graph output.
+		 * Cache invalidation also moved to SeoService.
+		 */
 
 		/* Auth form shortcodes */
-		add_shortcode( 'ct_login_form', array( $this, 'login_form_shortcode' ) );
-		add_shortcode( 'ct_register_form', array( $this, 'register_form_shortcode' ) );
+		add_shortcode( 'bs_login_form', array( $this, 'login_form_shortcode' ) );
+		add_shortcode( 'bs_register_form', array( $this, 'register_form_shortcode' ) );
 
 		/* Contact shortcodes */
-		add_shortcode( 'ct_contact_form', array( $this, 'contact_form_shortcode' ) );
-		add_shortcode( 'ct_social_icons', array( $this, 'social_icons_shortcode' ) );
+		add_shortcode( 'bs_contact_form', array( $this, 'contact_form_shortcode' ) );
+		add_shortcode( 'bs_social_icons', array( $this, 'social_icons_shortcode' ) );
 
 		/* Language shortcode and filter */
-		add_shortcode( 'ct_language_switcher', array( $this, 'language_switcher_shortcode' ) );
+		add_shortcode( 'bs_language_switcher', array( $this, 'language_switcher_shortcode' ) );
 		add_filter( 'language_attributes', array( $this, 'language_attributes_filter' ) );
 	}
 
 	/**
-	 * Login form shortcode: [ct_login_form]
+	 * Login form shortcode: [bs_login_form]
 	 *
 	 * @return string HTML markup for the login form.
 	 */
@@ -90,7 +91,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * Register form shortcode: [ct_register_form]
+	 * Register form shortcode: [bs_register_form]
 	 *
 	 * @return string HTML markup for the registration form.
 	 */
@@ -104,23 +105,47 @@ class TemplateHooks {
 	}
 
 	/**
-	 * Contact form shortcode: [ct_contact_form]
+	 * Contact form shortcode: [bs_contact_form id="123"]
 	 *
 	 * Renders the contact form template part with fresh nonces.
 	 *
+	 * @param array $atts Shortcode attributes.
 	 * @return string HTML markup for the contact form.
 	 */
-	public function contact_form_shortcode() {
+	public function contact_form_shortcode( $atts = array() ) {
 		assert( function_exists( 'get_template_part' ), 'get_template_part must exist' );
 		assert( function_exists( 'ob_start' ), 'ob_start must exist' );
 
+		$atts = shortcode_atts( array(
+			'id' => '',
+		), $atts, 'bs_contact_form' );
+
+		$form_id = isset( $atts['id'] ) ? absint( $atts['id'] ) : 0;
+		if ( $form_id <= 0 ) {
+			$form_id = ContactFormCpt::get_first_form_id();
+		}
+
+		if ( $form_id <= 0 ) {
+			return '';
+		}
+
+		$form = ContactFormCpt::get_form( $form_id );
+		if ( empty( $form ) ) {
+			return '';
+		}
+
+		$settings = isset( $form['settings'] ) ? $form['settings'] : array();
+		if ( ! empty( $settings['logged_in_only'] ) && ! is_user_logged_in() ) {
+			return '';
+		}
+
 		ob_start();
-		get_template_part( 'template-parts/contact-form' );
+		get_template_part( 'template-parts/contact-form', null, array( 'form' => $form ) );
 		return ob_get_clean();
 	}
 
 	/**
-	 * Social icons shortcode: [ct_social_icons]
+	 * Social icons shortcode: [bs_social_icons]
 	 *
 	 * Renders social icons from current Customizer data.
 	 *
@@ -139,7 +164,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * Language switcher shortcode: [ct_language_switcher]
+	 * Language switcher shortcode: [bs_language_switcher]
 	 *
 	 * @return string HTML markup for the language switcher.
 	 */
@@ -151,7 +176,7 @@ class TemplateHooks {
 		}
 
 		ob_start();
-		$ct_switcher_data = Language::instance()->get_language_switcher_data();
+		$bs_switcher_data = Language::instance()->get_language_switcher_data();
 		include get_template_directory() . '/template-parts/language-switcher.php';
 		return ob_get_clean();
 	}
@@ -165,7 +190,7 @@ class TemplateHooks {
 	public function language_attributes_filter( $output ) {
 		assert( is_string( $output ), 'output must be a string' );
 
-		$current = ct_get_current_language();
+		$current = bs_get_current_language();
 
 		assert( is_string( $current ), 'current language must be a string' );
 

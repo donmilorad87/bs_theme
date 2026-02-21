@@ -17,7 +17,7 @@ assert( function_exists( 'esc_attr__' ), 'esc_attr__ must exist' );
 
     <div class="ct-auth-form__fields">
         <div class="ct-auth-form__field">
-            <label for="ct-reg-user" class="ct-auth-form__label fs14"><?php esc_html_e( 'Username', 'ct-custom' ); ?></label>
+            <label for="ct-reg-user" class="ct-auth-form__label fs14"><?php esc_html_e( 'Username', 'ct-custom' ); ?><span class="ct-auth-form__required" aria-hidden="true">*</span></label>
             <input type="text" id="ct-reg-user" class="ct-auth-form__input fs14" name="username"
                    autocomplete="username" required
                    data-ct-validate-required="true"
@@ -29,28 +29,37 @@ assert( function_exists( 'esc_attr__' ), 'esc_attr__ must exist' );
             </div>
         </div>
         <div class="ct-auth-form__field">
-            <label for="ct-reg-email" class="ct-auth-form__label fs14"><?php esc_html_e( 'Email', 'ct-custom' ); ?></label>
+            <label for="ct-reg-email" class="ct-auth-form__label fs14"><?php esc_html_e( 'Email', 'ct-custom' ); ?><span class="ct-auth-form__required" aria-hidden="true">*</span></label>
             <input type="email" id="ct-reg-email" class="ct-auth-form__input fs14" name="email"
                    autocomplete="email" required
                    data-ct-validate-required="true"
                    data-ct-validate-email="true">
+            <div class="ct-auth-form__validation ct-auth-form__validation--hidden" aria-live="polite">
+                <div class="ct-auth-form__rule df aic" data-rule="email-format"><?php esc_html_e( 'Please enter a valid email address', 'ct-custom' ); ?></div>
+            </div>
         </div>
         <div class="ct-auth-form__name-row df">
             <div class="ct-auth-form__field">
-                <label for="ct-reg-first" class="ct-auth-form__label fs14"><?php esc_html_e( 'First Name', 'ct-custom' ); ?></label>
+                <label for="ct-reg-first" class="ct-auth-form__label fs14"><?php esc_html_e( 'First Name', 'ct-custom' ); ?><span class="ct-auth-form__required" aria-hidden="true">*</span></label>
                 <input type="text" id="ct-reg-first" class="ct-auth-form__input fs14" name="first_name"
                        autocomplete="given-name" required
                        data-ct-validate-required="true">
+                <div class="ct-auth-form__validation ct-auth-form__validation--hidden" aria-live="polite">
+                    <div class="ct-auth-form__rule df aic" data-rule="required"><?php esc_html_e( 'This field is required', 'ct-custom' ); ?></div>
+                </div>
             </div>
             <div class="ct-auth-form__field">
-                <label for="ct-reg-last" class="ct-auth-form__label fs14"><?php esc_html_e( 'Last Name', 'ct-custom' ); ?></label>
+                <label for="ct-reg-last" class="ct-auth-form__label fs14"><?php esc_html_e( 'Last Name', 'ct-custom' ); ?><span class="ct-auth-form__required" aria-hidden="true">*</span></label>
                 <input type="text" id="ct-reg-last" class="ct-auth-form__input fs14" name="last_name"
                        autocomplete="family-name" required
                        data-ct-validate-required="true">
+                <div class="ct-auth-form__validation ct-auth-form__validation--hidden" aria-live="polite">
+                    <div class="ct-auth-form__rule df aic" data-rule="required"><?php esc_html_e( 'This field is required', 'ct-custom' ); ?></div>
+                </div>
             </div>
         </div>
         <div class="ct-auth-form__field">
-            <label for="ct-reg-pass" class="ct-auth-form__label fs14"><?php esc_html_e( 'Password', 'ct-custom' ); ?></label>
+            <label for="ct-reg-pass" class="ct-auth-form__label fs14"><?php esc_html_e( 'Password', 'ct-custom' ); ?><span class="ct-auth-form__required" aria-hidden="true">*</span></label>
             <div class="ct-auth-form__password-wrap">
                 <input type="password" id="ct-reg-pass" class="ct-auth-form__input fs14" name="password"
                        autocomplete="new-password" required
@@ -70,7 +79,7 @@ assert( function_exists( 'esc_attr__' ), 'esc_attr__ must exist' );
             </div>
         </div>
         <div class="ct-auth-form__field">
-            <label for="ct-reg-pass-confirm" class="ct-auth-form__label fs14"><?php esc_html_e( 'Confirm Password', 'ct-custom' ); ?></label>
+            <label for="ct-reg-pass-confirm" class="ct-auth-form__label fs14"><?php esc_html_e( 'Confirm Password', 'ct-custom' ); ?><span class="ct-auth-form__required" aria-hidden="true">*</span></label>
             <div class="ct-auth-form__password-wrap">
                 <input type="password" id="ct-reg-pass-confirm" class="ct-auth-form__input fs14" name="password_confirm"
                        autocomplete="new-password" required
@@ -85,6 +94,25 @@ assert( function_exists( 'esc_attr__' ), 'esc_attr__ must exist' );
                 <div class="ct-auth-form__rule ct-auth-form__match-hint-pass df aic"><?php esc_html_e( 'Passwords match', 'ct-custom' ); ?></div>
                 <div class="ct-auth-form__rule ct-auth-form__match-hint-fail df aic"><?php esc_html_e( 'Passwords do not match', 'ct-custom' ); ?></div>
             </div>
+        </div>
+    </div>
+
+    <div class="ct-auth-form__agree">
+        <label class="ct-auth-form__agree-label df aic fs14">
+            <input type="checkbox" class="ct-auth-form__agree-checkbox"
+                   data-ct-validate-required="true"
+                   data-ct-validate-agree="true">
+            <span><?php
+                printf(
+                    /* translators: %s: opening and closing <a> tag for terms link */
+                    esc_html__( 'I agree to the %1$sTerms and Conditions%2$s', 'ct-custom' ),
+                    '<a href="' . esc_url( bs_get_page_url_by_slug( 'terms-and-conditions' ) ) . '" target="_blank" class="ct-auth-form__link">',
+                    '</a>'
+                );
+            ?></span>
+        </label>
+        <div class="ct-auth-form__validation ct-auth-form__validation--hidden" aria-live="polite">
+            <div class="ct-auth-form__rule df aic" data-rule="agree-required"><?php esc_html_e( 'You must agree to the Terms and Conditions', 'ct-custom' ); ?></div>
         </div>
     </div>
 

@@ -23,7 +23,7 @@ class TranslatorTest extends TestCase {
 
     public static function setUpBeforeClass(): void {
         self::$base_dir = dirname( __DIR__, 2 ) . '/translations';
-        self::$tmp_dir  = sys_get_temp_dir() . '/ct_translator_test_' . getmypid();
+        self::$tmp_dir  = sys_get_temp_dir() . '/bs_translator_test_' . getmypid();
 
         if ( ! is_dir( self::$tmp_dir ) ) {
             mkdir( self::$tmp_dir, 0755, true );
@@ -114,7 +114,7 @@ class TranslatorTest extends TestCase {
     public function test_parse_single_pattern(): void {
         $t = new Translator( 'en', null, self::$base_dir );
 
-        $result = $t->parse_ct_translate_patterns( "Hello ct_translate('SITE_NAME') world" );
+        $result = $t->parse_ct_translate_patterns( "Hello bs_translate('SITE_NAME') world" );
 
         $this->assertSame( 'Hello BS Custom world', $result );
     }
@@ -122,7 +122,7 @@ class TranslatorTest extends TestCase {
     public function test_parse_multiple_patterns(): void {
         $t = new Translator( 'en', null, self::$base_dir );
 
-        $result = $t->parse_ct_translate_patterns( "ct_translate('SITE_NAME') - ct_translate('LOGIN')" );
+        $result = $t->parse_ct_translate_patterns( "bs_translate('SITE_NAME') - bs_translate('LOGIN')" );
 
         $this->assertSame( 'BS Custom - Login', $result );
     }
@@ -139,7 +139,7 @@ class TranslatorTest extends TestCase {
     public function test_parse_pattern_with_php_arrow_args(): void {
         $t = new Translator( 'en', null, self::$base_dir );
 
-        $result = $t->parse_ct_translate_patterns( "ct_translate('ITEM_COUNT',['count'=>'3'],'other')" );
+        $result = $t->parse_ct_translate_patterns( "bs_translate('ITEM_COUNT',['count'=>'3'],'other')" );
 
         $this->assertSame( '3 items', $result );
     }
@@ -147,7 +147,7 @@ class TranslatorTest extends TestCase {
     public function test_parse_pattern_with_json_args(): void {
         $t = new Translator( 'en', null, self::$base_dir );
 
-        $result = $t->parse_ct_translate_patterns( "ct_translate('ITEM_COUNT',{\"count\":\"7\"},'other')" );
+        $result = $t->parse_ct_translate_patterns( "bs_translate('ITEM_COUNT',{\"count\":\"7\"},'other')" );
 
         $this->assertSame( '7 items', $result );
     }
@@ -155,7 +155,7 @@ class TranslatorTest extends TestCase {
     public function test_parse_pattern_with_named_form(): void {
         $t = new Translator( 'en', null, self::$base_dir );
 
-        $result = $t->parse_ct_translate_patterns( "ct_translate('ITEM_COUNT',['count'=>'1'],'one')" );
+        $result = $t->parse_ct_translate_patterns( "bs_translate('ITEM_COUNT',['count'=>'1'],'one')" );
 
         $this->assertSame( '1 item', $result );
     }
@@ -164,7 +164,7 @@ class TranslatorTest extends TestCase {
         $t = new Translator( 'en', null, self::$base_dir );
 
         /* English CLDR: 1 = 'one', 5 = 'other' */
-        $result = $t->parse_ct_translate_patterns( "ct_translate('ITEM_COUNT',['count'=>'5'],5)" );
+        $result = $t->parse_ct_translate_patterns( "bs_translate('ITEM_COUNT',['count'=>'5'],5)" );
 
         $this->assertSame( '5 items', $result );
     }
@@ -177,7 +177,7 @@ class TranslatorTest extends TestCase {
 
         $t = new Translator( 'en', null, self::$tmp_dir );
 
-        $result = $t->parse_ct_translate_patterns_raw( "ct_translate('HTML_VAL')" );
+        $result = $t->parse_ct_translate_patterns_raw( "bs_translate('HTML_VAL')" );
 
         $this->assertSame( '<strong>Bold</strong>', $result );
     }

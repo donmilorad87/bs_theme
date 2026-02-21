@@ -111,7 +111,7 @@ export default class AuthProfile {
      * @param {HTMLElement} container The profile container element.
      */
     loadUserMessages(container) {
-        const messagesEl = container.querySelector('#ct_profile_messages');
+        const messagesEl = container.querySelector('#bs_profile_messages');
         if (!messagesEl) { return; }
 
         this._api.getAuth('contact/user-messages')
@@ -138,7 +138,7 @@ export default class AuthProfile {
                     html += '<div class="ct-auth-form__message-card">';
                     html += '<div class="ct-auth-form__message-card-header">';
                     html += '<span class="ct-auth-form__message-card-date">' + this._escapeHtml(date) + '</span>';
-                    html += '<span class="ct-auth-form__message-card-pointer">' + this._escapeHtml(msg.pointer) + '</span>';
+                    html += '<span class="ct-auth-form__message-card-pointer">' + this._escapeHtml(msg.form_label || msg.pointer || '') + '</span>';
                     html += '</div>';
                     html += '<p class="ct-auth-form__message-card-body fs14">' + this._escapeHtml(msg.body) + '</p>';
 

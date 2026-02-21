@@ -33,7 +33,7 @@ class JwtAuthTest extends AuthTestCase {
         $result = JwtAuth::jwt_permission_check( $request );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'ct_jwt_missing', $result->get_error_code() );
+        $this->assertSame( 'bs_jwt_missing', $result->get_error_code() );
     }
 
     public function test_invalid_format_returns_error(): void {
@@ -44,7 +44,7 @@ class JwtAuthTest extends AuthTestCase {
         $result = JwtAuth::jwt_permission_check( $request );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'ct_jwt_invalid_format', $result->get_error_code() );
+        $this->assertSame( 'bs_jwt_invalid_format', $result->get_error_code() );
     }
 
     public function test_invalid_token_returns_error(): void {
@@ -55,7 +55,7 @@ class JwtAuthTest extends AuthTestCase {
         $result = JwtAuth::jwt_permission_check( $request );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'ct_jwt_invalid', $result->get_error_code() );
+        $this->assertSame( 'bs_jwt_invalid', $result->get_error_code() );
     }
 
     public function test_token_without_user_id_returns_error(): void {
@@ -70,7 +70,7 @@ class JwtAuthTest extends AuthTestCase {
         $result = JwtAuth::jwt_permission_check( $request );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'ct_jwt_no_user', $result->get_error_code() );
+        $this->assertSame( 'bs_jwt_no_user', $result->get_error_code() );
     }
 
     public function test_user_not_found_returns_error(): void {
@@ -84,7 +84,7 @@ class JwtAuthTest extends AuthTestCase {
         $result = JwtAuth::jwt_permission_check( $request );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'ct_jwt_user_not_found', $result->get_error_code() );
+        $this->assertSame( 'bs_jwt_user_not_found', $result->get_error_code() );
     }
 
     /* ── jwt_or_cookie_permission_check ──────────────────────────── */
@@ -107,6 +107,6 @@ class JwtAuthTest extends AuthTestCase {
         $result = JwtAuth::jwt_or_cookie_permission_check( $request );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'ct_auth_required', $result->get_error_code() );
+        $this->assertSame( 'bs_auth_required', $result->get_error_code() );
     }
 }

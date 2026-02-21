@@ -57,30 +57,31 @@
 
 // --- Sidebar widget styling ---
 .sidebar-widget {
-	margin-bottom: $space-lg;
-
 	&:last-child {
 		margin-bottom: 0;
 	}
 }
 
 .sidebar-widget__title {
-	margin-bottom: $space-md;
-	font-size: 16px;
 }
 
 .sidebar-widget .menu {
 	list-style: none;
-	margin: 0;
-	padding: 0;
 }
 
 .sidebar-widget .menu li {
-	margin-bottom: $space-xs;
 }
 
 .sidebar-widget .menu li a {
 	text-decoration: none;
+}
+
+// No sidebars, content constrained to container width
+.ct-layout--constrained .ct-layout__content {
+	max-width: $container-width;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 $container-padding;
 }
 
 // --- Empty state ---

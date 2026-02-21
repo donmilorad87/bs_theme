@@ -15,7 +15,7 @@ trait RestLogger {
     /**
      * Log a message with auto-prefixed class name.
      *
-     * Output format: [CT_REST_ClassName] message
+     * Output format: [BS_REST_ClassName] message
      * Only logs when WP_DEBUG is enabled.
      *
      * @param string $message The message to log.
@@ -26,7 +26,7 @@ trait RestLogger {
 
         if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
             $class = ( new \ReflectionClass( $this ) )->getShortName();
-            error_log( '[CT_REST_' . $class . '] ' . $message );
+            error_log( '[BS_REST_' . $class . '] ' . $message );
         }
     }
 }

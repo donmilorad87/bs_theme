@@ -222,6 +222,167 @@
     color: $ct-dark;
 }
 
+/* ── Form builder ── */
+.ct-admin-form-builder {
+    display: flex;
+    gap: $ct-admin-spacing-lg;
+    align-items: flex-start;
+    margin-top: $ct-admin-spacing;
+}
+
+.ct-admin-form-builder__list {
+    width: 260px;
+    flex-shrink: 0;
+    display: block;
+}
+
+.ct-admin-form-list {
+    list-style: none;
+    margin: $ct-admin-spacing-sm 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $ct-admin-spacing-sm;
+}
+
+.ct-admin-form-item {
+    border: 1px solid $ct-border-light;
+    border-radius: 8px;
+    padding: $ct-admin-spacing-sm;
+    background: $ct-white;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &.is-active {
+        border-color: $ct-primary;
+        box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.15);
+    }
+}
+
+.ct-admin-form-item__title {
+    font-weight: 600;
+    font-size: 13px;
+    color: $ct-dark;
+}
+
+.ct-admin-form-item__meta {
+    font-family: monospace;
+    font-size: 11px;
+    color: $ct-gray;
+}
+
+.ct-admin-form-builder__editor {
+    flex: 1;
+    min-width: 0;
+}
+
+.ct-admin-form-builder__editor.is-hidden {
+    display: none;
+}
+
+.ct-admin-field--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.ct-admin-form-builder__fields {
+    display: flex;
+    flex-direction: column;
+    gap: $ct-admin-spacing-sm;
+}
+
+.ct-form-field {
+    border: 1px solid $ct-border-light;
+    border-radius: 8px;
+    padding: $ct-admin-spacing-sm;
+    background: $ct-white;
+    display: flex;
+    flex-direction: column;
+    gap: $ct-admin-spacing-sm;
+}
+
+.ct-form-field__row {
+    display: flex;
+    gap: $ct-admin-spacing-sm;
+    flex-wrap: wrap;
+    align-items: center;
+
+    input[type='text'],
+    input[type='number'],
+    select,
+    textarea {
+        flex: 1 1 180px;
+    }
+}
+
+.ct-form-field__conditions {
+    border-top: 1px dashed $ct-border-light;
+    padding-top: $ct-admin-spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $ct-admin-spacing-sm;
+}
+
+.ct-field-condition {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $ct-admin-spacing-sm;
+    align-items: center;
+}
+
+.ct-form-field__actions {
+    display: flex;
+    gap: $ct-admin-spacing-sm;
+    justify-content: flex-end;
+}
+
+.ct-contact-card__attachments {
+    margin-bottom: $ct-admin-spacing-sm;
+    font-size: 12px;
+
+    .ct-contact-card__attachments-list {
+        list-style: none;
+        margin: 6px 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: $ct-admin-spacing-sm;
+    }
+
+    .ct-contact-card__attachment {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-width: 220px;
+    }
+
+    .ct-contact-card__attachment-img {
+        width: 100%;
+        max-width: 220px;
+        max-height: 140px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid $ct-border-light;
+        background: $ct-off-white;
+    }
+
+    .ct-contact-card__attachment-name {
+        font-size: 12px;
+        color: $ct-gray;
+        word-break: break-word;
+    }
+
+    .ct-contact-card__attachment-link {
+        color: $ct-primary;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
 .ct-pointer-form__error {
     display: none;
     font-size: 12px;

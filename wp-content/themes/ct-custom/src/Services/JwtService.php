@@ -36,6 +36,10 @@ class JwtService {
             $config['secret'] = '';
         }
 
+        if ( ! isset( $config['enabled'] ) ) {
+            $config['enabled'] = true;
+        }
+
         if ( ! isset( $config['expiration_hours'] ) ) {
             $config['expiration_hours'] = 24;
         }
@@ -142,11 +146,17 @@ class JwtService {
      * @return string|false Secret key or false if not configured.
      */
     private function get_secret() {
-        $secret = $this->get_config()['secret'];
+        $config = $this->get_config();
+
+        if ( empty( $config['enabled'] ) ) {
+            return false;
+        }
+
+        $secret = $config['secret'];
 
         if ( empty( $secret ) || strlen( $secret ) < self::MIN_SECRET_LEN ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( '[CT_JWT_Service] JWT secret is not configured or too short.' );
+                error_log( '[BS_JWT_Service] JWT secret is not configured or too short.' );
             }
             return false;
         }

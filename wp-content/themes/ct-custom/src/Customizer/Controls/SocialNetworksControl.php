@@ -6,7 +6,7 @@
  * Panel-side JS builds the add/edit/remove UI.
  *
  * Migrated from inc/customizer/customizer_controls.php.
- * Old class: CT_Social_Networks_Control -> New: SocialNetworksControl
+ * Old class: BS_Social_Networks_Control -> New: SocialNetworksControl
  *
  * @package BS_Custom
  */
@@ -15,7 +15,7 @@ namespace BSCustom\Customizer\Controls;
 
 class SocialNetworksControl extends \WP_Customize_Control {
 
-    public $type = 'ct_social_networks';
+    public $type = 'bs_social_networks';
 
     public function enqueue() {
         /* Handled by centralized bs_custom_customize_controls_js() */

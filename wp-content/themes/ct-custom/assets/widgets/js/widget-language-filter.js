@@ -4,15 +4,13 @@
  * Adds WPML-style language tabs to the Widgets admin screen.
  * Supports both classic widget editor and block widget editor.
  * Reads language data from the global `ctWidgetLangFilter` object
- * injected by CT_Widget_Language_Filter::enqueue_assets().
+ * injected by BS_Widget_Language_Filter::enqueue_assets().
  *
  * All sidebars are per-language (ending in -{iso2}). There are no
  * non-language "default" sidebars. Tabs: language tabs + "Show All".
  */
 
-const STORAGE_KEY = 'ct_widget_lang_filter';
 const HIDDEN_CLASS = 'ct-widget-lang-filter-hidden';
-const ACTIVE_CLASS = 'ct-widget-lang-tab--active';
 
 /**
  * Classic Widget Editor — operates on #widgets-right DOM.
@@ -39,11 +37,10 @@ class ClassicWidgetFilter {
 	 */
 	constructor(config) {
 		this.config = config;
+		this.activeKey = this.config.defaultIso2;
 		this.mapSidebars();
 		this.buildTabBar();
-
-		const stored = loadStoredLang();
-		this.applyFilter(stored || this.config.defaultIso2);
+		this.applyFilter(this.activeKey);
 	}
 
 	/**
@@ -95,15 +92,15 @@ class ClassicWidgetFilter {
 	}
 
 	/**
-	 * Build the tab bar and insert it before #widgets-right.
+	 * Build the select bar and insert it before #widgets-right.
 	 */
 	buildTabBar() {
 		const widgetsRight = document.getElementById('widgets-right');
 		if (!widgetsRight) { return; }
 
-		const bar = buildTabBarElement(this.config, (key) => {
+		const bar = buildSelectBarElement(this.config, this.activeKey, (key) => {
 			this.applyFilter(key);
-			storeLang(key);
+			/* persist not needed — always default to defaultIso2 */
 		});
 
 		widgetsRight.parentNode.insertBefore(bar, widgetsRight);
@@ -135,7 +132,7 @@ class ClassicWidgetFilter {
 			}
 		}
 
-		updateTabStates(key);
+		updateSelectStates(key);
 		this.updateSidebarTitles(key);
 	}
 
@@ -246,8 +243,7 @@ class BlockWidgetFilter {
 			this.langNameMap.set(lang.name.toLowerCase(), lang.iso2);
 		}
 
-		const stored = loadStoredLang();
-		this.activeKey = stored || this.config.defaultIso2;
+		this.activeKey = this.config.defaultIso2;
 
 		this.injectTabBar();
 		this.applyFilter(this.activeKey);
@@ -255,7 +251,7 @@ class BlockWidgetFilter {
 	}
 
 	/**
-	 * Insert the tab bar before the block editor main area.
+	 * Insert the select bar before the block editor main area.
 	 */
 	injectTabBar() {
 		const editor = document.querySelector('.edit-widgets-block-editor');
@@ -264,10 +260,10 @@ class BlockWidgetFilter {
 		const existing = document.querySelector('.ct-widget-lang-filter-bar');
 		if (existing) { return; }
 
-		const bar = buildTabBarElement(this.config, (key) => {
+		const bar = buildSelectBarElement(this.config, this.activeKey, (key) => {
 			this.activeKey = key;
 			this.applyFilter(key);
-			storeLang(key);
+			/* persist not needed — always default to defaultIso2 */
 		});
 
 		editor.parentNode.insertBefore(bar, editor);
@@ -369,26 +365,36 @@ class BlockWidgetFilter {
 			}
 		}
 
-		updateTabStates(key);
+		updateSelectStates(key);
 	}
 }
 
 // --- Shared Utilities ---
 
 /**
- * Build a tab bar DOM element.
+ * Build a language select box element.
  *
- * Tabs: one per language + "Show All". No "Default (Fallback)" tab.
+ * Options: one per language + "Show All". Fires onSelect
+ * immediately when the user picks a different language.
  *
  * @param {Object}   config
- * @param {Function} onSelect  Called with the selected key.
+ * @param {string}   activeKey  Currently selected key.
+ * @param {Function} onSelect   Called with the selected key.
  * @returns {HTMLElement}
  */
-function buildTabBarElement(config, onSelect) {
+function buildSelectBarElement(config, activeKey, onSelect) {
 	const bar = document.createElement('div');
 	bar.className = 'ct-widget-lang-filter-bar';
-	bar.setAttribute('role', 'tablist');
-	bar.setAttribute('aria-label', 'Filter sidebars by language');
+
+	const label = document.createElement('label');
+	label.className = 'ct-widget-lang-filter-bar__label';
+	label.textContent = 'Language:';
+	label.setAttribute('for', 'ct-widget-lang-select');
+	bar.appendChild(label);
+
+	const select = document.createElement('select');
+	select.id = 'ct-widget-lang-select';
+	select.className = 'ct-widget-lang-filter-bar__select';
 
 	const maxLangs = 50;
 	let count = 0;
@@ -397,83 +403,45 @@ function buildTabBarElement(config, onSelect) {
 		if (count >= maxLangs) { break; }
 		count++;
 
-		bar.appendChild(createTab(lang.iso2, lang.name, onSelect));
+		const opt = document.createElement('option');
+		opt.value = lang.iso2;
+		opt.textContent = lang.name;
+		if (lang.iso2 === activeKey) { opt.selected = true; }
+		select.appendChild(opt);
 	}
 
-	bar.appendChild(createTab('all', 'Show All', onSelect));
+	const allOpt = document.createElement('option');
+	allOpt.value = 'all';
+	allOpt.textContent = 'Show All';
+	if (activeKey === 'all') { allOpt.selected = true; }
+	select.appendChild(allOpt);
+
+	select.addEventListener('change', () => {
+		onSelect(select.value);
+	});
+
+	bar.appendChild(select);
 
 	return bar;
 }
 
 /**
- * Create a single tab button.
- *
- * @param {string}   key
- * @param {string}   label
- * @param {Function} onSelect
- * @returns {HTMLButtonElement}
- */
-function createTab(key, label, onSelect) {
-	const btn = document.createElement('button');
-	btn.type = 'button';
-	btn.className = 'ct-widget-lang-tab';
-	btn.dataset.langKey = key;
-	btn.setAttribute('role', 'tab');
-	btn.setAttribute('aria-selected', 'false');
-	btn.textContent = label;
-
-	btn.addEventListener('click', () => {
-		onSelect(key);
-	});
-
-	return btn;
-}
-
-/**
- * Update active tab visual state across all tab bars.
+ * Update select box value across all select bars on the page.
  *
  * @param {string} activeKey
  */
-function updateTabStates(activeKey) {
-	const tabs = document.querySelectorAll('.ct-widget-lang-tab');
-	const maxTabs = 100;
+function updateSelectStates(activeKey) {
+	const selects = document.querySelectorAll('.ct-widget-lang-filter-bar__select');
+	const maxSelects = 10;
 	let count = 0;
 
-	for (const tab of tabs) {
-		if (count >= maxTabs) { break; }
+	for (const sel of selects) {
+		if (count >= maxSelects) { break; }
 		count++;
-
-		const isActive = tab.dataset.langKey === activeKey;
-		tab.classList.toggle(ACTIVE_CLASS, isActive);
-		tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+		sel.value = activeKey;
 	}
 }
 
-/**
- * Load last selected language from localStorage.
- *
- * @returns {string|null}
- */
-function loadStoredLang() {
-	try {
-		return localStorage.getItem(STORAGE_KEY);
-	} catch {
-		return null;
-	}
-}
-
-/**
- * Persist selected language to localStorage.
- *
- * @param {string} key
- */
-function storeLang(key) {
-	try {
-		localStorage.setItem(STORAGE_KEY, key);
-	} catch {
-		/* localStorage unavailable — silently ignore */
-	}
-}
 
 // --- Initialization ---
 

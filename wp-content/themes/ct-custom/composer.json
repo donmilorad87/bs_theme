@@ -18,7 +18,8 @@
     "autoload-dev": {
         "psr-4": {
             "BSCustom\\Tests\\Multilang\\": "tests/multilang/",
-            "BSCustom\\Tests\\Auth\\": "tests/auth/"
+            "BSCustom\\Tests\\Auth\\": "tests/auth/",
+            "BSCustom\\Tests\\Seo\\": "tests/seo/"
         }
     },
     "config": {

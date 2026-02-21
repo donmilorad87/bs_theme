@@ -113,7 +113,7 @@ class ProfileUploadAvatarTest extends AuthTestCase {
         $this->loginAs( $user->ID );
 
         /* Simulate 5 prior uploads (MAX_UPLOADS = 5) */
-        $rate_key = 'ct_avatar_upload_' . md5( (string) $user->ID );
+        $rate_key = 'bs_avatar_upload_' . md5( (string) $user->ID );
         $this->setTransient( $rate_key, 5, 60 );
 
         $request = $this->makeRequest();
@@ -132,7 +132,7 @@ class ProfileUploadAvatarTest extends AuthTestCase {
 
         $this->endpoint->handle( $request );
 
-        $avatarId = \get_user_meta( $user->ID, 'ct_avatar_id', true );
+        $avatarId = \get_user_meta( $user->ID, 'bs_avatar_id', true );
         $this->assertNotEmpty( $avatarId );
         $this->assertIsInt( $avatarId );
     }

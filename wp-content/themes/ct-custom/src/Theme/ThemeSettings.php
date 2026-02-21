@@ -3,68 +3,610 @@
 namespace BSCustom\Theme;
 
 use BSCustom\Cpt\ContactMessageCpt;
+use BSCustom\Cpt\ContactFormCpt;
 use BSCustom\Multilang\LanguagePageManager;
 use BSCustom\Multilang\Translator;
 
 class ThemeSettings {
 
-    public function admin_save_contact_pointers() {
-        $this->verify_ajax_request( 'admin_save_contact_pointers_nonce' );
+    public function admin_save_general_settings() {
+        $this->verify_ajax_request( 'admin_save_general_settings_nonce' );
 
-        $input = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
-
-        assert( ! empty( $input ), 'Contact pointers input must not be empty' );
+        $input = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '{}';
+        if ( ! is_string( $input ) ) {
+            $input = '{}';
+        }
 
         $decoded = json_decode( $input, true );
         if ( ! is_array( $decoded ) ) {
-            wp_send_json_error( array( 'message' => __( 'Invalid contact pointers data.', 'ct-custom' ) ) );
+            $decoded = array();
         }
 
-        $sanitized   = array();
-        $max_entries = ContactMessageCpt::MAX_POINTERS;
-        $count       = 0;
+        $enabled = isset( $decoded['back_to_top_enabled'] ) ? (bool) $decoded['back_to_top_enabled'] : false;
+        $topbar_enabled = isset( $decoded['topbar_enabled'] ) ? (bool) $decoded['topbar_enabled'] : true;
+        $theme_toggle_enabled = isset( $decoded['theme_toggle_enabled'] ) ? (bool) $decoded['theme_toggle_enabled'] : true;
+        $theme_color_mode = isset( $decoded['theme_color_mode'] ) ? sanitize_text_field( $decoded['theme_color_mode'] ) : 'light';
+        $theme_color_mode = ( 'dark' === $theme_color_mode ) ? 'dark' : 'light';
+        $theme_toggle_position = isset( $decoded['theme_toggle_position'] ) ? sanitize_text_field( $decoded['theme_toggle_position'] ) : 'header';
+        $allowed_positions = array(
+            'top_header',
+            'header',
+            'footer',
+            'bottom_footer',
+            'floating_top_left',
+            'floating_top_right',
+            'floating_bottom_right',
+            'floating_bottom_left',
+        );
+        if ( ! in_array( $theme_toggle_position, $allowed_positions, true ) ) {
+            $theme_toggle_position = 'header';
+        }
+        $lang_switcher_position = get_theme_mod( 'bs_lang_switcher_position', 'top_header' );
+        if ( isset( $decoded['lang_switcher_position'] ) ) {
+            $lang_switcher_position = sanitize_text_field( $decoded['lang_switcher_position'] );
+            if ( ! in_array( $lang_switcher_position, $allowed_positions, true ) ) {
+                $lang_switcher_position = 'top_header';
+            }
+        }
+        $prev_user_management_enabled = get_theme_mod( 'bs_user_management_enabled', true );
+        $prev_user_management_enabled = ( ! empty( $prev_user_management_enabled ) && '0' !== $prev_user_management_enabled && 'off' !== $prev_user_management_enabled );
+        $user_management_enabled = isset( $decoded['user_management_enabled'] ) ? (bool) $decoded['user_management_enabled'] : $prev_user_management_enabled;
+        $prev_languages_enabled = get_theme_mod( 'bs_languages_enabled', true );
+        if ( is_string( $prev_languages_enabled ) ) {
+            $normalized = strtolower( $prev_languages_enabled );
+            $prev_languages_enabled = ! ( '0' === $prev_languages_enabled || 'off' === $normalized || 'false' === $normalized );
+        }
+        $languages_enabled = array_key_exists( 'languages_enabled', $decoded ) ? (bool) $decoded['languages_enabled'] : (bool) $prev_languages_enabled;
+        $prev_email_enabled = get_option( 'bs_email_enabled', 'on' );
+        if ( is_string( $prev_email_enabled ) ) {
+            $normalized = strtolower( $prev_email_enabled );
+            $prev_email_enabled = ! ( '0' === $prev_email_enabled || 'off' === $normalized || 'false' === $normalized );
+        }
+        $email_enabled = array_key_exists( 'email_enabled', $decoded ) ? (bool) $decoded['email_enabled'] : (bool) $prev_email_enabled;
+        $prev_contact_throttle_limit = absint( get_option( 'bs_contact_throttle_limit', 5 ) );
+        if ( $prev_contact_throttle_limit < 1 ) {
+            $prev_contact_throttle_limit = 5;
+        }
+        $contact_throttle_limit = array_key_exists( 'contact_throttle_limit', $decoded )
+            ? absint( $decoded['contact_throttle_limit'] )
+            : $prev_contact_throttle_limit;
+        if ( $contact_throttle_limit < 1 ) {
+            $contact_throttle_limit = 1;
+        } elseif ( $contact_throttle_limit > 200 ) {
+            $contact_throttle_limit = 200;
+        }
+        $prev_contact_throttle_window = absint( get_option( 'bs_contact_throttle_window', 1 ) );
+        if ( $prev_contact_throttle_window < 1 ) {
+            $prev_contact_throttle_window = 1;
+        }
+        $contact_throttle_window = array_key_exists( 'contact_throttle_window', $decoded )
+            ? absint( $decoded['contact_throttle_window'] )
+            : $prev_contact_throttle_window;
+        if ( $contact_throttle_window < 1 ) {
+            $contact_throttle_window = 1;
+        } elseif ( $contact_throttle_window > 1440 ) {
+            $contact_throttle_window = 1440;
+        }
+        $auth_links_position = isset( $decoded['auth_links_position'] ) ? sanitize_text_field( $decoded['auth_links_position'] ) : 'top_header';
+        if ( ! in_array( $auth_links_position, $allowed_positions, true ) ) {
+            $auth_links_position = 'top_header';
+        }
 
-        foreach ( $decoded as $entry ) {
-            if ( $count >= $max_entries ) {
-                break;
+        set_theme_mod( 'bs_back_to_top_enabled', $enabled );
+        set_theme_mod( 'bs_topbar_enabled', $topbar_enabled );
+        set_theme_mod( 'bs_theme_toggle_enabled', $theme_toggle_enabled );
+        set_theme_mod( 'bs_theme_color_mode', $theme_color_mode );
+        set_theme_mod( 'bs_theme_toggle_position', $theme_toggle_position );
+        set_theme_mod( 'bs_lang_switcher_position', $lang_switcher_position );
+        set_theme_mod( 'bs_user_management_enabled', $user_management_enabled );
+        set_theme_mod( 'bs_auth_links_position', $auth_links_position );
+        set_theme_mod( 'bs_languages_enabled', $languages_enabled );
+        update_option( 'bs_email_enabled', $email_enabled ? 'on' : 'off' );
+        update_option( 'bs_contact_throttle_limit', $contact_throttle_limit );
+        update_option( 'bs_contact_throttle_window', $contact_throttle_window );
+
+        $this->sync_jwt_auth_enabled( $user_management_enabled );
+
+        if ( $user_management_enabled ) {
+            $this->ensure_auth_pages();
+        } else {
+            $this->remove_auth_pages();
+        }
+
+        wp_send_json_success( array( 'message' => __( 'General settings saved.', 'ct-custom' ) ) );
+    }
+
+    private function ensure_auth_pages(): void {
+        $templates = array(
+            array(
+                'template' => 'login-register.php',
+                'title'    => 'Login Register',
+                'slug'     => 'login-register',
+            ),
+            array(
+                'template' => 'profile.php',
+                'title'    => 'Profile',
+                'slug'     => 'profile',
+            ),
+        );
+
+        $default_iso2 = 'en';
+        $languages    = array();
+
+        if ( function_exists( 'bs_get_language_manager' ) ) {
+            $mgr       = bs_get_language_manager();
+            $languages = $mgr->get_enabled();
+            $default   = $mgr->get_default();
+            if ( null !== $default && ! empty( $default['iso2'] ) ) {
+                $default_iso2 = $default['iso2'];
+            }
+        }
+
+        if ( empty( $languages ) ) {
+            $languages = array(
+                array(
+                    'iso2'       => $default_iso2,
+                    'is_default' => true,
+                ),
+            );
+        }
+
+        foreach ( $templates as $template_data ) {
+            $template = $template_data['template'];
+            $pages    = $this->get_auth_pages_by_template( $template, false );
+            $group    = $this->resolve_auth_translation_group( $pages );
+            $existing = array();
+
+            foreach ( $pages as $page ) {
+                $lang = get_post_meta( $page->ID, 'bs_language', true );
+
+                if ( '' === $lang && '' !== $default_iso2 ) {
+                    $lang = $default_iso2;
+                    update_post_meta( $page->ID, 'bs_language', $default_iso2 );
+                }
+
+                if ( '' !== $lang ) {
+                    $existing[ $lang ] = (int) $page->ID;
+                }
+
+                $current_group = get_post_meta( $page->ID, 'bs_translation_group', true );
+                if ( '' === $current_group && '' !== $group ) {
+                    update_post_meta( $page->ID, 'bs_translation_group', $group );
+                }
             }
 
-            $slug  = isset( $entry['slug'] ) ? sanitize_title( $entry['slug'] ) : '';
-            $label = isset( $entry['label'] ) ? sanitize_text_field( $entry['label'] ) : '';
+            foreach ( $languages as $lang_data ) {
+                if ( empty( $lang_data['iso2'] ) ) {
+                    continue;
+                }
 
-            if ( empty( $slug ) || empty( $label ) ) {
-                continue;
+                $iso2 = $lang_data['iso2'];
+
+                if ( isset( $existing[ $iso2 ] ) ) {
+                    continue;
+                }
+
+                $parent_id = 0;
+                if ( $iso2 !== $default_iso2 ) {
+                    $parent_id = $this->get_language_homepage_id( $iso2, $default_iso2 );
+                }
+
+                $new_id = wp_insert_post( array(
+                    'post_title'  => $template_data['title'],
+                    'post_name'   => sanitize_title( $template_data['slug'] ),
+                    'post_type'   => 'page',
+                    'post_status' => 'publish',
+                    'post_parent' => $parent_id,
+                    'meta_input'  => array(
+                        '_wp_page_template'    => $template,
+                        'bs_language'          => $iso2,
+                        'bs_translation_group' => $group,
+                    ),
+                ), true );
+
+                if ( is_wp_error( $new_id ) || $new_id <= 0 ) {
+                    continue;
+                }
             }
+        }
+    }
 
-            $emails     = array();
-            $raw_emails = isset( $entry['emails'] ) && is_array( $entry['emails'] ) ? $entry['emails'] : array();
-            $email_max  = ContactMessageCpt::MAX_EMAILS_PER;
-            $email_count = 0;
+    private function remove_auth_pages(): void {
+        $templates = array( 'login-register.php', 'profile.php' );
 
-            foreach ( $raw_emails as $email ) {
-                if ( $email_count >= $email_max ) {
+        foreach ( $templates as $template ) {
+            $pages = $this->get_auth_pages_by_template( $template, true );
+
+            foreach ( $pages as $page ) {
+                wp_delete_post( $page->ID, true );
+            }
+        }
+    }
+
+    private function sync_jwt_auth_enabled( bool $enabled ): void {
+        $raw    = get_option( 'bs_custom_jwt_auth', '{}' );
+        $config = json_decode( $raw, true );
+
+        if ( ! is_array( $config ) ) {
+            $config = array();
+        }
+
+        $config['enabled'] = $enabled;
+
+        if ( ! isset( $config['secret'] ) ) {
+            $config['secret'] = '';
+        }
+        if ( ! isset( $config['expiration_hours'] ) ) {
+            $config['expiration_hours'] = 24;
+        }
+
+        update_option( 'bs_custom_jwt_auth', wp_json_encode( $config ) );
+    }
+
+    private function languages_enabled(): bool {
+        $enabled = get_theme_mod( 'bs_languages_enabled', true );
+
+        if ( is_string( $enabled ) ) {
+            $normalized = strtolower( $enabled );
+            if ( '0' === $enabled || 'off' === $normalized || 'false' === $normalized ) {
+                return false;
+            }
+        }
+
+        return ! empty( $enabled );
+    }
+
+    private function ensure_languages_enabled(): void {
+        if ( ! $this->languages_enabled() ) {
+            wp_send_json_error(
+                array(
+                    'message' => __( 'Languages are disabled.', 'ct-custom' ),
+                    'type'    => 'error',
+                ),
+                403
+            );
+        }
+    }
+
+    private function get_auth_pages_by_template( string $template, bool $include_trashed ): array {
+        $statuses = array( 'publish', 'draft', 'private' );
+        if ( $include_trashed ) {
+            $statuses[] = 'trash';
+        }
+
+        $pages = get_posts( array(
+            'post_type'      => 'page',
+            'post_status'    => $statuses,
+            'posts_per_page' => 50,
+            'meta_key'       => '_wp_page_template',
+            'meta_value'     => $template,
+            'orderby'        => 'ID',
+            'order'          => 'ASC',
+        ) );
+
+        return is_array( $pages ) ? $pages : array();
+    }
+
+    private function resolve_auth_translation_group( array $pages ): string {
+        foreach ( $pages as $page ) {
+            $group = get_post_meta( $page->ID, 'bs_translation_group', true );
+            if ( is_string( $group ) && '' !== $group ) {
+                return $group;
+            }
+        }
+
+        return wp_generate_uuid4();
+    }
+
+    private function get_language_homepage_id( string $iso2, string $default_iso2 ): int {
+        if ( $iso2 === $default_iso2 ) {
+            return 0;
+        }
+
+        $front_page_id = (int) get_option( 'page_on_front' );
+        if ( $front_page_id <= 0 ) {
+            return 0;
+        }
+
+        if ( ! class_exists( LanguagePageManager::class ) ) {
+            return 0;
+        }
+
+        $page_mgr   = new LanguagePageManager();
+        $translated = $page_mgr->get_page_for_language( $front_page_id, $iso2 );
+
+        return ( null !== $translated ) ? (int) $translated : 0;
+    }
+
+    public function admin_get_contact_forms() {
+        $this->verify_ajax_request( 'admin_save_contact_form_nonce' );
+
+        $forms = ContactFormCpt::get_forms();
+
+        wp_send_json_success( array( 'forms' => $forms ) );
+    }
+
+    public function admin_get_contact_form() {
+        $this->verify_ajax_request( 'admin_save_contact_form_nonce' );
+
+        $form_id = isset( $_POST['form_id'] ) ? absint( $_POST['form_id'] ) : 0;
+
+        if ( $form_id <= 0 ) {
+            wp_send_json_error( array( 'message' => __( 'Invalid form ID.', 'ct-custom' ) ) );
+        }
+
+        $form = ContactFormCpt::get_form( $form_id );
+
+        if ( empty( $form ) ) {
+            wp_send_json_error( array( 'message' => __( 'Form not found.', 'ct-custom' ) ) );
+        }
+
+        wp_send_json_success( $form );
+    }
+
+    public function admin_save_contact_form() {
+        $this->verify_ajax_request( 'admin_save_contact_form_nonce' );
+
+        $input = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
+
+        assert( ! empty( $input ), 'Contact form input must not be empty' );
+
+        $decoded = json_decode( $input, true );
+        if ( ! is_array( $decoded ) ) {
+            wp_send_json_error( array( 'message' => __( 'Invalid contact form data.', 'ct-custom' ) ) );
+        }
+
+        $email_enabled = true;
+        if ( function_exists( 'bs_email_enabled' ) ) {
+            $email_enabled = bs_email_enabled();
+        }
+
+        $form_id = isset( $decoded['id'] ) ? absint( $decoded['id'] ) : 0;
+        $title   = isset( $decoded['title'] ) ? sanitize_text_field( $decoded['title'] ) : '';
+
+        if ( '' === $title ) {
+            $title = __( 'Untitled Form', 'ct-custom' );
+        }
+
+        $config = $this->sanitize_contact_form_payload( $decoded, $email_enabled );
+
+        if ( $form_id > 0 ) {
+            $post = get_post( $form_id );
+            if ( ! $post || ContactFormCpt::POST_TYPE !== $post->post_type ) {
+                wp_send_json_error( array( 'message' => __( 'Form not found.', 'ct-custom' ) ) );
+            }
+            $update = wp_update_post( array(
+                'ID'         => $form_id,
+                'post_title' => $title,
+            ), true );
+            if ( is_wp_error( $update ) ) {
+                wp_send_json_error( array( 'message' => __( 'Failed to update form.', 'ct-custom' ) ) );
+            }
+        } else {
+            $form_id = wp_insert_post( array(
+                'post_type'   => ContactFormCpt::POST_TYPE,
+                'post_status' => 'publish',
+                'post_title'  => $title,
+            ), true );
+            if ( is_wp_error( $form_id ) || ! $form_id ) {
+                wp_send_json_error( array( 'message' => __( 'Failed to create form.', 'ct-custom' ) ) );
+            }
+        }
+
+        update_post_meta( $form_id, '_bs_contact_form_config', wp_json_encode( $config ) );
+
+        $forms = ContactFormCpt::get_forms();
+        $form  = ContactFormCpt::get_form( $form_id );
+
+        wp_send_json_success( array(
+            'message' => __( 'Contact form saved.', 'ct-custom' ),
+            'forms'   => $forms,
+            'form'    => $form,
+        ) );
+    }
+
+    public function admin_delete_contact_form() {
+        $this->verify_ajax_request( 'admin_save_contact_form_nonce' );
+
+        $form_id = isset( $_POST['form_id'] ) ? absint( $_POST['form_id'] ) : 0;
+
+        if ( $form_id <= 0 ) {
+            wp_send_json_error( array( 'message' => __( 'Invalid form ID.', 'ct-custom' ) ) );
+        }
+
+        $post = get_post( $form_id );
+        if ( ! $post || ContactFormCpt::POST_TYPE !== $post->post_type ) {
+            wp_send_json_error( array( 'message' => __( 'Form not found.', 'ct-custom' ) ) );
+        }
+
+        wp_delete_post( $form_id, true );
+
+        $forms = ContactFormCpt::get_forms();
+
+        wp_send_json_success( array(
+            'message' => __( 'Contact form deleted.', 'ct-custom' ),
+            'forms'   => $forms,
+        ) );
+    }
+
+    private function sanitize_contact_form_payload( array $payload, bool $email_enabled ): array {
+        $settings_raw = isset( $payload['settings'] ) && is_array( $payload['settings'] ) ? $payload['settings'] : array();
+
+        $emails = array();
+        if ( $email_enabled && isset( $settings_raw['emails'] ) && is_array( $settings_raw['emails'] ) ) {
+            $max_emails = ContactFormCpt::MAX_EMAILS;
+            $count      = 0;
+            foreach ( $settings_raw['emails'] as $email ) {
+                if ( $count >= $max_emails ) {
                     break;
                 }
-                $email_count++;
-
+                $count++;
                 $clean = sanitize_email( $email );
                 if ( is_email( $clean ) ) {
                     $emails[] = $clean;
                 }
             }
+        }
 
-            $sanitized[] = array(
-                'slug'   => $slug,
-                'label'  => $label,
-                'emails' => $emails,
+        $file_uploads_raw = isset( $settings_raw['file_uploads'] ) && is_array( $settings_raw['file_uploads'] ) ? $settings_raw['file_uploads'] : array();
+        $s3_raw           = isset( $file_uploads_raw['s3'] ) && is_array( $file_uploads_raw['s3'] ) ? $file_uploads_raw['s3'] : array();
+
+        $settings = array(
+            'emails'          => $emails,
+            'logged_in_only'  => ! empty( $settings_raw['logged_in_only'] ),
+            'captcha_enabled' => ! empty( $settings_raw['captcha_enabled'] ),
+            'file_uploads'    => array(
+                'enabled' => ! empty( $file_uploads_raw['enabled'] ),
+                'storage' => ( isset( $file_uploads_raw['storage'] ) && 's3' === $file_uploads_raw['storage'] ) ? 's3' : 'wordpress',
+                's3'      => array(
+                    'bucket'     => isset( $s3_raw['bucket'] ) ? sanitize_text_field( $s3_raw['bucket'] ) : '',
+                    'access_key' => isset( $s3_raw['access_key'] ) ? sanitize_text_field( $s3_raw['access_key'] ) : '',
+                    'secret_key' => isset( $s3_raw['secret_key'] ) ? sanitize_text_field( $s3_raw['secret_key'] ) : '',
+                ),
+            ),
+        );
+
+        $fields_raw = isset( $payload['fields'] ) && is_array( $payload['fields'] ) ? $payload['fields'] : array();
+        $fields     = $this->sanitize_contact_form_fields( $fields_raw );
+
+        return array(
+            'settings' => $settings,
+            'fields'   => $fields,
+        );
+    }
+
+    private function sanitize_contact_form_fields( array $fields_raw ): array {
+        $allowed_types = array(
+            'text',
+            'email',
+            'tel',
+            'url',
+            'number',
+            'textarea',
+            'select',
+            'radio',
+            'checkbox',
+            'checkbox_group',
+            'range',
+            'date',
+            'file',
+            'hidden',
+        );
+
+        $allowed_ops = array(
+            'equals',
+            'not_equals',
+            'contains',
+            'greater',
+            'less',
+            'checked',
+            'not_checked',
+        );
+
+        $fields = array();
+        $count  = 0;
+
+        foreach ( $fields_raw as $field ) {
+            if ( $count >= ContactFormCpt::MAX_FIELDS ) {
+                break;
+            }
+
+            if ( ! is_array( $field ) ) {
+                continue;
+            }
+
+            $type = isset( $field['type'] ) && in_array( $field['type'], $allowed_types, true ) ? $field['type'] : 'text';
+            $name = isset( $field['name'] ) ? sanitize_key( $field['name'] ) : '';
+            $label = isset( $field['label'] ) ? sanitize_text_field( $field['label'] ) : '';
+
+            if ( '' === $name ) {
+                continue;
+            }
+
+            if ( '' === $label ) {
+                $label = $name;
+            }
+
+            $id = isset( $field['id'] ) ? sanitize_key( $field['id'] ) : $name;
+
+            $options = array();
+            if ( in_array( $type, array( 'select', 'radio', 'checkbox_group' ), true ) && isset( $field['options'] ) && is_array( $field['options'] ) ) {
+                $opt_count = 0;
+                foreach ( $field['options'] as $opt ) {
+                    if ( $opt_count >= 200 ) {
+                        break;
+                    }
+                    $opt_count++;
+                    if ( ! is_array( $opt ) ) {
+                        continue;
+                    }
+                    $opt_value = isset( $opt['value'] ) ? sanitize_text_field( $opt['value'] ) : '';
+                    $opt_label = isset( $opt['label'] ) ? sanitize_text_field( $opt['label'] ) : '';
+                    if ( '' === $opt_value && '' === $opt_label ) {
+                        continue;
+                    }
+                    if ( '' === $opt_value ) {
+                        $opt_value = $opt_label;
+                    }
+                    if ( '' === $opt_label ) {
+                        $opt_label = $opt_value;
+                    }
+                    $options[] = array(
+                        'value' => $opt_value,
+                        'label' => $opt_label,
+                    );
+                }
+            }
+
+            $conditions_raw = isset( $field['conditions'] ) && is_array( $field['conditions'] ) ? $field['conditions'] : array();
+            $rules_raw      = isset( $conditions_raw['rules'] ) && is_array( $conditions_raw['rules'] ) ? $conditions_raw['rules'] : array();
+            $rules          = array();
+            $rule_count     = 0;
+            foreach ( $rules_raw as $rule ) {
+                if ( $rule_count >= 50 ) {
+                    break;
+                }
+                $rule_count++;
+                if ( ! is_array( $rule ) ) {
+                    continue;
+                }
+                $rule_field = isset( $rule['field'] ) ? sanitize_key( $rule['field'] ) : '';
+                $operator   = isset( $rule['operator'] ) && in_array( $rule['operator'], $allowed_ops, true ) ? $rule['operator'] : 'equals';
+                $value      = isset( $rule['value'] ) ? sanitize_text_field( $rule['value'] ) : '';
+                if ( '' === $rule_field ) {
+                    continue;
+                }
+                $rules[] = array(
+                    'field'    => $rule_field,
+                    'operator' => $operator,
+                    'value'    => $value,
+                );
+            }
+
+            $fields[] = array(
+                'id'          => $id,
+                'type'        => $type,
+                'label'       => $label,
+                'name'        => $name,
+                'placeholder' => isset( $field['placeholder'] ) ? sanitize_text_field( $field['placeholder'] ) : '',
+                'required'    => ! empty( $field['required'] ),
+                'options'     => $options,
+                'conditions'  => array(
+                    'enabled'  => ! empty( $conditions_raw['enabled'] ),
+                    'relation' => ( isset( $conditions_raw['relation'] ) && 'any' === $conditions_raw['relation'] ) ? 'any' : 'all',
+                    'rules'    => $rules,
+                ),
+                'min'         => isset( $field['min'] ) ? sanitize_text_field( $field['min'] ) : '',
+                'max'         => isset( $field['max'] ) ? sanitize_text_field( $field['max'] ) : '',
+                'step'        => isset( $field['step'] ) ? sanitize_text_field( $field['step'] ) : '',
+                'default'     => isset( $field['default'] ) ? sanitize_text_field( $field['default'] ) : '',
+                'accept'      => isset( $field['accept'] ) ? sanitize_text_field( $field['accept'] ) : '',
             );
 
             $count++;
         }
 
-        update_option( 'bs_custom_contact_pointers', wp_json_encode( $sanitized ) );
-
-        wp_send_json_success( array( 'message' => __( 'Contact pointers saved.', 'ct-custom' ) ) );
+        return $fields;
     }
 
     public function admin_get_contact_messages_count() {
@@ -175,8 +717,11 @@ class ThemeSettings {
         $option_keys = array(
             'bs_custom_contact_point',
             'bs_custom_social_networks',
+            'bs_social_icons_enabled',
             'bs_custom_contact_pointers',
             'bs_custom_email_config',
+            'bs_email_enabled',
+            'bs_email_template_enabled',
             'bs_custom_jwt_auth',
             'blogname',
             'blogdescription',
@@ -216,8 +761,8 @@ class ThemeSettings {
         );
 
         /* Add language-specific footer sidebars */
-        if ( function_exists( 'ct_get_language_manager' ) ) {
-            $lang_mgr  = ct_get_language_manager();
+        if ( function_exists( 'bs_get_language_manager' ) ) {
+            $lang_mgr  = bs_get_language_manager();
             $languages = $lang_mgr->get_enabled();
             $max_l     = 50;
             $l_count   = 0;
@@ -263,7 +808,7 @@ class ThemeSettings {
                 continue;
             }
 
-            if ( 'ct_menu' === $type ) {
+            if ( 'bs_menu' === $type ) {
                 $data = $this->enrich_menu_widgets_with_slugs( $data );
             }
 
@@ -574,8 +1119,10 @@ class ThemeSettings {
         $allowed_options = array(
             'bs_custom_contact_point',
             'bs_custom_social_networks',
+            'bs_social_icons_enabled',
             'bs_custom_contact_pointers',
             'bs_custom_email_config',
+            'bs_email_template_enabled',
             'bs_custom_jwt_auth',
             'blogname',
             'blogdescription',
@@ -623,10 +1170,10 @@ class ThemeSettings {
         assert( is_array( $instances ), 'Instances must be an array' );
 
         $allowed_types = array(
-            'ct_company_info',
-            'ct_contact_point',
-            'ct_social_icons',
-            'ct_menu',
+            'bs_company_info',
+            'bs_contact_point',
+            'bs_social_icons',
+            'bs_menu',
             'block',
         );
 
@@ -667,8 +1214,8 @@ class ThemeSettings {
         );
 
         /* Add language-specific footer sidebars */
-        if ( function_exists( 'ct_get_language_manager' ) ) {
-            $lang_mgr  = ct_get_language_manager();
+        if ( function_exists( 'bs_get_language_manager' ) ) {
+            $lang_mgr  = bs_get_language_manager();
             $languages = $lang_mgr->get_enabled();
             $max_l     = 50;
             $l_count   = 0;
@@ -1093,6 +1640,16 @@ class ThemeSettings {
             wp_send_json_error( array( 'message' => __( 'Invalid email config JSON.', 'ct-custom' ) ) );
         }
 
+        if ( array_key_exists( 'template_enabled', $decoded ) ) {
+            $template_enabled = (bool) $decoded['template_enabled'];
+            update_option( 'bs_email_template_enabled', $template_enabled ? 'on' : 'off' );
+        }
+
+        if ( array_key_exists( 'email_enabled', $decoded ) ) {
+            $email_enabled = (bool) $decoded['email_enabled'];
+            update_option( 'bs_email_enabled', $email_enabled ? 'on' : 'off' );
+        }
+
         $allowed_encryptions = array( 'tls', 'ssl', 'none' );
         $encryption = isset( $decoded['encryption'] ) ? sanitize_text_field( $decoded['encryption'] ) : 'tls';
         if ( ! in_array( $encryption, $allowed_encryptions, true ) ) {
@@ -1139,6 +1696,15 @@ class ThemeSettings {
             wp_send_json_error( array( 'message' => __( 'JWT auth data is required.', 'ct-custom' ) ) );
         }
 
+        $user_management_enabled = get_theme_mod( 'bs_user_management_enabled', true );
+        if ( is_string( $user_management_enabled ) ) {
+            $normalized = strtolower( $user_management_enabled );
+            $user_management_enabled = ! ( '0' === $user_management_enabled || 'off' === $normalized || 'false' === $normalized );
+        }
+        if ( ! $user_management_enabled ) {
+            wp_send_json_error( array( 'message' => __( 'JWT auth is disabled because login/registration is turned off.', 'ct-custom' ) ) );
+        }
+
         $decoded = json_decode( $input, true );
         if ( ! is_array( $decoded ) ) {
             wp_send_json_error( array( 'message' => __( 'Invalid JWT auth JSON.', 'ct-custom' ) ) );
@@ -1147,13 +1713,27 @@ class ThemeSettings {
         $expiration_hours = isset( $decoded['expiration_hours'] ) ? (int) $decoded['expiration_hours'] : 24;
         $expiration_hours = max( 1, min( 8760, $expiration_hours ) );
 
+        $jwt_enabled = true;
+        if ( array_key_exists( 'enabled', $decoded ) ) {
+            $jwt_enabled = (bool) $decoded['enabled'];
+        }
+        $user_management_enabled = get_theme_mod( 'bs_user_management_enabled', true );
+        if ( is_string( $user_management_enabled ) ) {
+            $normalized = strtolower( $user_management_enabled );
+            $user_management_enabled = ! ( '0' === $user_management_enabled || 'off' === $normalized || 'false' === $normalized );
+        }
+        if ( ! $user_management_enabled ) {
+            $jwt_enabled = false;
+        }
+
         $sanitized = array(
+            'enabled'          => $jwt_enabled,
             'secret'           => isset( $decoded['secret'] ) ? sanitize_text_field( $decoded['secret'] ) : '',
             'expiration_hours' => $expiration_hours,
         );
 
         assert( is_array( $sanitized ), 'Sanitized JWT auth must be an array' );
-        assert( count( $sanitized ) === 2, 'JWT auth must have 2 fields' );
+        assert( count( $sanitized ) === 3, 'JWT auth must have 3 fields' );
 
         update_option( 'bs_custom_jwt_auth', wp_json_encode( $sanitized ) );
 
@@ -1164,7 +1744,7 @@ class ThemeSettings {
      * One-time migration: copy email/JWT theme_mods to options.
      */
     public function maybe_migrate_email_jwt_to_options() {
-        if ( get_option( 'ct_email_jwt_migrated' ) ) {
+        if ( get_option( 'bs_email_jwt_migrated' ) ) {
             return;
         }
 
@@ -1174,51 +1754,52 @@ class ThemeSettings {
 
         /* Build email config option from theme_mods */
         $email_config = array(
-            'host'       => get_theme_mod( 'ct_smtp_host', $email_config_defaults['ct_smtp_host'] ),
-            'port'       => (int) get_theme_mod( 'ct_smtp_port', $email_config_defaults['ct_smtp_port'] ),
-            'username'   => get_theme_mod( 'ct_smtp_username', $email_config_defaults['ct_smtp_username'] ),
-            'password'   => get_theme_mod( 'ct_smtp_password', $email_config_defaults['ct_smtp_password'] ),
-            'encryption' => get_theme_mod( 'ct_smtp_encryption', $email_config_defaults['ct_smtp_encryption'] ),
-            'from_email' => get_theme_mod( 'ct_smtp_from_email', $email_config_defaults['ct_smtp_from_email'] ),
-            'from_name'  => get_theme_mod( 'ct_smtp_from_name', $email_config_defaults['ct_smtp_from_name'] ),
+            'host'       => get_theme_mod( 'bs_smtp_host', $email_config_defaults['bs_smtp_host'] ),
+            'port'       => (int) get_theme_mod( 'bs_smtp_port', $email_config_defaults['bs_smtp_port'] ),
+            'username'   => get_theme_mod( 'bs_smtp_username', $email_config_defaults['bs_smtp_username'] ),
+            'password'   => get_theme_mod( 'bs_smtp_password', $email_config_defaults['bs_smtp_password'] ),
+            'encryption' => get_theme_mod( 'bs_smtp_encryption', $email_config_defaults['bs_smtp_encryption'] ),
+            'from_email' => get_theme_mod( 'bs_smtp_from_email', $email_config_defaults['bs_smtp_from_email'] ),
+            'from_name'  => get_theme_mod( 'bs_smtp_from_name', $email_config_defaults['bs_smtp_from_name'] ),
         );
 
         /* Build email template option from theme_mods */
         $email_template = array(
-            'title_font_size'   => (int) get_theme_mod( 'ct_email_title_font_size', $email_template_defaults['ct_email_title_font_size'] ),
-            'title_color'       => get_theme_mod( 'ct_email_title_color', $email_template_defaults['ct_email_title_color'] ),
-            'title_color_dark'  => get_theme_mod( 'ct_email_title_color_dark', $email_template_defaults['ct_email_title_color_dark'] ),
-            'title_bold'        => (bool) get_theme_mod( 'ct_email_title_bold', $email_template_defaults['ct_email_title_bold'] ),
-            'title_transform'   => get_theme_mod( 'ct_email_title_transform', $email_template_defaults['ct_email_title_transform'] ),
-            'text_font_size'    => (int) get_theme_mod( 'ct_email_text_font_size', $email_template_defaults['ct_email_text_font_size'] ),
-            'text_color'        => get_theme_mod( 'ct_email_text_color', $email_template_defaults['ct_email_text_color'] ),
-            'text_color_dark'   => get_theme_mod( 'ct_email_text_color_dark', $email_template_defaults['ct_email_text_color_dark'] ),
-            'text_line_height'  => (float) get_theme_mod( 'ct_email_text_line_height', $email_template_defaults['ct_email_text_line_height'] ),
-            'border_color'      => get_theme_mod( 'ct_email_border_color', $email_template_defaults['ct_email_border_color'] ),
-            'border_color_dark' => get_theme_mod( 'ct_email_border_color_dark', $email_template_defaults['ct_email_border_color_dark'] ),
-            'bg_color'          => get_theme_mod( 'ct_email_bg_color', $email_template_defaults['ct_email_bg_color'] ),
-            'bg_color_dark'     => get_theme_mod( 'ct_email_bg_color_dark', $email_template_defaults['ct_email_bg_color_dark'] ),
-            'accent_color'      => get_theme_mod( 'ct_email_accent_color', $email_template_defaults['ct_email_accent_color'] ),
-            'accent_color_dark' => get_theme_mod( 'ct_email_accent_color_dark', $email_template_defaults['ct_email_accent_color_dark'] ),
+            'title_font_size'   => (int) get_theme_mod( 'bs_email_title_font_size', $email_template_defaults['bs_email_title_font_size'] ),
+            'title_color'       => get_theme_mod( 'bs_email_title_color', $email_template_defaults['bs_email_title_color'] ),
+            'title_color_dark'  => get_theme_mod( 'bs_email_title_color_dark', $email_template_defaults['bs_email_title_color_dark'] ),
+            'title_bold'        => (bool) get_theme_mod( 'bs_email_title_bold', $email_template_defaults['bs_email_title_bold'] ),
+            'title_transform'   => get_theme_mod( 'bs_email_title_transform', $email_template_defaults['bs_email_title_transform'] ),
+            'text_font_size'    => (int) get_theme_mod( 'bs_email_text_font_size', $email_template_defaults['bs_email_text_font_size'] ),
+            'text_color'        => get_theme_mod( 'bs_email_text_color', $email_template_defaults['bs_email_text_color'] ),
+            'text_color_dark'   => get_theme_mod( 'bs_email_text_color_dark', $email_template_defaults['bs_email_text_color_dark'] ),
+            'text_line_height'  => (float) get_theme_mod( 'bs_email_text_line_height', $email_template_defaults['bs_email_text_line_height'] ),
+            'border_color'      => get_theme_mod( 'bs_email_border_color', $email_template_defaults['bs_email_border_color'] ),
+            'border_color_dark' => get_theme_mod( 'bs_email_border_color_dark', $email_template_defaults['bs_email_border_color_dark'] ),
+            'bg_color'          => get_theme_mod( 'bs_email_bg_color', $email_template_defaults['bs_email_bg_color'] ),
+            'bg_color_dark'     => get_theme_mod( 'bs_email_bg_color_dark', $email_template_defaults['bs_email_bg_color_dark'] ),
+            'accent_color'      => get_theme_mod( 'bs_email_accent_color', $email_template_defaults['bs_email_accent_color'] ),
+            'accent_color_dark' => get_theme_mod( 'bs_email_accent_color_dark', $email_template_defaults['bs_email_accent_color_dark'] ),
         );
 
         /* Build JWT auth option from theme_mods */
         $jwt_auth = array(
-            'secret'           => get_theme_mod( 'ct_jwt_secret', $jwt_auth_defaults['ct_jwt_secret'] ),
-            'expiration_hours' => (int) get_theme_mod( 'ct_jwt_expiration_hours', $jwt_auth_defaults['ct_jwt_expiration_hours'] ),
+            'enabled'          => true,
+            'secret'           => get_theme_mod( 'bs_jwt_secret', $jwt_auth_defaults['bs_jwt_secret'] ),
+            'expiration_hours' => (int) get_theme_mod( 'bs_jwt_expiration_hours', $jwt_auth_defaults['bs_jwt_expiration_hours'] ),
         );
 
         update_option( 'bs_custom_email_config', wp_json_encode( $email_config ) );
         update_option( 'bs_custom_email_template', wp_json_encode( $email_template ) );
         update_option( 'bs_custom_jwt_auth', wp_json_encode( $jwt_auth ) );
-        update_option( 'ct_email_jwt_migrated', '1' );
+        update_option( 'bs_email_jwt_migrated', '1' );
     }
 
     /**
      * One-time migration: copy email template option values to theme_mods.
      */
     public function maybe_migrate_email_template_to_theme_mods() {
-        if ( get_option( 'ct_email_template_to_mods_migrated' ) ) {
+        if ( get_option( 'bs_email_template_to_mods_migrated' ) ) {
             return;
         }
 
@@ -1227,21 +1808,21 @@ class ThemeSettings {
 
         if ( is_array( $config ) ) {
             $key_map = array(
-                'title_font_size'   => 'ct_email_title_font_size',
-                'title_color'       => 'ct_email_title_color',
-                'title_color_dark'  => 'ct_email_title_color_dark',
-                'title_bold'        => 'ct_email_title_bold',
-                'title_transform'   => 'ct_email_title_transform',
-                'text_font_size'    => 'ct_email_text_font_size',
-                'text_color'        => 'ct_email_text_color',
-                'text_color_dark'   => 'ct_email_text_color_dark',
-                'text_line_height'  => 'ct_email_text_line_height',
-                'border_color'      => 'ct_email_border_color',
-                'border_color_dark' => 'ct_email_border_color_dark',
-                'bg_color'          => 'ct_email_bg_color',
-                'bg_color_dark'     => 'ct_email_bg_color_dark',
-                'accent_color'      => 'ct_email_accent_color',
-                'accent_color_dark' => 'ct_email_accent_color_dark',
+                'title_font_size'   => 'bs_email_title_font_size',
+                'title_color'       => 'bs_email_title_color',
+                'title_color_dark'  => 'bs_email_title_color_dark',
+                'title_bold'        => 'bs_email_title_bold',
+                'title_transform'   => 'bs_email_title_transform',
+                'text_font_size'    => 'bs_email_text_font_size',
+                'text_color'        => 'bs_email_text_color',
+                'text_color_dark'   => 'bs_email_text_color_dark',
+                'text_line_height'  => 'bs_email_text_line_height',
+                'border_color'      => 'bs_email_border_color',
+                'border_color_dark' => 'bs_email_border_color_dark',
+                'bg_color'          => 'bs_email_bg_color',
+                'bg_color_dark'     => 'bs_email_bg_color_dark',
+                'accent_color'      => 'bs_email_accent_color',
+                'accent_color_dark' => 'bs_email_accent_color_dark',
             );
 
             $max_keys = 15;
@@ -1259,13 +1840,14 @@ class ThemeSettings {
             }
         }
 
-        update_option( 'ct_email_template_to_mods_migrated', '1' );
+        update_option( 'bs_email_template_to_mods_migrated', '1' );
     }
 
     /* ─── Customizer defaults map ─── */
 
     private function get_customizer_defaults() {
         return array_merge(
+            $this->get_theme_toggle_defaults(),
             $this->get_topbar_defaults(),
             $this->get_header_defaults(),
             $this->get_menu_defaults(),
@@ -1283,194 +1865,207 @@ class ThemeSettings {
         );
     }
 
+    private function get_theme_toggle_defaults() {
+        return array(
+            'bs_theme_toggle_enabled' => true,
+            'bs_theme_color_mode'     => 'light',
+            'bs_theme_toggle_position' => 'header',
+            'bs_lang_switcher_position' => 'top_header',
+            'bs_languages_enabled' => true,
+            'bs_user_management_enabled' => true,
+            'bs_auth_links_position' => 'top_header',
+        );
+    }
+
     private function get_topbar_defaults() {
         return array(
-            'ct_topbar_bg_color'                => '#FF6B35',
-            'ct_topbar_bg_color_dark'           => '#D45A2B',
-            'ct_topbar_text1_content'           => 'CALL US NOW!',
-            'ct_topbar_text1_size'              => 14,
-            'ct_topbar_text1_color'             => '#FFFFFF',
-            'ct_topbar_text1_color_dark'        => '#FFFFFF',
-            'ct_topbar_text1_bold'              => true,
-            'ct_topbar_text1_italic'            => false,
-            'ct_topbar_text1_uppercase'         => false,
-            'ct_topbar_text1_margin_left'       => 0,
-            'ct_topbar_text1_margin_right'      => 10,
-            'ct_topbar_text1_margin_top'        => 0,
-            'ct_topbar_text2_content'           => '',
-            'ct_topbar_text2_size'              => 14,
-            'ct_topbar_text2_color'             => '#FFFFFF',
-            'ct_topbar_text2_color_dark'        => '#FFFFFF',
-            'ct_topbar_text2_bold'              => false,
-            'ct_topbar_text2_italic'            => false,
-            'ct_topbar_text2_uppercase'         => false,
-            'ct_topbar_text2_margin_left'       => 0,
-            'ct_topbar_text2_margin_right'      => 0,
-            'ct_topbar_text2_margin_top'        => 0,
-            'ct_topbar_links_color'             => '#FFFFFF',
-            'ct_topbar_links_color_dark'        => '#FFFFFF',
-            'ct_topbar_links_size'              => 14,
-            'ct_topbar_links_hover_color'       => '#CCCCCC',
-            'ct_topbar_links_hover_color_dark'  => '#FFB088',
-            'ct_topbar_links_bold'              => true,
-            'ct_topbar_links_italic'            => false,
-            'ct_topbar_links_uppercase'         => true,
-            'ct_topbar_links_margin_left'       => 0,
-            'ct_topbar_links_margin_right'      => 0,
-            'ct_topbar_links_margin_top'        => 0,
+            'bs_topbar_enabled'               => true,
+            'bs_topbar_bg_color'                => '#FF6B35',
+            'bs_topbar_bg_color_dark'           => '#D45A2B',
+            'bs_topbar_text1_content'           => 'CALL US NOW!',
+            'bs_topbar_text1_size'              => 14,
+            'bs_topbar_text1_color'             => '#FFFFFF',
+            'bs_topbar_text1_color_dark'        => '#FFFFFF',
+            'bs_topbar_text1_bold'              => true,
+            'bs_topbar_text1_italic'            => false,
+            'bs_topbar_text1_uppercase'         => false,
+            'bs_topbar_text1_margin_left'       => 0,
+            'bs_topbar_text1_margin_right'      => 10,
+            'bs_topbar_text1_margin_top'        => 0,
+            'bs_topbar_text2_content'           => '',
+            'bs_topbar_text2_size'              => 14,
+            'bs_topbar_text2_color'             => '#FFFFFF',
+            'bs_topbar_text2_color_dark'        => '#FFFFFF',
+            'bs_topbar_text2_bold'              => false,
+            'bs_topbar_text2_italic'            => false,
+            'bs_topbar_text2_uppercase'         => false,
+            'bs_topbar_text2_margin_left'       => 0,
+            'bs_topbar_text2_margin_right'      => 0,
+            'bs_topbar_text2_margin_top'        => 0,
+            'bs_topbar_links_color'             => '#FFFFFF',
+            'bs_topbar_links_color_dark'        => '#FFFFFF',
+            'bs_topbar_links_size'              => 14,
+            'bs_topbar_links_hover_color'       => '#CCCCCC',
+            'bs_topbar_links_hover_color_dark'  => '#FFB088',
+            'bs_topbar_links_bold'              => true,
+            'bs_topbar_links_italic'            => false,
+            'bs_topbar_links_uppercase'         => true,
+            'bs_topbar_links_margin_left'       => 0,
+            'bs_topbar_links_margin_right'      => 0,
+            'bs_topbar_links_margin_top'        => 0,
         );
     }
 
     private function get_header_defaults() {
         return array(
-            'ct_header_bg_color'            => '#FFFFFF',
-            'ct_header_bg_color_dark'       => '#1A1A2E',
-            'ct_header_border_color'        => '#EEEEEE',
-            'ct_header_border_color_dark'   => '#2A2A3E',
-            'ct_site_title_color'           => '#333333',
-            'ct_site_title_color_dark'      => '#E0E0E0',
-            'ct_header_logo_width'          => 200,
-            'ct_header_logo_margin_left'    => 0,
-            'ct_header_logo_margin_right'   => 0,
-            'ct_header_logo_margin_top'     => 10,
-            'ct_header_logo_margin_bottom'  => 10,
+            'bs_header_bg_color'            => '#FFFFFF',
+            'bs_header_bg_color_dark'       => '#1A1A2E',
+            'bs_header_border_color'        => '#EEEEEE',
+            'bs_header_border_color_dark'   => '#2A2A3E',
+            'bs_site_title_color'           => '#333333',
+            'bs_site_title_color_dark'      => '#E0E0E0',
+            'bs_header_logo_width'          => 200,
+            'bs_header_logo_margin_left'    => 0,
+            'bs_header_logo_margin_right'   => 0,
+            'bs_header_logo_margin_top'     => 10,
+            'bs_header_logo_margin_bottom'  => 10,
         );
     }
 
     private function get_menu_defaults() {
         return array(
             /* Top level */
-            'ct_menu_top_font_size'                  => 14,
-            'ct_menu_top_color'                      => '#333333',
-            'ct_menu_top_color_dark'                 => '#E0E0E0',
-            'ct_menu_top_bold'                       => false,
-            'ct_menu_top_italic'                     => false,
-            'ct_menu_top_uppercase'                  => true,
-            'ct_menu_top_margin_left'                => 10,
-            'ct_menu_top_margin_right'               => 10,
-            'ct_menu_top_margin_top'                 => 0,
-            'ct_menu_active_underline_color'         => '#FF6B35',
-            'ct_menu_active_underline_color_dark'    => '#FF8C5A',
+            'bs_menu_top_font_size'                  => 14,
+            'bs_menu_top_color'                      => '#333333',
+            'bs_menu_top_color_dark'                 => '#E0E0E0',
+            'bs_menu_top_bold'                       => false,
+            'bs_menu_top_italic'                     => false,
+            'bs_menu_top_uppercase'                  => true,
+            'bs_menu_top_margin_left'                => 10,
+            'bs_menu_top_margin_right'               => 10,
+            'bs_menu_top_margin_top'                 => 0,
+            'bs_menu_active_underline_color'         => '#FF6B35',
+            'bs_menu_active_underline_color_dark'    => '#FF8C5A',
             /* Submenus */
-            'ct_menu_sub_font_size'                  => 13,
-            'ct_menu_sub_color'                      => '#333333',
-            'ct_menu_sub_color_dark'                 => '#E0E0E0',
-            'ct_menu_sub_bold'                       => false,
-            'ct_menu_sub_italic'                     => false,
-            'ct_menu_sub_uppercase'                  => true,
-            'ct_menu_sub_margin_left'                => 0,
-            'ct_menu_sub_margin_right'               => 0,
-            'ct_menu_sub_margin_top'                 => 0,
-            'ct_menu_sub_border_color'               => '#CCCCCC',
-            'ct_menu_sub_border_color_dark'          => '#3A3A4E',
-            'ct_menu_sub_border_width'               => 1,
-            'ct_menu_sub_border_style'               => 'solid',
-            'ct_menu_sub_bg_color'                   => '#FFFFFF',
-            'ct_menu_sub_bg_color_dark'              => '#242438',
-            'ct_menu_sub_hover_bg_color'             => '#F7F7F7',
-            'ct_menu_sub_hover_bg_color_dark'        => '#2E2E44',
+            'bs_menu_sub_font_size'                  => 13,
+            'bs_menu_sub_color'                      => '#333333',
+            'bs_menu_sub_color_dark'                 => '#E0E0E0',
+            'bs_menu_sub_bold'                       => false,
+            'bs_menu_sub_italic'                     => false,
+            'bs_menu_sub_uppercase'                  => true,
+            'bs_menu_sub_margin_left'                => 0,
+            'bs_menu_sub_margin_right'               => 0,
+            'bs_menu_sub_margin_top'                 => 0,
+            'bs_menu_sub_border_color'               => '#CCCCCC',
+            'bs_menu_sub_border_color_dark'          => '#3A3A4E',
+            'bs_menu_sub_border_width'               => 1,
+            'bs_menu_sub_border_style'               => 'solid',
+            'bs_menu_sub_bg_color'                   => '#FFFFFF',
+            'bs_menu_sub_bg_color_dark'              => '#242438',
+            'bs_menu_sub_hover_bg_color'             => '#F7F7F7',
+            'bs_menu_sub_hover_bg_color_dark'        => '#2E2E44',
         );
     }
 
     private function get_mobile_menu_defaults() {
         return array(
-            'ct_mobile_menu_bg_color'           => '#FFFFFF',
-            'ct_mobile_menu_bg_color_dark'      => '#1A1A2E',
-            'ct_mobile_menu_border_color'       => '#EEEEEE',
-            'ct_mobile_menu_border_color_dark'  => '#2A2A3E',
-            'ct_mobile_menu_border_width'       => 1,
+            'bs_mobile_menu_bg_color'           => '#FFFFFF',
+            'bs_mobile_menu_bg_color_dark'      => '#1A1A2E',
+            'bs_mobile_menu_border_color'       => '#EEEEEE',
+            'bs_mobile_menu_border_color_dark'  => '#2A2A3E',
+            'bs_mobile_menu_border_width'       => 1,
         );
     }
 
     private function get_breadcrumb_defaults() {
         return array(
-            'ct_breadcrumb_font_size'            => 14,
-            'ct_breadcrumb_transform'            => 'none',
-            'ct_breadcrumb_color'                => '#999999',
-            'ct_breadcrumb_color_dark'           => '#888888',
-            'ct_breadcrumb_active_color'         => '#333333',
-            'ct_breadcrumb_active_color_dark'    => '#E0E0E0',
-            'ct_breadcrumb_active_bold'          => true,
-            'ct_breadcrumb_active_underline'     => false,
+            'bs_breadcrumb_font_size'            => 14,
+            'bs_breadcrumb_transform'            => 'none',
+            'bs_breadcrumb_color'                => '#999999',
+            'bs_breadcrumb_color_dark'           => '#888888',
+            'bs_breadcrumb_active_color'         => '#333333',
+            'bs_breadcrumb_active_color_dark'    => '#E0E0E0',
+            'bs_breadcrumb_active_bold'          => true,
+            'bs_breadcrumb_active_underline'     => false,
         );
     }
 
     private function get_body_defaults() {
         return array(
-            'ct_body_bg_color'       => '#FFFFFF',
-            'ct_body_bg_color_dark'  => '#16162A',
+            'bs_body_bg_color'       => '#FFFFFF',
+            'bs_body_bg_color_dark'  => '#16162A',
         );
     }
 
     private function get_footer_defaults() {
         return array(
-            'ct_footer_bg_color'              => '#333333',
-            'ct_footer_bg_color_dark'         => '#0D0D1A',
-            'ct_footer_text_color'            => '#999999',
-            'ct_footer_text_color_dark'       => '#888888',
-            'ct_footer_link_color'            => '#CCCCCC',
-            'ct_footer_link_color_dark'       => '#BBBBBB',
-            'ct_footer_link_hover_color'      => '#FFFFFF',
-            'ct_footer_link_hover_color_dark' => '#FFFFFF',
-            'ct_footer_columns'               => 3,
+            'bs_footer_bg_color'              => '#333333',
+            'bs_footer_bg_color_dark'         => '#0D0D1A',
+            'bs_footer_text_color'            => '#999999',
+            'bs_footer_text_color_dark'       => '#888888',
+            'bs_footer_link_color'            => '#CCCCCC',
+            'bs_footer_link_color_dark'       => '#BBBBBB',
+            'bs_footer_link_hover_color'      => '#FFFFFF',
+            'bs_footer_link_hover_color_dark' => '#FFFFFF',
+            'bs_footer_columns'               => 3,
         );
     }
 
     private function get_form_defaults() {
         return array(
-            'ct_form_input_bg_color'           => '#FFFFFF',
-            'ct_form_input_bg_color_dark'      => '#1E1E32',
-            'ct_form_input_border_color'       => '#DDDDDD',
-            'ct_form_input_border_color_dark'  => '#3A3A4E',
-            'ct_form_submit_hover_color'       => '#E55A28',
-            'ct_form_submit_hover_color_dark'  => '#C44A1E',
+            'bs_form_input_bg_color'           => '#FFFFFF',
+            'bs_form_input_bg_color_dark'      => '#1E1E32',
+            'bs_form_input_border_color'       => '#DDDDDD',
+            'bs_form_input_border_color_dark'  => '#3A3A4E',
+            'bs_form_submit_hover_color'       => '#E55A28',
+            'bs_form_submit_hover_color_dark'  => '#C44A1E',
         );
     }
 
     private function get_social_defaults() {
         return array(
-            'ct_social_bg_color'       => '#888888',
-            'ct_social_bg_color_dark'  => '#555566',
-            'ct_social_icon_width'     => 36,
-            'ct_social_icon_height'    => 36,
-            'ct_social_share_enabled'  => true,
+            'bs_social_bg_color'       => '#888888',
+            'bs_social_bg_color_dark'  => '#555566',
+            'bs_social_icon_width'     => 36,
+            'bs_social_icon_height'    => 36,
+            'bs_social_share_enabled'  => true,
         );
     }
 
     private function get_back_to_top_defaults() {
         return array(
-            'ct_back_to_top_enabled'           => true,
-            'ct_back_to_top_label'             => '',
-            'ct_back_to_top_icon'              => 0,
-            'ct_back_to_top_bg_color'          => '#FF6B35',
-            'ct_back_to_top_bg_color_dark'     => '#D45A2B',
-            'ct_back_to_top_border_color'      => '#E5E5E5',
-            'ct_back_to_top_border_color_dark' => '#333333',
-            'ct_back_to_top_border_width'      => 1,
-            'ct_back_to_top_border_radius'     => 8,
-            'ct_back_to_top_position'          => 'right',
+            'bs_back_to_top_enabled'           => true,
+            'bs_back_to_top_label'             => '',
+            'bs_back_to_top_icon'              => 0,
+            'bs_back_to_top_bg_color'          => '#FF6B35',
+            'bs_back_to_top_bg_color_dark'     => '#D45A2B',
+            'bs_back_to_top_border_color'      => '#E5E5E5',
+            'bs_back_to_top_border_color_dark' => '#333333',
+            'bs_back_to_top_border_width'      => 1,
+            'bs_back_to_top_border_radius'     => 8,
+            'bs_back_to_top_position'          => 'right',
         );
     }
 
     private function get_pages_defaults() {
         $defaults = array(
             /* Homepage */
-            'ct_hero_title'          => '',
-            'ct_hero_description'    => '',
-            'ct_section2_title'      => '',
-            'ct_section2_description' => '',
+            'bs_hero_title'          => '',
+            'bs_hero_description'    => '',
+            'bs_section2_title'      => '',
+            'bs_section2_description' => '',
             /* Contact */
-            'ct_contact_heading'     => 'Contact',
-            'ct_contact_content'     => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere ipsum nec velit mattis elementum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas eu placerat metus, eget placerat libero.',
+            'bs_contact_heading'     => 'Contact',
+            'bs_contact_content'     => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere ipsum nec velit mattis elementum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas eu placerat metus, eget placerat libero.',
         );
 
         /* Homepage hero images (4 images with alt + title each) */
         $max_images = 4;
         for ( $i = 1; $i <= $max_images; $i++ ) {
-            $defaults[ 'ct_hero_image_' . $i ]            = 0;
-            $defaults[ 'ct_hero_image_' . $i . '_alt' ]   = '';
-            $defaults[ 'ct_hero_image_' . $i . '_title' ] = '';
-            $defaults[ 'ct_hero_image_' . $i . '_url' ]   = '';
+            $defaults[ 'bs_hero_image_' . $i ]            = 0;
+            $defaults[ 'bs_hero_image_' . $i . '_alt' ]   = '';
+            $defaults[ 'bs_hero_image_' . $i . '_title' ] = '';
+            $defaults[ 'bs_hero_image_' . $i . '_url' ]   = '';
         }
 
         return $defaults;
@@ -1481,11 +2076,11 @@ class ThemeSettings {
 
         /* H1-H5 headings: [size, light_color, dark_color, bold, italic, transform] */
         $headings = array(
-            'ct_h1' => array( 36, '#FF6B35', '#FF8C5A', true, false, 'uppercase' ),
-            'ct_h2' => array( 30, '#FF6B35', '#FF8C5A', true, false, 'uppercase' ),
-            'ct_h3' => array( 24, '#FF6B35', '#FF8C5A', true, false, 'none' ),
-            'ct_h4' => array( 20, '#333333', '#D0D0D0', true, false, 'none' ),
-            'ct_h5' => array( 18, '#333333', '#D0D0D0', true, false, 'none' ),
+            'bs_h1' => array( 36, '#FF6B35', '#FF8C5A', true, false, 'uppercase' ),
+            'bs_h2' => array( 30, '#FF6B35', '#FF8C5A', true, false, 'uppercase' ),
+            'bs_h3' => array( 24, '#FF6B35', '#FF8C5A', true, false, 'none' ),
+            'bs_h4' => array( 20, '#333333', '#D0D0D0', true, false, 'none' ),
+            'bs_h5' => array( 18, '#333333', '#D0D0D0', true, false, 'none' ),
         );
 
         $max_headings = 5;
@@ -1506,79 +2101,81 @@ class ThemeSettings {
         }
 
         /* Paragraphs */
-        $defaults['ct_paragraph_font_size']     = 16;
-        $defaults['ct_paragraph_color']         = '#666666';
-        $defaults['ct_paragraph_color_dark']    = '#B0B0B0';
-        $defaults['ct_paragraph_bold']          = false;
-        $defaults['ct_paragraph_italic']        = false;
-        $defaults['ct_paragraph_transform']     = 'none';
-        $defaults['ct_paragraph_line_height']   = 1.6;
-        $defaults['ct_paragraph_margin_top']    = 0;
-        $defaults['ct_paragraph_margin_right']  = 0;
-        $defaults['ct_paragraph_margin_bottom'] = 16;
-        $defaults['ct_paragraph_margin_left']   = 0;
+        $defaults['bs_paragraph_font_size']     = 16;
+        $defaults['bs_paragraph_color']         = '#666666';
+        $defaults['bs_paragraph_color_dark']    = '#B0B0B0';
+        $defaults['bs_paragraph_bold']          = false;
+        $defaults['bs_paragraph_italic']        = false;
+        $defaults['bs_paragraph_transform']     = 'none';
+        $defaults['bs_paragraph_line_height']   = 1.6;
+        $defaults['bs_paragraph_margin_top']    = 0;
+        $defaults['bs_paragraph_margin_right']  = 0;
+        $defaults['bs_paragraph_margin_bottom'] = 16;
+        $defaults['bs_paragraph_margin_left']   = 0;
 
         /* Special text */
-        $defaults['ct_special_font_size']       = 16;
-        $defaults['ct_special_color']           = '#333333';
-        $defaults['ct_special_color_dark']      = '#D0D0D0';
-        $defaults['ct_special_bold']            = true;
-        $defaults['ct_special_italic']          = false;
-        $defaults['ct_special_transform']       = 'none';
+        $defaults['bs_special_font_size']       = 16;
+        $defaults['bs_special_color']           = '#333333';
+        $defaults['bs_special_color_dark']      = '#D0D0D0';
+        $defaults['bs_special_bold']            = true;
+        $defaults['bs_special_italic']          = false;
+        $defaults['bs_special_transform']       = 'none';
 
         return $defaults;
     }
 
     private function get_email_config_defaults() {
         return array(
-            'ct_smtp_host'       => '',
-            'ct_smtp_port'       => 587,
-            'ct_smtp_username'   => '',
-            'ct_smtp_password'   => '',
-            'ct_smtp_encryption' => 'tls',
-            'ct_smtp_from_email' => '',
-            'ct_smtp_from_name'  => '',
+            'bs_smtp_host'       => '',
+            'bs_smtp_port'       => 587,
+            'bs_smtp_username'   => '',
+            'bs_smtp_password'   => '',
+            'bs_smtp_encryption' => 'tls',
+            'bs_smtp_from_email' => '',
+            'bs_smtp_from_name'  => '',
         );
     }
 
     private function get_email_template_defaults() {
         return array(
-            'ct_email_title_font_size'      => 24,
-            'ct_email_title_color'          => '#333333',
-            'ct_email_title_color_dark'     => '#E0E0E0',
-            'ct_email_title_bold'           => true,
-            'ct_email_title_transform'      => 'none',
-            'ct_email_text_font_size'       => 15,
-            'ct_email_text_color'           => '#555555',
-            'ct_email_text_color_dark'      => '#B0B0B0',
-            'ct_email_text_line_height'     => 1.6,
-            'ct_email_border_color'         => '#E5E5E5',
-            'ct_email_border_color_dark'    => '#333333',
-            'ct_email_bg_color'             => '#FFFFFF',
-            'ct_email_bg_color_dark'        => '#1A1A2E',
-            'ct_email_accent_color'         => '#FF6B35',
-            'ct_email_accent_color_dark'    => '#FF8C5A',
+            'bs_email_title_font_size'      => 24,
+            'bs_email_title_color'          => '#333333',
+            'bs_email_title_color_dark'     => '#E0E0E0',
+            'bs_email_title_bold'           => true,
+            'bs_email_title_transform'      => 'none',
+            'bs_email_text_font_size'       => 15,
+            'bs_email_text_color'           => '#555555',
+            'bs_email_text_color_dark'      => '#B0B0B0',
+            'bs_email_text_line_height'     => 1.6,
+            'bs_email_border_color'         => '#E5E5E5',
+            'bs_email_border_color_dark'    => '#333333',
+            'bs_email_bg_color'             => '#FFFFFF',
+            'bs_email_bg_color_dark'        => '#1A1A2E',
+            'bs_email_accent_color'         => '#FF6B35',
+            'bs_email_accent_color_dark'    => '#FF8C5A',
         );
     }
 
     private function get_jwt_auth_defaults() {
         return array(
-            'ct_jwt_secret'           => '',
-            'ct_jwt_expiration_hours' => 24,
+            'bs_jwt_enabled'          => true,
+            'bs_jwt_secret'           => '',
+            'bs_jwt_expiration_hours' => 24,
         );
     }
 
     private function get_site_identity_defaults() {
         return array(
-            'ct_site_description'  => '',
-            'ct_footer_copyright'  => '© {year} Blazing Sun',
+            'bs_site_description'  => '',
+            'bs_footer_copyright'  => '© {year} Blazing Sun',
         );
     }
 
     /* ═══ Language AJAX Handlers ═══ */
 
     public function admin_save_languages() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $input = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
         $decoded = json_decode( $input, true );
@@ -1587,7 +2184,7 @@ class ThemeSettings {
             wp_send_json_error( array( 'message' => __( 'Invalid languages data.', 'ct-custom' ), 'type' => 'error' ) );
         }
 
-        $mgr  = ct_get_language_manager();
+        $mgr  = bs_get_language_manager();
         $path = $mgr->get_file_path();
         $dir  = dirname( $path );
 
@@ -1602,7 +2199,8 @@ class ThemeSettings {
     }
 
     public function admin_add_language() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $input   = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
         $decoded = json_decode( $input, true );
@@ -1611,7 +2209,7 @@ class ThemeSettings {
             wp_send_json_error( array( 'message' => __( 'Missing required fields (iso2, native_name).', 'ct-custom' ), 'type' => 'error' ) );
         }
 
-        $mgr = ct_get_language_manager();
+        $mgr = bs_get_language_manager();
 
         $lang_data = array(
             'iso2'        => sanitize_text_field( $decoded['iso2'] ),
@@ -1654,6 +2252,14 @@ class ThemeSettings {
             file_put_contents( $trans_file, wp_json_encode( $seed_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ), LOCK_EX );
         }
 
+        /* Ensure language taxonomy terms */
+        $this->ensure_language_category_term( $lang_data['native_name'] );
+        $this->ensure_language_tag_term( $lang_data['iso2'] );
+
+        /* Duplicate posts for new language */
+        $default_lang  = $mgr->get_default();
+        $dup_post_count = $this->duplicate_posts_for_new_language( $lang_data, $default_lang );
+
         /* Duplicate pages for new language */
         $page_mgr = new LanguagePageManager();
         $id_map   = $page_mgr->duplicate_pages_for_language( $lang_data['iso2'] );
@@ -1669,7 +2275,7 @@ class ThemeSettings {
         $new_lang = $mgr->get_by_iso2( $lang_data['iso2'] );
 
         wp_send_json_success( array(
-            'message'    => sprintf( __( 'Language added. %d pages duplicated, %d menus created, %d widget areas configured.', 'ct-custom' ), $dup_count, $menu_count, $widget_count ),
+            'message'    => sprintf( __( 'Language added. %d posts duplicated, %d pages duplicated, %d menus created, %d widget areas configured.', 'ct-custom' ), $dup_post_count, $dup_count, $menu_count, $widget_count ),
             'languages'  => $mgr->get_all(),
             'language'   => $new_lang,
             'duplicated' => $dup_count,
@@ -1678,7 +2284,8 @@ class ThemeSettings {
     }
 
     public function admin_remove_language() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $iso2 = isset( $_POST['iso2'] ) ? sanitize_text_field( wp_unslash( $_POST['iso2'] ) ) : '';
 
@@ -1689,7 +2296,7 @@ class ThemeSettings {
             ) );
         }
 
-        $mgr  = ct_get_language_manager();
+        $mgr  = bs_get_language_manager();
         $lang = $mgr->get_by_iso2( $iso2 );
 
         if ( null === $lang ) {
@@ -1706,9 +2313,12 @@ class ThemeSettings {
             ) );
         }
 
-        $force_delete   = isset( $_POST['force_delete'] ) && 'true' === $_POST['force_delete'];
-        $remove_menus   = ! isset( $_POST['remove_menus'] ) || 'true' === $_POST['remove_menus'];
-        $remove_widgets = ! isset( $_POST['remove_widgets'] ) || 'true' === $_POST['remove_widgets'];
+        $force_delete    = isset( $_POST['force_delete'] ) && 'true' === $_POST['force_delete'];
+        $remove_menus    = ! isset( $_POST['remove_menus'] ) || 'true' === $_POST['remove_menus'];
+        $remove_widgets  = ! isset( $_POST['remove_widgets'] ) || 'true' === $_POST['remove_widgets'];
+        $remove_posts    = ! isset( $_POST['remove_posts'] ) || 'true' === $_POST['remove_posts'];
+        $remove_tags     = ! isset( $_POST['remove_tags'] ) || 'true' === $_POST['remove_tags'];
+        $remove_categories = ! isset( $_POST['remove_categories'] ) || 'true' === $_POST['remove_categories'];
 
         /*
          * Transaction: remove language → remove pages → remove menus → clean widgets → delete JSON.
@@ -1740,14 +2350,38 @@ class ThemeSettings {
             ) );
         }
 
-        /* Step 3: Remove menus if requested */
+        /* Step 3: Remove posts/tags/categories if requested */
+        $posts_removed = 0;
+        $tags_removed  = 0;
+        $cats_removed  = 0;
+        $tag_ids_for_removal = array();
+
+        if ( $remove_tags ) {
+            $tag_ids_for_removal = $this->get_language_connected_tag_ids( $iso2 );
+        }
+
+        if ( $remove_posts ) {
+            $native_name  = isset( $lang_snapshot['native_name'] ) ? $lang_snapshot['native_name'] : $iso2;
+            $posts_removed = $this->remove_language_posts( $iso2, $native_name, $force_delete );
+        }
+
+        if ( $remove_tags && ! empty( $tag_ids_for_removal ) ) {
+            $tags_removed = $this->delete_tag_terms( $tag_ids_for_removal );
+        }
+
+        if ( $remove_categories ) {
+            $native_name = isset( $lang_snapshot['native_name'] ) ? $lang_snapshot['native_name'] : $iso2;
+            $cats_removed = $this->remove_language_categories( $native_name );
+        }
+
+        /* Step 4: Remove menus if requested */
         $menus_removed = 0;
 
         if ( $remove_menus ) {
             $menus_removed = $page_mgr->remove_language_menus( $iso2 );
         }
 
-        /* Step 4: Clean widget instances and areas if requested */
+        /* Step 5: Clean widget instances and areas if requested */
         $widgets_cleared = 0;
 
         if ( $remove_widgets ) {
@@ -1756,7 +2390,7 @@ class ThemeSettings {
             delete_option( 'bs_custom_widgets_cloned_' . $iso2 );
         }
 
-        /* Step 5: Delete the translation JSON file */
+        /* Step 6: Delete the translation JSON file */
         $trans_file = get_template_directory() . '/translations/' . $iso2 . '.json';
 
         if ( file_exists( $trans_file ) && is_writable( $trans_file ) ) {
@@ -1780,6 +2414,18 @@ class ThemeSettings {
             $parts[] = sprintf( __( '%d widget areas cleared', 'ct-custom' ), $widgets_cleared );
         }
 
+        if ( $posts_removed > 0 ) {
+            $parts[] = sprintf( __( '%d posts removed', 'ct-custom' ), $posts_removed );
+        }
+
+        if ( $tags_removed > 0 ) {
+            $parts[] = sprintf( __( '%d tags removed', 'ct-custom' ), $tags_removed );
+        }
+
+        if ( $cats_removed > 0 ) {
+            $parts[] = sprintf( __( '%d categories removed', 'ct-custom' ), $cats_removed );
+        }
+
         $msg = __( 'Language removed.', 'ct-custom' );
 
         if ( ! empty( $parts ) ) {
@@ -1793,8 +2439,660 @@ class ThemeSettings {
         ) );
     }
 
+    /**
+     * Capitalize a native language name for display.
+     *
+     * @param string $name Native name.
+     * @return string
+     */
+    private function capitalize_native_name( $name ) {
+        $name = trim( (string) $name );
+
+        if ( '' === $name ) {
+            return '';
+        }
+
+        if ( function_exists( 'mb_convert_case' ) ) {
+            return mb_convert_case( $name, MB_CASE_TITLE, 'UTF-8' );
+        }
+
+        return ucwords( $name );
+    }
+
+    /**
+     * Ensure the language category exists (slug = native name, title-cased).
+     *
+     * @param string $native_name Native language name.
+     * @return int Category term ID or 0.
+     */
+    private function ensure_language_category_term( $native_name ) {
+        if ( ! taxonomy_exists( 'category' ) ) {
+            return 0;
+        }
+
+        $native_name = trim( (string) $native_name );
+        if ( '' === $native_name ) {
+            return 0;
+        }
+
+        $slug = sanitize_title( $native_name );
+        if ( '' === $slug ) {
+            return 0;
+        }
+
+        $term = get_term_by( 'slug', $slug, 'category' );
+        if ( $term && ! is_wp_error( $term ) ) {
+            return (int) $term->term_id;
+        }
+
+        $name = $this->capitalize_native_name( $native_name );
+        if ( '' === $name ) {
+            $name = $native_name;
+        }
+
+        $inserted = wp_insert_term( $name, 'category', array( 'slug' => $slug ) );
+        if ( is_wp_error( $inserted ) || empty( $inserted['term_id'] ) ) {
+            return 0;
+        }
+
+        return (int) $inserted['term_id'];
+    }
+
+    /**
+     * Ensure the language tag exists (slug = iso2, name = uppercase iso2).
+     *
+     * @param string $iso2 ISO 639-1 code.
+     * @return int Tag term ID or 0.
+     */
+    private function ensure_language_tag_term( $iso2 ) {
+        if ( ! taxonomy_exists( 'post_tag' ) ) {
+            return 0;
+        }
+
+        $iso2 = sanitize_key( (string) $iso2 );
+        if ( '' === $iso2 ) {
+            return 0;
+        }
+
+        $term = get_term_by( 'slug', $iso2, 'post_tag' );
+        if ( $term && ! is_wp_error( $term ) ) {
+            return (int) $term->term_id;
+        }
+
+        $name = strtoupper( $iso2 );
+        $inserted = wp_insert_term( $name, 'post_tag', array( 'slug' => $iso2 ) );
+        if ( is_wp_error( $inserted ) || empty( $inserted['term_id'] ) ) {
+            return 0;
+        }
+
+        return (int) $inserted['term_id'];
+    }
+
+    /**
+     * Find the language category term ID by native name.
+     *
+     * @param string $native_name Native language name.
+     * @return int Term ID or 0.
+     */
+    private function get_language_category_id_from_native( $native_name ) {
+        if ( ! taxonomy_exists( 'category' ) ) {
+            return 0;
+        }
+
+        $native_name = trim( (string) $native_name );
+        if ( '' === $native_name ) {
+            return 0;
+        }
+
+        $slug = sanitize_title( $native_name );
+        $term = $slug ? get_term_by( 'slug', $slug, 'category' ) : null;
+        if ( $term && ! is_wp_error( $term ) ) {
+            return (int) $term->term_id;
+        }
+
+        $term = get_term_by( 'name', $native_name, 'category' );
+        if ( $term && ! is_wp_error( $term ) ) {
+            return (int) $term->term_id;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Find the language tag term ID by iso2 code.
+     *
+     * @param string $iso2 ISO 639-1 code.
+     * @return int Term ID or 0.
+     */
+    private function get_language_tag_id_from_iso2( $iso2 ) {
+        if ( ! taxonomy_exists( 'post_tag' ) ) {
+            return 0;
+        }
+
+        $iso2 = sanitize_key( (string) $iso2 );
+        if ( '' === $iso2 ) {
+            return 0;
+        }
+
+        $term = get_term_by( 'slug', $iso2, 'post_tag' );
+        if ( $term && ! is_wp_error( $term ) ) {
+            return (int) $term->term_id;
+        }
+
+        $term = get_term_by( 'name', strtoupper( $iso2 ), 'post_tag' );
+        if ( $term && ! is_wp_error( $term ) ) {
+            return (int) $term->term_id;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get category IDs for a parent including all children.
+     *
+     * @param int $parent_id Parent term ID.
+     * @return array<int, int>
+     */
+    private function get_category_ids_with_children( $parent_id ) {
+        $parent_id = (int) $parent_id;
+        if ( $parent_id <= 0 || ! taxonomy_exists( 'category' ) ) {
+            return array();
+        }
+
+        $ids = array( $parent_id );
+        $children = get_terms( array(
+            'taxonomy'   => 'category',
+            'child_of'   => $parent_id,
+            'hide_empty' => false,
+            'fields'     => 'ids',
+            'number'     => 500,
+        ) );
+
+        if ( is_array( $children ) ) {
+            foreach ( $children as $cid ) {
+                $ids[] = (int) $cid;
+            }
+        }
+
+        return array_values( array_unique( array_filter( $ids ) ) );
+    }
+
+    /**
+     * Get direct child IDs for a category parent.
+     *
+     * @param int $parent_id Parent term ID.
+     * @return array<int, int>
+     */
+    private function get_category_child_ids( $parent_id ) {
+        $parent_id = (int) $parent_id;
+        if ( $parent_id <= 0 || ! taxonomy_exists( 'category' ) ) {
+            return array();
+        }
+
+        $children = get_terms( array(
+            'taxonomy'   => 'category',
+            'parent'     => $parent_id,
+            'hide_empty' => false,
+            'fields'     => 'ids',
+            'number'     => 500,
+        ) );
+
+        if ( ! is_array( $children ) ) {
+            return array();
+        }
+
+        return array_values( array_unique( array_map( 'intval', $children ) ) );
+    }
+
+    /**
+     * Build a slug => term_id map for child categories of a parent.
+     *
+     * @param int $parent_id Parent term ID.
+     * @return array<string, int>
+     */
+    private function get_category_child_slug_map( $parent_id ) {
+        $parent_id = (int) $parent_id;
+        if ( $parent_id <= 0 || ! taxonomy_exists( 'category' ) ) {
+            return array();
+        }
+
+        $children = get_terms( array(
+            'taxonomy'   => 'category',
+            'parent'     => $parent_id,
+            'hide_empty' => false,
+            'number'     => 500,
+        ) );
+
+        if ( ! is_array( $children ) ) {
+            return array();
+        }
+
+        $map = array();
+        foreach ( $children as $term ) {
+            if ( $term && ! is_wp_error( $term ) ) {
+                $map[ $term->slug ] = (int) $term->term_id;
+            }
+        }
+
+        return $map;
+    }
+
+    /**
+     * Duplicate default-language posts for a new language.
+     *
+     * @param array      $new_lang     New language data.
+     * @param array|null $default_lang Default language data.
+     * @return int Number of posts duplicated.
+     */
+    private function duplicate_posts_for_new_language( $new_lang, $default_lang ) {
+        if ( ! is_array( $new_lang ) || empty( $new_lang['iso2'] ) || empty( $new_lang['native_name'] ) ) {
+            return 0;
+        }
+
+        if ( ! is_array( $default_lang ) || empty( $default_lang['iso2'] ) ) {
+            return 0;
+        }
+
+        $new_iso2     = sanitize_key( $new_lang['iso2'] );
+        $new_native   = (string) $new_lang['native_name'];
+        $default_iso2 = sanitize_key( $default_lang['iso2'] );
+        $default_native = ! empty( $default_lang['native_name'] ) ? (string) $default_lang['native_name'] : $default_iso2;
+
+        if ( '' === $new_iso2 || '' === $default_iso2 ) {
+            return 0;
+        }
+
+        $default_tag_id = $this->get_language_tag_id_from_iso2( $default_iso2 );
+        $default_cat_id = $this->get_language_category_id_from_native( $default_native );
+        $default_cat_ids = $default_cat_id > 0 ? $this->get_category_ids_with_children( $default_cat_id ) : array();
+
+        if ( $default_tag_id <= 0 && empty( $default_cat_ids ) ) {
+            return 0;
+        }
+
+        $tax_query = array( 'relation' => 'OR' );
+
+        if ( $default_tag_id > 0 ) {
+            $tax_query[] = array(
+                'taxonomy'         => 'post_tag',
+                'field'            => 'term_id',
+                'terms'            => array( $default_tag_id ),
+                'include_children' => false,
+            );
+        }
+
+        if ( ! empty( $default_cat_ids ) ) {
+            $tax_query[] = array(
+                'taxonomy'         => 'category',
+                'field'            => 'term_id',
+                'terms'            => $default_cat_ids,
+                'include_children' => false,
+            );
+        }
+
+        $post_ids = get_posts( array(
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'posts_per_page' => 5000,
+            'orderby'        => 'ID',
+            'order'          => 'ASC',
+            'no_found_rows'  => true,
+            'fields'         => 'ids',
+            'has_password'   => false,
+            'tax_query'      => $tax_query,
+        ) );
+
+        if ( empty( $post_ids ) || ! is_array( $post_ids ) ) {
+            return 0;
+        }
+
+        $new_tag_id = $this->ensure_language_tag_term( $new_iso2 );
+        $new_cat_id = $this->ensure_language_category_term( $new_native );
+
+        $duplicated = 0;
+
+        foreach ( $post_ids as $post_id ) {
+            $source = get_post( $post_id );
+            if ( ! $source || 'post' !== $source->post_type ) {
+                continue;
+            }
+
+            $new_post = array(
+                'post_title'     => $source->post_title,
+                'post_content'   => $source->post_content,
+                'post_excerpt'   => $source->post_excerpt,
+                'post_status'    => $source->post_status,
+                'post_type'      => 'post',
+                'post_author'    => $source->post_author,
+                'post_date'      => $source->post_date,
+                'post_date_gmt'  => $source->post_date_gmt,
+                'post_parent'    => 0,
+                'menu_order'     => $source->menu_order,
+            );
+
+            $new_id = wp_insert_post( $new_post, true );
+            if ( is_wp_error( $new_id ) || $new_id <= 0 ) {
+                continue;
+            }
+
+            $this->copy_post_meta_for_duplicate( $source->ID, $new_id );
+            $this->duplicate_post_taxonomies( $source->ID, $new_id, $default_tag_id, $new_tag_id, $default_cat_id, $new_cat_id );
+
+            $duplicated++;
+        }
+
+        return $duplicated;
+    }
+
+    /**
+     * Copy post meta from source to target, excluding language keys.
+     *
+     * @param int $source_id Source post ID.
+     * @param int $target_id Target post ID.
+     * @return void
+     */
+    private function copy_post_meta_for_duplicate( $source_id, $target_id ) {
+        $source_id = (int) $source_id;
+        $target_id = (int) $target_id;
+
+        if ( $source_id <= 0 || $target_id <= 0 ) {
+            return;
+        }
+
+        $excluded = array(
+            'bs_language',
+            'bs_locale',
+            'bs_translation_group',
+            '_edit_lock',
+            '_edit_last',
+        );
+
+        $meta = get_post_meta( $source_id );
+        if ( empty( $meta ) || ! is_array( $meta ) ) {
+            return;
+        }
+
+        foreach ( $meta as $key => $values ) {
+            if ( in_array( $key, $excluded, true ) ) {
+                continue;
+            }
+
+            if ( ! is_array( $values ) ) {
+                $values = array( $values );
+            }
+
+            foreach ( $values as $value ) {
+                add_post_meta( $target_id, $key, maybe_unserialize( $value ) );
+            }
+        }
+
+        update_post_meta( $target_id, 'bs_language_duplicate_of', $source_id );
+    }
+
+    /**
+     * Duplicate post taxonomies, swapping default language tag/category to new language.
+     *
+     * @param int $source_id Source post ID.
+     * @param int $target_id Target post ID.
+     * @param int $default_tag_id Default language tag ID.
+     * @param int $new_tag_id New language tag ID.
+     * @param int $default_parent_cat_id Default language parent category ID.
+     * @param int $new_parent_cat_id New language parent category ID.
+     * @return void
+     */
+    private function duplicate_post_taxonomies( $source_id, $target_id, $default_tag_id, $new_tag_id, $default_parent_cat_id, $new_parent_cat_id ) {
+        $taxonomies = get_object_taxonomies( 'post' );
+
+        foreach ( $taxonomies as $taxonomy ) {
+            if ( 'category' === $taxonomy ) {
+                $cat_ids = wp_get_object_terms( $source_id, 'category', array( 'fields' => 'ids' ) );
+                if ( empty( $cat_ids ) || ! is_array( $cat_ids ) ) {
+                    continue;
+                }
+
+                $mapped = array();
+                $default_child_ids = $default_parent_cat_id > 0 ? $this->get_category_child_ids( $default_parent_cat_id ) : array();
+                $new_child_map = $new_parent_cat_id > 0 ? $this->get_category_child_slug_map( $new_parent_cat_id ) : array();
+
+                foreach ( $cat_ids as $cat_id ) {
+                    $cat_id = (int) $cat_id;
+
+                    if ( $default_parent_cat_id > 0 && $cat_id === (int) $default_parent_cat_id ) {
+                        if ( $new_parent_cat_id > 0 ) {
+                            $mapped[] = (int) $new_parent_cat_id;
+                        }
+                        continue;
+                    }
+
+                    if ( $default_parent_cat_id > 0 && in_array( $cat_id, $default_child_ids, true ) ) {
+                        $term = get_term( $cat_id, 'category' );
+                        if ( $term && ! is_wp_error( $term ) ) {
+                            $slug = $term->slug;
+                            if ( $new_parent_cat_id > 0 && isset( $new_child_map[ $slug ] ) ) {
+                                $mapped[] = (int) $new_child_map[ $slug ];
+                            } elseif ( $new_parent_cat_id > 0 ) {
+                                $mapped[] = (int) $new_parent_cat_id;
+                            } else {
+                                $mapped[] = $cat_id;
+                            }
+                        }
+                        continue;
+                    }
+
+                    $mapped[] = $cat_id;
+                }
+
+                $mapped = array_values( array_unique( array_filter( array_map( 'intval', $mapped ) ) ) );
+                if ( ! empty( $mapped ) ) {
+                    wp_set_object_terms( $target_id, $mapped, 'category' );
+                }
+                continue;
+            }
+
+            if ( 'post_tag' === $taxonomy ) {
+                $tag_ids = wp_get_object_terms( $source_id, 'post_tag', array( 'fields' => 'ids' ) );
+                $tag_ids = is_array( $tag_ids ) ? array_map( 'intval', $tag_ids ) : array();
+
+                if ( $default_tag_id > 0 ) {
+                    $tag_ids = array_diff( $tag_ids, array( (int) $default_tag_id ) );
+                    if ( $new_tag_id > 0 ) {
+                        $tag_ids[] = (int) $new_tag_id;
+                    }
+                }
+
+                $tag_ids = array_values( array_unique( array_filter( $tag_ids ) ) );
+                if ( ! empty( $tag_ids ) ) {
+                    wp_set_object_terms( $target_id, $tag_ids, 'post_tag' );
+                }
+                continue;
+            }
+
+            $term_ids = wp_get_object_terms( $source_id, $taxonomy, array( 'fields' => 'ids' ) );
+            if ( ! empty( $term_ids ) && is_array( $term_ids ) ) {
+                wp_set_object_terms( $target_id, $term_ids, $taxonomy );
+            }
+        }
+    }
+
+    /**
+     * Get tag IDs connected to the language tag (co-occurring on posts).
+     *
+     * @param string $iso2 Language iso2 code.
+     * @return array<int, int>
+     */
+    private function get_language_connected_tag_ids( $iso2 ) {
+        $tag_id = $this->get_language_tag_id_from_iso2( $iso2 );
+        if ( $tag_id <= 0 || ! taxonomy_exists( 'post_tag' ) ) {
+            return array();
+        }
+
+        $post_ids = get_posts( array(
+            'post_type'      => 'post',
+            'post_status'    => 'any',
+            'posts_per_page' => 5000,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+            'tax_query'      => array(
+                array(
+                    'taxonomy'         => 'post_tag',
+                    'field'            => 'term_id',
+                    'terms'            => array( $tag_id ),
+                    'include_children' => false,
+                ),
+            ),
+        ) );
+
+        $tag_ids = array( (int) $tag_id );
+
+        if ( is_array( $post_ids ) ) {
+            foreach ( $post_ids as $post_id ) {
+                $tags = wp_get_object_terms( $post_id, 'post_tag', array( 'fields' => 'ids' ) );
+                if ( is_array( $tags ) ) {
+                    foreach ( $tags as $tid ) {
+                        $tag_ids[] = (int) $tid;
+                    }
+                }
+            }
+        }
+
+        return array_values( array_unique( array_filter( $tag_ids ) ) );
+    }
+
+    /**
+     * Delete tag terms by ID.
+     *
+     * @param array<int, int> $tag_ids Tag IDs.
+     * @return int Count removed.
+     */
+    private function delete_tag_terms( $tag_ids ) {
+        if ( empty( $tag_ids ) || ! taxonomy_exists( 'post_tag' ) ) {
+            return 0;
+        }
+
+        $removed = 0;
+        foreach ( $tag_ids as $tag_id ) {
+            $tag_id = (int) $tag_id;
+            if ( $tag_id <= 0 ) {
+                continue;
+            }
+
+            $result = wp_delete_term( $tag_id, 'post_tag' );
+            if ( ! is_wp_error( $result ) ) {
+                $removed++;
+            }
+        }
+
+        return $removed;
+    }
+
+    /**
+     * Remove posts for a language (by tag or category markers).
+     *
+     * @param string $iso2        Language iso2 code.
+     * @param string $native_name Native language name.
+     * @param bool   $force_delete True to delete permanently.
+     * @return int Count removed.
+     */
+    private function remove_language_posts( $iso2, $native_name, $force_delete ) {
+        $tag_id = $this->get_language_tag_id_from_iso2( $iso2 );
+        $cat_id = $this->get_language_category_id_from_native( $native_name );
+        $cat_ids = $cat_id > 0 ? $this->get_category_ids_with_children( $cat_id ) : array();
+
+        if ( $tag_id <= 0 && empty( $cat_ids ) ) {
+            return 0;
+        }
+
+        $tax_query = array( 'relation' => 'OR' );
+
+        if ( $tag_id > 0 ) {
+            $tax_query[] = array(
+                'taxonomy'         => 'post_tag',
+                'field'            => 'term_id',
+                'terms'            => array( $tag_id ),
+                'include_children' => false,
+            );
+        }
+
+        if ( ! empty( $cat_ids ) ) {
+            $tax_query[] = array(
+                'taxonomy'         => 'category',
+                'field'            => 'term_id',
+                'terms'            => $cat_ids,
+                'include_children' => false,
+            );
+        }
+
+        $post_ids = get_posts( array(
+            'post_type'      => 'post',
+            'post_status'    => 'any',
+            'posts_per_page' => 5000,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+            'tax_query'      => $tax_query,
+        ) );
+
+        if ( empty( $post_ids ) || ! is_array( $post_ids ) ) {
+            return 0;
+        }
+
+        $removed = 0;
+
+        foreach ( $post_ids as $post_id ) {
+            $result = wp_delete_post( $post_id, $force_delete );
+            if ( $result ) {
+                $removed++;
+            }
+        }
+
+        return $removed;
+    }
+
+    /**
+     * Remove categories for a language (parent + children).
+     *
+     * @param string $native_name Native language name.
+     * @return int Count removed.
+     */
+    private function remove_language_categories( $native_name ) {
+        $parent_id = $this->get_language_category_id_from_native( $native_name );
+        if ( $parent_id <= 0 ) {
+            return 0;
+        }
+
+        $removed = 0;
+
+        $children = get_terms( array(
+            'taxonomy'   => 'category',
+            'child_of'   => $parent_id,
+            'hide_empty' => false,
+            'fields'     => 'ids',
+            'number'     => 500,
+        ) );
+
+        if ( is_array( $children ) ) {
+            foreach ( $children as $cid ) {
+                $cid = (int) $cid;
+                if ( $cid <= 0 ) {
+                    continue;
+                }
+                $result = wp_delete_term( $cid, 'category' );
+                if ( ! is_wp_error( $result ) ) {
+                    $removed++;
+                }
+            }
+        }
+
+        $result = wp_delete_term( $parent_id, 'category' );
+        if ( ! is_wp_error( $result ) ) {
+            $removed++;
+        }
+
+        return $removed;
+    }
+
     public function admin_set_default_language() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $iso2 = isset( $_POST['iso2'] ) ? sanitize_text_field( wp_unslash( $_POST['iso2'] ) ) : '';
 
@@ -1802,7 +3100,7 @@ class ThemeSettings {
             wp_send_json_error( array( 'message' => __( 'Language code is required.', 'ct-custom' ), 'type' => 'error' ) );
         }
 
-        $mgr    = ct_get_language_manager();
+        $mgr    = bs_get_language_manager();
         $result = $mgr->set_default( $iso2 );
 
         if ( ! $result ) {
@@ -1829,7 +3127,8 @@ class ThemeSettings {
     }
 
     public function admin_update_language() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $input   = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
         $decoded = json_decode( $input, true );
@@ -1865,7 +3164,7 @@ class ThemeSettings {
             $update_data['locales'] = array();
         }
 
-        $mgr    = ct_get_language_manager();
+        $mgr    = bs_get_language_manager();
         $result = $mgr->update( $iso2, $update_data );
 
         if ( ! $result ) {
@@ -1880,10 +3179,11 @@ class ThemeSettings {
     }
 
     public function admin_get_translation_keys() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $trans_dir = get_template_directory() . '/translations';
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $languages = $mgr->get_all();
         $all_keys  = array();
         $max_langs = 50;
@@ -1926,7 +3226,8 @@ class ThemeSettings {
     }
 
     public function admin_save_translation() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $input   = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
         $decoded = json_decode( $input, true );
@@ -1979,7 +3280,8 @@ class ThemeSettings {
     }
 
     public function admin_add_translation_key() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $key = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
 
@@ -1988,7 +3290,7 @@ class ThemeSettings {
         }
 
         $trans_dir = get_template_directory() . '/translations';
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $languages = $mgr->get_all();
         $max_langs = 50;
         $count     = 0;
@@ -2021,7 +3323,8 @@ class ThemeSettings {
     }
 
     public function admin_delete_translation_key() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $key = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
 
@@ -2030,7 +3333,7 @@ class ThemeSettings {
         }
 
         $trans_dir = get_template_directory() . '/translations';
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $languages = $mgr->get_all();
         $max_langs = 50;
         $count     = 0;
@@ -2064,10 +3367,11 @@ class ThemeSettings {
     }
 
     public function admin_export_translations() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $trans_dir = get_template_directory() . '/translations';
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $languages = $mgr->get_all();
         $export    = array( 'languages' => $languages, 'translations' => array() );
         $max_langs = 50;
@@ -2094,7 +3398,8 @@ class ThemeSettings {
     }
 
     public function admin_import_translations() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $input   = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
         $decoded = json_decode( $input, true );
@@ -2122,7 +3427,7 @@ class ThemeSettings {
         }
 
         if ( isset( $decoded['languages'] ) && is_array( $decoded['languages'] ) ) {
-            $mgr  = ct_get_language_manager();
+            $mgr  = bs_get_language_manager();
             $path = $mgr->get_file_path();
             file_put_contents( $path, wp_json_encode( $decoded['languages'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ), LOCK_EX );
         }
@@ -2133,7 +3438,8 @@ class ThemeSettings {
     }
 
     public function admin_get_pages_by_language() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $iso2 = isset( $_POST['iso2'] ) ? sanitize_text_field( wp_unslash( $_POST['iso2'] ) ) : '';
 
@@ -2145,7 +3451,7 @@ class ThemeSettings {
             'post_type'      => 'page',
             'post_status'    => array( 'publish', 'draft', 'private' ),
             'posts_per_page' => 200,
-            'meta_key'       => 'ct_language',
+            'meta_key'       => 'bs_language',
             'meta_value'     => $iso2,
             'orderby'        => 'title',
             'order'          => 'ASC',
@@ -2161,7 +3467,7 @@ class ThemeSettings {
             }
             $count++;
 
-            $group = get_post_meta( $page->ID, 'ct_translation_group', true );
+            $group = get_post_meta( $page->ID, 'bs_translation_group', true );
 
             $result[] = array(
                 'id'        => $page->ID,
@@ -2178,7 +3484,8 @@ class ThemeSettings {
     }
 
     public function admin_save_page_translation() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $input   = isset( $_POST['input'] ) ? wp_unslash( $_POST['input'] ) : '';
         $decoded = json_decode( $input, true );
@@ -2234,7 +3541,8 @@ class ThemeSettings {
     }
 
     public function admin_duplicate_page() {
-        $this->verify_ajax_request( 'ct_lang_nonce' );
+        $this->verify_ajax_request( 'bs_lang_nonce' );
+        $this->ensure_languages_enabled();
 
         $post_id     = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
         $target_iso2 = isset( $_POST['target_iso2'] ) ? sanitize_text_field( wp_unslash( $_POST['target_iso2'] ) ) : '';
@@ -2277,7 +3585,7 @@ class ThemeSettings {
             'post_type'      => 'page',
             'post_status'    => array( 'publish', 'draft', 'private' ),
             'posts_per_page' => 1,
-            'meta_key'       => 'ct_language',
+            'meta_key'       => 'bs_language',
             'meta_value'     => $iso2,
             'fields'         => 'ids',
         ) );

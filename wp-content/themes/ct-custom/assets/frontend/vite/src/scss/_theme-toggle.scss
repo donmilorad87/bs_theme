@@ -8,6 +8,45 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+.theme-toggle--standalone {
+    margin-left: 0;
+}
+
+.ct-theme-toggle-wrap {
+    justify-content: center;
+    margin: 12px 0 0;
+}
+
+.ct-theme-toggle-wrap--bottom {
+    margin-top: 12px;
+}
+
+.theme-toggle--floating {
+    position: fixed;
+    z-index: 1200;
+    margin-left: 0;
+}
+
+.theme-toggle--floating-top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.theme-toggle--floating-top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.theme-toggle--floating-bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.theme-toggle--floating-bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
 .theme-toggle:focus-visible {
     outline: none;
 }

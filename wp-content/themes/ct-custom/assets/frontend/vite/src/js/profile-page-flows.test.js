@@ -180,7 +180,7 @@ function getProfileCardHTML() {
 
             <!-- Messages tab panel -->
             <div class="ct-auth-form__tab-panel" data-ct-profile-panel="messages" role="tabpanel" style="display:none;">
-                <div class="ct-auth-form__messages-history" id="ct_profile_messages">
+                <div class="ct-auth-form__messages-history" id="bs_profile_messages">
                     <p class="ct-auth-form__loading fs14">Loading messages...</p>
                 </div>
             </div>
@@ -200,7 +200,7 @@ let locationMock;
 beforeEach(() => {
     fetch.mockReset();
     localStorage.clear();
-    localStorage.setItem('ct_auth_token', 'existing-jwt-token');
+    localStorage.setItem('bs_auth_token', 'existing-jwt-token');
 
     locationMock = {
         href: 'http://test.local/profile/',
@@ -419,7 +419,7 @@ describe('Profile Page Flows — Change Password', () => {
 
         await flushPromises();
 
-        expect(localStorage.getItem('ct_auth_token')).toBeNull();
+        expect(localStorage.getItem('bs_auth_token')).toBeNull();
 
         vi.advanceTimersByTime(1500);
 
@@ -465,7 +465,7 @@ describe('Profile Page Flows — Logout', () => {
         const page = new ProfilePage();
         const card = document.querySelector('.ct-profile-card');
 
-        expect(localStorage.getItem('ct_auth_token')).toBe('existing-jwt-token');
+        expect(localStorage.getItem('bs_auth_token')).toBe('existing-jwt-token');
 
         mockFetchResponses({
             logout: { status: 200, body: { success: true } },
@@ -473,7 +473,7 @@ describe('Profile Page Flows — Logout', () => {
 
         clickAction(card, 'logout');
 
-        expect(localStorage.getItem('ct_auth_token')).toBeNull();
+        expect(localStorage.getItem('bs_auth_token')).toBeNull();
     });
 
     it('43. Logout calls POST to logout endpoint', async () => {
@@ -542,7 +542,7 @@ describe('Profile Page Flows — Messages Loading', () => {
 
         await flushPromises();
 
-        const messagesEl = document.querySelector('#ct_profile_messages');
+        const messagesEl = document.querySelector('#bs_profile_messages');
         const cards = messagesEl.querySelectorAll('.ct-auth-form__message-card');
         expect(cards.length).toBe(1);
 
@@ -563,7 +563,7 @@ describe('Profile Page Flows — Messages Loading', () => {
 
         await flushPromises();
 
-        const messagesEl = document.querySelector('#ct_profile_messages');
+        const messagesEl = document.querySelector('#bs_profile_messages');
         expect(messagesEl.textContent).toContain('Could not load messages');
     });
 
@@ -593,7 +593,7 @@ describe('Profile Page Flows — Messages Loading', () => {
 
         await flushPromises();
 
-        const messagesEl = document.querySelector('#ct_profile_messages');
+        const messagesEl = document.querySelector('#bs_profile_messages');
         const html = messagesEl.innerHTML;
 
         /* Script/img tags must be escaped, not rendered as real elements */

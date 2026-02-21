@@ -29,7 +29,7 @@ Two authentication strategies are supported by the permission callbacks:
 1. **JWT Bearer token** -- `Authorization: Bearer <token>` header. Token stored client-side in `localStorage`.
 2. **WordPress cookie** -- Standard `wp_logged_in_*` cookie. Used as fallback when no Bearer header is present.
 
-The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then falls back to cookie auth. The function `ct_jwt_permission_check()` requires JWT only.
+The global function `bs_jwt_or_cookie_permission_check()` tries JWT first, then falls back to cookie auth. The function `bs_jwt_permission_check()` requires JWT only.
 
 ---
 
@@ -42,7 +42,7 @@ The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then 
 | `PasswordValidator.php` | `PasswordValidator` | Validates password strength: min 8 chars, lowercase, uppercase, digit, special character. Returns `true` or `WP_Error`. |
 | `RateLimiter.php` | `RateLimiter` | IP-based and key-based rate limiting via WordPress transients. Methods: `get_client_ip()`, `is_rate_limited_by_ip()`, `is_rate_limited_by_key()`, `increment_rate_limit()`, `get_rate_limit_remaining()`, `format_wait_time()`. |
 | `CodeGenerator.php` | `CodeGenerator` | Generates, stores, verifies, and deletes 6-digit zero-padded numeric codes. Uses `hash_equals()` for timing-safe comparison. Transient-backed with configurable TTL. |
-| `RestLogger.php` | `RestLogger` | Logs messages with auto-prefixed class name to `error_log` when `WP_DEBUG` is enabled. Format: `[CT_REST_ClassName] message`. |
+| `RestLogger.php` | `RestLogger` | Logs messages with auto-prefixed class name to `error_log` when `WP_DEBUG` is enabled. Format: `[BS_REST_ClassName] message`. |
 
 ### PHP — Services (`src/Services/`)
 
@@ -57,18 +57,18 @@ The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then 
 
 | File | Class | Route | Method | Auth | Purpose |
 |------|-------|-------|--------|------|---------|
-| `Login.php` | `Login` | `/login` | POST | Public | Authenticates via `wp_signon()`. Checks `ct_account_active` meta. Issues JWT on success. Resends activation code if account inactive. |
-| `Register.php` | `Register` | `/register` | POST | Public | Creates subscriber account with `ct_account_active=0`. Validates username (min 4, alphanumeric/.-_, max 2 specials), email, password strength, password match. Sends activation code email. |
+| `Login.php` | `Login` | `/login` | POST | Public | Authenticates via `wp_signon()`. Checks `bs_account_active` meta. Issues JWT on success. Resends activation code if account inactive. |
+| `Register.php` | `Register` | `/register` | POST | Public | Creates subscriber account with `bs_account_active=0`. Validates username (min 4, alphanumeric/.-_, max 2 specials), email, password strength, password match. Sends activation code email. |
 | `Logout.php` | `Logout` | `/logout` | POST | JWT/Cookie | Calls `wp_logout()`. Requires authenticated user. |
 | `ForgotPassword.php` | `ForgotPassword` | `/forgot-password` | POST | Public | Generates 6-digit reset code, sends via email. Always returns success to prevent email enumeration. |
-| `VerifyActivation.php` | `VerifyActivation` | `/verify-activation` | POST | Public | Verifies activation code, sets `ct_account_active=1`, deletes code, sends activation success email. |
+| `VerifyActivation.php` | `VerifyActivation` | `/verify-activation` | POST | Public | Verifies activation code, sets `bs_account_active=1`, deletes code, sends activation success email. |
 | `ResendActivation.php` | `ResendActivation` | `/resend-activation` | POST | Public | Generates new activation code, sends via email. Only sends if account is still inactive. Always returns success to prevent email enumeration. |
 | `VerifyResetCode.php` | `VerifyResetCode` | `/verify-reset-code` | POST | Public | Verifies reset code, deletes code, issues short-lived JWT reset token (10 min, `purpose=password_reset`). |
 | `ResetPassword.php` | `ResetPassword` | `/reset-password` | POST | Public | Verifies reset JWT token (`purpose=password_reset`), validates new password, checks password not reused, calls `wp_set_password()`, sends confirmation email. |
 | `FormTemplate.php` | `FormTemplate` | `/form/{form_name}` | GET | Mixed | Returns server-rendered HTML for auth forms. Public forms: login, register, forgot-password, activation-code, reset-code, reset-password. Protected forms (JWT/Cookie): profile. |
 | `ProfileUpdate.php` | `ProfileUpdate` | `/profile/update` | POST | JWT/Cookie | Updates `first_name`, `last_name`, and `display_name` for current user. |
 | `ProfileChangePassword.php` | `ProfileChangePassword` | `/profile/change-password` | POST | JWT/Cookie | Verifies current password, validates new password strength, rejects same password reuse, calls `wp_set_password()`, sends notification email. |
-| `ProfileUploadAvatar.php` | `ProfileUploadAvatar` | `/profile/upload-avatar` | POST | JWT/Cookie | Uploads image to media library via `media_handle_sideload()`. Stores attachment ID as `ct_avatar_id` user meta. Max 5MB, JPEG/PNG/GIF/WebP only. |
+| `ProfileUploadAvatar.php` | `ProfileUploadAvatar` | `/profile/upload-avatar` | POST | JWT/Cookie | Uploads image to media library via `media_handle_sideload()`. Stores attachment ID as `bs_avatar_id` user meta. Max 5MB, JPEG/PNG/GIF/WebP only. |
 
 ### PHP — Route Registration
 
@@ -106,9 +106,9 @@ The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then 
 | Function | Purpose |
 |----------|---------|
 | `bs_custom_get_auth_data()` | Returns `{is_logged_in, display_name}` array. |
-| `ct_jwt_or_cookie_permission_check()` | REST permission callback: JWT or cookie auth. Delegates to `JwtAuth::jwt_or_cookie_permission_check()`. |
-| `ct_jwt_permission_check()` | REST permission callback: JWT only. Delegates to `JwtAuth::jwt_permission_check()`. |
-| `bs_custom_get_page_url_by_template()` | Finds a published page by template filename, filtered by current language via `ct_language` meta. Falls back to any matching page. |
+| `bs_jwt_or_cookie_permission_check()` | REST permission callback: JWT or cookie auth. Delegates to `JwtAuth::jwt_or_cookie_permission_check()`. |
+| `bs_jwt_permission_check()` | REST permission callback: JWT only. Delegates to `JwtAuth::jwt_permission_check()`. |
+| `bs_custom_get_page_url_by_template()` | Finds a published page by template filename, filtered by current language via `bs_language` meta. Falls back to any matching page. |
 | `bs_custom_get_auth_page_url()` | Returns permalink for `login-register.php` template page. |
 | `bs_custom_get_profile_page_url()` | Returns permalink for `profile.php` template page. |
 
@@ -124,7 +124,7 @@ The global function `ct_jwt_or_cookie_permission_check()` tries JWT first, then 
 | File | Class/Export | Purpose |
 |------|-------------|---------|
 | `auth-config.js` | Constants | Exports `STORAGE_TOKEN_KEY`, `MAX_FIELDS`, `AUTH_FORMS`, `TAB_FORMS`, `FLOW_FORMS`, `VALIDATION` (email regex, username rules, password rules, code regex). |
-| `auth-store.js` | `AuthStore` | `localStorage` manager for JWT token. Methods: `getToken()`, `setToken()`, `clearToken()`. Key: `ct_auth_token`. |
+| `auth-store.js` | `AuthStore` | `localStorage` manager for JWT token. Methods: `getToken()`, `setToken()`, `clearToken()`. Key: `bs_auth_token`. |
 | `auth-api.js` | `AuthApi` | REST client with two auth modes: `post()` (nonce-based for public endpoints) and `postAuth()` / `getAuth()` / `uploadAuth()` (JWT Bearer header for protected endpoints). All requests include `X-WP-Nonce` header and `credentials: 'same-origin'`. Supports 401 unauthorized handler callback. |
 | `auth-validator.js` | `AuthValidator` | Rule-based real-time validation engine. Binds `input`/`blur` events. Validates: required, min-length, email regex, password rules (5 checks + "different" rule), username rules (3 checks), match (confirm password), 6-digit code regex. Updates CSS classes on rule elements (`--pass`, `--fail`, `--info`). |
 | `auth-form-binder.js` | `AuthFormBinder` | Binds validation + submit events to form panels. Enables/disables submit button based on validation state. Binds Enter key submission (swallows when invalid). Binds password visibility toggle buttons. |
@@ -158,7 +158,7 @@ User                        Frontend (AuthPage)              REST API           
  |                               |                              | wp_insert_user()         |
  |                               |                              |------------------------->|
  |                               |                              |                          | user created (subscriber)
- |                               |                              |                          | ct_account_active = '0'
+ |                               |                              |                          | bs_account_active = '0'
  |                               |                              |                          |
  |                               |                              | generate 6-digit code    |
  |                               |                              | store_code() (transient) |
@@ -299,19 +299,19 @@ User                        Frontend (AuthHeader/ProfilePage)  REST API
 
 | Endpoint | Transient Prefix | Key Type | Max Attempts | Window (seconds) | Window (human) |
 |----------|-----------------|----------|-------------|-----------------|----------------|
-| Login | `ct_login_attempts_` | IP | 5 | 300 | 5 minutes |
-| Register | `ct_register_attempts_` | IP | 3 | 3600 | 1 hour |
-| Forgot Password | `ct_forgot_attempts_` | Email | 3 | 3600 | 1 hour |
-| Verify Activation | `ct_verify_activation_` | IP | 5 | 300 | 5 minutes |
-| Resend Activation | `ct_resend_activation_` | Email | 3 | 3600 | 1 hour |
-| Verify Reset Code | `ct_verify_reset_` | IP | 5 | 300 | 5 minutes |
-| Upload Avatar | `ct_avatar_upload_` | User ID | 5 | 60 | 1 minute |
+| Login | `bs_login_attempts_` | IP | 5 | 300 | 5 minutes |
+| Register | `bs_register_attempts_` | IP | 3 | 3600 | 1 hour |
+| Forgot Password | `bs_forgot_attempts_` | Email | 3 | 3600 | 1 hour |
+| Verify Activation | `bs_verify_activation_` | IP | 5 | 300 | 5 minutes |
+| Resend Activation | `bs_resend_activation_` | Email | 3 | 3600 | 1 hour |
+| Verify Reset Code | `bs_verify_reset_` | IP | 5 | 300 | 5 minutes |
+| Upload Avatar | `bs_avatar_upload_` | User ID | 5 | 60 | 1 minute |
 
 ### Transient Key Format
 
 All transient keys are formed as: `{prefix}` + `md5({identifier})`.
 
-Example: `ct_login_attempts_` + `md5('192.168.1.1')` = `ct_login_attempts_c0e31a9...`
+Example: `bs_login_attempts_` + `md5('192.168.1.1')` = `bs_login_attempts_c0e31a9...`
 
 ### Rate Limit Response
 
@@ -377,7 +377,7 @@ JWT configuration is stored in the WordPress option `bs_custom_jwt_auth` as a JS
 
 ### Client-Side Token Storage
 
-JWT tokens are stored in `localStorage` under key `ct_auth_token`. The `AuthStore` class manages get/set/clear operations. Token is cleared on logout and after password change.
+JWT tokens are stored in `localStorage` under key `bs_auth_token`. The `AuthStore` class manages get/set/clear operations. Token is cleared on logout and after password change.
 
 ---
 
@@ -403,7 +403,7 @@ Both `ResetPassword` and `ProfileChangePassword` endpoints reject new passwords 
 
 ### Account Activation Gate
 
-New accounts are created with `ct_account_active = '0'` user meta. The login endpoint checks this meta and returns HTTP 403 with `requires_activation = true` if the account is inactive. It also automatically re-sends a fresh activation code and logs the user out.
+New accounts are created with `bs_account_active = '0'` user meta. The login endpoint checks this meta and returns HTTP 403 with `requires_activation = true` if the account is inactive. It also automatically re-sends a fresh activation code and logs the user out.
 
 ### Input Sanitization
 
@@ -443,7 +443,7 @@ Login failures return a generic "Invalid credentials." message regardless of whe
 1. `PageAccessControl::boot()` registers a `template_redirect` hook.
 2. On each singular page request, `handle_redirect()` checks if the page content contains any of the three access-control blocks using `has_block()`.
 3. If the visitor does not meet the requirement, they are redirected using `wp_safe_redirect()` followed by `exit`.
-4. The redirect targets are resolved via `bs_custom_get_profile_page_url()`, `bs_custom_get_auth_page_url()`, and `ct_get_language_home_url()`.
+4. The redirect targets are resolved via `bs_custom_get_profile_page_url()`, `bs_custom_get_auth_page_url()`, and `bs_get_language_home_url()`.
 
 ### Usage
 
@@ -471,16 +471,16 @@ Template colors and typography are loaded from `get_theme_mod()` with these keys
 
 | Theme Mod Key | Default | Purpose |
 |---------------|---------|---------|
-| `ct_email_title_font_size` | 24 | Title font size (px) |
-| `ct_email_title_color` | `#333333` | Title text color |
-| `ct_email_title_bold` | `true` | Title font weight |
-| `ct_email_title_transform` | `none` | Title text-transform |
-| `ct_email_text_font_size` | 15 | Body text font size (px) |
-| `ct_email_text_color` | `#555555` | Body text color |
-| `ct_email_text_line_height` | 1.6 | Body line height |
-| `ct_email_border_color` | `#E5E5E5` | Border/divider color |
-| `ct_email_bg_color` | `#FFFFFF` | Content background color |
-| `ct_email_accent_color` | `#FF6B35` | Accent color (header bar, code display, links) |
+| `bs_email_title_font_size` | 24 | Title font size (px) |
+| `bs_email_title_color` | `#333333` | Title text color |
+| `bs_email_title_bold` | `true` | Title font weight |
+| `bs_email_title_transform` | `none` | Title text-transform |
+| `bs_email_text_font_size` | 15 | Body text font size (px) |
+| `bs_email_text_color` | `#555555` | Body text color |
+| `bs_email_text_line_height` | 1.6 | Body line height |
+| `bs_email_border_color` | `#E5E5E5` | Border/divider color |
+| `bs_email_bg_color` | `#FFFFFF` | Content background color |
+| `bs_email_accent_color` | `#FF6B35` | Accent color (header bar, code display, links) |
 
 ### Email Types
 
@@ -521,17 +521,17 @@ If `host` is empty, PHPMailer falls back to the default mail transport. If `from
 | `PasswordValidator::PW_MIN_LENGTH` | 8 | `PasswordValidator` | Minimum password length |
 | `Login::MAX_ATTEMPTS` | 5 | `Login` | Max login attempts per IP |
 | `Login::WINDOW_SEC` | 300 | `Login` | Login rate limit window (5 min) |
-| `Login::ACTIVATION_PREFIX` | `ct_activation_code_` | `Login` | Transient prefix for activation codes |
+| `Login::ACTIVATION_PREFIX` | `bs_activation_code_` | `Login` | Transient prefix for activation codes |
 | `Login::ACTIVATION_TTL` | 1800 | `Login` | Activation code TTL (30 min) |
 | `Register::MAX_ATTEMPTS` | 3 | `Register` | Max registrations per IP |
 | `Register::WINDOW_SEC` | 3600 | `Register` | Registration rate limit window (1 hour) |
 | `Register::MIN_USERNAME` | 4 | `Register` | Minimum username length |
 | `Register::MAX_USERNAME_SPECIAL` | 2 | `Register` | Max special chars in username |
-| `Register::ACTIVATION_PREFIX` | `ct_activation_code_` | `Register` | Transient prefix for activation codes |
+| `Register::ACTIVATION_PREFIX` | `bs_activation_code_` | `Register` | Transient prefix for activation codes |
 | `Register::ACTIVATION_TTL` | 1800 | `Register` | Activation code TTL (30 min) |
 | `ForgotPassword::MAX_ATTEMPTS` | 3 | `ForgotPassword` | Max forgot-password per email |
 | `ForgotPassword::WINDOW_SEC` | 3600 | `ForgotPassword` | Forgot-password rate limit window (1 hour) |
-| `ForgotPassword::RESET_PREFIX` | `ct_reset_code_` | `ForgotPassword` | Transient prefix for reset codes |
+| `ForgotPassword::RESET_PREFIX` | `bs_reset_code_` | `ForgotPassword` | Transient prefix for reset codes |
 | `ForgotPassword::RESET_TTL` | 900 | `ForgotPassword` | Reset code TTL (15 min) |
 | `VerifyActivation::MAX_ATTEMPTS` | 5 | `VerifyActivation` | Max verify-activation per IP |
 | `VerifyActivation::WINDOW_SEC` | 300 | `VerifyActivation` | Verify-activation rate limit (5 min) |
@@ -556,7 +556,7 @@ If `host` is empty, PHPMailer falls back to the default mail transport. If `from
 
 | Constant | Value | Purpose |
 |----------|-------|---------|
-| `STORAGE_TOKEN_KEY` | `'ct_auth_token'` | localStorage key for JWT token |
+| `STORAGE_TOKEN_KEY` | `'bs_auth_token'` | localStorage key for JWT token |
 | `MAX_FIELDS` | 20 | Max form fields to iterate |
 | `AUTH_FORMS` | `['login', 'register', 'forgot-password', 'activation-code', 'reset-code', 'reset-password']` | All auth form panel names |
 | `TAB_FORMS` | `['login', 'register']` | Forms shown with tab navigation |
@@ -637,8 +637,8 @@ All three use `emptyOutDir: false` to avoid clearing sibling output files.
 
 | Meta Key | Values | Purpose |
 |----------|--------|---------|
-| `ct_account_active` | `'0'` or `'1'` | Account activation state. Set to `'0'` on registration, updated to `'1'` on activation. Checked on login. |
-| `ct_avatar_id` | Attachment ID (integer) | WordPress media library attachment ID for the user's custom avatar. Set by `ProfileUploadAvatar`. Used by a `pre_get_avatar_data` filter to serve the local image. |
+| `bs_account_active` | `'0'` or `'1'` | Account activation state. Set to `'0'` on registration, updated to `'1'` on activation. Checked on login. |
+| `bs_avatar_id` | Attachment ID (integer) | WordPress media library attachment ID for the user's custom avatar. Set by `ProfileUploadAvatar`. Used by a `pre_get_avatar_data` filter to serve the local image. |
 
 ---
 

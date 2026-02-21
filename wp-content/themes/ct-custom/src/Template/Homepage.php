@@ -42,10 +42,10 @@ class Homepage {
 	 * @return array{hero_title: string, hero_description: string, section2_title: string, section2_desc: string}
 	 */
 	public function get_homepage_hero_data() {
-		$hero_title       = get_theme_mod( 'ct_hero_title', '' );
-		$hero_description = get_theme_mod( 'ct_hero_description', '' );
-		$section2_title   = get_theme_mod( 'ct_section2_title', '' );
-		$section2_desc    = get_theme_mod( 'ct_section2_description', '' );
+		$hero_title       = get_theme_mod( 'bs_hero_title', '' );
+		$hero_description = get_theme_mod( 'bs_hero_description', '' );
+		$section2_title   = get_theme_mod( 'bs_section2_title', '' );
+		$section2_desc    = get_theme_mod( 'bs_section2_description', '' );
 
 		assert( is_string( $hero_title ), 'hero_title must be a string' );
 		assert( is_string( $hero_description ), 'hero_description must be a string' );
@@ -70,10 +70,10 @@ class Homepage {
 		for ( $i = 1; $i <= $max_images; $i++ ) {
 			$items[] = array(
 				'index'       => $i,
-				'image_id'    => (int) get_theme_mod( 'ct_hero_image_' . $i, 0 ),
-				'image_alt'   => get_theme_mod( 'ct_hero_image_' . $i . '_alt', '' ),
-				'image_title' => get_theme_mod( 'ct_hero_image_' . $i . '_title', '' ),
-				'image_url'   => get_theme_mod( 'ct_hero_image_' . $i . '_url', '' ),
+				'image_id'    => (int) get_theme_mod( 'bs_hero_image_' . $i, 0 ),
+				'image_alt'   => get_theme_mod( 'bs_hero_image_' . $i . '_alt', '' ),
+				'image_title' => get_theme_mod( 'bs_hero_image_' . $i . '_title', '' ),
+				'image_url'   => get_theme_mod( 'bs_hero_image_' . $i . '_url', '' ),
 			);
 		}
 
@@ -102,6 +102,7 @@ class Homepage {
 			$img_attr = array(
 				'alt'   => esc_attr( $item['image_alt'] ),
 				'title' => esc_attr( $item['image_title'] ),
+				'class' => 'db',
 			);
 
 			/* Prioritize the first visible image for LCP */
@@ -112,8 +113,8 @@ class Homepage {
 				$img_attr['loading'] = 'lazy';
 			}
 			?>
-			<figure class="image-grid__item m0" data-image-index="<?php echo (int) $item['index']; ?>"<?php if ( ! $item['image_id'] ) : ?> style="display:none;"<?php endif; ?>>
-				<<?php echo $tag; ?> class="image-grid__card"<?php if ( ! empty( $item['image_url'] ) ) : ?> href="<?php echo esc_url( $item['image_url'] ); ?>" target="_blank" rel="noopener noreferrer"<?php endif; ?>>
+			<figure class="image-grid__item m0<?php echo ! $item['image_id'] ? ' dn' : ''; ?>" data-image-index="<?php echo (int) $item['index']; ?>">
+				<<?php echo $tag; ?> class="image-grid__card db"<?php if ( ! empty( $item['image_url'] ) ) : ?> href="<?php echo esc_url( $item['image_url'] ); ?>" target="_blank" rel="noopener noreferrer"<?php endif; ?>>
 					<?php if ( $item['image_id'] ) : ?>
 						<?php echo bs_custom_get_attachment_image( $item['image_id'], 'large', $img_attr ); ?>
 					<?php endif; ?>

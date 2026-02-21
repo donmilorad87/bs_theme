@@ -34,6 +34,10 @@ class PageAccessControl {
 	 * @return void
 	 */
 	public function handle_redirect(): void {
+		if ( function_exists( 'bs_user_management_enabled' ) && ! bs_user_management_enabled() ) {
+			return;
+		}
+
 		if ( ! is_singular() ) {
 			return;
 		}
@@ -76,7 +80,7 @@ class PageAccessControl {
 			}
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_safe_redirect( ct_get_language_home_url() );
+				wp_safe_redirect( bs_get_language_home_url() );
 				exit;
 			}
 		}

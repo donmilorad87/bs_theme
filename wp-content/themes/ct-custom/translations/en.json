@@ -20,7 +20,11 @@
     },
     "SEND_MESSAGE": "Send Message",
     "NAME": "Name",
-    "EMAIL": "Email",
+    "EMAIL": {
+        "singular": "Email_EN",
+        "zero": "##name## email zero en",
+        "one": "##name## email one en"
+    },
     "MESSAGE": "Message",
     "SUBMIT": "Submit",
     "CLOSE": "Close",

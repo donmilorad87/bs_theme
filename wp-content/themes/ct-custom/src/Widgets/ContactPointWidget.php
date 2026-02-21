@@ -11,7 +11,7 @@ class ContactPointWidget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'ct_contact_point',
+            'bs_contact_point',
             __( 'BS Custom: Contact Point', 'ct-custom' ),
             array(
                 'description' => __( 'Displays contact point data from admin settings.', 'ct-custom' ),
@@ -30,6 +30,7 @@ class ContactPointWidget extends WP_Widget {
             $contact = array();
         }
 
+        $company   = isset( $contact['company'] ) ? $contact['company'] : '';
         $telephone = isset( $contact['telephone'] ) ? $contact['telephone'] : '';
         $fax       = isset( $contact['fax_number'] ) ? $contact['fax_number'] : '';
         $email     = isset( $contact['email'] ) ? $contact['email'] : '';
@@ -54,8 +55,14 @@ class ContactPointWidget extends WP_Widget {
 
         echo '<div class="widget-contact-point ct-contact-point-block">';
 
+        // Company
+        echo '<p class="widget-contact-point__company ct-cp-company' . ( $company ? '' : ' ct-cp-hidden' ) . '">';
+        echo '<span class="widget-contact-point__label">' . esc_html__( 'Company:', 'ct-custom' ) . '</span> ';
+        echo '<span class="ct-cp-company-value">' . esc_html( $company ) . '</span>';
+        echo '</p>';
+
         // Address — always rendered, hidden when empty
-        echo '<address class="widget-contact-point__address ct-cp-address' . ( $has_address ? '' : ' ct-cp-hidden' ) . '">';
+        echo '<address class="widget-contact-point__address mb16 ct-cp-address' . ( $has_address ? '' : ' ct-cp-hidden' ) . '">';
         echo '<span class="widget-contact-point__street ct-cp-street' . ( $line1 ? '' : ' ct-cp-hidden' ) . '">' . esc_html( $line1 ) . '</span>';
         echo '<br>';
         echo '<span class="widget-contact-point__city ct-cp-city' . ( $line2_parts ? '' : ' ct-cp-hidden' ) . '">' . esc_html( implode( ' ', $line2_parts ) ) . '</span>';
@@ -66,22 +73,22 @@ class ContactPointWidget extends WP_Widget {
         echo '</address>';
 
         // Contact list — always rendered
-        echo '<ul class="widget-contact-point__list">';
+        echo '<ul class="widget-contact-point__list m0 p0">';
 
         // Phone
-        echo '<li class="widget-contact-point__item ct-cp-phone' . ( $telephone ? '' : ' ct-cp-hidden' ) . '">';
+        echo '<li class="widget-contact-point__item mb4 ct-cp-phone' . ( $telephone ? '' : ' ct-cp-hidden' ) . '">';
         echo '<span class="widget-contact-point__label">' . esc_html__( 'Phone:', 'ct-custom' ) . '</span> ';
         echo '<a class="ct-cp-phone-link" href="tel:' . esc_attr( preg_replace( '/[^0-9+]/', '', $telephone ) ) . '"><span class="ct-cp-phone-value">' . esc_html( $telephone ) . '</span></a>';
         echo '</li>';
 
         // Fax
-        echo '<li class="widget-contact-point__item ct-cp-fax' . ( $fax ? '' : ' ct-cp-hidden' ) . '">';
+        echo '<li class="widget-contact-point__item mb4 ct-cp-fax' . ( $fax ? '' : ' ct-cp-hidden' ) . '">';
         echo '<span class="widget-contact-point__label">' . esc_html__( 'Fax:', 'ct-custom' ) . '</span> ';
         echo '<span class="ct-cp-fax-value">' . esc_html( $fax ) . '</span>';
         echo '</li>';
 
         // Email
-        echo '<li class="widget-contact-point__item ct-cp-email' . ( $email ? '' : ' ct-cp-hidden' ) . '">';
+        echo '<li class="widget-contact-point__item mb4 ct-cp-email' . ( $email ? '' : ' ct-cp-hidden' ) . '">';
         echo '<span class="widget-contact-point__label">' . esc_html__( 'Email:', 'ct-custom' ) . '</span> ';
         echo '<a class="ct-cp-email-link" href="mailto:' . esc_attr( $email ) . '"><span class="ct-cp-email-value">' . esc_html( $email ) . '</span></a>';
         echo '</li>';

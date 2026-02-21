@@ -8,7 +8,10 @@ import './translator.js';
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        new ThemeSwitcher();
+        const themeToggleEnabled = document.body && document.body.getAttribute('data-theme-toggle') !== 'off';
+        if (themeToggleEnabled) {
+            new ThemeSwitcher();
+        }
         new Navigation();
         new BackToTop();
         new AuthHeader();
@@ -16,7 +19,10 @@ if (document.readyState === 'loading') {
         new LanguageSwitcher();
     });
 } else {
-    new ThemeSwitcher();
+    const themeToggleEnabled = document.body && document.body.getAttribute('data-theme-toggle') !== 'off';
+    if (themeToggleEnabled) {
+        new ThemeSwitcher();
+    }
     new Navigation();
     new BackToTop();
     new AuthHeader();

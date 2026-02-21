@@ -52,7 +52,7 @@ class ResendActivationEndpointTest extends AuthTestCase {
         $request = $this->makeRequest( array( 'email' => 'bob@example.com' ) );
         $this->endpoint->handle( $request );
 
-        $transient_key = 'ct_activation_code_' . md5( 'bob@example.com' );
+        $transient_key = 'bs_activation_code_' . md5( 'bob@example.com' );
         $stored_code   = \get_transient( $transient_key );
 
         $this->assertFalse( $stored_code );
@@ -65,7 +65,7 @@ class ResendActivationEndpointTest extends AuthTestCase {
         $this->registerUser( 'limited', $email, 'Secret1234!', false );
 
         /* Simulate 3 prior attempts */
-        $key = 'ct_resend_activation_' . md5( $email );
+        $key = 'bs_resend_activation_' . md5( $email );
         $this->setTransient( $key, 3, 3600 );
 
         $request  = $this->makeRequest( array( 'email' => $email ) );
@@ -84,7 +84,7 @@ class ResendActivationEndpointTest extends AuthTestCase {
         $request = $this->makeRequest( array( 'email' => $email ) );
         $this->endpoint->handle( $request );
 
-        $transient_key = 'ct_activation_code_' . md5( $email );
+        $transient_key = 'bs_activation_code_' . md5( $email );
         $stored_code   = \get_transient( $transient_key );
 
         $this->assertNotFalse( $stored_code );

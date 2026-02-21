@@ -20,7 +20,7 @@ class TranslationServiceTest extends TestCase {
     private static $tmp_dir;
 
     public static function setUpBeforeClass(): void {
-        self::$tmp_dir = sys_get_temp_dir() . '/ct_transservice_test_' . getmypid();
+        self::$tmp_dir = sys_get_temp_dir() . '/bs_transservice_test_' . getmypid();
 
         if ( ! is_dir( self::$tmp_dir ) ) {
             mkdir( self::$tmp_dir, 0755, true );
@@ -51,7 +51,7 @@ class TranslationServiceTest extends TestCase {
     /* ── resolve() ───────────────────────────────────────────────────── */
 
     public function test_resolve_with_pattern(): void {
-        $result = TranslationService::resolve( "ct_translate('SITE_NAME')", 'en' );
+        $result = TranslationService::resolve( "bs_translate('SITE_NAME')", 'en' );
 
         $this->assertSame( 'BS Custom', $result );
     }
@@ -65,7 +65,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_resolve_with_language_override(): void {
-        $result = TranslationService::resolve( "ct_translate('CONTACT_US')", 'sr' );
+        $result = TranslationService::resolve( "bs_translate('CONTACT_US')", 'sr' );
 
         /* sr.json CONTACT_US singular is "Contact Us sr" */
         $this->assertSame( 'Contact Us sr', $result );
@@ -79,7 +79,7 @@ class TranslationServiceTest extends TestCase {
         /* TranslationService::resolve uses escape — but we can only test with real base_dir
          * since resolve() creates its own Translator. We test indirectly via block content. */
         $result = TranslationService::resolve_block_content(
-            "ct_translate('XSS_KEY')",
+            "bs_translate('XSS_KEY')",
             'en'
         );
 
@@ -89,7 +89,7 @@ class TranslationServiceTest extends TestCase {
     /* ── resolve_raw() ───────────────────────────────────────────────── */
 
     public function test_resolve_raw_no_escaping(): void {
-        $result = TranslationService::resolve_raw( "ct_translate('SITE_NAME')", 'en' );
+        $result = TranslationService::resolve_raw( "bs_translate('SITE_NAME')", 'en' );
 
         $this->assertSame( 'BS Custom', $result );
     }
@@ -115,13 +115,13 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_simple_key(): void {
-        $result = TranslationService::resolve_block_content( "ct_translate('SITE_NAME')", 'en' );
+        $result = TranslationService::resolve_block_content( "bs_translate('SITE_NAME')", 'en' );
 
         $this->assertSame( 'BS Custom', $result );
     }
 
     public function test_block_content_multiple_patterns(): void {
-        $content = "<h1>ct_translate('SITE_NAME')</h1><p>ct_translate('LOGIN')</p>";
+        $content = "<h1>bs_translate('SITE_NAME')</h1><p>bs_translate('LOGIN')</p>";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -129,7 +129,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_deduplication(): void {
-        $content = "ct_translate('SITE_NAME') - ct_translate('SITE_NAME') - ct_translate('SITE_NAME')";
+        $content = "bs_translate('SITE_NAME') - bs_translate('SITE_NAME') - bs_translate('SITE_NAME')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -137,13 +137,13 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_unknown_key(): void {
-        $result = TranslationService::resolve_block_content( "ct_translate('NONEXISTENT_KEY')", 'en' );
+        $result = TranslationService::resolve_block_content( "bs_translate('NONEXISTENT_KEY')", 'en' );
 
         $this->assertSame( 'NONEXISTENT_KEY', $result );
     }
 
     public function test_block_content_with_args_and_form(): void {
-        $content = "ct_translate('ITEM_COUNT',['count'=>'5'],'other')";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'5'],'other')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -151,7 +151,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_numeric_count(): void {
-        $content = "ct_translate('ITEM_COUNT',['count'=>'1'],1)";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'1'],1)";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -159,7 +159,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_json_args(): void {
-        $content = "ct_translate('ITEM_COUNT',{\"count\":\"3\"},'other')";
+        $content = "bs_translate('ITEM_COUNT',{\"count\":\"3\"},'other')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -167,7 +167,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_preserves_html(): void {
-        $content = '<div class="hero"><h1>ct_translate(\'SITE_NAME\')</h1></div>';
+        $content = '<div class="hero"><h1>bs_translate(\'SITE_NAME\')</h1></div>';
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -175,7 +175,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_singular_fallback(): void {
-        $content = "ct_translate('ITEM_COUNT')";
+        $content = "bs_translate('ITEM_COUNT')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -183,7 +183,7 @@ class TranslationServiceTest extends TestCase {
     }
 
     public function test_block_content_serbian_language(): void {
-        $result = TranslationService::resolve_block_content( "ct_translate('CONTACT_US')", 'sr' );
+        $result = TranslationService::resolve_block_content( "bs_translate('CONTACT_US')", 'sr' );
 
         $this->assertSame( 'Contact Us sr', $result );
     }
@@ -194,7 +194,7 @@ class TranslationServiceTest extends TestCase {
         /* Build content with more than MAX_PATTERN_MATCHES unique patterns.
          * Since only SITE_NAME exists, each returns "BS Custom" or key name.
          * We just verify it doesn't hang or crash. */
-        $content = str_repeat( "ct_translate('SITE_NAME') ", 250 );
+        $content = str_repeat( "bs_translate('SITE_NAME') ", 250 );
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 

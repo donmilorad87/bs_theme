@@ -182,7 +182,7 @@ class RegisterEndpointTest extends AuthTestCase {
         $this->setClientIp( $ip );
 
         /* Simulate 3 prior registration attempts */
-        $key = 'ct_register_attempts_' . md5( $ip );
+        $key = 'bs_register_attempts_' . md5( $ip );
         $this->setTransient( $key, 3, 3600 );
 
         $request  = $this->makeRequest( $this->valid_params );
@@ -192,7 +192,7 @@ class RegisterEndpointTest extends AuthTestCase {
         $this->assertFalse( $response->get_data()['success'] );
     }
 
-    /* ── New user has ct_account_active = 0 ──────────────────────── */
+    /* ── New user has bs_account_active = 0 ──────────────────────── */
 
     public function test_sets_inactive_meta(): void {
         $request = $this->makeRequest( $this->valid_params );
@@ -202,7 +202,7 @@ class RegisterEndpointTest extends AuthTestCase {
         $user = \get_user_by( 'email', 'newuser@example.com' );
         $this->assertNotFalse( $user );
 
-        $active = \get_user_meta( $user->ID, 'ct_account_active', true );
+        $active = \get_user_meta( $user->ID, 'bs_account_active', true );
         $this->assertSame( '0', $active );
     }
 
@@ -212,7 +212,7 @@ class RegisterEndpointTest extends AuthTestCase {
         $request = $this->makeRequest( $this->valid_params );
         $this->endpoint->handle( $request );
 
-        $transient_key = 'ct_activation_code_' . md5( 'newuser@example.com' );
+        $transient_key = 'bs_activation_code_' . md5( 'newuser@example.com' );
         $stored_code   = \get_transient( $transient_key );
 
         $this->assertNotFalse( $stored_code );

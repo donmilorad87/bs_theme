@@ -2,7 +2,7 @@
 /**
  * Translation Service.
  *
- * Static utility class that resolves `ct_translate()` patterns
+ * Static utility class that resolves `bs_translate()` patterns
  * in customizer and block editor values.
  *
  * @package BS_Custom
@@ -13,10 +13,10 @@ namespace BSCustom\Multilang;
 class TranslationService {
 
     /**
-     * Resolve a value that may contain ct_translate() patterns.
+     * Resolve a value that may contain bs_translate() patterns.
      *
      * Plain strings pass through unchanged.
-     * Strings containing ct_translate('KEY', [...], count) get resolved.
+     * Strings containing bs_translate('KEY', [...], count) get resolved.
      *
      * @param string $value Input value.
      * @param string $iso2  Optional language override (defaults to current).
@@ -25,22 +25,22 @@ class TranslationService {
     public static function resolve( string $value, string $iso2 = '' ): string {
         assert( is_string( $value ), 'Value must be a string' );
 
-        if ( false === strpos( $value, 'ct_translate(' ) ) {
+        if ( false === strpos( $value, 'bs_translate(' ) ) {
             return $value;
         }
 
         if ( '' === $iso2 ) {
-            $iso2 = function_exists( 'ct_get_current_language' ) ? ct_get_current_language() : 'en';
+            $iso2 = function_exists( 'bs_get_current_language' ) ? bs_get_current_language() : 'en';
         }
 
-        $locale     = function_exists( 'ct_get_current_locale' ) ? ct_get_current_locale() : null;
+        $locale     = function_exists( 'bs_get_current_locale' ) ? bs_get_current_locale() : null;
         $translator = new Translator( $iso2, $locale );
 
         return $translator->parse_ct_translate_patterns( $value );
     }
 
     /**
-     * Resolve a value that may contain ct_translate() patterns (no escaping).
+     * Resolve a value that may contain bs_translate() patterns (no escaping).
      *
      * Use when the caller will apply its own escaping (e.g. esc_html()).
      * Pattern: esc_html( TranslationService::resolve_raw( $value ) )
@@ -52,25 +52,25 @@ class TranslationService {
     public static function resolve_raw( string $value, string $iso2 = '' ): string {
         assert( is_string( $value ), 'Value must be a string' );
 
-        if ( false === strpos( $value, 'ct_translate(' ) ) {
+        if ( false === strpos( $value, 'bs_translate(' ) ) {
             return $value;
         }
 
         if ( '' === $iso2 ) {
-            $iso2 = function_exists( 'ct_get_current_language' ) ? ct_get_current_language() : 'en';
+            $iso2 = function_exists( 'bs_get_current_language' ) ? bs_get_current_language() : 'en';
         }
 
-        $locale     = function_exists( 'ct_get_current_locale' ) ? ct_get_current_locale() : null;
+        $locale     = function_exists( 'bs_get_current_locale' ) ? bs_get_current_locale() : null;
         $translator = new Translator( $iso2, $locale );
 
         return $translator->parse_ct_translate_patterns_raw( $value );
     }
 
     /**
-     * Resolve ct_translate() patterns in block editor content.
+     * Resolve bs_translate() patterns in block editor content.
      *
      * Three-phase approach:
-     *   1. COLLECT  — find all ct_translate() patterns via regex.
+     *   1. COLLECT  — find all bs_translate() patterns via regex.
      *   2. TRANSLATE — resolve each unique pattern once via Translator.
      *   3. REPLACE  — substitute all patterns in a single str_replace pass.
      *
@@ -83,19 +83,19 @@ class TranslationService {
     public static function resolve_block_content( string $content, string $iso2 = '' ): string {
         assert( is_string( $content ), 'Content must be a string' );
 
-        if ( '' === $content || false === strpos( $content, 'ct_translate(' ) ) {
+        if ( '' === $content || false === strpos( $content, 'bs_translate(' ) ) {
             return $content;
         }
 
         if ( '' === $iso2 ) {
-            $iso2 = function_exists( 'ct_get_current_language' ) ? ct_get_current_language() : 'en';
+            $iso2 = function_exists( 'bs_get_current_language' ) ? bs_get_current_language() : 'en';
         }
 
-        $locale     = function_exists( 'ct_get_current_locale' ) ? ct_get_current_locale() : null;
+        $locale     = function_exists( 'bs_get_current_locale' ) ? bs_get_current_locale() : null;
         $translator = new Translator( $iso2, $locale );
 
         /* ── Phase 1: COLLECT ────────────────────────────────────────── */
-        $pattern = '/ct_translate\(\s*[\'"]([A-Z][A-Z0-9_]*)[\'"]'
+        $pattern = '/bs_translate\(\s*[\'"]([A-Z][A-Z0-9_]*)[\'"]'
             . '\s*(?:,\s*(?:\[(.*?)\]|\{(.*?)\})\s*(?:,\s*(?:[\'"]([a-z]+)[\'"]|(\d+))\s*)?)?\)/';
 
         $match_count = preg_match_all( $pattern, $content, $all_matches, PREG_SET_ORDER );
@@ -170,11 +170,11 @@ class TranslationService {
             $trans_dir = dirname( __DIR__, 2 ) . '/translations';
         }
 
-        if ( ! function_exists( 'ct_get_language_manager' ) ) {
+        if ( ! function_exists( 'bs_get_language_manager' ) ) {
             return array();
         }
 
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $languages = $mgr->get_all();
         $all_keys  = array();
         $max_langs = 50;

@@ -11,7 +11,7 @@ class SocialIconsWidget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'ct_social_icons',
+            'bs_social_icons',
             __( 'BS Custom: Social Icons', 'ct-custom' ),
             array(
                 'description' => __( 'Displays social network icons from BS Custom Theme Settings.', 'ct-custom' ),
@@ -22,6 +22,11 @@ class SocialIconsWidget extends WP_Widget {
     public function widget( $args, $instance ) {
         assert( is_array( $args ), 'Widget args must be an array' );
         assert( is_array( $instance ), 'Widget instance must be an array' );
+
+        $enabled = get_option( 'bs_social_icons_enabled', 'on' );
+        if ( false === $enabled || 'off' === $enabled || '0' === $enabled ) {
+            return;
+        }
 
         $networks_raw = get_option( 'bs_custom_social_networks', '[]' );
         $networks     = json_decode( stripslashes( $networks_raw ), true );
@@ -37,7 +42,7 @@ class SocialIconsWidget extends WP_Widget {
         }
 
         echo '<div class="widget-social-icons">';
-        echo '<div class="social-icons" role="list" aria-label="' . esc_attr__( 'Social Networks', 'ct-custom' ) . '">';
+        echo '<div class="social-icons df aic" role="list" aria-label="' . esc_attr__( 'Social Networks', 'ct-custom' ) . '">';
 
         $icon_count = 0;
 
@@ -57,6 +62,7 @@ class SocialIconsWidget extends WP_Widget {
             }
 
             echo '<a href="' . esc_url( $url ) . '"'
+                . ' class="dif aic jcc"'
                 . ' target="_blank"'
                 . ' rel="noopener noreferrer"'
                 . ' title="' . esc_attr( $name ) . '"'
@@ -74,10 +80,10 @@ class SocialIconsWidget extends WP_Widget {
             echo '</a>';
         }
 
-        if ( get_theme_mod( 'ct_social_share_enabled', true ) ) {
+        if ( get_theme_mod( 'bs_social_share_enabled', true ) ) {
             echo '<button'
                 . ' type="button"'
-                . ' class="share-button share-with-friend"'
+                . ' class="share-button share-with-friend dif aic jcc cp p0"'
                 . ' data-url="' . esc_attr( home_url( '/' ) ) . '"'
                 . ' data-title="' . esc_attr( get_bloginfo( 'name' ) ) . '"'
                 . ' data-text="' . esc_attr( get_bloginfo( 'description' ) ) . '"'
@@ -122,7 +128,7 @@ class SocialIconsWidget extends WP_Widget {
             </div>
         </div>
         <p class="description">
-            <?php esc_html_e( 'Icons are managed in BS Custom Theme > Social Networks settings.', 'ct-custom' ); ?>
+            <?php esc_html_e( 'Icons are managed in BS Custom Theme > SEO > Social Icons.', 'ct-custom' ); ?>
         </p>
         <?php
     }

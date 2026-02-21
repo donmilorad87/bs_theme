@@ -3,7 +3,7 @@
  * Page Language Filter — admin list-table dropdown.
  *
  * Adds a language select box and Filter button to the Pages
- * list table so editors can filter by the ct_language post-meta.
+ * list table so editors can filter by the bs_language post-meta.
  *
  * @package BSCustom\Admin
  */
@@ -16,10 +16,10 @@ class PageLanguageFilter {
     private const MAX_LANGUAGES = 50;
 
     /** Post-meta key that stores the language iso2 code. */
-    private const META_KEY = 'ct_language';
+    private const META_KEY = 'bs_language';
 
     /** URL query parameter for language filtering. */
-    private const QUERY_PARAM = 'ct_lang';
+    private const QUERY_PARAM = 'bs_lang';
 
     /** Post type this filter applies to. */
     private const POST_TYPE = 'page';
@@ -77,7 +77,7 @@ class PageLanguageFilter {
             return;
         }
 
-        $lang_mgr = ct_get_language_manager();
+        $lang_mgr = bs_get_language_manager();
         $enabled  = $lang_mgr->get_enabled();
 
         assert( is_array( $enabled ), 'Enabled languages must be an array' );
@@ -125,7 +125,7 @@ class PageLanguageFilter {
     }
 
     /**
-     * Filter the main admin query by language when ct_lang is set.
+     * Filter the main admin query by language when bs_lang is set.
      *
      * @param \WP_Query $query The query being modified.
      */
@@ -220,7 +220,7 @@ class PageLanguageFilter {
     private function is_valid_iso2( string $iso2 ): bool {
         assert( is_string( $iso2 ), 'ISO2 must be a string' );
 
-        $lang_mgr = ct_get_language_manager();
+        $lang_mgr = bs_get_language_manager();
         $lang     = $lang_mgr->get_by_iso2( $iso2 );
 
         return null !== $lang;

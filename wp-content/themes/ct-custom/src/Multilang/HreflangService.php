@@ -44,17 +44,17 @@ class HreflangService {
             return;
         }
 
-        $group = get_post_meta( $post_id, 'ct_translation_group', true );
+        $group = get_post_meta( $post_id, 'bs_translation_group', true );
 
         if ( empty( $group ) ) {
             return;
         }
 
-        if ( ! function_exists( 'ct_get_language_manager' ) ) {
+        if ( ! function_exists( 'bs_get_language_manager' ) ) {
             return;
         }
 
-        $mgr       = ct_get_language_manager();
+        $mgr       = bs_get_language_manager();
         $default    = $mgr->get_default();
         $default_iso = $default ? $default['iso2'] : 'en';
 
@@ -63,7 +63,7 @@ class HreflangService {
             'post_type'      => 'page',
             'post_status'    => 'publish',
             'posts_per_page' => self::MAX_ALTERNATES,
-            'meta_key'       => 'ct_translation_group',
+            'meta_key'       => 'bs_translation_group',
             'meta_value'     => $group,
             'fields'         => 'ids',
             'no_found_rows'  => true,
@@ -86,7 +86,7 @@ class HreflangService {
             }
             $count++;
 
-            $lang = get_post_meta( $pid, 'ct_language', true );
+            $lang = get_post_meta( $pid, 'bs_language', true );
 
             if ( empty( $lang ) ) {
                 continue;

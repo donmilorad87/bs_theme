@@ -39,7 +39,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Simple key ──────────────────────────────────────────────────── */
 
     public function test_simple_key_resolves(): void {
-        $content = "ct_translate('SITE_NAME')";
+        $content = "bs_translate('SITE_NAME')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -49,7 +49,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Args with PHP arrow syntax ──────────────────────────────────── */
 
     public function test_args_php_syntax(): void {
-        $content = "ct_translate('ITEM_COUNT',['count'=>'5'],'other')";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'5'],'other')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -59,7 +59,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Args with JSON syntax ───────────────────────────────────────── */
 
     public function test_args_json_syntax(): void {
-        $content = "ct_translate('ITEM_COUNT',{\"count\":\"5\"},'other')";
+        $content = "bs_translate('ITEM_COUNT',{\"count\":\"5\"},'other')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -69,7 +69,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Named plural form ───────────────────────────────────────────── */
 
     public function test_named_plural_form_one(): void {
-        $content = "ct_translate('ITEM_COUNT',['count'=>'1'],'one')";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'1'],'one')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -77,7 +77,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     }
 
     public function test_named_plural_form_other(): void {
-        $content = "ct_translate('ITEM_COUNT',['count'=>'3'],'other')";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'3'],'other')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -88,7 +88,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
     public function test_numeric_plural_form_one(): void {
         /* English CLDR: count=1 resolves to 'one' */
-        $content = "ct_translate('ITEM_COUNT',['count'=>'1'],1)";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'1'],1)";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -97,7 +97,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
     public function test_numeric_plural_form_other(): void {
         /* English CLDR: count=5 resolves to 'other' */
-        $content = "ct_translate('ITEM_COUNT',['count'=>'5'],5)";
+        $content = "bs_translate('ITEM_COUNT',['count'=>'5'],5)";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -107,7 +107,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Singular fallback (plural key, no count) ────────────────────── */
 
     public function test_singular_fallback_no_count(): void {
-        $content = "ct_translate('ITEM_COUNT')";
+        $content = "bs_translate('ITEM_COUNT')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -117,7 +117,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Multiple patterns in one content block ──────────────────────── */
 
     public function test_multiple_patterns(): void {
-        $content = "<h1>ct_translate('SITE_NAME')</h1><p>ct_translate('CONTACT_US')</p>";
+        $content = "<h1>bs_translate('SITE_NAME')</h1><p>bs_translate('CONTACT_US')</p>";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -127,7 +127,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Unknown key returns key name ────────────────────────────────── */
 
     public function test_unknown_key_returns_key(): void {
-        $content = "ct_translate('NONEXISTENT_KEY')";
+        $content = "bs_translate('NONEXISTENT_KEY')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -137,7 +137,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── HTML in surrounding content is preserved ────────────────────── */
 
     public function test_html_preserved(): void {
-        $content = '<div class="hero"><h1>ct_translate(\'SITE_NAME\')</h1><span>&amp; more</span></div>';
+        $content = '<div class="hero"><h1>bs_translate(\'SITE_NAME\')</h1><span>&amp; more</span></div>';
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -147,7 +147,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Duplicate patterns resolved once, replaced everywhere ───────── */
 
     public function test_duplicate_patterns_deduplication(): void {
-        $content = "ct_translate('SITE_NAME') - ct_translate('SITE_NAME')";
+        $content = "bs_translate('SITE_NAME') - bs_translate('SITE_NAME')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -157,7 +157,7 @@ class TranslationServiceBlockContentTest extends TestCase {
     /* ── Singular form on plural key via named form ──────────────────── */
 
     public function test_singular_named_form(): void {
-        $content = "ct_translate('CLOSE',[],'singular')";
+        $content = "bs_translate('CLOSE',[],'singular')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 
@@ -168,7 +168,7 @@ class TranslationServiceBlockContentTest extends TestCase {
 
     public function test_plural_key_no_singular_fallback(): void {
         /* PAGE_COUNT has no 'singular' key — fallback is the key name */
-        $content = "ct_translate('PAGE_COUNT')";
+        $content = "bs_translate('PAGE_COUNT')";
 
         $result = TranslationService::resolve_block_content( $content, 'en' );
 

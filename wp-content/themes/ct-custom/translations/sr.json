@@ -16,11 +16,15 @@
     "FOOTER_WIDGETS": "Footer Widgets",
     "READ_MORE": "Read More",
     "CONTACT_US": {
-        "singular": "Contact Us sr"
+        "singular": "Contact Us"
     },
     "SEND_MESSAGE": "Send Message",
     "NAME": "Name",
-    "EMAIL": "Email",
+    "EMAIL": {
+        "singular": "Email_EN",
+        "zero": "##name## email zero en",
+        "one": "##name## email one en"
+    },
     "MESSAGE": "Message",
     "SUBMIT": "Submit",
     "CLOSE": "Close",
@@ -29,7 +33,7 @@
     "SUCCESS": "Success!",
     "SHARE": "Share",
     "ITEM_COUNT": {
-        "singular": "Broj jedinke",
+        "singular": "Count items",
         "one": "##count## item",
         "other": "##count## items"
     },

@@ -12,7 +12,7 @@ namespace BSCustom\Customizer\Controls;
 
 class ToggleSwitchControl extends \WP_Customize_Control {
 
-    public $type = 'ct_toggle_switch';
+    public $type = 'bs_toggle_switch';
 
     public function enqueue() {
         /* Styles handled by ct-customizer-controls CSS */

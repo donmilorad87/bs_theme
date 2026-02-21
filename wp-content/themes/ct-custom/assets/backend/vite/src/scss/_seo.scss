@@ -1,0 +1,1012 @@
+@use 'variables' as *;
+
+/* ═══ SEO Sub-Tab Navigation (CSS-only radio buttons) ═══ */
+
+/* Radio inputs are direct children of .ct-seo-section (hidden) */
+.ct-seo-section > .ct-seo-tabs__radio {
+    display: none !important;
+}
+
+.ct-seo-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: $ct-admin-spacing;
+    border-bottom: 2px solid $ct-border;
+    flex-wrap: wrap;
+
+    &__label {
+        padding: $ct-admin-spacing-sm $ct-admin-spacing;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: $ct-gray;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: color $ct-admin-transition, border-color $ct-admin-transition;
+
+        &:hover {
+            color: $ct-dark;
+        }
+    }
+}
+
+/* Active tab label highlighting */
+#bs_seo_tab_global:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_global"],
+#bs_seo_tab_social:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_social"],
+#bs_seo_tab_sitemap:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_sitemap"],
+#bs_seo_tab_llms:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_llms"],
+#bs_seo_tab_redirects:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_redirects"],
+#bs_seo_tab_breadcrumbs:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_breadcrumbs"],
+#bs_seo_tab_dashboard:checked ~ .ct-seo-tabs .ct-seo-tabs__label[for="bs_seo_tab_dashboard"] {
+    color: $ct-primary;
+    border-bottom-color: $ct-primary;
+}
+
+/* Panels: hidden by default, shown via sibling radio state */
+.ct-seo-panel {
+    display: none;
+}
+
+#bs_seo_tab_global:checked ~ .ct-seo-panel--global { display: block; }
+#bs_seo_tab_social:checked ~ .ct-seo-panel--social { display: block; }
+#bs_seo_tab_sitemap:checked ~ .ct-seo-panel--sitemap { display: block; }
+#bs_seo_tab_llms:checked ~ .ct-seo-panel--llms { display: block; }
+#bs_seo_tab_redirects:checked ~ .ct-seo-panel--redirects { display: block; }
+#bs_seo_tab_breadcrumbs:checked ~ .ct-seo-panel--breadcrumbs { display: block; }
+#bs_seo_tab_dashboard:checked ~ .ct-seo-panel--dashboard { display: block; }
+
+/* ═══ Sitemap inner sub-tabs (CSS-only, radios inside .ct-seo-panel--sitemap) ═══ */
+
+.ct-sitemap-subtab__radio {
+    display: none !important;
+}
+
+.ct-sitemap-subtabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: $ct-admin-spacing;
+    border-bottom: 2px solid $ct-border;
+
+    &__label {
+        padding: 9px $ct-admin-spacing;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: $ct-gray;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: color $ct-admin-transition, border-color $ct-admin-transition;
+
+        &:hover {
+            color: $ct-dark;
+        }
+    }
+}
+
+/* Active inner label */
+#bs_sitemap_subtab_general:checked ~ .ct-sitemap-subtabs .ct-sitemap-subtabs__label[for="bs_sitemap_subtab_general"],
+#bs_sitemap_subtab_index:checked ~ .ct-sitemap-subtabs .ct-sitemap-subtabs__label[for="bs_sitemap_subtab_index"] {
+    color: $ct-primary;
+    border-bottom-color: $ct-primary;
+}
+
+/* Inner sub-panels */
+.ct-sitemap-subpanel {
+    display: none;
+}
+
+#bs_sitemap_subtab_general:checked ~ .ct-sitemap-subpanel--general { display: block; }
+#bs_sitemap_subtab_index:checked ~ .ct-sitemap-subpanel--index     { display: block; }
+
+/* ═══ SEO Form ═══ */
+
+.ct-seo-form {
+    background: $ct-white;
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    padding: $ct-admin-spacing-lg $ct-admin-spacing;
+
+    &__input {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        font-size: 13px;
+        line-height: 1.5;
+        background: $ct-white;
+        color: $ct-dark;
+        transition: border-color $ct-admin-transition, box-shadow $ct-admin-transition;
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: $ct-primary;
+            box-shadow: 0 0 0 3px rgba($ct-primary, 0.1);
+        }
+
+        &::placeholder {
+            color: $ct-gray-light;
+        }
+
+        &--small {
+            max-width: 200px;
+        }
+
+        &--search {
+            max-width: 260px;
+        }
+    }
+
+    &__textarea {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        font-size: 13px;
+        line-height: 1.6;
+        background: $ct-white;
+        color: $ct-dark;
+        resize: vertical;
+        font-family: inherit;
+        box-sizing: border-box;
+        transition: border-color $ct-admin-transition, box-shadow $ct-admin-transition;
+
+        &:focus {
+            outline: none;
+            border-color: $ct-primary;
+            box-shadow: 0 0 0 3px rgba($ct-primary, 0.1);
+        }
+
+        &::placeholder {
+            color: $ct-gray-light;
+        }
+    }
+
+    &__select {
+        min-width: 150px;
+        padding: 8px 32px 8px 12px;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        font-size: 13px;
+        background: $ct-white;
+        color: $ct-dark;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+
+        &:focus {
+            outline: none;
+            border-color: $ct-primary;
+            box-shadow: 0 0 0 3px rgba($ct-primary, 0.1);
+        }
+    }
+
+    &__preview {
+        width: 100%;
+        max-height: 300px;
+        padding: 12px;
+        border: 1px solid $ct-border;
+        border-radius: 6px;
+        background: $ct-off-white;
+        font-size: 12px;
+        font-family: monospace;
+        color: $ct-dark-soft;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-all;
+        box-sizing: border-box;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing;
+        padding-top: $ct-admin-spacing;
+        border-top: 1px solid $ct-border-light;
+
+        .button {
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all $ct-admin-transition;
+            line-height: 1.5;
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+
+        .button-primary {
+            background: $ct-primary;
+            border-color: $ct-primary-dark;
+            color: $ct-white;
+            box-shadow: $ct-shadow-sm;
+
+            &:hover:not(:disabled) {
+                background: $ct-primary-dark;
+                box-shadow: $ct-shadow-primary;
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 3px rgba($ct-primary, 0.25);
+            }
+        }
+    }
+
+    &__status {
+        margin-left: $ct-admin-spacing-sm;
+        font-size: 13px;
+        color: $ct-gray;
+    }
+}
+
+/* ═══ SEO Field ═══ */
+
+.ct-seo-field {
+    margin-bottom: $ct-admin-spacing;
+
+    label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: $ct-dark-soft;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    &__placeholders {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+        flex-wrap: wrap;
+    }
+
+    &__hint {
+        font-size: 12px;
+        color: $ct-gray;
+        margin-top: 4px;
+    }
+
+    &__readonly-url {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        input[readonly] {
+            background: $ct-off-white;
+            color: $ct-gray;
+            cursor: default;
+        }
+    }
+
+    &--toggle {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing;
+
+        > label {
+            margin-bottom: 0;
+        }
+    }
+}
+
+/* Placeholder Buttons */
+
+.ct-seo-placeholder-btn {
+    display: inline-block;
+    padding: 3px 10px;
+    background: $ct-info-light;
+    color: $ct-info;
+    border: 1px solid rgba($ct-info, 0.2);
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: monospace;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $ct-admin-transition;
+
+    &:hover {
+        background: $ct-info;
+        color: $ct-white;
+        border-color: $ct-info;
+    }
+}
+
+/* ═══ SEO Toggle Switch ═══ */
+
+.ct-seo-toggle {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+
+    &__input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .ct-seo-toggle__slider {
+            background: $ct-success;
+
+            &::before {
+                transform: translateX(16px);
+            }
+        }
+
+        &:disabled + .ct-seo-toggle__slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: $ct-border;
+        border-radius: 10px;
+        transition: background $ct-admin-transition;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 2px;
+            bottom: 2px;
+            background: $ct-white;
+            border-radius: 50%;
+            transition: transform $ct-admin-transition;
+        }
+    }
+}
+
+/* ═══ SEO Media Picker ═══ */
+
+.ct-seo-media-picker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &__preview {
+        width: 60px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid $ct-border;
+
+        &--og {
+            width: 120px;
+            height: 63px;
+        }
+    }
+
+    &__remove {
+        padding: 4px 8px;
+        line-height: 1;
+        color: $ct-error;
+    }
+}
+
+/* ═══ SEO Score Badge ═══ */
+
+.ct-seo-score-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    min-width: 28px;
+
+    &--good {
+        background: $ct-success-light;
+        color: $ct-success;
+    }
+
+    &--ok {
+        background: $ct-warning-light;
+        color: $ct-warning;
+    }
+
+    &--poor {
+        background: $ct-error-light;
+        color: $ct-error;
+    }
+}
+
+/* Dashboard Yes/No cells */
+
+.ct-seo-dash-yes {
+    color: $ct-success;
+    font-weight: 600;
+}
+
+.ct-seo-dash-no {
+    color: $ct-gray-light;
+}
+
+/* ═══ Priorities Panel ═══ */
+
+.ct-seo-priorities {
+
+    &__toolbar {
+        display: flex;
+        align-items: center;
+        gap: $ct-admin-spacing-sm;
+        margin-bottom: $ct-admin-spacing;
+        flex-wrap: wrap;
+    }
+
+    &__loading,
+    &__empty {
+        color: $ct-gray;
+        font-size: 13px;
+        padding: $ct-admin-spacing;
+    }
+
+    &__data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        background: $ct-white;
+        border: 1px solid $ct-border;
+        border-radius: $ct-admin-radius;
+        overflow: hidden;
+
+        th {
+            background: $ct-off-white;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: $ct-dark-soft;
+            border-bottom: 1px solid $ct-border;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid $ct-border-light;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover td {
+            background: $ct-off-white;
+        }
+    }
+
+    &__title-cell {
+        max-width: 320px;
+
+        a {
+            color: $ct-primary;
+            text-decoration: none;
+            font-weight: 600;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__type-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        background: $ct-info-light;
+        color: $ct-info;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    &__select {
+        min-width: 130px;
+        font-size: 12px;
+        padding: 5px 28px 5px 8px;
+    }
+}
+
+/* ═══ Sitemap — Post-Type Toggle Grid ═══ */
+
+.ct-sitemap-types {
+    margin: $ct-admin-spacing 0;
+
+    h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: $ct-dark-soft;
+        margin: 0 0 10px;
+    }
+
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+.ct-sitemap-type-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: $ct-off-white;
+    border: 1px solid $ct-border;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: $ct-dark-soft;
+    cursor: pointer;
+    transition: background $ct-admin-transition, border-color $ct-admin-transition;
+
+    input[type="checkbox"] {
+        margin: 0;
+        cursor: pointer;
+    }
+
+    &:hover {
+        background: $ct-primary-light;
+        border-color: rgba($ct-primary, 0.35);
+    }
+
+    &:has(input:checked) {
+        background: $ct-primary-light;
+        border-color: $ct-primary;
+        color: $ct-primary-dark;
+    }
+}
+
+/* ═══ Regenerate Button Spinner ═══ */
+
+.ct-sitemap-regen__icon {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    vertical-align: middle;
+    transition: transform $ct-admin-transition;
+}
+
+.is-regenerating .ct-sitemap-regen__icon {
+    animation: ct-spin 1s linear infinite;
+}
+
+@keyframes ct-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ═══ Sitemap Tree ═══ */
+
+.ct-sitemap-tree {
+    margin-top: $ct-admin-spacing-lg;
+
+    h4 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: $ct-dark-soft;
+        margin: 0 0 $ct-admin-spacing-sm;
+    }
+}
+
+/* Language accordion */
+
+.ct-sitemap-lang {
+    border: 1px solid $ct-border;
+    border-radius: $ct-admin-radius;
+    margin-bottom: 8px;
+    overflow: hidden;
+
+    /* Top-level "All" accordion — slightly darker header */
+    &--all {
+        border-color: $ct-primary;
+    }
+
+    &__header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px $ct-admin-spacing-sm;
+        background: $ct-off-white;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        color: $ct-dark;
+        text-align: left;
+        transition: background $ct-admin-transition;
+
+        &:hover {
+            background: $ct-light-gray;
+        }
+
+        /* "All" header has primary tint */
+        &--all {
+            background: rgba($ct-primary, 0.06);
+            color: $ct-primary-dark;
+
+            &:hover {
+                background: rgba($ct-primary, 0.12);
+            }
+        }
+    }
+
+    &__chevron {
+        display: inline-block;
+        font-size: 10px;
+        color: $ct-gray;
+        transition: transform $ct-admin-transition;
+        flex-shrink: 0;
+    }
+
+    &__body {
+        padding: $ct-admin-spacing-sm;
+        border-top: 1px solid $ct-border-light;
+
+        /* Language accordions nested inside "All" body are indented */
+        &--all {
+            padding: $ct-admin-spacing-sm $ct-admin-spacing-sm $ct-admin-spacing-sm $ct-admin-spacing;
+            background: $ct-white;
+        }
+    }
+
+    /* Child language accordions (nested inside All) */
+    &--child {
+        margin-bottom: 6px;
+
+        .ct-sitemap-lang__header {
+            font-size: 13px;
+            font-weight: 600;
+            background: $ct-off-white;
+        }
+    }
+}
+
+/* Post-type accordion */
+
+.ct-sitemap-type {
+    border: 1px solid $ct-border-light;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    overflow: hidden;
+
+    &__header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px $ct-admin-spacing-sm;
+        background: $ct-white;
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        color: $ct-dark-soft;
+        text-align: left;
+        transition: background $ct-admin-transition;
+
+        &:hover {
+            background: $ct-off-white;
+        }
+    }
+
+    &__chevron {
+        display: inline-block;
+        font-size: 10px;
+        color: $ct-gray-light;
+        transition: transform $ct-admin-transition;
+        flex-shrink: 0;
+    }
+
+    &__body {
+        padding: $ct-admin-spacing-sm;
+        border-top: 1px solid $ct-border-light;
+        background: $ct-white;
+        overflow-x: auto;
+    }
+}
+
+/* Count badge */
+
+.ct-sitemap-count {
+    display: inline-block;
+    padding: 1px 7px;
+    background: $ct-info-light;
+    color: $ct-info;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: auto;
+}
+
+/* Spinner / empty / error states */
+
+.ct-sitemap-spinner,
+.ct-sitemap-empty,
+.ct-sitemap-error {
+    font-size: 13px;
+    padding: $ct-admin-spacing-sm;
+    color: $ct-gray;
+}
+
+.ct-sitemap-error {
+    color: $ct-error;
+}
+
+/* ═══ Sitemap Items Table ═══ */
+
+.ct-sitemap-items {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 700px;
+
+    th {
+        padding: 8px 10px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: $ct-dark-soft;
+        background: $ct-off-white;
+        border-bottom: 1px solid $ct-border;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 8px 10px;
+        border-bottom: 1px solid $ct-border-light;
+        vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    tbody tr:hover td {
+        background: rgba($ct-off-white, 0.7);
+    }
+
+    &__title {
+        max-width: 200px;
+
+        a {
+            color: $ct-dark;
+            text-decoration: none;
+            font-weight: 600;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            &:hover {
+                color: $ct-primary;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__url-cell {
+        max-width: 220px;
+    }
+
+    &__url {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    &__url-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 160px;
+        font-size: 11px;
+        color: $ct-gray;
+        flex: 1 1 auto;
+    }
+
+    &__copy-btn,
+    &__open-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        background: none;
+        border: 1px solid $ct-border;
+        border-radius: 4px;
+        color: $ct-gray;
+        font-size: 12px;
+        cursor: pointer;
+        text-decoration: none;
+        line-height: 1;
+        transition: background $ct-admin-transition, color $ct-admin-transition;
+
+        &:hover {
+            background: $ct-light-gray;
+            color: $ct-dark;
+        }
+    }
+
+    &__exclude-cell {
+        text-align: center;
+    }
+
+    &__lastmod {
+        white-space: nowrap;
+        color: $ct-gray;
+        font-size: 11px;
+    }
+}
+
+/* Language ISO badge */
+
+.ct-sitemap-lang__iso {
+    display: inline-block;
+    padding: 1px 6px;
+    background: $ct-info-light;
+    color: $ct-info;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-left: 4px;
+}
+
+/* Excluded row */
+
+.ct-sitemap-item--excluded {
+    opacity: 0.5;
+
+    td {
+        text-decoration: line-through;
+        color: $ct-gray;
+    }
+
+    .ct-seo-toggle__input:checked + .ct-seo-toggle__slider {
+        background: $ct-error;
+    }
+}
+
+/* ═══ Drag-and-drop ═══ */
+
+.ct-sitemap-items {
+
+    &__handle-col {
+        width: 24px;
+    }
+
+    &__handle {
+        cursor: grab;
+        color: $ct-gray-light;
+        font-size: 16px;
+        padding: 0 6px;
+        text-align: center;
+        user-select: none;
+        line-height: 1;
+        transition: color $ct-admin-transition;
+
+        &:active { cursor: grabbing; }
+    }
+
+    tr:hover .ct-sitemap-items__handle {
+        color: $ct-gray;
+    }
+}
+
+/* Row being dragged */
+.ct-sitemap-item--dragging {
+    opacity: 0.35;
+    background: $ct-primary-light !important;
+    outline: 2px dashed $ct-primary;
+    outline-offset: -2px;
+
+    td { color: $ct-primary-dark; }
+}
+
+/* Drop position indicator */
+.ct-sitemap-item--drop-before {
+    border-top: 3px solid $ct-primary !important;
+    background: $ct-primary-light;
+}
+
+/* ═══ Sitemap Select (inline, compact) ═══ */
+
+.ct-sitemap-select {
+    min-width: 100px;
+    font-size: 12px;
+    padding: 4px 24px 4px 8px;
+}
+
+/* ═══ Per-row Save Status ═══ */
+
+.ct-sitemap-item-status {
+    font-size: 11px;
+    white-space: nowrap;
+    min-width: 50px;
+
+    &--saving {
+        color: $ct-gray;
+    }
+
+    &--saved {
+        color: $ct-success;
+        font-weight: 600;
+    }
+
+    &--error {
+        color: $ct-error;
+        font-weight: 600;
+    }
+}
+
+/* ═══ Sitemap Pagination ═══ */
+
+.ct-sitemap-pagination {
+    display: flex;
+    align-items: center;
+    gap: $ct-admin-spacing-sm;
+    padding: $ct-admin-spacing-sm;
+    border-top: 1px solid $ct-border-light;
+
+    button {
+        padding: 5px 12px;
+        font-size: 12px;
+        border: 1px solid $ct-border;
+        border-radius: 4px;
+        background: $ct-white;
+        cursor: pointer;
+        transition: background $ct-admin-transition;
+
+        &:hover:not(:disabled) {
+            background: $ct-off-white;
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+
+    &__info {
+        font-size: 12px;
+        color: $ct-gray;
+    }
+}
+
+/* ═══ Sitemap Disabled State ═══ */
+
+/* Dims the Sitemap Index sub-tab label when sitemap is disabled */
+.ct-sitemap-subtabs__label.ct-sitemap-subtab--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Dims the entire Sitemap Index sub-panel content when sitemap is disabled */
+.ct-sitemap-subpanel--disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    user-select: none;
+}

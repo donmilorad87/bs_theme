@@ -31,7 +31,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
         $this->registerUser( 'alice', $email, 'Secret1234!', false );
 
         /* Store the activation code */
-        $transient_key = 'ct_activation_code_' . md5( $email );
+        $transient_key = 'bs_activation_code_' . md5( $email );
         $this->setTransient( $transient_key, $code, 1800 );
 
         $request  = $this->makeRequest( array(
@@ -45,7 +45,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
 
         /* Verify the meta was updated */
         $user   = \get_user_by( 'email', $email );
-        $active = \get_user_meta( $user->ID, 'ct_account_active', true );
+        $active = \get_user_meta( $user->ID, 'bs_account_active', true );
         $this->assertSame( '1', $active );
     }
 
@@ -56,7 +56,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
         $this->registerUser( 'bob', $email, 'Secret1234!', false );
 
         /* Store a different code */
-        $transient_key = 'ct_activation_code_' . md5( $email );
+        $transient_key = 'bs_activation_code_' . md5( $email );
         $this->setTransient( $transient_key, '999999', 1800 );
 
         $request  = $this->makeRequest( array(
@@ -97,7 +97,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
         $code  = '654321';
 
         /* Store a valid code but no user exists with this email */
-        $transient_key = 'ct_activation_code_' . md5( $email );
+        $transient_key = 'bs_activation_code_' . md5( $email );
         $this->setTransient( $transient_key, $code, 1800 );
 
         $request  = $this->makeRequest( array(
@@ -117,7 +117,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
         $this->setClientIp( $ip );
 
         /* Simulate 5 prior attempts */
-        $key = 'ct_verify_activation_' . md5( $ip );
+        $key = 'bs_verify_activation_' . md5( $ip );
         $this->setTransient( $key, 5, 300 );
 
         $request  = $this->makeRequest( array(
@@ -138,7 +138,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
 
         $this->registerUser( 'dave', $email, 'Secret1234!', false );
 
-        $transient_key = 'ct_activation_code_' . md5( $email );
+        $transient_key = 'bs_activation_code_' . md5( $email );
         $this->setTransient( $transient_key, $code, 1800 );
 
         $request = $this->makeRequest( array(
@@ -159,7 +159,7 @@ class VerifyActivationEndpointTest extends AuthTestCase {
 
         $this->registerUser( 'eve', $email, 'Secret1234!', false );
 
-        $transient_key = 'ct_activation_code_' . md5( $email );
+        $transient_key = 'bs_activation_code_' . md5( $email );
         $this->setTransient( $transient_key, $code, 1800 );
 
         $request  = $this->makeRequest( array(

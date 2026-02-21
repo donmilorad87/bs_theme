@@ -92,7 +92,7 @@ class LoginEndpointTest extends AuthTestCase {
         $this->setClientIp( $ip );
 
         /* Simulate 5 prior failed attempts */
-        $key = 'ct_login_attempts_' . md5( $ip );
+        $key = 'bs_login_attempts_' . md5( $ip );
         $this->setTransient( $key, 5, 300 );
 
         $request  = $this->makeRequest( array(
@@ -117,7 +117,7 @@ class LoginEndpointTest extends AuthTestCase {
         ) );
         $this->endpoint->handle( $request );
 
-        $key      = 'ct_login_attempts_' . md5( $ip );
+        $key      = 'bs_login_attempts_' . md5( $ip );
         $attempts = (int) \get_transient( $key );
 
         $this->assertSame( 1, $attempts );

@@ -177,6 +177,9 @@ export default class Admin_BS_Custom {
         }
 
         const inputs = form.querySelectorAll('.jwtAuthInputs');
+        const secretInput = form.querySelector('#jwt_secret');
+        const expirationInput = form.querySelector('#jwt_expiration_hours');
+        const generateBtn = form.querySelector('#generate_jwt_secret_btn');
         const MAX_INPUTS = 10;
         let count = 0;
 
@@ -197,7 +200,6 @@ export default class Admin_BS_Custom {
             });
         });
 
-        const generateBtn = document.querySelector('#generate_jwt_secret_btn');
         if (generateBtn) {
             generateBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -211,6 +213,22 @@ export default class Admin_BS_Custom {
                 }
             });
         }
+
+        const syncJwtInputs = () => {
+            const canEdit = form.getAttribute('data-user-management-enabled') !== '0';
+
+            if (secretInput) {
+                secretInput.disabled = !canEdit;
+            }
+            if (expirationInput) {
+                expirationInput.disabled = !canEdit;
+            }
+            if (generateBtn) {
+                generateBtn.disabled = !canEdit;
+            }
+        };
+
+        syncJwtInputs();
     }
 
     debounceJwtSave(form) {
@@ -225,6 +243,14 @@ export default class Admin_BS_Custom {
 
     async saveJwtAuth(form) {
         if (this.jwtSaving) {
+            return;
+        }
+
+        const userToggle = document.querySelector('#bs_user_management_enabled');
+        if (userToggle && !userToggle.checked) {
+            return;
+        }
+        if (form.getAttribute('data-user-management-enabled') === '0') {
             return;
         }
 

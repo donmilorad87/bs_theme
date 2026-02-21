@@ -55,6 +55,7 @@ CustomizerContactPoint.prototype._getData = function () {
     }
 
     return {
+        company: parsed.company || '',
         telephone: parsed.telephone || '',
         fax_number: parsed.fax_number || '',
         email: parsed.email || '',
@@ -112,6 +113,12 @@ CustomizerContactPoint.prototype._renderForm = function () {
 
     this.container.innerHTML =
         '<div class="ct-cp-form">'
+
+        /* Company */
+        + '<div class="ct-cp-field">'
+        + '<label>Company</label>'
+        + '<input type="text" class="ct-cp-company" maxlength="200" value="' + escapeHtml(data.company) + '" placeholder="e.g. Blazing Sun">'
+        + '</div>'
 
         /* Telephone */
         + '<div class="ct-cp-field">'
@@ -203,6 +210,7 @@ CustomizerContactPoint.prototype._readForm = function () {
     assert(form instanceof HTMLElement, 'form must exist');
 
     return {
+        company: form.querySelector('.ct-cp-company').value,
         telephone: form.querySelector('.ct-cp-telephone').value,
         fax_number: form.querySelector('.ct-cp-fax').value,
         email: form.querySelector('.ct-cp-email').value,

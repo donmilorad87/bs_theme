@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    BS Custom Theme — XML Sitemap Stylesheet
+    Transforms sitemap XML (index + urlset) into human-readable HTML.
+    PHP replaces BSSITEMAPINDEXURL before serving this file.
+-->
+<xsl:stylesheet version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    exclude-result-prefixes="sitemap image xhtml">
+
+    <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
+
+    <!-- ═══ Root ═══════════════════════════════════════════════════ -->
+
+    <xsl:template match="/">
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <meta name="robots" content="noindex, follow"/>
+                <xsl:choose>
+                    <xsl:when test="sitemap:sitemapindex">
+                        <title>XML Sitemap Index</title>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <title>XML Sitemap</title>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:call-template name="styles"/>
+            </head>
+            <body>
+                <xsl:apply-templates/>
+            </body>
+        </html>
+    </xsl:template>
+
+    <!-- ═══ Sitemap Index ═══════════════════════════════════════════ -->
+
+    <xsl:template match="sitemap:sitemapindex">
+        <div id="ct-sitemap">
+            <div id="ct-sitemap-header">
+                <div id="ct-sitemap-header-left">
+                    <h1>XML Sitemap Index</h1>
+                    <p class="ct-sm-desc">
+                        This XML Sitemap Index is read by search engines to discover and crawl all pages on this website.
+                        This index contains
+                        <strong><xsl:value-of select="count(sitemap:sitemap)"/> sitemaps</strong>.
+                        <a href="https://www.sitemaps.org/protocol.html"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="ct-sm-ext-link">Learn about XML Sitemaps &#x2197;</a>
+                    </p>
+                </div>
+                <div id="ct-sitemap-stat">
+                    <span id="ct-sitemap-stat-num"><xsl:value-of select="count(sitemap:sitemap)"/></span>
+                    <span id="ct-sitemap-stat-label">Sitemaps</span>
+                </div>
+            </div>
+
+            <div id="ct-sitemap-body">
+                <table id="ct-sitemap-table">
+                    <thead>
+                        <tr>
+                            <th class="ct-sm-col-num">#</th>
+                            <th>Sitemap URL</th>
+                            <th class="ct-sm-col-date">Last Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <xsl:for-each select="sitemap:sitemap">
+                            <tr>
+                                <td class="ct-sm-col-num ct-sm-row-num">
+                                    <xsl:value-of select="position()"/>
+                                </td>
+                                <td>
+                                    <a href="{sitemap:loc}" class="ct-sm-url">
+                                        <xsl:value-of select="sitemap:loc"/>
+                                    </a>
+                                </td>
+                                <td class="ct-sm-col-date">
+                                    <xsl:choose>
+                                        <xsl:when test="sitemap:lastmod">
+                                            <xsl:value-of select="substring(sitemap:lastmod,1,10)"/>
+                                            <xsl:if test="string-length(sitemap:lastmod) &gt; 10">
+                                                <span class="ct-sm-time">
+                                                    <xsl:text>&#160;</xsl:text>
+                                                    <xsl:value-of select="substring(sitemap:lastmod,12,5)"/>
+                                                </span>
+                                            </xsl:if>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <span class="ct-sm-na">—</span>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="ct-sitemap-footer">
+                Generated by <strong>BS Custom Theme</strong>
+            </div>
+        </div>
+    </xsl:template>
+
+    <!-- ═══ URL Set ══════════════════════════════════════════════════ -->
+
+    <xsl:template match="sitemap:urlset">
+        <div id="ct-sitemap">
+            <div id="ct-sitemap-header">
+                <div id="ct-sitemap-header-left">
+                    <h1>XML Sitemap</h1>
+                    <p class="ct-sm-desc">
+                        This XML Sitemap lists
+                        <strong><xsl:value-of select="count(sitemap:url)"/> URLs</strong>
+                        for search engines to crawl.
+                        <a href="BSSITEMAPINDEXURL"
+                           class="ct-sm-back-link">&#x2190; Back to Sitemap Index</a>
+                    </p>
+                </div>
+                <div id="ct-sitemap-stat">
+                    <span id="ct-sitemap-stat-num"><xsl:value-of select="count(sitemap:url)"/></span>
+                    <span id="ct-sitemap-stat-label">URLs</span>
+                </div>
+            </div>
+
+            <div id="ct-sitemap-body">
+                <table id="ct-sitemap-table">
+                    <thead>
+                        <tr>
+                            <th class="ct-sm-col-num">#</th>
+                            <th>URL</th>
+                            <th class="ct-sm-col-date">Last Modified</th>
+                            <th class="ct-sm-col-freq">Change Freq.</th>
+                            <th class="ct-sm-col-pri">Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <xsl:for-each select="sitemap:url">
+                            <tr>
+                                <td class="ct-sm-col-num ct-sm-row-num">
+                                    <xsl:value-of select="position()"/>
+                                </td>
+                                <td>
+                                    <a href="{sitemap:loc}" class="ct-sm-url"
+                                       target="_blank" rel="noopener noreferrer">
+                                        <xsl:value-of select="sitemap:loc"/>
+                                    </a>
+                                    <xsl:if test="image:image">
+                                        <span class="ct-sm-img-badge">
+                                            <xsl:value-of select="count(image:image)"/>
+                                            <xsl:text>&#160;</xsl:text>
+                                            <xsl:choose>
+                                                <xsl:when test="count(image:image) = 1">image</xsl:when>
+                                                <xsl:otherwise>images</xsl:otherwise>
+                                            </xsl:choose>
+                                        </span>
+                                    </xsl:if>
+                                </td>
+                                <td class="ct-sm-col-date">
+                                    <xsl:choose>
+                                        <xsl:when test="sitemap:lastmod">
+                                            <xsl:value-of select="substring(sitemap:lastmod,1,10)"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <span class="ct-sm-na">—</span>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </td>
+                                <td class="ct-sm-col-freq">
+                                    <xsl:if test="sitemap:changefreq">
+                                        <span class="ct-sm-freq-tag">
+                                            <xsl:value-of select="sitemap:changefreq"/>
+                                        </span>
+                                    </xsl:if>
+                                </td>
+                                <td class="ct-sm-col-pri">
+                                    <xsl:if test="sitemap:priority">
+                                        <span>
+                                            <xsl:attribute name="class">
+                                                <xsl:text>ct-sm-pri </xsl:text>
+                                                <xsl:choose>
+                                                    <xsl:when test="number(sitemap:priority) &gt;= 0.8">ct-sm-pri--high</xsl:when>
+                                                    <xsl:when test="number(sitemap:priority) &gt;= 0.5">ct-sm-pri--mid</xsl:when>
+                                                    <xsl:otherwise>ct-sm-pri--low</xsl:otherwise>
+                                                </xsl:choose>
+                                            </xsl:attribute>
+                                            <xsl:value-of select="sitemap:priority"/>
+                                        </span>
+                                    </xsl:if>
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="ct-sitemap-footer">
+                Generated by <strong>BS Custom Theme</strong>
+            </div>
+        </div>
+    </xsl:template>
+
+    <!-- ═══ Shared CSS ═══════════════════════════════════════════════ -->
+
+    <xsl:template name="styles">
+        <style type="text/css">
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                             'Helvetica Neue', Arial, sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+                color: #374151;
+                background: #f3f4f6;
+                min-height: 100vh;
+            }
+
+            #ct-sitemap {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 32px 20px 48px;
+            }
+
+            /* ── Header ─────────────────────────────────────────── */
+
+            #ct-sitemap-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 24px;
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-top: 4px solid #ff6b35;
+                border-radius: 0 0 12px 12px;
+                padding: 28px 32px;
+                margin-bottom: 20px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            }
+
+            #ct-sitemap-header-left h1 {
+                font-size: 22px;
+                font-weight: 800;
+                color: #111827;
+                letter-spacing: -0.4px;
+                margin-bottom: 8px;
+            }
+
+            .ct-sm-desc {
+                font-size: 13px;
+                color: #6b7280;
+                line-height: 1.6;
+            }
+
+            .ct-sm-desc strong {
+                color: #374151;
+            }
+
+            .ct-sm-ext-link {
+                color: #ff6b35;
+                text-decoration: none;
+                font-weight: 500;
+                margin-left: 6px;
+                white-space: nowrap;
+            }
+
+            .ct-sm-ext-link:hover { text-decoration: underline; }
+
+            .ct-sm-back-link {
+                display: inline-block;
+                margin-left: 10px;
+                color: #ff6b35;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 13px;
+            }
+
+            .ct-sm-back-link:hover { text-decoration: underline; }
+
+            /* ── Stat Badge ──────────────────────────────────────── */
+
+            #ct-sitemap-stat {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex-shrink: 0;
+                background: #fff7f4;
+                border: 1px solid #ffd5c3;
+                border-radius: 12px;
+                padding: 16px 24px;
+                min-width: 100px;
+            }
+
+            #ct-sitemap-stat-num {
+                display: block;
+                font-size: 32px;
+                font-weight: 800;
+                color: #ff6b35;
+                line-height: 1;
+            }
+
+            #ct-sitemap-stat-label {
+                display: block;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                color: #9ca3af;
+                margin-top: 4px;
+            }
+
+            /* ── Table Card ──────────────────────────────────────── */
+
+            #ct-sitemap-body {
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            }
+
+            #ct-sitemap-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+
+            #ct-sitemap-table thead {
+                background: #f9fafb;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            #ct-sitemap-table th {
+                padding: 12px 16px;
+                text-align: left;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+                color: #6b7280;
+                white-space: nowrap;
+            }
+
+            #ct-sitemap-table td {
+                padding: 11px 16px;
+                border-bottom: 1px solid #f3f4f6;
+                vertical-align: middle;
+                color: #374151;
+            }
+
+            #ct-sitemap-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            #ct-sitemap-table tbody tr:nth-child(odd) td {
+                background-color: #fafafa;
+            }
+
+            #ct-sitemap-table tbody tr:hover td {
+                background-color: #fff7f4;
+            }
+
+            /* ── Columns ─────────────────────────────────────────── */
+
+            .ct-sm-col-num {
+                width: 52px;
+                text-align: center;
+            }
+
+            .ct-sm-row-num {
+                color: #9ca3af;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .ct-sm-col-date {
+                width: 130px;
+                white-space: nowrap;
+                color: #6b7280;
+                font-size: 12px;
+            }
+
+            .ct-sm-col-freq {
+                width: 120px;
+            }
+
+            .ct-sm-col-pri {
+                width: 90px;
+            }
+
+            /* ── Links ───────────────────────────────────────────── */
+
+            .ct-sm-url {
+                color: #1a1a2e;
+                text-decoration: none;
+                font-weight: 500;
+                word-break: break-all;
+                display: inline;
+            }
+
+            .ct-sm-url:visited {
+                color: #6b7280;
+            }
+
+            .ct-sm-url:hover {
+                color: #ff6b35;
+                text-decoration: underline;
+            }
+
+            /* ── Misc Cells ──────────────────────────────────────── */
+
+            .ct-sm-time {
+                color: #9ca3af;
+                font-size: 11px;
+            }
+
+            .ct-sm-na {
+                color: #d1d5db;
+            }
+
+            /* ── Image Badge ─────────────────────────────────────── */
+
+            .ct-sm-img-badge {
+                display: inline-block;
+                margin-left: 8px;
+                padding: 1px 8px;
+                background: #eff6ff;
+                color: #1d4ed8;
+                border: 1px solid #bfdbfe;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 600;
+                white-space: nowrap;
+                vertical-align: middle;
+            }
+
+            /* ── Change Frequency ────────────────────────────────── */
+
+            .ct-sm-freq-tag {
+                display: inline-block;
+                padding: 2px 9px;
+                background: #f3f4f6;
+                color: #6b7280;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: capitalize;
+            }
+
+            /* ── Priority Badges ─────────────────────────────────── */
+
+            .ct-sm-pri {
+                display: inline-block;
+                padding: 3px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 700;
+                min-width: 42px;
+                text-align: center;
+            }
+
+            .ct-sm-pri--high {
+                background: #dcfce7;
+                color: #166534;
+            }
+
+            .ct-sm-pri--mid {
+                background: #fef9c3;
+                color: #854d0e;
+            }
+
+            .ct-sm-pri--low {
+                background: #f1f5f9;
+                color: #64748b;
+            }
+
+            /* ── Footer ──────────────────────────────────────────── */
+
+            #ct-sitemap-footer {
+                margin-top: 20px;
+                text-align: center;
+                font-size: 12px;
+                color: #9ca3af;
+            }
+
+            #ct-sitemap-footer strong {
+                color: #6b7280;
+            }
+
+            /* ── Responsive ──────────────────────────────────────── */
+
+            @media (max-width: 700px) {
+                #ct-sitemap-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                #ct-sitemap-stat {
+                    align-self: flex-start;
+                    flex-direction: row;
+                    gap: 8px;
+                    padding: 10px 16px;
+                }
+
+                #ct-sitemap-stat-num { font-size: 22px; }
+
+                .ct-sm-col-freq,
+                .ct-sm-col-pri { display: none; }
+            }
+        </style>
+    </xsl:template>
+
+</xsl:stylesheet>

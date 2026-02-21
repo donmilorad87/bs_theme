@@ -3,7 +3,7 @@
  * REST Register Endpoint
  *
  * Handles user registration via POST /wp-json/ct-auth/v1/register.
- * Creates a subscriber account with ct_account_active = 0,
+ * Creates a subscriber account with bs_account_active = 0,
  * generates a 6-digit activation code, and sends it via email.
  * Rate limited: 3 registrations per IP per hour.
  *
@@ -32,7 +32,7 @@ class Register {
     const WINDOW_SEC          = 3600;
     const MIN_USERNAME        = 4;
     const MAX_USERNAME_SPECIAL = 2;
-    const ACTIVATION_PREFIX   = 'ct_activation_code_';
+    const ACTIVATION_PREFIX   = 'bs_activation_code_';
     const ACTIVATION_TTL      = 1800; /* 30 minutes */
 
     /**
@@ -100,9 +100,9 @@ class Register {
 
         $ip = $this->get_client_ip();
 
-        if ( $this->is_rate_limited_by_ip( 'ct_register_attempts_', $ip, self::MAX_ATTEMPTS ) ) {
+        if ( $this->is_rate_limited_by_ip( 'bs_register_attempts_', $ip, self::MAX_ATTEMPTS ) ) {
             $this->log( 'Rate limited: IP=' . $ip );
-            $remaining = $this->get_rate_limit_remaining( 'ct_register_attempts_', $ip );
+            $remaining = $this->get_rate_limit_remaining( 'bs_register_attempts_', $ip );
             $wait_text = $this->format_wait_time( $remaining );
             return new \WP_REST_Response( array(
                 'success' => false,
@@ -148,10 +148,27 @@ class Register {
             ), 500 );
         }
 
-        $this->increment_rate_limit( 'ct_register_attempts_', $ip, self::WINDOW_SEC );
+        $this->increment_rate_limit( 'bs_register_attempts_', $ip, self::WINDOW_SEC );
+
+        $email_enabled = true;
+        if ( function_exists( 'bs_email_enabled' ) ) {
+            $email_enabled = bs_email_enabled();
+        }
+
+        if ( ! $email_enabled ) {
+            update_user_meta( $user_id, 'bs_account_active', '1' );
+
+            return new \WP_REST_Response( array(
+                'success' => true,
+                'message' => __( 'Account created! You can now log in.', 'ct-custom' ),
+                'data'    => array(
+                    'email' => $email,
+                ),
+            ), 200 );
+        }
 
         /* Mark account as inactive */
-        update_user_meta( $user_id, 'ct_account_active', '0' );
+        update_user_meta( $user_id, 'bs_account_active', '0' );
 
         /* Generate and store activation code */
         $code = $this->generate_code();

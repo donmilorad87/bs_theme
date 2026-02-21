@@ -2,14 +2,25 @@
 // Applied directly in templates to avoid duplication across selectors.
 
 .df   { display: flex; }
+.db   { display: block; }
+.dn   { display: none; }
 .dif  { display: inline-flex; }
+.dib  { display: inline-block; }
 .aic  { align-items: center; }
 .jcc  { justify-content: center; }
 .jcsb { justify-content: space-between; }
 .fww  { flex-wrap: wrap; }
+.fdc  { flex-direction: column; }
 .m0   { margin: 0; }
+.mb4  { margin-bottom: 4px; }
+.mb8  { margin-bottom: 8px; }
+.mb12 { margin-bottom: 12px; }
+.mb16 { margin-bottom: 16px; }
+.mb24 { margin-bottom: 24px; }
 .p0   { padding: 0; }
 .w100 { width: 100%; }
 .cp   { cursor: pointer; }
 .tac  { text-align: center; }
+.fs12 { font-size: 12px; }
 .fs14 { font-size: 14px; }
+.fs16 { font-size: 16px; }

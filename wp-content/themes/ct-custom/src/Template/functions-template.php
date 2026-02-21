@@ -1,0 +1,30 @@
+<?php
+/**
+ * Functions which enhance the theme — global wrapper functions.
+ *
+ * Thin backward-compatible wrappers that delegate to BS_Template_Hooks.
+ * All hook registrations have moved to BS_Template_Hooks::register_hooks().
+ *
+ * @package BS_Custom
+ */
+
+use BSCustom\Template\TemplateHooks;
+
+/**
+ * Output breadcrumbs navigation HTML.
+ */
+function bs_custom_breadcrumbs() {
+	TemplateHooks::instance()->breadcrumbs();
+}
+
+/**
+ * Render an attachment image by ID, inlining SVG content when applicable.
+ *
+ * @param int    $attachment_id WordPress attachment ID.
+ * @param string $size          Image size. Default 'thumbnail'.
+ * @param array  $attr          Extra attributes.
+ * @return string HTML markup.
+ */
+function bs_custom_get_attachment_image( $attachment_id, $size = 'thumbnail', $attr = array() ) {
+	return TemplateHooks::instance()->get_attachment_image( $attachment_id, $size, $attr );
+}

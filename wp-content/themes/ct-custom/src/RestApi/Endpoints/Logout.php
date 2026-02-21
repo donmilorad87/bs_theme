@@ -42,7 +42,7 @@ class Logout {
     public function check_permission( \WP_REST_Request $request ) {
         assert( function_exists( 'is_user_logged_in' ), 'is_user_logged_in must exist' );
 
-        return ct_jwt_or_cookie_permission_check( $request );
+        return bs_jwt_or_cookie_permission_check( $request );
     }
 
     /**

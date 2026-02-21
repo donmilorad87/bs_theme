@@ -67,17 +67,26 @@ class FormTemplate {
         assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
 
         $form_name = $request->get_param( 'form_name' );
+        $email_forms = array( 'forgot-password', 'activation-code', 'reset-code', 'reset-password' );
+
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() && in_array( $form_name, $email_forms, true ) ) {
+            return new \WP_Error(
+                'bs_form_not_found',
+                __( 'Form not found.', 'ct-custom' ),
+                array( 'status' => 404 )
+            );
+        }
 
         if ( in_array( $form_name, self::PUBLIC_FORMS, true ) ) {
             return true;
         }
 
         if ( in_array( $form_name, self::PROTECTED_FORMS, true ) ) {
-            return ct_jwt_or_cookie_permission_check( $request );
+            return bs_jwt_or_cookie_permission_check( $request );
         }
 
         return new \WP_Error(
-            'ct_form_not_found',
+            'bs_form_not_found',
             __( 'Form not found.', 'ct-custom' ),
             array( 'status' => 404 )
         );
@@ -93,6 +102,14 @@ class FormTemplate {
         assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
 
         $form_name = $request->get_param( 'form_name' );
+        $email_forms = array( 'forgot-password', 'activation-code', 'reset-code', 'reset-password' );
+
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() && in_array( $form_name, $email_forms, true ) ) {
+            return new \WP_REST_Response( array(
+                'success' => false,
+                'message' => __( 'Form not found.', 'ct-custom' ),
+            ), 404 );
+        }
 
         $all_forms = array_merge( self::PUBLIC_FORMS, self::PROTECTED_FORMS );
 

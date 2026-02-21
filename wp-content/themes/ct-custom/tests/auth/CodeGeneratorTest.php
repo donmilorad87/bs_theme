@@ -61,28 +61,28 @@ class CodeGeneratorTest extends AuthTestCase {
     /* ── store + verify ──────────────────────────────────────────── */
 
     public function test_store_and_verify_correct_code(): void {
-        $this->generator->callStore( 'ct_test_', 'user@test.com', '123456', 1800 );
+        $this->generator->callStore( 'bs_test_', 'user@test.com', '123456', 1800 );
 
-        $result = $this->generator->callVerify( 'ct_test_', 'user@test.com', '123456' );
+        $result = $this->generator->callVerify( 'bs_test_', 'user@test.com', '123456' );
 
         $this->assertTrue( $result );
     }
 
     public function test_verify_wrong_code(): void {
-        $this->generator->callStore( 'ct_test_', 'user@test.com', '123456', 1800 );
+        $this->generator->callStore( 'bs_test_', 'user@test.com', '123456', 1800 );
 
-        $result = $this->generator->callVerify( 'ct_test_', 'user@test.com', '999999' );
+        $result = $this->generator->callVerify( 'bs_test_', 'user@test.com', '999999' );
 
         $this->assertFalse( $result );
     }
 
     public function test_verify_expired_code(): void {
         /* Store with 0 TTL effectively means it expires immediately */
-        $key = 'ct_test_' . md5( 'user@test.com' );
-        $GLOBALS['ct_test_transients'][ $key ] = '123456';
-        $GLOBALS['ct_test_transient_ttl'][ $key ] = time() - 1; /* Already expired */
+        $key = 'bs_test_' . md5( 'user@test.com' );
+        $GLOBALS['bs_test_transients'][ $key ] = '123456';
+        $GLOBALS['bs_test_transient_ttl'][ $key ] = time() - 1; /* Already expired */
 
-        $result = $this->generator->callVerify( 'ct_test_', 'user@test.com', '123456' );
+        $result = $this->generator->callVerify( 'bs_test_', 'user@test.com', '123456' );
 
         $this->assertFalse( $result );
     }
@@ -90,21 +90,21 @@ class CodeGeneratorTest extends AuthTestCase {
     /* ── delete_code ─────────────────────────────────────────────── */
 
     public function test_delete_code_removes_transient(): void {
-        $this->generator->callStore( 'ct_test_', 'user@test.com', '123456', 1800 );
+        $this->generator->callStore( 'bs_test_', 'user@test.com', '123456', 1800 );
 
-        $this->generator->callDelete( 'ct_test_', 'user@test.com' );
+        $this->generator->callDelete( 'bs_test_', 'user@test.com' );
 
-        $result = $this->generator->callVerify( 'ct_test_', 'user@test.com', '123456' );
+        $result = $this->generator->callVerify( 'bs_test_', 'user@test.com', '123456' );
         $this->assertFalse( $result );
     }
 
     /* ── hash_equals behavior ────────────────────────────────────── */
 
     public function test_verify_uses_timing_safe_comparison(): void {
-        $this->generator->callStore( 'ct_test_', 'key', '000001', 1800 );
+        $this->generator->callStore( 'bs_test_', 'key', '000001', 1800 );
 
         /* Verify uses hash_equals internally */
-        $this->assertTrue( $this->generator->callVerify( 'ct_test_', 'key', '000001' ) );
-        $this->assertFalse( $this->generator->callVerify( 'ct_test_', 'key', '1' ) );
+        $this->assertTrue( $this->generator->callVerify( 'bs_test_', 'key', '000001' ) );
+        $this->assertFalse( $this->generator->callVerify( 'bs_test_', 'key', '1' ) );
     }
 }

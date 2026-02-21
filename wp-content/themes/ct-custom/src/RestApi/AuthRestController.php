@@ -23,6 +23,7 @@ use BSCustom\RestApi\Endpoints\ProfileUpdate;
 use BSCustom\RestApi\Endpoints\ProfileChangePassword;
 use BSCustom\RestApi\Endpoints\ProfileUploadAvatar;
 use BSCustom\RestApi\Endpoints\ContactSubmit;
+use BSCustom\RestApi\Endpoints\ContactCaptcha;
 use BSCustom\RestApi\Endpoints\ContactMessages;
 use BSCustom\RestApi\Endpoints\ContactMarkRead;
 use BSCustom\RestApi\Endpoints\ContactDelete;
@@ -49,26 +50,46 @@ class AuthRestController {
     public function register_routes() {
         assert( did_action( 'rest_api_init' ) > 0, 'Must be called during rest_api_init' );
 
-        $endpoints = array(
-            new Login(),
-            new Register(),
-            new Logout(),
-            new ForgotPassword(),
-            new VerifyActivation(),
-            new ResendActivation(),
-            new VerifyResetCode(),
-            new ResetPassword(),
-            new FormTemplate(),
-            new ProfileUpdate(),
-            new ProfileChangePassword(),
-            new ProfileUploadAvatar(),
+        $auth_enabled = true;
+        if ( function_exists( 'bs_user_management_enabled' ) ) {
+            $auth_enabled = bs_user_management_enabled();
+        } elseif ( function_exists( 'get_theme_mod' ) ) {
+            $auth_enabled = (bool) get_theme_mod( 'bs_user_management_enabled', true );
+        }
+
+        $endpoints = array();
+
+        if ( $auth_enabled ) {
+            $endpoints = array(
+                new Login(),
+                new Register(),
+                new Logout(),
+                new ForgotPassword(),
+                new VerifyActivation(),
+                new ResendActivation(),
+                new VerifyResetCode(),
+                new ResetPassword(),
+                new FormTemplate(),
+                new ProfileUpdate(),
+                new ProfileChangePassword(),
+                new ProfileUploadAvatar(),
+            );
+        }
+
+        $contact_endpoints = array(
             new ContactSubmit(),
+            new ContactCaptcha(),
             new ContactMessages(),
             new ContactMarkRead(),
             new ContactDelete(),
-            new ContactReply(),
-            new ContactUserMessages(),
         );
+
+        if ( $auth_enabled ) {
+            $contact_endpoints[] = new ContactReply();
+            $contact_endpoints[] = new ContactUserMessages();
+        }
+
+        $endpoints = array_merge( $endpoints, $contact_endpoints );
 
         assert( count( $endpoints ) <= self::MAX_ENDPOINTS, 'Endpoint count must be within bounds' );
 

@@ -3,7 +3,7 @@
  * Template tags trait.
  *
  * Contains reusable template tag methods for post meta output.
- * Consumed by CT_Template_Hooks.
+ * Consumed by BS_Template_Hooks.
  *
  * @package BS_Custom
  */

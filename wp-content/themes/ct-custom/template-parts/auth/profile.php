@@ -153,7 +153,7 @@ $user_login = $user ? esc_attr( $user->user_login ) : '';
 
     <!-- Messages tab panel -->
     <div class="ct-auth-form__tab-panel" data-ct-profile-panel="messages" role="tabpanel" style="display:none;">
-        <div class="ct-auth-form__messages-history" id="ct_profile_messages">
+        <div class="ct-auth-form__messages-history" id="bs_profile_messages">
             <p class="ct-auth-form__loading fs14"><?php esc_html_e( 'Loading messages...', 'ct-custom' ); ?></p>
         </div>
     </div>

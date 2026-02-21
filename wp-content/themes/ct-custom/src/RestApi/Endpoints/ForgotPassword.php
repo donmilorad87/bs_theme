@@ -28,7 +28,7 @@ class ForgotPassword {
     const ROUTE        = '/forgot-password';
     const MAX_ATTEMPTS = 3;
     const WINDOW_SEC   = 3600;
-    const RESET_PREFIX = 'ct_reset_code_';
+    const RESET_PREFIX = 'bs_reset_code_';
     const RESET_TTL    = 900; /* 15 minutes */
 
     /**
@@ -70,10 +70,17 @@ class ForgotPassword {
         assert( $request instanceof \WP_REST_Request, 'Request must be WP_REST_Request' );
         assert( is_string( $request->get_param( 'email' ) ), 'email must be string' );
 
+        if ( function_exists( 'bs_email_enabled' ) && ! bs_email_enabled() ) {
+            return new \WP_REST_Response( array(
+                'success' => false,
+                'message' => __( 'Email features are disabled.', 'ct-custom' ),
+            ), 403 );
+        }
+
         $email   = $request->get_param( 'email' );
         $message = __( 'If that email is registered, a reset code has been sent.', 'ct-custom' );
 
-        if ( $this->is_rate_limited_by_key( 'ct_forgot_attempts_', $email, self::MAX_ATTEMPTS ) ) {
+        if ( $this->is_rate_limited_by_key( 'bs_forgot_attempts_', $email, self::MAX_ATTEMPTS ) ) {
             $this->log( 'Rate limited: email=' . $email );
             return new \WP_REST_Response( array(
                 'success' => true,
@@ -84,7 +91,7 @@ class ForgotPassword {
         $user = get_user_by( 'email', $email );
 
         if ( $user ) {
-            $this->increment_rate_limit( 'ct_forgot_attempts_', $email, self::WINDOW_SEC );
+            $this->increment_rate_limit( 'bs_forgot_attempts_', $email, self::WINDOW_SEC );
 
             $code = $this->generate_code();
             $this->store_code( self::RESET_PREFIX, $email, $code, self::RESET_TTL );

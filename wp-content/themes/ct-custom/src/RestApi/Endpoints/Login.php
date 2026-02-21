@@ -4,7 +4,7 @@
  *
  * Handles user authentication via POST /wp-json/ct-auth/v1/login.
  * Uses wp_signon() with rate limiting (5 attempts per IP per 5 min).
- * Checks ct_account_active meta; returns 403 if inactive.
+ * Checks bs_account_active meta; returns 403 if inactive.
  * Issues a JWT token on success.
  *
  * @package BSCustom\RestApi\Endpoints
@@ -29,7 +29,7 @@ class Login {
     const ROUTE             = '/login';
     const MAX_ATTEMPTS      = 5;
     const WINDOW_SEC        = 300;
-    const ACTIVATION_PREFIX = 'ct_activation_code_';
+    const ACTIVATION_PREFIX = 'bs_activation_code_';
     const ACTIVATION_TTL    = 1800; /* 30 minutes */
 
     /**
@@ -83,9 +83,9 @@ class Login {
 
         $ip = $this->get_client_ip();
 
-        if ( $this->is_rate_limited_by_ip( 'ct_login_attempts_', $ip, self::MAX_ATTEMPTS ) ) {
+        if ( $this->is_rate_limited_by_ip( 'bs_login_attempts_', $ip, self::MAX_ATTEMPTS ) ) {
             $this->log( 'Rate limited: IP=' . $ip );
-            $remaining = $this->get_rate_limit_remaining( 'ct_login_attempts_', $ip );
+            $remaining = $this->get_rate_limit_remaining( 'bs_login_attempts_', $ip );
             $wait_text = $this->format_wait_time( $remaining );
             return new \WP_REST_Response( array(
                 'success' => false,
@@ -105,7 +105,7 @@ class Login {
 
         if ( ! $username ) {
             $this->log( 'Auth failed: user not found for login=' . $login );
-            $this->increment_rate_limit( 'ct_login_attempts_', $ip, self::WINDOW_SEC );
+            $this->increment_rate_limit( 'bs_login_attempts_', $ip, self::WINDOW_SEC );
             return new \WP_REST_Response( array(
                 'success' => false,
                 'message' => __( 'Invalid credentials.', 'ct-custom' ),
@@ -122,7 +122,7 @@ class Login {
 
         if ( is_wp_error( $user ) ) {
             $this->log( 'Auth failed: wp_signon error for username=' . $username );
-            $this->increment_rate_limit( 'ct_login_attempts_', $ip, self::WINDOW_SEC );
+            $this->increment_rate_limit( 'bs_login_attempts_', $ip, self::WINDOW_SEC );
             return new \WP_REST_Response( array(
                 'success' => false,
                 'message' => __( 'Invalid credentials.', 'ct-custom' ),
@@ -130,8 +130,16 @@ class Login {
         }
 
         /* Check account activation */
-        $is_active = get_user_meta( $user->ID, 'ct_account_active', true );
+        $is_active = get_user_meta( $user->ID, 'bs_account_active', true );
         if ( '0' === $is_active ) {
+            $email_enabled = true;
+            if ( function_exists( 'bs_email_enabled' ) ) {
+                $email_enabled = bs_email_enabled();
+            }
+
+            if ( ! $email_enabled ) {
+                update_user_meta( $user->ID, 'bs_account_active', '1' );
+            } else {
             $this->log( 'Auth failed: account inactive, user_id=' . $user->ID );
             wp_logout();
 
@@ -155,6 +163,7 @@ class Login {
                     'email'               => $user->user_email,
                 ),
             ), 403 );
+            }
         }
 
         wp_set_current_user( $user->ID );

@@ -113,7 +113,7 @@ export function init() {
         return;
     }
 
-    wp.customize.control('ct_font_family', function (control) {
+    wp.customize.control('bs_font_family', function (control) {
         control.deferred.embedded.done(function () {
             var container = control.container.find('.ct-font-family-control')[0];
             if (container) {

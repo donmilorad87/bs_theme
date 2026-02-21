@@ -1,13 +1,10 @@
 @use 'variables' as *;
 
 .ct-contact-form__field {
-    margin-bottom: $space-md;
 }
 
 .ct-contact-form__label {
-    display: block;
     font-weight: 600;
-    margin-bottom: $space-xs;
     color: var(--ct-paragraph-color, #666);
 
     span {
@@ -16,7 +13,6 @@
 }
 
 .ct-contact-form__input {
-    display: block;
     width: 100%;
     padding: 10px 14px;
     border: 1px solid var(--ct-form-input-border-color, #ddd);
@@ -37,6 +33,87 @@
         resize: vertical;
         min-height: 120px;
         line-height: 1.6;
+    }
+}
+
+.ct-contact-form__options {
+    gap: $space-xs;
+}
+
+.ct-contact-form__option {
+    gap: $space-xs;
+    font-size: 14px;
+    color: var(--ct-paragraph-color, #666);
+}
+
+.ct-contact-form__input--range {
+    padding: 6px 0;
+}
+
+.ct-contact-form__file-preview {
+    margin-top: $space-xs;
+    padding: 10px 12px;
+    border: 1px dashed var(--ct-form-input-border-color, #ddd);
+    border-radius: 6px;
+    background: #f9fafb;
+    gap: $space-xs;
+
+    &.is-active {
+        border-style: solid;
+        background: #fff;
+    }
+}
+
+.ct-contact-form__file-preview-placeholder {
+    color: #9ca3af;
+}
+
+.ct-contact-form__file-preview-image {
+    max-width: 220px;
+    max-height: 160px;
+    border-radius: 6px;
+    border: 1px solid var(--ct-form-input-border-color, #ddd);
+    object-fit: cover;
+}
+
+.ct-contact-form__file-preview-video {
+    max-width: 320px;
+    max-height: 200px;
+    border-radius: 6px;
+    border: 1px solid var(--ct-form-input-border-color, #ddd);
+    background: #000;
+}
+
+.ct-contact-form__file-preview-name {
+    color: var(--ct-paragraph-color, #666);
+    word-break: break-word;
+}
+
+.ct-contact-form__captcha {
+}
+
+.ct-contact-form__captcha-row {
+    gap: $space-sm;
+}
+
+.ct-contact-form__captcha-canvas {
+    border: 1px solid var(--ct-form-input-border-color, #ddd);
+    border-radius: 6px;
+    background: #f3f4f6;
+}
+
+.ct-contact-form__captcha-refresh {
+    border: none;
+    background: var(--ct-email-accent-color, #FF6B35);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: var(--ct-form-submit-hover-color, #E55A28);
     }
 }
 
@@ -85,7 +162,6 @@
 
 /* ── Messages (success/error) ── */
 .ct-contact-form__messages {
-    margin-bottom: $space-md;
 }
 
 .ct-contact-form__message {

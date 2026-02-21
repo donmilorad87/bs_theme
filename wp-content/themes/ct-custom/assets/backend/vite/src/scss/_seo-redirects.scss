@@ -1,0 +1,152 @@
+@use 'variables' as *;
+
+/* ═══ SEO Redirects ═══ */
+
+.ct-seo-redirects {
+
+    /* Add redirect form */
+    &__add {
+        background: $ct-off-white;
+        border: 1px solid $ct-border;
+        border-radius: $ct-admin-radius;
+        padding: $ct-admin-spacing;
+        margin-bottom: $ct-admin-spacing;
+    }
+
+    &__add-row {
+        display: flex;
+        gap: $ct-admin-spacing-sm;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+
+    &__add-field {
+        flex: 1;
+        min-width: 150px;
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: $ct-dark-soft;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        &--type {
+            flex: 0 0 80px;
+            min-width: 80px;
+        }
+
+        &--btn {
+            flex: 0 0 auto;
+            min-width: auto;
+
+            .button {
+                border-radius: 6px;
+                padding: 9px 18px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all $ct-admin-transition;
+                line-height: 1.5;
+                white-space: nowrap;
+            }
+
+            .button-primary {
+                background: $ct-primary;
+                border-color: $ct-primary-dark;
+                color: $ct-white;
+                box-shadow: $ct-shadow-sm;
+
+                &:hover {
+                    background: $ct-primary-dark;
+                    box-shadow: $ct-shadow-primary;
+                }
+            }
+        }
+    }
+
+    /* Redirects table */
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid $ct-border-light;
+        }
+
+        th {
+            font-weight: 600;
+            color: $ct-dark-soft;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: $ct-off-white;
+        }
+
+        tbody tr {
+            transition: background $ct-admin-transition;
+
+            &:hover {
+                background: $ct-light-gray;
+            }
+        }
+    }
+
+    &__cell-url {
+        font-family: monospace;
+        font-size: 12px;
+        color: $ct-dark;
+        word-break: break-all;
+    }
+
+    &__type-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 700;
+        background: $ct-info-light;
+        color: $ct-info;
+    }
+
+    &__delete-btn {
+        color: $ct-error !important;
+        border-color: $ct-error !important;
+        font-size: 12px !important;
+
+        &:hover {
+            background: $ct-error-light !important;
+        }
+    }
+
+    &__empty,
+    &__loading td {
+        color: $ct-gray;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    /* Bulk import/export */
+    &__bulk {
+        display: flex;
+        gap: $ct-admin-spacing-sm;
+        margin-top: $ct-admin-spacing;
+
+        .button {
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all $ct-admin-transition;
+            line-height: 1.5;
+        }
+    }
+}

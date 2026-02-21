@@ -26,15 +26,15 @@ abstract class AuthTestCase extends TestCase {
 
     protected function setUp(): void {
         /* Reset all global state */
-        $GLOBALS['ct_test_transients']    = array();
-        $GLOBALS['ct_test_transient_ttl'] = array();
-        $GLOBALS['ct_test_users']         = array();
-        $GLOBALS['ct_test_user_meta']     = array();
-        $GLOBALS['ct_test_options']       = array();
-        $GLOBALS['ct_test_current_user']  = 0;
-        $GLOBALS['ct_test_error_log']     = array();
-        $GLOBALS['ct_test_next_user_id']  = 1;
-        $GLOBALS['ct_test_server']        = array();
+        $GLOBALS['bs_test_transients']    = array();
+        $GLOBALS['bs_test_transient_ttl'] = array();
+        $GLOBALS['bs_test_users']         = array();
+        $GLOBALS['bs_test_user_meta']     = array();
+        $GLOBALS['bs_test_options']       = array();
+        $GLOBALS['bs_test_current_user']  = 0;
+        $GLOBALS['bs_test_error_log']     = array();
+        $GLOBALS['bs_test_next_user_id']  = 1;
+        $GLOBALS['bs_test_server']        = array();
         $_SERVER['REMOTE_ADDR']           = '127.0.0.1';
 
         /* Set up default JWT config */
@@ -98,9 +98,9 @@ abstract class AuthTestCase extends TestCase {
             'role'       => $role,
         ) );
 
-        \update_user_meta( $id, 'ct_account_active', $active ? '1' : '0' );
+        \update_user_meta( $id, 'bs_account_active', $active ? '1' : '0' );
 
-        return $GLOBALS['ct_test_users'][ $id ];
+        return $GLOBALS['bs_test_users'][ $id ];
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class AuthTestCase extends TestCase {
      * @param int    $expiration_hours Token lifetime in hours.
      */
     protected function setJwtConfig( string $secret, int $expiration_hours = 24 ): void {
-        $GLOBALS['ct_test_options']['bs_custom_jwt_auth'] = json_encode( array(
+        $GLOBALS['bs_test_options']['bs_custom_jwt_auth'] = json_encode( array(
             'secret'           => $secret,
             'expiration_hours' => $expiration_hours,
         ) );

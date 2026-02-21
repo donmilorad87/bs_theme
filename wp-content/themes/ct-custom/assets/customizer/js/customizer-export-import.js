@@ -271,12 +271,12 @@
 
     /* ─── Bootstrap ─── */
 
-    wp.customize.control('ct_export_import', function (control) {
+    wp.customize.control('bs_export_import', function (control) {
         control.deferred.embedded.done(function () {
             var container = control.container.find('.ct-export-import-control')[0];
 
             if (container) {
-                var instance = new CustomizerExportImport('ct_export_import');
+                var instance = new CustomizerExportImport('bs_export_import');
                 instance.init(container);
             }
         });

@@ -3,10 +3,10 @@
  *
  * Adds a "Pick Key" button next to widget text inputs that opens
  * a searchable dropdown of available translation keys. Selecting
- * a key sets the input value to ct_translate('KEY').
+ * a key sets the input value to bs_translate('KEY').
  *
  * Shows a yellow preview element below the input with the resolved
- * translation text when the value contains a ct_translate() pattern.
+ * translation text when the value contains a bs_translate() pattern.
  *
  * Uses event delegation on document so dynamically-added widget
  * forms (Customizer, block widget editor) work automatically.
@@ -34,14 +34,14 @@
     }
 
     /**
-     * Resolve a ct_translate() pattern to its translated text.
+     * Resolve a bs_translate() pattern to its translated text.
      * Delegates to window.ctEditorTranslator if available.
      *
-     * @param {string} value Input value (may contain ct_translate pattern).
+     * @param {string} value Input value (may contain bs_translate pattern).
      * @return {string|null} Resolved text, or null if not a pattern.
      */
     function resolveTranslation(value) {
-        if (!value || value.indexOf('ct_translate(') === -1) {
+        if (!value || value.indexOf('bs_translate(') === -1) {
             return null;
         }
 
@@ -65,7 +65,7 @@
         var $preview = $wrapper.next('.ct-wtp__preview');
 
         if (resolved === null || resolved === value) {
-            /* No ct_translate pattern or resolver unavailable — hide preview */
+            /* No bs_translate pattern or resolver unavailable — hide preview */
             if ($preview.length) {
                 $preview.remove();
             }
@@ -167,7 +167,7 @@
             var $wrapper = $item.closest('.ct-wtp');
             var $target  = $wrapper.find('.ct-wtp__target');
 
-            $target.val("ct_translate('" + key + "')").trigger('change');
+            $target.val("bs_translate('" + key + "')").trigger('change');
             $wrapper.find('.ct-wtp__dropdown').hide();
 
             updatePreview($wrapper);

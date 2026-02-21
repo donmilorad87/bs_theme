@@ -1,0 +1,19 @@
+<?php
+/**
+ * Footer template functions — global wrapper functions.
+ *
+ * Thin backward-compatible wrappers that delegate to BS_Footer.
+ *
+ * @package BS_Custom
+ */
+
+use BSCustom\Template\Footer;
+
+/**
+ * Gather all data needed by the footer template.
+ *
+ * @return array{footer_columns: int, has_footer_widgets: bool, footer_copyright: string, current_language: string}
+ */
+function bs_custom_get_footer_data() {
+	return Footer::instance()->get_footer_data();
+}

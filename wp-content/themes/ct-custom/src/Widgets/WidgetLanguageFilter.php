@@ -57,7 +57,7 @@ class WidgetLanguageFilter {
 	 * @return array{languages: array, defaultIso2: string, sidebarPrefix: string}
 	 */
 	private function build_language_data() {
-		$lang_mgr  = ct_get_language_manager();
+		$lang_mgr  = bs_get_language_manager();
 		$enabled   = $lang_mgr->get_enabled();
 		$default   = $lang_mgr->get_default();
 		$default_iso2 = ( null !== $default ) ? $default['iso2'] : 'en';

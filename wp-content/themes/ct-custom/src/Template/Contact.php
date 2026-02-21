@@ -48,15 +48,18 @@ class Contact {
 		$cp_raw  = get_option( 'bs_custom_contact_point', '' );
 		$cp      = json_decode( stripslashes( $cp_raw ) );
 		$address = ( isset( $cp->address ) && is_object( $cp->address ) ) ? $cp->address : null;
+		$company = isset( $cp->company ) ? $cp->company : '';
 		$phone   = isset( $cp->telephone ) ? $cp->telephone : '';
 		$fax     = isset( $cp->fax_number ) ? $cp->fax_number : '';
 		$email   = isset( $cp->email ) ? $cp->email : '';
 
+		assert( is_string( $company ), 'company must be a string' );
 		assert( is_string( $phone ), 'phone must be a string' );
 		assert( is_string( $email ), 'email must be a string' );
 
 		return array(
 			'address' => $address,
+			'company' => $company,
 			'phone'   => $phone,
 			'fax'     => $fax,
 			'email'   => $email,
@@ -87,9 +90,9 @@ class Contact {
 	 * @return array{contact_heading: string, contact_content: string}
 	 */
 	public function get_contact_page_data() {
-		$contact_heading = get_theme_mod( 'ct_contact_heading', 'Contact' );
+		$contact_heading = get_theme_mod( 'bs_contact_heading', 'Contact' );
 		$contact_content = get_theme_mod(
-			'ct_contact_content',
+			'bs_contact_content',
 			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam posuere ipsum nec velit mattis elementum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas eu placerat metus, eget placerat libero.'
 		);
 
@@ -180,38 +183,43 @@ class Contact {
 
 		$address    = isset( $data['address'] ) ? $data['address'] : null;
 		$addr_lines = isset( $data['addr_lines'] ) ? $data['addr_lines'] : array( 'line1' => '', 'line2' => '' );
+		$company    = isset( $data['company'] ) ? $data['company'] : '';
 		$phone      = isset( $data['phone'] ) ? $data['phone'] : '';
 		$fax        = isset( $data['fax'] ) ? $data['fax'] : '';
 		$email      = isset( $data['email'] ) ? $data['email'] : '';
 
+		assert( is_string( $company ), 'company must be a string' );
 		assert( is_string( $phone ), 'phone must be a string' );
 		assert( is_string( $email ), 'email must be a string' );
 
 		$has_address = ! empty( $addr_lines['line1'] ) || ! empty( $addr_lines['line2'] );
 		?>
-		<h2 class="section-title"><?php echo esc_html( get_theme_mod( 'ct_reach_us_title', 'REACH US' ) ); ?></h2>
+		<h2 class="section-title mb24"><?php echo esc_html( get_theme_mod( 'bs_reach_us_title', 'REACH US' ) ); ?></h2>
 
-		<p class="reach-us__company"><?php bloginfo( 'name' ); ?></p>
+		<p class="reach-us__company mb8 ct-cp-company<?php echo ! empty( $company ) ? '' : ' ct-cp-hidden'; ?>">
+			<?php esc_html_e( 'Company:', 'ct-custom' ); ?>
+			<span class="ct-cp-company-value"><?php echo esc_html( $company ); ?></span>
+		</p>
 
-		<p class="reach-us__address ct-cp-address<?php echo $has_address ? '' : ' ct-cp-hidden'; ?>">
+		<p class="reach-us__address mb16 ct-cp-address<?php echo $has_address ? '' : ' ct-cp-hidden'; ?>">
 			<span class="ct-cp-address-line1"><?php echo $addr_lines['line1']; ?></span>
 			<br>
 			<span class="ct-cp-address-line2"><?php echo $addr_lines['line2']; ?></span>
 		</p>
 
-		<p class="reach-us__phone ct-cp-phone<?php echo ! empty( $phone ) ? '' : ' ct-cp-hidden'; ?>">
+		<p class="reach-us__phone mb4 ct-cp-phone<?php echo ! empty( $phone ) ? '' : ' ct-cp-hidden'; ?>">
 			<?php esc_html_e( 'Phone:', 'ct-custom' ); ?>
 			<a class="ct-cp-phone-link" href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>">
 				<span class="ct-cp-phone-value"><?php echo esc_html( $phone ); ?></span>
 			</a>
 		</p>
 
-		<p class="reach-us__fax ct-cp-fax<?php echo ! empty( $fax ) ? '' : ' ct-cp-hidden'; ?>">
+		<p class="reach-us__fax mb4 ct-cp-fax<?php echo ! empty( $fax ) ? '' : ' ct-cp-hidden'; ?>">
 			<?php esc_html_e( 'Fax:', 'ct-custom' ); ?>
 			<span class="ct-cp-fax-value"><?php echo esc_html( $fax ); ?></span>
 		</p>
 
-		<p class="reach-us__email ct-cp-email<?php echo ! empty( $email ) ? '' : ' ct-cp-hidden'; ?>">
+		<p class="reach-us__email mb4 ct-cp-email<?php echo ! empty( $email ) ? '' : ' ct-cp-hidden'; ?>">
 			<?php esc_html_e( 'Email:', 'ct-custom' ); ?>
 			<a class="ct-cp-email-link" href="mailto:<?php echo esc_attr( $email ); ?>">
 				<span class="ct-cp-email-value"><?php echo esc_html( $email ); ?></span>
@@ -238,8 +246,8 @@ class Contact {
 
 			<!-- Left: Contact Form -->
 			<div class="contact-section__form">
-				<h2 class="section-title"><?php echo esc_html( get_theme_mod( 'ct_contact_us_title', 'CONTACT US' ) ); ?></h2>
-				<?php get_template_part( 'template-parts/contact-form' ); ?>
+				<h2 class="section-title mb24"><?php echo esc_html( get_theme_mod( 'bs_contact_us_title', 'CONTACT US' ) ); ?></h2>
+				<?php echo do_shortcode( '[bs_contact_form]' ); ?>
 			</div>
 
 			<!-- Right: Reach Us -->
@@ -264,10 +272,15 @@ class Contact {
 	public function render_social_icons_markup( $networks ) {
 		assert( is_array( $networks ), 'networks must be an array' );
 
+		$enabled = get_option( 'bs_social_icons_enabled', 'on' );
+		if ( false === $enabled || 'off' === $enabled || '0' === $enabled ) {
+			return;
+		}
+
 		$max_icons  = 50;
 		$icon_count = 0;
 
-		echo '<div class="social-icons df" role="list" aria-label="' . esc_attr__( 'Social Networks', 'ct-custom' ) . '">';
+		echo '<div class="social-icons df aic" role="list" aria-label="' . esc_attr__( 'Social Networks', 'ct-custom' ) . '">';
 
 		foreach ( $networks as $network ) {
 			if ( $icon_count >= $max_icons ) {
@@ -303,7 +316,7 @@ class Contact {
 			echo '</a>';
 		}
 
-		if ( get_theme_mod( 'ct_social_share_enabled', true ) ) {
+		if ( get_theme_mod( 'bs_social_share_enabled', true ) ) {
 			echo '<button'
 				. ' type="button"'
 				. ' class="share-button share-with-friend dif aic jcc cp p0"'

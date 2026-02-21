@@ -42,7 +42,7 @@ class Footer {
 	 * @return array{footer_columns: int, has_footer_widgets: bool, footer_copyright: string, current_language: string}
 	 */
 	public function get_footer_data() {
-		$footer_columns = absint( get_theme_mod( 'ct_footer_columns', 3 ) );
+		$footer_columns = absint( get_theme_mod( 'bs_footer_columns', 3 ) );
 
 		if ( $footer_columns < 2 ) {
 			$footer_columns = 2;
@@ -51,7 +51,7 @@ class Footer {
 			$footer_columns = 5;
 		}
 
-		$current_language = function_exists( 'ct_get_current_language' ) ? ct_get_current_language() : 'en';
+		$current_language = function_exists( 'bs_get_current_language' ) ? bs_get_current_language() : 'en';
 
 		$has_footer_widgets = false;
 		$max_columns        = 5;
@@ -67,7 +67,7 @@ class Footer {
 		}
 
 		$copyright_raw = get_theme_mod(
-			'ct_footer_copyright',
+			'bs_footer_copyright',
 			'© {year} Blazing Sun'
 		);
 		$footer_copyright = str_replace( '{year}', date_i18n( 'Y' ), $copyright_raw );

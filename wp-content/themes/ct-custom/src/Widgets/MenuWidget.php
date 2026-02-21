@@ -13,7 +13,7 @@ class MenuWidget extends WP_Widget {
 
     public function __construct() {
         parent::__construct(
-            'ct_menu',
+            'bs_menu',
             __( 'BS Custom: Menu', 'ct-custom' ),
             array(
                 'description' => __( 'Displays a selected navigation menu.', 'ct-custom' ),

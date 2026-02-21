@@ -28,7 +28,7 @@ class ProfileUpdate {
         register_rest_route( self::NAMESPACE, self::ROUTE, array(
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => array( $this, 'handle' ),
-            'permission_callback' => 'ct_jwt_or_cookie_permission_check',
+            'permission_callback' => 'bs_jwt_or_cookie_permission_check',
             'args'                => array(
                 'first_name' => array(
                     'required'          => true,
